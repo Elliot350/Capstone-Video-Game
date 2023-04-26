@@ -86,7 +86,6 @@ public class RoomPlacer : MonoBehaviour
     public void PlaceRoom(Vector3Int position, RoomPreset room)
     {
         if (tilemap.GetTile(position) != null) {
-            Debug.LogWarning($"Whoops! There is already something there!");
             GameManager.GetInstance().ErrorMessage("Something is already there!");
             return;
         }
