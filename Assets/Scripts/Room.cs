@@ -52,9 +52,9 @@ public class Room : MonoBehaviour
     }
 
     
-    void OnMouseDown()
+    protected void OnMouseDown()
     {
-        Debug.Log($"{displayName} has been clicked");
+        GameManager.GetInstance().RoomClickedOn(this);
     }
 
 }

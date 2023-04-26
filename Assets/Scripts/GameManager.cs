@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
     public int money;
     public int day;
     public TextMeshProUGUI statsText;
+
+    public RoomInfo roomInfo;
+    public Camera cam;
     
     public GameObject errorPanel;
     public TextMeshProUGUI errorText;
@@ -86,5 +89,10 @@ public class GameManager : MonoBehaviour
     public void FormatText()
     {
         statsText.text = string.Format($"MONEY: ${money}");
+    }
+
+    public void RoomClickedOn(Room room)
+    {
+        roomInfo.SetRoom(room);
     }
 }

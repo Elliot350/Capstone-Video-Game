@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour
     public int mouseButton = 1;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         PanCamera();
         ScrollCamera();

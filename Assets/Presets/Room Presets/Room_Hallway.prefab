@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7725168702506316369}
   - component: {fileID: 6262671901901645234}
+  - component: {fileID: -1801364964684161728}
   m_Layer: 0
   m_Name: Room_Hallway
   m_TagString: Untagged
@@ -45,12 +46,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981a41f1dc0118848a3ed1e1370a316a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPreset: {fileID: 11400000, guid: 85ac73ba74ccc534d85cd17db754cb21, type: 2}
+  displayName: 
   monsters: []
   monsterCapacity: 0
   traps: []
   trapCapacity: 1
   highlightBox: {fileID: 4548838832357989998}
+--- !u!61 &-1801364964684161728
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2424869940704329488}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &4548838832357989998
 GameObject:
   m_ObjectHideFlags: 0
