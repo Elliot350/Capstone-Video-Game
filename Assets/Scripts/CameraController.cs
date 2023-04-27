@@ -21,6 +21,7 @@ public class CameraController : MonoBehaviour
 
     private void PanCamera()
     {
+        // Debug.Log($"{cam.ScreenToWorldPoint(Input.mousePosition)}");
         // Save the position of mouse in world space when drag starts (first time clicked)
         if (Input.GetMouseButtonDown(mouseButton))
         {
@@ -85,6 +86,6 @@ public class CameraController : MonoBehaviour
         float minY = mapMinY + camHeight;
         float maxY = mapMaxY - camHeight;
 
-        return new Vector3(Mathf.Clamp(targetPosition.x, minX, maxX), Mathf.Clamp(targetPosition.y, minY, maxY), targetPosition.z);
+        return new Vector3(Mathf.Clamp(targetPosition.x, minX, maxX), Mathf.Clamp(targetPosition.y, minY, maxY), -10);
     }
 }

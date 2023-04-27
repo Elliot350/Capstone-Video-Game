@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     public RoomInfo roomInfo;
     public Camera cam;
+
+    public Animator roomMenu, trapMenu, monsterMenu;
     
     public GameObject errorPanel;
     public TextMeshProUGUI errorText;
@@ -31,7 +33,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        FormatText();
     }
 
     // Update is called once per frame
@@ -88,11 +90,30 @@ public class GameManager : MonoBehaviour
 
     public void FormatText()
     {
-        statsText.text = string.Format($"MONEY: ${money}");
+        statsText.text = $"${money}";
     }
 
     public void RoomClickedOn(Room room)
     {
         roomInfo.SetRoom(room);
+    }
+
+    public void CloseMenus() {
+        Debug.Log($"Closing Menues");
+        roomMenu.SetTrigger("Close");
+        trapMenu.SetTrigger("Close");
+        monsterMenu.SetTrigger("Close");
+    }
+
+    public void CloseMenus(Animator animator) {
+        if (!animator.Equals(roomMenu)) {
+            roomMenu.SetTrigger("Close");
+        }
+        if (!animator.Equals(trapMenu)) {
+            trapMenu.SetTrigger("Close");
+        }
+        if (!animator.Equals(monsterMenu)) {
+            monsterMenu.SetTrigger("Close");
+        }
     }
 }

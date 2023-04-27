@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Linq;
 
 public class RoomPlacer : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class RoomPlacer : MonoBehaviour
     public Tilemap tilemap;
     public RuleTile tile;
 
+    [SerializeField]
+    private List<RoomPreset> roomPresets;
+
     private void Awake()
     {
         instance = this;
@@ -23,7 +27,7 @@ public class RoomPlacer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        roomPresets = Resources.LoadAll<RoomPreset>("").ToList();
     }
 
     // Update is called once per frame
