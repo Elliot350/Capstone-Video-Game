@@ -5,10 +5,12 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
     public string displayName;
-    public List<Monster> monsters = new List<Monster>();
     public int monsterCapacity;
-    public List<GameObject> traps = new List<GameObject>();
+    public List<Monster> monsters = new List<Monster>();
+    public List<Monster> currentMonsters;
     public int trapCapacity;
+    public List<Trap> traps = new List<Trap>();
+    public List<Trap> currentTraps;
     public GameObject highlightBox;
 
     // Start is called before the first frame update
@@ -17,7 +19,8 @@ public class Room : MonoBehaviour
         
         DungeonManager.GetInstance().rooms.Add(this);
         highlightBox.SetActive(false);
-
+        currentMonsters = new List<Monster>();
+        currentTraps = new List<Trap>();
     }
 
     public void SetType(RoomPreset roomPreset)
@@ -25,6 +28,14 @@ public class Room : MonoBehaviour
         displayName = roomPreset.displayName;
         monsterCapacity = roomPreset.monsterCapacity;
         trapCapacity = roomPreset.trapCapacity;
+    }
+
+    public void AddMonster(MonsterPreset monsterPreset) 
+    {
+        Monster monster = Instantiate(MonsterPlacer.GetInstance().monsterPrefab, transform);
+        monster.SetType(monsterPreset);
+        monsters.Add(monster);
+        currentMonsters.Add(monster);
     }
 
     public void PrintInfo() 
@@ -57,4 +68,14 @@ public class Room : MonoBehaviour
         GameManager.GetInstance().RoomClickedOn(this);
     }
 
+    public virtual void ResetRoom()
+    {
+        currentMonsters = new List<Monster>(monsters);
+        // currentTraps = new List<Trap>(traps);
+    }
+
+    public void MonsterDied(Monster monster)
+    {
+        currentMonsters.Remove(monster);
+    }
 }

@@ -2,21 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Tilemaps;
 
 public class PartyManager : MonoBehaviour
 {
     private static PartyManager instance;
 
-    public Party party;
-
     public Party partyPrefab;
     public Hero heroPrefab;
+    private Party party;
 
     [SerializeField]
     private List<HeroPreset> heroPresets;
 
     public float moveTime;
     private float lastMoveTime;
+
+    public Tilemap tilemap;
+    public Tilemap roadMap;
+    public TileBase roadTile;
+    public Vector3Int[,] spots;
+    Astar astar;
+    List<Spot> roadPath = new List<Spot>();
+    new Camera camera;
+    BoundsInt bounds;
 
     private void Awake()
     {
@@ -31,6 +40,46 @@ public class PartyManager : MonoBehaviour
     private void Start()
     {
         heroPresets = Resources.LoadAll<HeroPreset>("").ToList();
+
+        tilemap.CompressBounds();
+        roadMap.CompressBounds();
+        bounds = tilemap.cellBounds;
+        camera = Camera.main;
+
+        CreateGrid();
+        astar = new Astar(spots, bounds.size.x, bounds.size.y);
+    }
+
+    public void CreateGrid()
+    {
+        spots = new Vector3Int[bounds.size.x, bounds.size.y];
+        for (int x = bounds.xMin, i = 0; i < bounds.size.x; x++, i++)
+        {
+            for (int y = bounds.yMin, j = 0; j < bounds.size.y; y++, j++)
+            {
+                if (tilemap.HasTile(new Vector3Int(x, y, 0)))
+                {
+                    spots[i, j] = new Vector3Int(x, y, 0);
+                }
+                else
+                {
+                    spots[i, j] = new Vector3Int(x, y, 1);
+                }
+            }
+        }
+    }
+
+    private void DrawRoad()
+    {
+        foreach (Spot path in roadPath)
+        {
+            roadMap.SetTile(new Vector3Int(path.X, path.Y, 0), roadTile);
+        }
+    }
+
+    public Party GetParty()
+    {
+        return party;
     }
 
     // Update is called once per frame

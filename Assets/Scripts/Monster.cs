@@ -19,4 +19,9 @@ public class Monster : Fighter
         damage = monsterPreset.damage;
         spriteRenderer.sprite = monsterPreset.sprite;
     }
+
+    public override void Die()
+    {
+        gameObject.transform.parent.GetComponent<Room>().MonsterDied(this);
+    }
 }

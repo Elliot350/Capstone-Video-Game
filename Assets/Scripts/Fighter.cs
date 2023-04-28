@@ -11,22 +11,22 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected int gold;
     [SerializeField] protected SpriteRenderer spriteRenderer;
 
-    public void TakeDamage(int amount) 
+    public virtual void TakeDamage(int amount) 
     {
         Debug.LogWarning($"Not yet implemented TakeDamage");
     }
 
-    public void Heal(int amount) 
+    public virtual void Heal(int amount) 
     {
         Debug.LogWarning($"Not yet implemented Heal");
     }
 
-    public void Attack() 
+    public virtual void Attack() 
     {
         Debug.LogWarning($"Not yet implemented Attack");
     }
 
-    public void Die() 
+    public virtual void Die() 
     {
         Debug.LogWarning($"Not yet implemented Die");
     }

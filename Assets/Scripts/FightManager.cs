@@ -21,5 +21,9 @@ public class FightManager : MonoBehaviour
         if (heroes.Count == 0 || monsters.Count == 0) 
             return;
         Debug.Log($"Starting fight between {heroes} and {monsters}");
+        foreach (Monster monster in monsters)
+        {
+            monster.Die();
+        }
     }
 }

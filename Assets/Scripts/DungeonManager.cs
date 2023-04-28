@@ -60,5 +60,12 @@ public class DungeonManager : MonoBehaviour
             room.Highlight(status);
         }
     }
+
+    public void ResetDungeon() {
+        foreach (Room room in rooms)
+        {
+            room.ResetRoom();
+        }
+    }
     
 }

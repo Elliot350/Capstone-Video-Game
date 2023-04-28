@@ -14,12 +14,17 @@ public class MonsterPlacer : MonoBehaviour
     public GameObject placementIndicator;
 
     [SerializeField]
-    private Monster monsterPrefab;
+    public Monster monsterPrefab;
 
     // Start is called before the first frame update
     void Awake()
     {
         instance = this;
+    }
+
+    public static MonsterPlacer GetInstance()
+    {
+        return instance;
     }
 
     // Update is called once per frame
@@ -80,10 +85,7 @@ public class MonsterPlacer : MonoBehaviour
     public void PlaceMonster(Room room, MonsterPreset monsterPreset)
     {
         if (room.monsters.Count < room.monsterCapacity) {
-
-            Monster monster = Instantiate(monsterPrefab, room.transform);
-            monster.SetType(monsterPreset);
-            room.monsters.Add(monster);
+            room.AddMonster(monsterPreset);
             GameManager.GetInstance().SpendMoney(monsterPreset.cost);
         }
     }
