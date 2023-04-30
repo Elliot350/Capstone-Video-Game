@@ -26,6 +26,7 @@ public class PartyManager : MonoBehaviour
     List<Spot> roadPath = new List<Spot>();
     new Camera camera;
     BoundsInt bounds;
+    public Vector2Int start;
 
     private void Awake()
     {
@@ -41,8 +42,8 @@ public class PartyManager : MonoBehaviour
     {
         heroPresets = Resources.LoadAll<HeroPreset>("").ToList();
 
-        tilemap.CompressBounds();
-        roadMap.CompressBounds();
+        // tilemap.CompressBounds();
+        // roadMap.CompressBounds();
         bounds = tilemap.cellBounds;
         camera = Camera.main;
 
@@ -87,7 +88,39 @@ public class PartyManager : MonoBehaviour
     {
         if (party != null && Time.time - lastMoveTime > moveTime) {
             Move();
-        }   
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log("Setting starting position");
+            Vector3 world = camera.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int gridPos = tilemap.WorldToCell(world);
+            start = new Vector2Int(gridPos.x, gridPos.y);
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            
+            Vector3 world = camera.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int gridPos = tilemap.WorldToCell(world);
+            roadMap.SetTile(new Vector3Int(gridPos.x, gridPos.y, 0), null);
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("Creating path");
+            CreateGrid();
+
+            Vector3 world = camera.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int gridPos = tilemap.WorldToCell(world);
+            
+            if (roadPath != null && roadPath.Count > 0)
+                roadPath.Clear();
+
+            roadPath = astar.CreatePath(spots, start, new Vector2Int(gridPos.x, gridPos.y), 1000); // Could probably lower the length
+            if (roadPath == null)
+                return;
+            DrawRoad();
+            start = new Vector2Int(roadPath[0].X, roadPath[0].Y);
+        }
     }
 
     public void CreateHero(HeroPreset heroPreset)

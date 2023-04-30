@@ -47,10 +47,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: 
-  monsters: []
   monsterCapacity: 3
-  traps: []
+  monsters: []
+  currentMonsters: []
   trapCapacity: 1
+  traps: []
+  currentTraps: []
   highlightBox: {fileID: 4548838832357989998}
 --- !u!61 &2047161203535230627
 BoxCollider2D:
@@ -94,7 +96,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2646992984789247661
 Transform:
   m_ObjectHideFlags: 0
