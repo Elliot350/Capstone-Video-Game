@@ -17,6 +17,7 @@ public class PartyManager : MonoBehaviour
 
     public float moveTime;
     private float lastMoveTime;
+    private int moveStep;
 
     public Tilemap tilemap;
     public Tilemap roadMap;
@@ -27,6 +28,7 @@ public class PartyManager : MonoBehaviour
     new Camera camera;
     BoundsInt bounds;
     public Vector2Int start;
+
 
     private void Awake()
     {
@@ -70,12 +72,51 @@ public class PartyManager : MonoBehaviour
         }
     }
 
-    private void DrawRoad()
+    public void DrawRoad()
     {
+        Debug.Log("Path: ");
         foreach (Spot path in roadPath)
         {
+            Debug.Log(new Vector2(path.X, path.Y));
             roadMap.SetTile(new Vector3Int(path.X, path.Y, 0), roadTile);
         }
+    }
+
+    public void GenerateCompletePath()
+    {
+        CreateGrid();
+
+        if (roadPath != null && roadPath.Count > 0)
+            roadPath.Clear();
+        
+        List<Vector2Int> rooms = new List<Vector2Int>();
+        rooms = GetRoomsInOrder();
+
+        Vector2Int entrancePosition = new Vector2Int((int) DungeonManager.GetInstance().entrance.x, (int) DungeonManager.GetInstance().entrance.y);
+        roadPath.AddRange(astar.CreatePath(spots, rooms[0], entrancePosition, 100));
+
+        for (int i = 1; i < rooms.Count; i++)
+        {
+            roadPath.AddRange(astar.CreatePath(spots, rooms[i], rooms[i - 1], 100));
+        }
+
+        Vector2Int bossRoomPosition = new Vector2Int((int) DungeonManager.GetInstance().bossRoom.x, (int) DungeonManager.GetInstance().bossRoom.y);
+        roadPath.AddRange(astar.CreatePath(spots, bossRoomPosition, rooms[rooms.Count - 1], 100));
+
+        // roadPath = astar.CreatePath(spots, entrancePosition, bossRoomPosition, 100);
+    }
+
+    private List<Vector2Int> GetRoomsInOrder()
+    {
+        Debug.Log("Getting the rooms in order");
+        List<Vector2Int> list = new List<Vector2Int>();
+
+        foreach (Room room in DungeonManager.GetInstance().rooms)
+        {
+            list.Add(new Vector2Int((int) room.transform.position.x, (int) room.transform.position.y));
+        }
+
+        return list;
     }
 
     public Party GetParty()
@@ -90,13 +131,7 @@ public class PartyManager : MonoBehaviour
             Move();
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Debug.Log("Setting starting position");
-            Vector3 world = camera.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int gridPos = tilemap.WorldToCell(world);
-            start = new Vector2Int(gridPos.x, gridPos.y);
-        }
+        
         if (Input.GetKeyDown(KeyCode.W))
         {
             
@@ -104,23 +139,23 @@ public class PartyManager : MonoBehaviour
             Vector3Int gridPos = tilemap.WorldToCell(world);
             roadMap.SetTile(new Vector3Int(gridPos.x, gridPos.y, 0), null);
         }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Debug.Log("Creating path");
-            CreateGrid();
+        // if (Input.GetKeyDown(KeyCode.E))
+        // {
+        //     Debug.Log("Creating path");
+        //     CreateGrid();
 
-            Vector3 world = camera.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int gridPos = tilemap.WorldToCell(world);
+        //     Vector3 world = camera.ScreenToWorldPoint(Input.mousePosition);
+        //     Vector3Int gridPos = tilemap.WorldToCell(world);
             
-            if (roadPath != null && roadPath.Count > 0)
-                roadPath.Clear();
+        //     if (roadPath != null && roadPath.Count > 0)
+        //         roadPath.Clear();
 
-            roadPath = astar.CreatePath(spots, start, new Vector2Int(gridPos.x, gridPos.y), 1000); // Could probably lower the length
-            if (roadPath == null)
-                return;
-            DrawRoad();
-            start = new Vector2Int(roadPath[0].X, roadPath[0].Y);
-        }
+        //     roadPath = astar.CreatePath(spots, start, new Vector2Int(gridPos.x, gridPos.y), 100); // Could probably lower the length
+        //     if (roadPath == null)
+        //         return;
+        //     DrawRoad();
+        //     start = new Vector2Int(roadPath[0].X, roadPath[0].Y);
+        // }
     }
 
     public void CreateHero(HeroPreset heroPreset)
@@ -146,23 +181,23 @@ public class PartyManager : MonoBehaviour
     }
 
     private void Move() {
-        Vector3Int nextPosition = Vector3Int.FloorToInt(party.transform.position);
-        nextPosition.x += 1;
-        if (RoomPlacer.GetInstance().tilemap.GetTile(nextPosition) != null) {
+
+        if (moveStep + 1 >= roadPath.Count)
+            return;
+
+        // Next position is move step plus one
+        Vector3Int newPosition = new Vector3Int(roadPath[moveStep + 1].X, roadPath[moveStep + 1].Y);
+        
+        if (RoomPlacer.GetInstance().tilemap.GetTile(newPosition) != null) {
             lastMoveTime = Time.time;
-            party.transform.position = nextPosition;
+            party.transform.position = newPosition;
             JustMoved();
+            moveStep++;
             return;
         }
 
-        nextPosition = Vector3Int.FloorToInt(party.transform.position);
-        nextPosition.y += 1;
-        if (RoomPlacer.GetInstance().tilemap.GetTile(nextPosition) != null) {
-            lastMoveTime = Time.time;
-            party.transform.position = nextPosition;
-            JustMoved();
-            return;
-        }
+        Debug.LogWarning("Party is trying to go out of the dungeon");
+
     }
 
     private void JustMoved() {

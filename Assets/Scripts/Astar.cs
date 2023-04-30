@@ -17,6 +17,7 @@ public class Astar
         Debug.Log(grid);
         Debug.Log(start);
         Debug.Log(end);
+        Debug.Log(end.height);
         if (end == null || start == null || end.height >= 1)
         {
             Debug.Log("No valid path");

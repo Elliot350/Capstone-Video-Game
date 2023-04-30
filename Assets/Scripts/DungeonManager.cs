@@ -9,10 +9,12 @@ public class DungeonManager : MonoBehaviour
     public List<Room> rooms = new List<Room>();
     public List<Hallway> hallways = new List<Hallway>();
     public Vector3Int entrance;
+    public Vector3Int bossRoom;
 
     public RoomPreset hallway;
     public RoomPreset room;
     public RoomPreset entrancePreset;
+    public RoomPreset bossRoomPreset;
 
     private void Awake() {
         instance = this;
@@ -39,19 +41,22 @@ public class DungeonManager : MonoBehaviour
     }
 
     public void PlaceBasicDungeon() {
-        for (int i = -2; i < 3; i++)
-        {
-            RoomPlacer.GetInstance().PlaceRoom(i, 0, hallway);
-        }
 
+        GameManager.GetInstance().money += 300;
+
+        RoomPlacer.GetInstance().PlaceRoom(0, 3, bossRoomPreset);
+
+        RoomPlacer.GetInstance().PlaceRoom(0, 2, hallway);
+        RoomPlacer.GetInstance().PlaceRoom(0, 1, hallway);
+        RoomPlacer.GetInstance().PlaceRoom(0, 0, hallway);
         RoomPlacer.GetInstance().PlaceRoom(0, -1, hallway);
-        RoomPlacer.GetInstance().PlaceRoom(0, -2, hallway);
-        RoomPlacer.GetInstance().PlaceRoom(-1, -2, hallway);
-        RoomPlacer.GetInstance().PlaceRoom(-2, -2, hallway);
-        
-        RoomPlacer.GetInstance().PlaceRoom(-3, 0, room);
-        RoomPlacer.GetInstance().PlaceRoom(2, 1, room);
-        RoomPlacer.GetInstance().PlaceRoom(-3, -2, entrancePreset);
+        RoomPlacer.GetInstance().PlaceRoom(-1, 0, hallway);
+        RoomPlacer.GetInstance().PlaceRoom(1, 0, hallway);
+
+        RoomPlacer.GetInstance().PlaceRoom(-2, 0, room);
+        RoomPlacer.GetInstance().PlaceRoom(2, 0, room);
+
+        RoomPlacer.GetInstance().PlaceRoom(0, -2, entrancePreset);
     }
 
     public void HighlightRooms(bool status) {
