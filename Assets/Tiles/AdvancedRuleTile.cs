@@ -9,6 +9,7 @@ public class AdvancedRuleTile : RuleTile<AdvancedRuleTile.Neighbor> {
     public bool alwayConnect;
     public TileBase[] tilesToConnect;
     public bool checkSelf;
+    public bool isHallway;
 
     public class Neighbor : RuleTile.TilingRule.Neighbor {
         public const int Any = 3;

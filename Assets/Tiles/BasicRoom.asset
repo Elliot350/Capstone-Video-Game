@@ -30,6 +30,6 @@ MonoBehaviour:
     m_NeighborPositions: []
     m_RuleTransform: 0
   alwayConnect: 0
-  tilesToConnect:
-  - {fileID: 11400000, guid: 6d42391d41b67c049a38ec238af74cc0, type: 2}
+  tilesToConnect: []
   checkSelf: 0
+  isHallway: 0

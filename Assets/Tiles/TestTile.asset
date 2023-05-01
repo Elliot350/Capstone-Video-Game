@@ -213,3 +213,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d9741808c2e923846bbd20303162952f, type: 2}
   - {fileID: 11400000, guid: 760051809aea245238192418f1b1d8cc, type: 2}
   checkSelf: 0
+  isHallway: 1

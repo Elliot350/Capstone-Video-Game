@@ -180,13 +180,56 @@ public class Spot
 
     public void AddNeighbours(Spot[,] grid, int x, int y)
     {
-        if (x < grid.GetUpperBound(0))
+        
+        if (x < grid.GetUpperBound(0)) 
             neighbours.Add(grid[x + 1, y]);
-        if (x > 0)
+        if (x > 0) 
             neighbours.Add(grid[x - 1, y]);
-        if (y < grid.GetUpperBound(1))
+        if (y < grid.GetUpperBound(1)) 
             neighbours.Add(grid[x, y + 1]);
-        if (y > 0)
+        if (y > 0) 
             neighbours.Add(grid[x, y - 1]);
+    
+        
+        /*
+        // If this spot is a room, don't add other rooms
+        // If either this tile is a hallway or the other tiles are hallways
+        AdvancedRuleTile tile = RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x, y));
+        if (tile != null)
+            Debug.Log($"Spot {tile} ({x}, {y}), is {tile.isHallway}");
+        else 
+            Debug.Log($"Spot {x}, {y} is null");
+        if (tile == null || (tile != null && tile.isHallway))
+        {
+            if (x < grid.GetUpperBound(0)) 
+                neighbours.Add(grid[x + 1, y]);
+            if (x > 0) 
+                neighbours.Add(grid[x - 1, y]);
+            if (y < grid.GetUpperBound(1)) 
+                neighbours.Add(grid[x, y + 1]);
+            if (y > 0) 
+                neighbours.Add(grid[x, y - 1]);
+        }
+        else
+        {
+            if (x < grid.GetUpperBound(0)) {
+                if (RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x + 1, y)) != null && RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x + 1, y)).isHallway)
+                    neighbours.Add(grid[x + 1, y]);
+            }
+            if (x > 0) {
+                if (RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x - 1, y)) != null && RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x - 1, y)).isHallway)
+                    neighbours.Add(grid[x - 1, y]);
+            }
+            if (y < grid.GetUpperBound(1)) {
+                if (RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x, y + 1)) != null && RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x, y + 1)).isHallway)
+                    neighbours.Add(grid[x, y + 1]);
+            }
+            if (y > 0) {
+                if (RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x, y - 1)) != null && RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x, y - 1)).isHallway)
+                    neighbours.Add(grid[x, y - 1]);
+            }
+        }
+        */
+
     }
 }
