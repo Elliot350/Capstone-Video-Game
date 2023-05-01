@@ -16,14 +16,28 @@ public class FightManager : MonoBehaviour
         return instance;
     }
 
-    public void StartFight(List<Hero> heroes, List<Monster> monsters)
+    public void StartFight(List<Hero> heroes, List<Monster> monsters, Room room)
     {
         if (heroes.Count == 0 || monsters.Count == 0) 
             return;
         Debug.Log($"Starting fight between {heroes} and {monsters}");
+        
+        // Temporary kill of all the monsters, will later replace with a fight
         foreach (Monster monster in monsters)
         {
             monster.Die();
         }
+
+        if (heroes.Count == 0)
+        {
+            Debug.Log("The party has been defeated!");
+            PartyManager.GetInstance().DestroyParty();
+        }
+        else
+        {
+            Debug.Log("The heroes defeated this room");
+            room.HeroesDefeatedMonsters();
+        }
+
     }
 }

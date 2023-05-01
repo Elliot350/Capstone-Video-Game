@@ -16,7 +16,8 @@ public class Trap : MonoBehaviour
         
     }
 
-    public virtual void Tirgger() {
+    public virtual void Trigger()
+    {
         
     }
 }

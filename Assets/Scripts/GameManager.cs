@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
 
     public void RoomClickedOn(Room room)
     {
-        roomInfo.SetRoom(room);
+        // roomInfo.SetRoom(room);
     }
 
     public void CloseMenus() {

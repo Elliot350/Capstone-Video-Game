@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class MonsterPlacer : MonoBehaviour
 {
@@ -16,10 +17,16 @@ public class MonsterPlacer : MonoBehaviour
     [SerializeField]
     public Monster monsterPrefab;
 
+    public List<MonsterPreset> monsterPresets;
+
     // Start is called before the first frame update
     void Awake()
     {
         instance = this;
+    }
+
+    private void Start() {
+        monsterPresets = Resources.LoadAll<MonsterPreset>("").ToList();
     }
 
     public static MonsterPlacer GetInstance()

@@ -5,11 +5,12 @@ using UnityEngine;
 public class Party : MonoBehaviour
 {
 
-    public List<Hero> heroes;
+    public List<Hero> heroes = new List<Hero>();
 
     private void Start()
     {
         transform.position = DungeonManager.GetInstance().entrance;
+        PartyManager.GetInstance().GenerateCompletePath();
     }
 
     // Update is called once per frame
@@ -35,5 +36,15 @@ public class Party : MonoBehaviour
         {
             Debug.Log(hero.GetName());
         }
+    }
+
+    public void HeroDead(Hero hero)
+    {
+        heroes.Remove(hero);
+    }
+
+    public void DamageHero(int damageAmount)
+    {
+        heroes[Random.Range(0, heroes.Count - 1)].TakeDamage(damageAmount);
     }
 }

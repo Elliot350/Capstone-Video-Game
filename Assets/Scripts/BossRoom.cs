@@ -11,4 +11,9 @@ public class BossRoom : Room
         highlightBox.SetActive(false);
     }
 
+    public override void HeroesDefeatedMonsters()
+    {
+        PartyManager.GetInstance().CompletedDungeon();
+    }
+
 }

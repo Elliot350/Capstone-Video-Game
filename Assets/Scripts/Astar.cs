@@ -13,14 +13,14 @@ public class Astar
 
     private bool IsValidPath(Vector3Int[,] grid, Spot start, Spot end)
     {
-        Debug.Log("Checking for valid path...");
-        Debug.Log(grid);
-        Debug.Log(start);
-        Debug.Log(end);
-        Debug.Log(end.height);
+        // Debug.Log("Checking for valid path...");
+        // Debug.Log(grid);
+        // Debug.Log(start);
+        // Debug.Log(end);
+        // Debug.Log(end.height);
         if (end == null || start == null || end.height >= 1)
         {
-            Debug.Log("No valid path");
+            Debug.LogWarning("No valid path");
             return false;
         }
         return true;
@@ -28,14 +28,14 @@ public class Astar
 
     public List<Spot> CreatePath(Vector3Int[,] grid, Vector2Int start, Vector2Int end, int length)
     {
-        Debug.Log("Creating Astar path");
+        Debug.Log("Generating Astar path...");
         Spot End = null;
         Spot Start = null;
         var columns = spots.GetUpperBound(0) + 1;
         var rows = spots.GetUpperBound(1) + 1;
         spots = new Spot[columns, rows];
 
-        Debug.Log($"Columns: {columns}, rows {rows}");
+        // Debug.Log($"Columns: {columns}, rows {rows}");
         
         for (int i = 0; i < columns; i++)
         {

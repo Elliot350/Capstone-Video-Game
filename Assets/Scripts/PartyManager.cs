@@ -74,10 +74,10 @@ public class PartyManager : MonoBehaviour
 
     public void DrawRoad()
     {
-        Debug.Log("Path: ");
+        // Debug.Log("Path: ");
         foreach (Spot path in roadPath)
         {
-            Debug.Log(new Vector2(path.X, path.Y));
+            // Debug.Log(new Vector2(path.X, path.Y));
             roadMap.SetTile(new Vector3Int(path.X, path.Y, 0), roadTile);
         }
     }
@@ -111,13 +111,32 @@ public class PartyManager : MonoBehaviour
         Debug.Log("Getting the rooms in order");
         List<Vector2Int> list = new List<Vector2Int>();
 
+        Vector2Int entrancePosition = new Vector2Int(DungeonManager.GetInstance().entrance.x, DungeonManager.GetInstance().entrance.y);
+        
         foreach (Room room in DungeonManager.GetInstance().rooms)
         {
-            list.Add(new Vector2Int((int) room.transform.position.x, (int) room.transform.position.y));
+            Vector2Int nextRoomPos = new Vector2Int((int) room.transform.position.x, (int) room.transform.position.y);
+            bool placed = false;
+            if (list.Count > 0)
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (Mathf.Abs(Vector2Int.Distance(nextRoomPos, entrancePosition)) < Mathf.Abs(Vector2Int.Distance(list[i], entrancePosition)))
+                    {
+                        list.Insert(i, nextRoomPos);
+                        placed = true;
+                        break;
+                    }
+                }
+            }
+            if (!placed)
+                list.Add(nextRoomPos);
         }
 
         return list;
     }
+
+    
 
     public Party GetParty()
     {
@@ -205,7 +224,17 @@ public class PartyManager : MonoBehaviour
         Room room = roomGameObject.GetComponent<Room>();
         room.PartyEntered(party.heroes);
         if (room != null) {
-            FightManager.GetInstance().StartFight(party.heroes, room.monsters);
+            FightManager.GetInstance().StartFight(party.heroes, room.currentMonsters, room);
         }
+    }
+
+    public void CompletedDungeon()
+    {
+        DestroyParty();
+    }
+
+    public void DestroyParty()
+    {
+        Destroy(party);
     }
 }

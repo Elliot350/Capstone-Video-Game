@@ -76,6 +76,11 @@ public class Room : MonoBehaviour
 
     public void MonsterDied(Monster monster)
     {
-        currentMonsters.Remove(monster);
+        // currentMonsters.Remove(monster);
+    }
+
+    public virtual void HeroesDefeatedMonsters()
+    {
+        Debug.Log("Yay");
     }
 }
