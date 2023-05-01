@@ -58,7 +58,7 @@ public class Room : MonoBehaviour
 
     public void PartyEntered(List<Hero> heroes) 
     {
-        Debug.Log($"Party has entered a {displayName}");
+        // Debug.Log($"Party has entered a {displayName}");
         // Trigger any traps 
     }
 
@@ -81,6 +81,6 @@ public class Room : MonoBehaviour
 
     public virtual void HeroesDefeatedMonsters()
     {
-        Debug.Log("Yay");
+
     }
 }

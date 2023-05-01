@@ -235,6 +235,7 @@ public class PartyManager : MonoBehaviour
 
     public void DestroyParty()
     {
-        Destroy(party);
+        Destroy(party.gameObject);
+        party = null;
     }
 }
