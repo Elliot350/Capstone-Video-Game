@@ -4,24 +4,22 @@ using UnityEngine;
 
 public class Monster : Fighter
 {
+    public MonsterPreset monster;
+
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log($"I'm a little monster");
         spriteRenderer.gameObject.SetActive(false);
     }
 
     public void SetType(MonsterPreset monsterPreset)
     {
-        displayName = monsterPreset.displayName;
-        maxHealth = monsterPreset.health;
-        health = maxHealth;
-        damage = monsterPreset.damage;
-        spriteRenderer.sprite = monsterPreset.sprite;
+        monster = monsterPreset;
+        monster.SetType(this);
     }
 
     public override void Die()
     {
-        gameObject.transform.parent.GetComponent<Room>().MonsterDied(this);
+        monster.Die();
     }
 }

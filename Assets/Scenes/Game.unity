@@ -6424,6 +6424,7 @@ GameObject:
   - component: {fileID: 1759908042}
   - component: {fileID: 1759908043}
   - component: {fileID: 1759908044}
+  - component: {fileID: 1759908045}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -6513,6 +6514,21 @@ MonoBehaviour:
   placementIndicator: {fileID: 1408544812}
   monsterPrefab: {fileID: 2662237381807311990, guid: 6ae37855008c01f49856470016b063c4, type: 3}
   monsterPresets: []
+--- !u!114 &1759908045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759908039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2f1da494ba712f44a1b90818054974e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementIndicator: {fileID: 1408544812}
+  trapPrefab: {fileID: 7215844278289656969, guid: ec96b5f0703574e29b8dc9dfe5a740c7, type: 3}
+  trapPresets: []
 --- !u!1 &1870408535
 GameObject:
   m_ObjectHideFlags: 0
@@ -6602,7 +6618,7 @@ GameObject:
   - component: {fileID: 1875821797}
   - component: {fileID: 1875821796}
   m_Layer: 5
-  m_Name: BuildBasicRoomButton (1)
+  m_Name: BuildSpikeTrapButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6673,13 +6689,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1759908043}
-        m_TargetAssemblyTypeName: RoomPlacer, Assembly-CSharp
-        m_MethodName: BeginNewRoomPlacement
+      - m_Target: {fileID: 1759908045}
+        m_TargetAssemblyTypeName: TrapPlacer, Assembly-CSharp
+        m_MethodName: BeginNewTrapPlacement
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 00c5b23d5d048f54d893fa8a12dac29d, type: 2}
-          m_ObjectArgumentAssemblyTypeName: RoomPreset, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: 404a4c300a71a4cd496bae90ca143bd7, type: 2}
+          m_ObjectArgumentAssemblyTypeName: TrapPreset, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

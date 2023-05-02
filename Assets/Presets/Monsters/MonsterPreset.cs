@@ -11,5 +11,14 @@ public class MonsterPreset : ScriptableObject
     public int damage;
     public int gold;
     public Sprite sprite;
-    public Monster prefab;
+
+    public virtual void OnAttack(Hero hero) {}
+    public virtual void SetType(Monster monster) {
+        monster.displayName = displayName;
+        monster.maxHealth = health;
+        monster.health = health;
+        monster.damage = damage;
+        monster.spriteRenderer.sprite = sprite;
+    }
+    public virtual void Die() {}
 }

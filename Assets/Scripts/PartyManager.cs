@@ -222,7 +222,7 @@ public class PartyManager : MonoBehaviour
     private void JustMoved() {
         GameObject roomGameObject = RoomPlacer.GetInstance().tilemap.GetInstantiatedObject(Vector3Int.FloorToInt(party.transform.position));
         Room room = roomGameObject.GetComponent<Room>();
-        room.PartyEntered(party.heroes);
+        room.PartyEntered(party);
         if (room != null) {
             FightManager.GetInstance().StartFight(party.heroes, room.currentMonsters, room);
         }

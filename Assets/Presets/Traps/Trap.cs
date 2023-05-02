@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
+    public TrapPreset trap;
+
     private string displayName;
     private int damage;
     private float triggerChance;
@@ -19,17 +21,15 @@ public class Trap : MonoBehaviour
 
     public void SetType(TrapPreset trapPreset)
     {
-        displayName = trapPreset.displayName;
-        damage = trapPreset.damage;
-        triggerChance = trapPreset.triggerChance;
-        spriteRenderer.sprite = trapPreset.sprite;
+        trap = trapPreset;
+        displayName = trap.displayName;
+        damage = trap.damage;
+        triggerChance = trap.triggerChance;
+        spriteRenderer.sprite = trap.sprite;
     }
 
-    public void Trigger()
+    public void PartyEntered(Party party)
     {
-        if (Random.Range(0, 1) > triggerChance)
-        {
-            PartyManager.GetInstance().GetParty().DamageHero(damage);
-        }
+        trap.PartyEntered(party);
     }
 }

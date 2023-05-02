@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Fighter : MonoBehaviour
 {
-    [SerializeField] protected string displayName;
-    [SerializeField] protected int maxHealth;
-    [SerializeField] protected int health;
-    [SerializeField] protected int damage;
-    [SerializeField] protected int gold;
-    [SerializeField] protected SpriteRenderer spriteRenderer;
+    [SerializeField] public string displayName;
+    [SerializeField] public int maxHealth;
+    [SerializeField] public int health;
+    [SerializeField] public int damage;
+    [SerializeField] public int gold;
+    [SerializeField] public SpriteRenderer spriteRenderer;
 
     public virtual void TakeDamage(int amount) 
     {

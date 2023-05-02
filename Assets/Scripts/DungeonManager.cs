@@ -26,14 +26,6 @@ public class DungeonManager : MonoBehaviour
     private void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.L)) {
-            foreach (Room room in rooms)
-            {
-                room.SpawnMonsters();
-            }
-        }
-
-        
     }
 
     public static DungeonManager GetInstance() {

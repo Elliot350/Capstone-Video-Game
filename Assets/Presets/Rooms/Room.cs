@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
+    public RoomPreset room;
+
     public string displayName;
     public int monsterCapacity;
     public List<Monster> monsters = new List<Monster>();
@@ -25,9 +27,10 @@ public class Room : MonoBehaviour
 
     public void SetType(RoomPreset roomPreset)
     {
-        displayName = roomPreset.displayName;
-        monsterCapacity = roomPreset.monsterCapacity;
-        trapCapacity = roomPreset.trapCapacity;
+        room = roomPreset;
+        displayName = room.displayName;
+        monsterCapacity = room.monsterCapacity;
+        trapCapacity = room.trapCapacity;
     }
 
     public void AddMonster(MonsterPreset monsterPreset) 
@@ -38,9 +41,12 @@ public class Room : MonoBehaviour
         currentMonsters.Add(monster);
     }
 
-    public void PrintInfo() 
+    public void AddTrap(TrapPreset trapPreset)
     {
-        Debug.Log($"{displayName} is a room with a capacity of {monsterCapacity} (currently has {monsters})");
+        Trap trap = Instantiate(TrapPlacer.GetInstance().trapPrefab, transform);
+        trap.SetType(trapPreset);
+        traps.Add(trap);
+        currentTraps.Add(trap);
     }
 
     public void Highlight(bool status) 
@@ -48,18 +54,10 @@ public class Room : MonoBehaviour
         highlightBox.SetActive(status);
     }
 
-    public void SpawnMonsters() 
+    public void PartyEntered(Party party) 
     {
-        // foreach (GameObject monster in monsters)
-        // {
-        //     GameObject tmp = Instantiate(monster, transform);
-        // }
-    }
-
-    public void PartyEntered(List<Hero> heroes) 
-    {
-        // Debug.Log($"Party has entered a {displayName}");
-        // Trigger any traps 
+        // Trigger any traps that tigger when the party enters
+        room.PartyEntered(this, party);
     }
 
     
@@ -83,4 +81,5 @@ public class Room : MonoBehaviour
     {
 
     }
+
 }
