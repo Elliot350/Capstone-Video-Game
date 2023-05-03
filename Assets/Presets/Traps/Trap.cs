@@ -12,6 +12,7 @@ public class Trap : MonoBehaviour
     public float triggerChance;
     public SpriteRenderer spriteRenderer;
     public Image image;
+    public float countdown;
     
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,18 @@ public class Trap : MonoBehaviour
         
     }
 
+    private void Update()
+    {
+        if (countdown > 0)
+        {
+            countdown -= Time.deltaTime;
+            if (countdown < 0)
+            {
+                image.gameObject.SetActive(false);
+            }
+        }
+    }
+
     public void SetType(TrapBase trapPreset)
     {
         trap = trapPreset;
@@ -30,6 +43,6 @@ public class Trap : MonoBehaviour
 
     public void PartyEntered(Party party)
     {
-        trap.PartyEntered(party);
+        trap.PartyEntered(party, this);
     }
 }

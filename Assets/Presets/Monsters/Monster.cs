@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Monster : Fighter
 {
-    public MonsterBase monsterPreset;
+    public MonsterBase monsterBase;
 
     // Start is called before the first frame update
     void Start()
@@ -14,12 +14,13 @@ public class Monster : Fighter
 
     public void SetType(MonsterBase monsterPreset)
     {
-        this.monsterPreset = monsterPreset;
-        this.monsterPreset.SetType(this);
+        this.monsterBase = monsterPreset;
+        this.monsterBase.SetType(this);
+        spriteRenderer.sprite = monsterBase.sprite;
     }
 
     public override void Die()
     {
-        monsterPreset.Die(this);
+        monsterBase.Die(this);
     }
 }

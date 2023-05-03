@@ -95,25 +95,6 @@ public class GameManager : MonoBehaviour
 
     public void RoomClickedOn(Room room)
     {
-        // roomInfo.SetRoom(room);
-    }
-
-    public void CloseMenus() {
-        Debug.Log($"Closing Menues");
-        roomMenu.SetTrigger("Close");
-        trapMenu.SetTrigger("Close");
-        monsterMenu.SetTrigger("Close");
-    }
-
-    public void CloseMenus(Animator animator) {
-        if (!animator.Equals(roomMenu)) {
-            roomMenu.SetTrigger("Close");
-        }
-        if (!animator.Equals(trapMenu)) {
-            trapMenu.SetTrigger("Close");
-        }
-        if (!animator.Equals(monsterMenu)) {
-            monsterMenu.SetTrigger("Close");
-        }
+        roomInfo.ShowRoom(room);
     }
 }

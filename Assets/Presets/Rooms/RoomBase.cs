@@ -15,7 +15,7 @@ public class RoomBase : ScriptableObject
     // Room calls PartyEntered on each trap
     public virtual void PartyEntered(Room room, Party party) {
         foreach (Trap roomTrap in room.traps)
-            roomTrap.trap.PartyEntered(party);
+            roomTrap.trap.PartyEntered(party, roomTrap);
     }
 
     public virtual void SetType(Room room)
@@ -28,6 +28,7 @@ public class RoomBase : ScriptableObject
 
     public virtual void AddRoom(Room room)
     {
+        Debug.Log($"Adding to rooms");
         DungeonManager.GetInstance().rooms.Add(room);
         room.Highlight(false);
     }

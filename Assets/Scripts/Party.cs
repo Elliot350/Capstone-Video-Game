@@ -13,12 +13,6 @@ public class Party : MonoBehaviour
         PartyManager.GetInstance().GenerateCompletePath();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void AddHero(Hero hero) {
         heroes.Add(hero);
     }

@@ -17,4 +17,4 @@ MonoBehaviour:
   damage: 3
   triggerChance: 0.8
   sprite: {fileID: 0}
-  image: {fileID: 0}
+  alertDisplayTime: 1

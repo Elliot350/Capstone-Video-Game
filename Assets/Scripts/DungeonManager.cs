@@ -7,14 +7,14 @@ public class DungeonManager : MonoBehaviour
     private static DungeonManager instance;
 
     public List<Room> rooms = new List<Room>();
-    public List<Hallway> hallways = new List<Hallway>();
+    public List<Room> hallways = new List<Room>();
     public Vector3Int entrance;
     public Vector3Int bossRoom;
 
-    public RoomBase hallway;
-    public RoomBase room;
-    public RoomBase entrancePreset;
-    public RoomBase bossRoomPreset;
+    public RoomBase hallwayBase;
+    public RoomBase roomBase;
+    public RoomBase entranceBase;
+    public RoomBase bossRoomBase;
 
     private void Awake() {
         instance = this;
@@ -36,19 +36,19 @@ public class DungeonManager : MonoBehaviour
 
         GameManager.GetInstance().money += 300;
 
-        RoomPlacer.GetInstance().PlaceRoom(0, 3, bossRoomPreset);
+        RoomPlacer.GetInstance().PlaceRoom(0, 3, bossRoomBase);
 
-        RoomPlacer.GetInstance().PlaceRoom(0, 2, hallway);
-        RoomPlacer.GetInstance().PlaceRoom(0, 1, hallway);
-        RoomPlacer.GetInstance().PlaceRoom(0, 0, hallway);
-        RoomPlacer.GetInstance().PlaceRoom(0, -1, hallway);
-        RoomPlacer.GetInstance().PlaceRoom(-1, 0, hallway);
-        RoomPlacer.GetInstance().PlaceRoom(1, 0, hallway);
+        RoomPlacer.GetInstance().PlaceRoom(0, 2, hallwayBase);
+        RoomPlacer.GetInstance().PlaceRoom(0, 1, hallwayBase);
+        RoomPlacer.GetInstance().PlaceRoom(0, 0, hallwayBase);
+        RoomPlacer.GetInstance().PlaceRoom(0, -1, hallwayBase);
+        RoomPlacer.GetInstance().PlaceRoom(-1, 0, hallwayBase);
+        RoomPlacer.GetInstance().PlaceRoom(1, 0, hallwayBase);
 
-        RoomPlacer.GetInstance().PlaceRoom(-2, 0, room);
-        RoomPlacer.GetInstance().PlaceRoom(2, 0, room);
+        RoomPlacer.GetInstance().PlaceRoom(-2, 0, roomBase);
+        RoomPlacer.GetInstance().PlaceRoom(2, 0, roomBase);
 
-        RoomPlacer.GetInstance().PlaceRoom(0, -2, entrancePreset);
+        RoomPlacer.GetInstance().PlaceRoom(0, -2, entranceBase);
     }
 
     public void HighlightRooms(bool status) {

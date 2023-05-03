@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hallway : Room
+[CreateAssetMenu(fileName = "Hallway Preset", menuName = "Presets/Rooms/Hallway Preset")]
+public class Hallway : RoomBase
 {
-    // TODO: Make this inherit from RoomBase (like Entrance and BossRoom)
-    protected override void Start()
+    public override void AddRoom(Room room)
     {
-        DungeonManager.GetInstance().hallways.Add(this);
-        highlightBox.SetActive(false);
+        DungeonManager.GetInstance().hallways.Add(room);
+        room.Highlight(false);
     }
 }

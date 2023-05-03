@@ -83,7 +83,6 @@ public class RoomPlacer : MonoBehaviour
             return;
         }
         tilemap.SetTile(position, room.tile);
-        Debug.Log(room);
         tilemap.GetInstantiatedObject(position).GetComponent<Room>().SetType(room);
         GameManager.GetInstance().SpendMoney(room.cost);
     }

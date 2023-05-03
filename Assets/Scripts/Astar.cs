@@ -28,7 +28,7 @@ public class Astar
 
     public List<Spot> CreatePath(Vector3Int[,] grid, Vector2Int start, Vector2Int end, int length)
     {
-        Debug.Log("Generating Astar path...");
+        // Debug.Log("Generating Astar path...");
         Spot End = null;
         Spot Start = null;
         var columns = spots.GetUpperBound(0) + 1;
@@ -176,6 +176,11 @@ public class Spot
         H = 0;
         neighbours = new List<Spot>();
         this.height = height;
+    }
+
+    public bool isEqual(Spot spot)
+    {
+        return X == spot.X && Y == spot.Y;
     }
 
     public void AddNeighbours(Spot[,] grid, int x, int y)

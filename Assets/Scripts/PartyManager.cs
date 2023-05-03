@@ -44,8 +44,6 @@ public class PartyManager : MonoBehaviour
     {
         heroBases = Resources.LoadAll<HeroBase>("").ToList();
 
-        lastMoveTime = Time.time;
-
         // tilemap.CompressBounds();
         // roadMap.CompressBounds();
         bounds = tilemap.cellBounds;
@@ -106,7 +104,15 @@ public class PartyManager : MonoBehaviour
         Vector2Int bossRoomPosition = new Vector2Int((int) DungeonManager.GetInstance().bossRoom.x, (int) DungeonManager.GetInstance().bossRoom.y);
         roadPath.AddRange(astar.CreatePath(spots, bossRoomPosition, rooms[rooms.Count - 1], 100));
 
-        // roadPath = astar.CreatePath(spots, entrancePosition, bossRoomPosition, 100);
+        // Remove duplicate positions
+        for (int i = roadPath.Count - 1; i > 0; i--)
+        {
+            if (roadPath[i].isEqual(roadPath[i - 1])) {
+                roadPath.RemoveAt(i);
+            }
+        }
+
+
     }
 
     private List<Vector2Int> GetRoomsInOrder()
@@ -200,6 +206,7 @@ public class PartyManager : MonoBehaviour
         {
             CreateHero(hero);
         }
+        lastMoveTime = Time.time;
     }
 
     private void Move() {

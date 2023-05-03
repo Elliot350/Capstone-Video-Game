@@ -8,7 +8,7 @@ public class FighterBase : ScriptableObject
     public string displayName;
     public int maxHealth;
     public int damage;
-    public SpriteRenderer spriteRenderer;
+    public Sprite sprite;
 
     public virtual void SetType(Fighter fighter) {
         fighter.displayName = displayName;

@@ -21,27 +21,27 @@ public class Room : MonoBehaviour
         
     }
 
-    public void SetType(RoomBase roomPreset)
+    public void SetType(RoomBase roomBase)
     {
-        room = roomPreset;
+        room = roomBase;
         room.SetType(this);
         room.AddRoom(this);
     }
 
     // TODO: Move this into RoomBase
-    public void AddMonster(MonsterBase monsterPreset) 
+    public void AddMonster(MonsterBase monsterBase) 
     {
         Monster monster = Instantiate(MonsterPlacer.GetInstance().monsterPrefab, transform);
-        monster.SetType(monsterPreset);
+        monster.SetType(monsterBase);
         monsters.Add(monster);
         currentMonsters.Add(monster);
     }
 
     // TODO: Move this into RoomBase
-    public void AddTrap(TrapBase trapPreset)
+    public void AddTrap(TrapBase trapBase)
     {
         Trap trap = Instantiate(TrapPlacer.GetInstance().trapPrefab, transform);
-        trap.SetType(trapPreset);
+        trap.SetType(trapBase);
         traps.Add(trap);
         currentTraps.Add(trap);
     }
