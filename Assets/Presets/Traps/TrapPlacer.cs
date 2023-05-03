@@ -8,7 +8,7 @@ public class TrapPlacer : MonoBehaviour
     public static TrapPlacer instance;
 
     private bool currentlyPlacing;
-    private TrapPreset curTrapPreset;
+    private TrapBase curTrapBase;
     private float placementIndicatorUpdateRate = 0.05f;
     private float lastUpdateTime;
     private Vector3Int curPlacementPos;
@@ -17,7 +17,7 @@ public class TrapPlacer : MonoBehaviour
     [SerializeField]
     public Trap trapPrefab;
 
-    public List<TrapPreset> trapPresets;
+    public List<TrapBase> trapBases;
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -33,7 +33,7 @@ public class TrapPlacer : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        trapPresets = Resources.LoadAll<TrapPreset>("").ToList();
+        trapBases = Resources.LoadAll<TrapBase>("").ToList();
     }
 
     public static TrapPlacer GetInstance()
@@ -61,12 +61,12 @@ public class TrapPlacer : MonoBehaviour
             
     }
 
-    public void BeginNewTrapPlacement(TrapPreset trapPreset)
+    public void BeginNewTrapPlacement(TrapBase trapBase)
     {
-        if (GameManager.GetInstance().money < trapPreset.cost)
+        if (GameManager.GetInstance().money < trapBase.GetCost())
             return;
         currentlyPlacing = true;
-        curTrapPreset = trapPreset;
+        curTrapBase = trapBase;
         placementIndicator.SetActive(true);
     }
 
@@ -79,32 +79,32 @@ public class TrapPlacer : MonoBehaviour
     
     public void PlaceTrap()
     {
-        PlaceTrap(curPlacementPos, curTrapPreset);
+        PlaceTrap(curPlacementPos, curTrapBase);
     }
 
-    public void PlaceTrap(int x, int y, TrapPreset trapPreset)
+    public void PlaceTrap(int x, int y, TrapBase trapBase)
     {
-        PlaceTrap(new Vector3Int(x, y), trapPreset);
+        PlaceTrap(new Vector3Int(x, y), trapBase);
     }
 
-    public void PlaceTrap(Vector3Int position, TrapPreset trapPreset)
+    public void PlaceTrap(Vector3Int position, TrapBase trapBase)
     {
 
         if (RoomPlacer.GetInstance().tilemap.GetInstantiatedObject(position).TryGetComponent<Room>(out Room room))
         {
-            PlaceTrap(room, trapPreset);
+            PlaceTrap(room, trapBase);
         }
         CancelTrapPlacement();
 
         
     }
 
-    public void PlaceTrap(Room room, TrapPreset trapPreset)
+    public void PlaceTrap(Room room, TrapBase trapBase)
     {
         if (room.traps.Count < room.trapCapacity)
         {
-            room.AddTrap(trapPreset);
-            GameManager.GetInstance().SpendMoney(trapPreset.cost);
+            room.AddTrap(trapBase);
+            GameManager.GetInstance().SpendMoney(trapBase.GetCost());
         }
     }
 }

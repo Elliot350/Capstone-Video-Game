@@ -11,10 +11,10 @@ public class DungeonManager : MonoBehaviour
     public Vector3Int entrance;
     public Vector3Int bossRoom;
 
-    public RoomPreset hallway;
-    public RoomPreset room;
-    public RoomPreset entrancePreset;
-    public RoomPreset bossRoomPreset;
+    public RoomBase hallway;
+    public RoomBase room;
+    public RoomBase entrancePreset;
+    public RoomBase bossRoomPreset;
 
     private void Awake() {
         instance = this;

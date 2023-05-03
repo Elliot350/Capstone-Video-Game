@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acaa2247657b4b94eabb3337b4581d65, type: 3}
+  m_Script: {fileID: 11500000, guid: 2248e910f7b1840c2950a662e551801b, type: 3}
   m_Name: BossRoom
   m_EditorClassIdentifier: 
   displayName: Boss Room

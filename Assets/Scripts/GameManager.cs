@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
         return instance;
     }
 
-    public void OnPlaceBuilding(RoomPreset room)
+    public void OnPlaceBuilding(RoomBase room)
     {
         
     }

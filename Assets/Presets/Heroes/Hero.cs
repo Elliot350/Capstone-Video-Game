@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Hero : Fighter
 {
     public Slider slider;
+    public HeroBase hero;
 
     // Start is called before the first frame update
     void Start()
@@ -13,13 +14,10 @@ public class Hero : Fighter
         
     }
 
-    public void SetType(HeroPreset heroPreset)
+    public void SetType(HeroBase heroBase)
     {
-        displayName = heroPreset.displayName;
-        maxHealth = heroPreset.health;
-        health = maxHealth;
-        damage = heroPreset.damage;
-        spriteRenderer.sprite = heroPreset.sprite;
+        hero = heroBase;
+        hero.SetType(this);
         slider.minValue = 0;
         slider.maxValue = maxHealth;
         slider.value = maxHealth;
@@ -33,7 +31,7 @@ public class Hero : Fighter
     public override void TakeDamage(int amount)
     {
         health -= amount;
-        Debug.Log("Ouch! I just took some damage!");
+        Debug.Log("Ouch! I just took some damage! Current health: " + health);
         slider.value = health;
         if (health <= 0)
             Die();

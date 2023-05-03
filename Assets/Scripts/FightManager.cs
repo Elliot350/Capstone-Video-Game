@@ -20,12 +20,11 @@ public class FightManager : MonoBehaviour
     {
         if (heroes.Count == 0 || monsters.Count == 0) 
             return;
-        Debug.Log($"Starting fight between {heroes} and {monsters}");
         
         // Temporary kill of all the monsters, will later replace with a fight
-        foreach (Monster monster in monsters)
+        for (int i = monsters.Count - 1; i >= 0; i--)
         {
-            monster.Die();
+            monsters[i].Die();
         }
 
         if (heroes.Count == 0)

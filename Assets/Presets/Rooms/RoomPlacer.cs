@@ -9,7 +9,7 @@ public class RoomPlacer : MonoBehaviour
     public static RoomPlacer instance;
     
     private bool currentlyPlacing;
-    private RoomPreset curRoomPreset;
+    private RoomBase curRoomBase;
     private float placementIndicatorUpdateRate = 0.05f;
     private float lastUpdateTime;
     private Vector3Int curPlacementPos;
@@ -18,7 +18,7 @@ public class RoomPlacer : MonoBehaviour
     public RuleTile tile;
 
     [SerializeField]
-    private List<RoomPreset> roomPresets;
+    private List<RoomBase> roomBases;
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class RoomPlacer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        roomPresets = Resources.LoadAll<RoomPreset>("").ToList();
+        roomBases = Resources.LoadAll<RoomBase>("").ToList();
     }
 
     // Update is called once per frame
@@ -51,12 +51,12 @@ public class RoomPlacer : MonoBehaviour
         return instance;
     }
 
-    public void BeginNewRoomPlacement(RoomPreset roomPreset)
+    public void BeginNewRoomPlacement(RoomBase roomBase)
     {
-        if (GameManager.GetInstance().money < roomPreset.cost)
+        if (GameManager.GetInstance().money < roomBase.cost)
             return;
         currentlyPlacing = true;
-        curRoomPreset = roomPreset;
+        curRoomBase = roomBase;
         placementIndicator.SetActive(true);
     }
 
@@ -68,32 +68,22 @@ public class RoomPlacer : MonoBehaviour
 
     public void PlaceRoom()
     {
-        // Debug.Log($"Placing " + curRoomPreset.displayName + " at " + curPlacementPos + "...");
-        PlaceRoom(curPlacementPos, curRoomPreset);
-        
-        // if (tilemap.GetTile(curPlacementPos) != null) {
-        //     Debug.LogWarning($"Whoops! There is already something there!");
-        //     GameManager.getInstance().ErrorMessage("Something is already there!");
-        //     CancelRoomPlacement();
-        //     return;
-        // }
-
-        // tilemap.SetTile(curPlacementPos, curRoomPreset.tile);
-        // GameManager.getInstance().OnPlaceBuilding(curRoomPreset);
+        PlaceRoom(curPlacementPos, curRoomBase);
         CancelRoomPlacement();
     }
 
-    public void PlaceRoom(int x, int y, RoomPreset room) {
+    public void PlaceRoom(int x, int y, RoomBase room) {
         PlaceRoom(new Vector3Int(x, y), room);
     }
 
-    public void PlaceRoom(Vector3Int position, RoomPreset room)
+    public void PlaceRoom(Vector3Int position, RoomBase room)
     {
         if (tilemap.GetTile(position) != null) {
             GameManager.GetInstance().ErrorMessage("Something is already there!");
             return;
         }
         tilemap.SetTile(position, room.tile);
+        Debug.Log(room);
         tilemap.GetInstantiatedObject(position).GetComponent<Room>().SetType(room);
         GameManager.GetInstance().SpendMoney(room.cost);
     }

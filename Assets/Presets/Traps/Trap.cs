@@ -1,31 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Trap : MonoBehaviour
 {
-    public TrapPreset trap;
+    public TrapBase trap;
 
-    private string displayName;
-    private int damage;
-    private float triggerChance;
-    [SerializeField] SpriteRenderer spriteRenderer;
+    public string displayName;
+    public int damage;
+    public float triggerChance;
+    public SpriteRenderer spriteRenderer;
+    public Image image;
     
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Trap created");
         spriteRenderer.gameObject.SetActive(false);
+        image.gameObject.SetActive(false);
         
     }
 
-    public void SetType(TrapPreset trapPreset)
+    public void SetType(TrapBase trapPreset)
     {
         trap = trapPreset;
-        displayName = trap.displayName;
-        damage = trap.damage;
-        triggerChance = trap.triggerChance;
-        spriteRenderer.sprite = trap.sprite;
+        trap.SetType(this);
     }
 
     public void PartyEntered(Party party)

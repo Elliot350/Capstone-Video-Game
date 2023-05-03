@@ -13,7 +13,7 @@ public class PartyManager : MonoBehaviour
     private Party party;
 
     [SerializeField]
-    private List<HeroPreset> heroPresets;
+    private List<HeroBase> heroBases;
 
     public float moveTime;
     private float lastMoveTime;
@@ -42,7 +42,9 @@ public class PartyManager : MonoBehaviour
     
     private void Start()
     {
-        heroPresets = Resources.LoadAll<HeroPreset>("").ToList();
+        heroBases = Resources.LoadAll<HeroBase>("").ToList();
+
+        lastMoveTime = Time.time;
 
         // tilemap.CompressBounds();
         // roadMap.CompressBounds();
@@ -82,6 +84,7 @@ public class PartyManager : MonoBehaviour
         }
     }
 
+    // TODO: This is broken?
     public void GenerateCompletePath()
     {
         CreateGrid();
@@ -177,23 +180,23 @@ public class PartyManager : MonoBehaviour
         // }
     }
 
-    public void CreateHero(HeroPreset heroPreset)
+    public void CreateHero(HeroBase heroBase)
     {
         Hero heroTemp = Instantiate(heroPrefab, party.transform);
-        heroTemp.SetType(heroPreset);
+        heroTemp.SetType(heroBase);
         party.AddHero(heroTemp);
     }
 
     // Create a random party
     public void CreateParty()
     {
-        CreateParty(new List<HeroPreset>{heroPresets[0]});
+        CreateParty(new List<HeroBase>{heroBases[0]});
     }
 
-    public void CreateParty(List<HeroPreset> list)
+    public void CreateParty(List<HeroBase> list)
     {
         party = Instantiate(partyPrefab, Vector3.zero, Quaternion.identity);
-        foreach (HeroPreset hero in list)
+        foreach (HeroBase hero in list)
         {
             CreateHero(hero);
         }

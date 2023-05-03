@@ -2,18 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossRoom : Room
+[CreateAssetMenu(fileName = "Boss Room Preset", menuName = "Presets/Rooms/Boss Room Preset")]
+public class BossRoom : RoomBase
 {
-    // Start is called before the first frame update
-    protected override void Start()
+    public override void AddRoom(Room room)
     {
-        DungeonManager.GetInstance().bossRoom = Vector3Int.FloorToInt(transform.position);
-        highlightBox.SetActive(false);
+        DungeonManager.GetInstance().bossRoom = Vector3Int.FloorToInt(room.transform.position);
+        room.Highlight(false);
     }
-
-    public override void HeroesDefeatedMonsters()
-    {
-        PartyManager.GetInstance().CompletedDungeon();
-    }
-
 }

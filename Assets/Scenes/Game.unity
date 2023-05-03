@@ -702,7 +702,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: f68c9fdda2b871c4f8f7bd127eaaae97, type: 2}
-          m_ObjectArgumentAssemblyTypeName: RoomPreset, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: RoomBase, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2887,7 +2887,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: b050c16f423e2874fae5b60181747e40, type: 2}
-          m_ObjectArgumentAssemblyTypeName: RoomPreset, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: RoomBase, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3921,7 +3921,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partyPrefab: {fileID: 8914675055799039662, guid: 34eef8326fb96994fa8f2b8c84f2c987, type: 3}
   heroPrefab: {fileID: 4720211062513481184, guid: 995e137adf9118a4eb36520ad4196d2a, type: 3}
-  heroPresets: []
+  heroBases: []
   moveTime: 2
   tilemap: {fileID: 1537955115}
   roadMap: {fileID: 658443061}
@@ -4232,7 +4232,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 73cac74d6891447418c9968b19a49058, type: 2}
-          m_ObjectArgumentAssemblyTypeName: RoomPreset, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: RoomBase, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5996,7 +5996,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1662254317}
-  - component: {fileID: 1662254316}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -6004,18 +6003,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1662254316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1662254315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffb477cb7a498b648b7b848c3168ce8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1662254317
 Transform:
   m_ObjectHideFlags: 0
@@ -6498,7 +6485,7 @@ MonoBehaviour:
   placementIndicator: {fileID: 1408544812}
   tilemap: {fileID: 1537955115}
   tile: {fileID: 11400000, guid: 6d42391d41b67c049a38ec238af74cc0, type: 2}
-  roomPresets: []
+  roomBases: []
 --- !u!114 &1759908044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6513,7 +6500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   placementIndicator: {fileID: 1408544812}
   monsterPrefab: {fileID: 2662237381807311990, guid: 6ae37855008c01f49856470016b063c4, type: 3}
-  monsterPresets: []
+  monsterBases: []
 --- !u!114 &1759908045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6528,7 +6515,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   placementIndicator: {fileID: 1408544812}
   trapPrefab: {fileID: 7215844278289656969, guid: ec96b5f0703574e29b8dc9dfe5a740c7, type: 3}
-  trapPresets: []
+  trapBases: []
 --- !u!1 &1870408535
 GameObject:
   m_ObjectHideFlags: 0
@@ -6695,7 +6682,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 404a4c300a71a4cd496bae90ca143bd7, type: 2}
-          m_ObjectArgumentAssemblyTypeName: TrapPreset, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: TrapBase, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -7075,7 +7062,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 00c5b23d5d048f54d893fa8a12dac29d, type: 2}
-          m_ObjectArgumentAssemblyTypeName: RoomPreset, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: RoomBase, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -7669,7 +7656,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 660e93d7a31dc264e99f3bf3bcf714f9, type: 2}
-          m_ObjectArgumentAssemblyTypeName: MonsterPreset, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: MonsterBase, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

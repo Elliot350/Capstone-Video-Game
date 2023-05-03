@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acaa2247657b4b94eabb3337b4581d65, type: 3}
+  m_Script: {fileID: 11500000, guid: 8101123a2b2cac142ab0159adf50d8aa, type: 3}
   m_Name: Entrance
   m_EditorClassIdentifier: 
   displayName: Entrance
   cost: 0
-  prefab: {fileID: 0}
+  monsterCapacity: 0
+  trapCapacity: 0
   tile: {fileID: 11400000, guid: 553e8b5c4e8362b4b8b83a56a3127123, type: 2}

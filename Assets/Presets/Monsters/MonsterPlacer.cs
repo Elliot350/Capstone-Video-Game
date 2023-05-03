@@ -8,7 +8,7 @@ public class MonsterPlacer : MonoBehaviour
     public static MonsterPlacer instance;
 
     private bool currentlyPlacing;
-    private MonsterPreset curMonsterPreset;
+    private MonsterBase curMonsterBase;
     private float placementIndicatorUpdateRate = 0.05f;
     private float lastUpdateTime;
     private Vector3Int curPlacementPos;
@@ -17,7 +17,7 @@ public class MonsterPlacer : MonoBehaviour
     [SerializeField]
     public Monster monsterPrefab;
 
-    public List<MonsterPreset> monsterPresets;
+    public List<MonsterBase> monsterBases;
 
     // Start is called before the first frame update
     void Awake()
@@ -26,7 +26,7 @@ public class MonsterPlacer : MonoBehaviour
     }
 
     private void Start() {
-        monsterPresets = Resources.LoadAll<MonsterPreset>("").ToList();
+        monsterBases = Resources.LoadAll<MonsterBase>("").ToList();
     }
 
     public static MonsterPlacer GetInstance()
@@ -51,12 +51,12 @@ public class MonsterPlacer : MonoBehaviour
         }
     }
 
-    public void BeginNewMonsterPlacement(MonsterPreset monsterPreset) 
+    public void BeginNewMonsterPlacement(MonsterBase monsterBase) 
     {
-        if (GameManager.GetInstance().money < monsterPreset.cost)
+        if (GameManager.GetInstance().money < monsterBase.cost)
             return;
         currentlyPlacing = true;
-        curMonsterPreset = monsterPreset;
+        curMonsterBase = monsterBase;
         placementIndicator.SetActive(true);
     }
 
@@ -69,31 +69,31 @@ public class MonsterPlacer : MonoBehaviour
 
     public void PlaceMonster()
     {
-        PlaceMonster(curPlacementPos, curMonsterPreset);
+        PlaceMonster(curPlacementPos, curMonsterBase);
         CancelMonsterPlacement();
     }
 
-    public void PlaceMonster(int x, int y, MonsterPreset monsterPreset)
+    public void PlaceMonster(int x, int y, MonsterBase monsterBase)
     {
-        PlaceMonster(new Vector3Int(x, y), monsterPreset);
+        PlaceMonster(new Vector3Int(x, y), monsterBase);
     }
 
-    public void PlaceMonster(Vector3Int position, MonsterPreset monsterPreset)
+    public void PlaceMonster(Vector3Int position, MonsterBase monsterBase)
     {
         foreach (Room room in DungeonManager.GetInstance().rooms)
         {
             if (room.transform.position.Equals(position)) {
-                PlaceMonster(room, monsterPreset);
+                PlaceMonster(room, monsterBase);
                 return;
             }
         }
     }
 
-    public void PlaceMonster(Room room, MonsterPreset monsterPreset)
+    public void PlaceMonster(Room room, MonsterBase monsterBase)
     {
         if (room.monsters.Count < room.monsterCapacity) {
-            room.AddMonster(monsterPreset);
-            GameManager.GetInstance().SpendMoney(monsterPreset.cost);
+            room.AddMonster(monsterBase);
+            GameManager.GetInstance().SpendMoney(monsterBase.cost);
         }
     }
 }  
