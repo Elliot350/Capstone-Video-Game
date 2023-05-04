@@ -21,6 +21,7 @@ public class Monster : Fighter
 
     public override void Die()
     {
+        Debug.Log($"I died!");
         monsterBase.Die(this);
     }
 }

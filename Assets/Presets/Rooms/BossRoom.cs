@@ -10,4 +10,9 @@ public class BossRoom : RoomBase
         DungeonManager.GetInstance().bossRoom = Vector3Int.FloorToInt(room.transform.position);
         room.Highlight(false);
     }
+
+    public override void RoomDefeated(Room room)
+    {
+        PartyManager.GetInstance().CompletedDungeon();
+    }
 }

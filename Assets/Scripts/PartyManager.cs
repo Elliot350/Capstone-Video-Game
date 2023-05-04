@@ -18,6 +18,7 @@ public class PartyManager : MonoBehaviour
     public float moveTime;
     private float lastMoveTime;
     private int moveStep;
+    private bool canMove;
 
     public Tilemap tilemap;
     public Tilemap roadMap;
@@ -40,6 +41,11 @@ public class PartyManager : MonoBehaviour
         return instance;
     }
     
+    public Party GetParty()
+    {
+        return party;
+    }
+
     private void Start()
     {
         heroBases = Resources.LoadAll<HeroBase>("").ToList();
@@ -49,8 +55,81 @@ public class PartyManager : MonoBehaviour
         bounds = tilemap.cellBounds;
         camera = Camera.main;
 
+        canMove = true;
+
         CreateGrid();
         astar = new Astar(spots, bounds.size.x, bounds.size.y);
+    }
+
+    void Update()
+    {
+        if (party != null && Time.time - lastMoveTime > moveTime && canMove) {
+            StartCoroutine(Move());
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            
+            Vector3 world = camera.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int gridPos = tilemap.WorldToCell(world);
+            roadMap.SetTile(new Vector3Int(gridPos.x, gridPos.y, 0), null);
+        }
+    }
+
+    private IEnumerator Move() {
+
+        if (moveStep + 1 >= roadPath.Count)
+            yield break;
+
+        // Next position is move step plus one
+        Vector3Int newPosition = new Vector3Int(roadPath[moveStep + 1].X, roadPath[moveStep + 1].Y);
+        
+        if (RoomPlacer.GetInstance().tilemap.GetTile(newPosition) != null) {
+            canMove = false;
+            party.transform.position = newPosition;
+            Room room = RoomPlacer.GetInstance().tilemap.GetInstantiatedObject(Vector3Int.FloorToInt(party.transform.position)).GetComponent<Room>();
+            yield return room.StartCoroutine(room.PartyEntered(party));
+            lastMoveTime = Time.time;
+            moveStep++;
+            canMove = true;
+        }
+        else {
+            Debug.LogWarning("Party is trying to go out of the dungeon");
+        }
+    }
+
+    public void CreateHero(HeroBase heroBase)
+    {
+        Hero heroTemp = Instantiate(heroPrefab, party.transform);
+        heroTemp.SetType(heroBase);
+        party.AddHero(heroTemp);
+    }
+
+    // Create a random party
+    public void CreateParty()
+    {
+        CreateParty(new List<HeroBase>{heroBases[0]});
+    }
+
+    public void CreateParty(List<HeroBase> list)
+    {
+        party = Instantiate(partyPrefab, Vector3.zero, Quaternion.identity);
+        foreach (HeroBase hero in list)
+        {
+            CreateHero(hero);
+        }
+        lastMoveTime = Time.time;
+    }
+
+    public void CompletedDungeon()
+    {
+        DestroyParty();
+    }
+
+    public void DestroyParty()
+    {
+        Destroy(party.gameObject);
+        party = null;
     }
 
     public void CreateGrid()
@@ -82,9 +161,11 @@ public class PartyManager : MonoBehaviour
         }
     }
 
-    // TODO: This is broken?
     public void GenerateCompletePath()
     {
+
+        tilemap.CompressBounds();
+        roadMap.CompressBounds();
         CreateGrid();
 
         if (roadPath != null && roadPath.Count > 0)
@@ -143,109 +224,5 @@ public class PartyManager : MonoBehaviour
         }
 
         return list;
-    }
-
-    
-
-    public Party GetParty()
-    {
-        return party;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (party != null && Time.time - lastMoveTime > moveTime) {
-            Move();
-        }
-
-        
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            
-            Vector3 world = camera.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int gridPos = tilemap.WorldToCell(world);
-            roadMap.SetTile(new Vector3Int(gridPos.x, gridPos.y, 0), null);
-        }
-        // if (Input.GetKeyDown(KeyCode.E))
-        // {
-        //     Debug.Log("Creating path");
-        //     CreateGrid();
-
-        //     Vector3 world = camera.ScreenToWorldPoint(Input.mousePosition);
-        //     Vector3Int gridPos = tilemap.WorldToCell(world);
-            
-        //     if (roadPath != null && roadPath.Count > 0)
-        //         roadPath.Clear();
-
-        //     roadPath = astar.CreatePath(spots, start, new Vector2Int(gridPos.x, gridPos.y), 100); // Could probably lower the length
-        //     if (roadPath == null)
-        //         return;
-        //     DrawRoad();
-        //     start = new Vector2Int(roadPath[0].X, roadPath[0].Y);
-        // }
-    }
-
-    public void CreateHero(HeroBase heroBase)
-    {
-        Hero heroTemp = Instantiate(heroPrefab, party.transform);
-        heroTemp.SetType(heroBase);
-        party.AddHero(heroTemp);
-    }
-
-    // Create a random party
-    public void CreateParty()
-    {
-        CreateParty(new List<HeroBase>{heroBases[0]});
-    }
-
-    public void CreateParty(List<HeroBase> list)
-    {
-        party = Instantiate(partyPrefab, Vector3.zero, Quaternion.identity);
-        foreach (HeroBase hero in list)
-        {
-            CreateHero(hero);
-        }
-        lastMoveTime = Time.time;
-    }
-
-    private void Move() {
-
-        if (moveStep + 1 >= roadPath.Count)
-            return;
-
-        // Next position is move step plus one
-        Vector3Int newPosition = new Vector3Int(roadPath[moveStep + 1].X, roadPath[moveStep + 1].Y);
-        
-        if (RoomPlacer.GetInstance().tilemap.GetTile(newPosition) != null) {
-            lastMoveTime = Time.time;
-            party.transform.position = newPosition;
-            JustMoved();
-            moveStep++;
-            return;
-        }
-
-        Debug.LogWarning("Party is trying to go out of the dungeon");
-
-    }
-
-    private void JustMoved() {
-        GameObject roomGameObject = RoomPlacer.GetInstance().tilemap.GetInstantiatedObject(Vector3Int.FloorToInt(party.transform.position));
-        Room room = roomGameObject.GetComponent<Room>();
-        room.PartyEntered(party);
-        if (room != null) {
-            FightManager.GetInstance().StartFight(party.heroes, room.currentMonsters, room);
-        }
-    }
-
-    public void CompletedDungeon()
-    {
-        DestroyParty();
-    }
-
-    public void DestroyParty()
-    {
-        Destroy(party.gameObject);
-        party = null;
     }
 }

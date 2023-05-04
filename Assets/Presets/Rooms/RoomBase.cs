@@ -32,4 +32,6 @@ public class RoomBase : ScriptableObject
         DungeonManager.GetInstance().rooms.Add(room);
         room.Highlight(false);
     }
+
+    public virtual void RoomDefeated(Room room) {}
 }

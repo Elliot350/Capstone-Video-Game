@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// using UnityEngine.Tilemaps;
 
 public class Astar
 {
@@ -195,46 +196,50 @@ public class Spot
         if (y > 0) 
             neighbours.Add(grid[x, y - 1]);
     
+        // Tilemap tiles = RoomPlacer.GetInstance().tilemap;
+        // Vector3Int pos = new Vector3Int(x, y), up = new Vector3Int(x + 1, y), down = new Vector3Int(x - 1, y), left = new Vector3Int(x, y - 1), right = new Vector3Int(x, y + 1);
+
+        // Debug.Log($"Positions: ({x}, {y})");
         
-        /*
-        // If this spot is a room, don't add other rooms
-        // If either this tile is a hallway or the other tiles are hallways
-        AdvancedRuleTile tile = RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x, y));
-        if (tile != null)
-            Debug.Log($"Spot {tile} ({x}, {y}), is {tile.isHallway}");
-        else 
-            Debug.Log($"Spot {x}, {y} is null");
-        if (tile == null || (tile != null && tile.isHallway))
-        {
-            if (x < grid.GetUpperBound(0)) 
-                neighbours.Add(grid[x + 1, y]);
-            if (x > 0) 
-                neighbours.Add(grid[x - 1, y]);
-            if (y < grid.GetUpperBound(1)) 
-                neighbours.Add(grid[x, y + 1]);
-            if (y > 0) 
-                neighbours.Add(grid[x, y - 1]);
-        }
-        else
-        {
-            if (x < grid.GetUpperBound(0)) {
-                if (RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x + 1, y)) != null && RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x + 1, y)).isHallway)
-                    neighbours.Add(grid[x + 1, y]);
-            }
-            if (x > 0) {
-                if (RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x - 1, y)) != null && RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x - 1, y)).isHallway)
-                    neighbours.Add(grid[x - 1, y]);
-            }
-            if (y < grid.GetUpperBound(1)) {
-                if (RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x, y + 1)) != null && RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x, y + 1)).isHallway)
-                    neighbours.Add(grid[x, y + 1]);
-            }
-            if (y > 0) {
-                if (RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x, y - 1)) != null && RoomPlacer.GetInstance().tilemap.GetTile<AdvancedRuleTile>(new Vector3Int(x, y - 1)).isHallway)
-                    neighbours.Add(grid[x, y - 1]);
-            }
-        }
-        */
+        // if (tiles.GetTile(pos) != null)
+        // {
+        //     Debug.Log(tiles.GetTile(pos));
+        //     Debug.Log(tiles.GetInstantiatedObject(pos));
+        //     Debug.Log(tiles.GetInstantiatedObject(pos).GetComponent<Room>());
+        //     Debug.Log(tiles.GetInstantiatedObject(pos).GetComponent<Room>().room);
+        //     Debug.Log(tiles.GetInstantiatedObject(pos).GetComponent<Room>().room is Hallway);
+        // }
+        // // If this position is within bounds
+        // if (x < grid.GetUpperBound(0)) 
+        // {
+        //     // And either it is a hallway or the adjacent ones are hallways
+        //     if ((tiles.GetTile(pos) != null && tiles.GetInstantiatedObject(pos).GetComponent<Room>().room is Hallway) || (tiles.GetTile(up) != null && tiles.GetInstantiatedObject(up).GetComponent<Room>().room is Hallway))
+        //     {
+        //         neighbours.Add(grid[x + 1, y]);
+        //     }
+        // }
+        // if (x > 0) 
+        // {
+        //     if ((tiles.GetTile(pos) != null && tiles.GetInstantiatedObject(pos).GetComponent<Room>().room is Hallway) || (tiles.GetTile(down) != null && tiles.GetInstantiatedObject(down).GetComponent<Room>().room is Hallway))
+        //     {
+        //         neighbours.Add(grid[x - 1, y]);
+        //     }
+        // }
+        // if (y < grid.GetUpperBound(1)) 
+        // {
+        //     if ((tiles.GetTile(pos) != null && tiles.GetInstantiatedObject(pos).GetComponent<Room>().room is Hallway) || (tiles.GetTile(right) != null && tiles.GetInstantiatedObject(right).GetComponent<Room>().room is Hallway))
+        //     {
+        //         neighbours.Add(grid[x, y + 1]);
+        //     }
+        // }
+        // if (y > 0) 
+        // {
+        //     if ((tiles.GetTile(pos) != null && tiles.GetInstantiatedObject(pos).GetComponent<Room>().room is Hallway) || (tiles.GetTile(left) != null && tiles.GetInstantiatedObject(left).GetComponent<Room>().room is Hallway))
+        //     {
+        //         neighbours.Add(grid[x, y - 1]);
+        //     }
+        // }
+        
 
     }
 }

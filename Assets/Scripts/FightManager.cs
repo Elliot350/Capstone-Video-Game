@@ -16,16 +16,18 @@ public class FightManager : MonoBehaviour
         return instance;
     }
 
-    public void StartFight(List<Hero> heroes, List<Monster> monsters, Room room)
+    public IEnumerator StartFight(List<Hero> heroes, List<Monster> monsters, Room room)
     {
         if (heroes.Count == 0 || monsters.Count == 0) 
-            return;
+            yield break;
         
         // Temporary kill of all the monsters, will later replace with a fight
         for (int i = monsters.Count - 1; i >= 0; i--)
         {
+            yield return new WaitForSeconds(1);
             monsters[i].Die();
         }
+        yield return new WaitForSeconds(1);
 
         if (heroes.Count == 0)
         {

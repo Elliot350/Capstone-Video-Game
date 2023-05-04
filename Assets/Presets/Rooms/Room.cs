@@ -28,6 +28,25 @@ public class Room : MonoBehaviour
         room.AddRoom(this);
     }
 
+    public IEnumerator PartyEntered(Party party)
+    {
+        Debug.Log($"PartyEntered");
+        // If there are traps, wait a second and trigger them
+        if (currentTraps.Count > 0)
+        {
+            yield return new WaitForSeconds(1);
+            Debug.Log($"Triggering traps");
+            room.PartyEntered(this, party);
+        }
+        // If there are monsters, wait a second and fight them
+        if (currentMonsters.Count > 0)
+        {
+            yield return new WaitForSeconds(1);
+            Debug.Log($"Starting Fight");
+            yield return FightManager.GetInstance().StartCoroutine(FightManager.GetInstance().StartFight(party.heroes, currentMonsters, this));
+        }
+    }
+
     // TODO: Move this into RoomBase
     public void AddMonster(MonsterBase monsterBase) 
     {
@@ -52,12 +71,6 @@ public class Room : MonoBehaviour
         highlightBox.SetActive(status);
     }
 
-    public void PartyEntered(Party party) 
-    {
-        // Trigger any traps that tigger when the party enters
-        room.PartyEntered(this, party);
-    }
-
     
     protected void OnMouseDown()
     {
@@ -77,7 +90,8 @@ public class Room : MonoBehaviour
 
     public virtual void HeroesDefeatedMonsters()
     {
-
+        room.RoomDefeated(this);
     }
+
 
 }
