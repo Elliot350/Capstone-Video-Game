@@ -3851,7 +3851,7 @@ MonoBehaviour:
   partyPrefab: {fileID: 8914675055799039662, guid: 34eef8326fb96994fa8f2b8c84f2c987, type: 3}
   heroPrefab: {fileID: 4720211062513481184, guid: 995e137adf9118a4eb36520ad4196d2a, type: 3}
   heroBases: []
-  moveTime: 2
+  moveTime: 1
   tilemap: {fileID: 1537955115}
   roadMap: {fileID: 658443061}
   roadTile: {fileID: 11400000, guid: 88ef8684bdaac4d6790ddaee8601c1e2, type: 2}
