@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float errorDisplayTime;
 
+    public RoomDescriptionBox roomDescriptionBox;
+
     public Room tempRoom;
 
     void Awake()

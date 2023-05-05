@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Forge
   cost: 55
+  description: This room holds {0} monsters
   monsterCapacity: 5
   trapCapacity: 5
+  sprite: {fileID: -1966300989, guid: c172d3faf64e17c4b9029f89e94dd20c, type: 3}
   tile: {fileID: 11400000, guid: 3c81d8cf5b9e1434aab93f10b3362b11, type: 2}

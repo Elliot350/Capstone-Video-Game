@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Greenhouse
   cost: 50
+  description: This room holds {0} monsters
   monsterCapacity: 5
   trapCapacity: 1
+  sprite: {fileID: 641922262, guid: 52c760ad2096e5a48912d0ffed2b769c, type: 3}
   tile: {fileID: 11400000, guid: a0561a732026f9546920c54e9e9abe00, type: 2}

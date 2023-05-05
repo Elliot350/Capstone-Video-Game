@@ -1,17 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public class BuildRoomButton : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI roomName, roomCost, roomDescription, roomMonsterCapacity, roomTrapCapacity;
-    [SerializeField] private GameObject hoverBox;
+    public RoomBase roomBase;
+    public Image image;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        image.sprite = roomBase.GetSprite();
     }
 
     // Update is called once per frame
@@ -20,21 +20,19 @@ public class BuildRoomButton : MonoBehaviour
         
     }
 
-    public void ShowDesciption(RoomBase room)
+    public void HoverOver()
     {
-        roomName.text = room.displayName;
-        roomCost.text = room.cost.ToString();
-        roomDescription.text = room.description;
-        roomMonsterCapacity.text = room.monsterCapacity.ToString();
-        roomTrapCapacity.text = room.trapCapacity.ToString();
-        
-        // hoverBox.transform.position.Set(GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).x, GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).y, hoverBox.transform.position.z);
-        hoverBox.transform.position = new Vector3(GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).x, GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).y + 1);
-        hoverBox.SetActive(true);
+        GameManager.GetInstance().roomDescriptionBox.ShowDesciption(roomBase);
     }
 
-    public void HideDescription()
+    public void HoverOut()
     {
-        hoverBox.SetActive(false);
+        GameManager.GetInstance().roomDescriptionBox.HideDescription();
     }
+
+    public void Clicked()
+    {
+        RoomPlacer.GetInstance().BeginNewRoomPlacement(roomBase);
+    }
+
 }

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Pond
   cost: 75
+  description: This room holds {0} monsters
   monsterCapacity: 7
   trapCapacity: 3
+  sprite: {fileID: 1842781661, guid: c172d3faf64e17c4b9029f89e94dd20c, type: 3}
   tile: {fileID: 11400000, guid: d9741808c2e923846bbd20303162952f, type: 2}

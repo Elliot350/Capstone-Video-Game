@@ -53,7 +53,7 @@ public class RoomPlacer : MonoBehaviour
 
     public void BeginNewRoomPlacement(RoomBase roomBase)
     {
-        if (GameManager.GetInstance().money < roomBase.cost)
+        if (GameManager.GetInstance().money < roomBase.GetCost())
             return;
         currentlyPlacing = true;
         curRoomBase = roomBase;
@@ -82,8 +82,8 @@ public class RoomPlacer : MonoBehaviour
             GameManager.GetInstance().ErrorMessage("Something is already there!");
             return;
         }
-        tilemap.SetTile(position, room.tile);
+        tilemap.SetTile(position, room.GetTile());
         tilemap.GetInstantiatedObject(position).GetComponent<Room>().SetType(room);
-        GameManager.GetInstance().SpendMoney(room.cost);
+        GameManager.GetInstance().SpendMoney(room.GetCost());
     }
 }

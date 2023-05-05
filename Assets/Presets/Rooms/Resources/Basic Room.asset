@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Basic Room
   cost: 25
+  description: This room holds {0} monsters
   monsterCapacity: 3
   trapCapacity: 1
+  sprite: {fileID: 910995921, guid: c172d3faf64e17c4b9029f89e94dd20c, type: 3}
   tile: {fileID: 11400000, guid: 414966ec5b52e1846a94f68fb2698bf5, type: 2}
