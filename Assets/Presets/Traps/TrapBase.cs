@@ -11,7 +11,7 @@ public class TrapBase : ScriptableObject
     [SerializeField] protected int damage;
     [SerializeField] protected float triggerChance;
     [SerializeField] protected Sprite sprite;
-    [SerializeField] protected float alertDisplayTime;
+    [SerializeField] protected float alertDisplayTime = 1f;
 
     // Nothing will ever call trigger directly, they will call PartyEntered or others, which the Traps override to call Trigger
     protected virtual void Trigger(Party party, Trap trap) {

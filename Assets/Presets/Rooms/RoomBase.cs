@@ -8,6 +8,7 @@ public class RoomBase : ScriptableObject
 {
     public string displayName;
     public int cost;
+    public string description;
     public int monsterCapacity;
     public int trapCapacity;
     public RuleTile tile;

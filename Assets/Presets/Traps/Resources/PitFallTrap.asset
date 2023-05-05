@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13cb70171730b994f85e5e3161aac07d, type: 3}
+  m_Name: PitFallTrap
+  m_EditorClassIdentifier: 
+  displayName: Pitfall Trap
+  cost: 25
+  damage: 10
+  triggerChance: 0.25
+  sprite: {fileID: 0}
+  alertDisplayTime: 1

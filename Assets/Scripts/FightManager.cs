@@ -24,7 +24,7 @@ public class FightManager : MonoBehaviour
         // Temporary kill of all the monsters, will later replace with a fight
         for (int i = monsters.Count - 1; i >= 0; i--)
         {
-            yield return new WaitForSeconds(1);
+            // yield return new WaitForSeconds(1);
             monsters[i].Die();
         }
         yield return new WaitForSeconds(1);

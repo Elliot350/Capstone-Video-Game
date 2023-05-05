@@ -21,6 +21,16 @@ public class Room : MonoBehaviour
         
     }
 
+    /*
+    Methods that each room has:
+    SetType
+    PartyEntered
+    AddMonster
+    AddTrap
+    Highlight
+    
+    */
+
     public void SetType(RoomBase roomBase)
     {
         room = roomBase;
