@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-    public RoomBase room;
+    public RoomBase roomBase;
 
     public string displayName;
     public int monsterCapacity;
@@ -15,27 +15,14 @@ public class Room : MonoBehaviour
     public List<Trap> currentTraps;
     public GameObject highlightBox;
 
-    // Start is called before the first frame update
-    protected virtual void Start()
-    {
-        
-    }
-
-    /*
-    Methods that each room has:
-    SetType
-    PartyEntered
-    AddMonster
-    AddTrap
-    Highlight
-    
-    */
-
     public void SetType(RoomBase roomBase)
     {
-        room = roomBase;
-        room.SetType(this);
-        room.AddRoom(this);
+        this.roomBase = roomBase;
+        displayName = this.roomBase.GetName();
+        monsterCapacity = this.roomBase.GetMonster();
+        trapCapacity = this.roomBase.GetTrap();
+        this.roomBase.AddRoom(this);
+        roomBase.RoomBuilt(this);
     }
 
     public IEnumerator PartyEntered(Party party)
@@ -46,7 +33,10 @@ public class Room : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
             Debug.Log($"Triggering traps");
-            room.PartyEntered(this, party);
+            foreach (Trap trap in currentTraps)
+            {
+                trap.PartyEntered(party);
+            }
         }
         // If there are monsters, wait a second and fight them
         if (currentMonsters.Count > 0)
@@ -57,31 +47,29 @@ public class Room : MonoBehaviour
         }
     }
 
-    // TODO: Move this into RoomBase
     public void AddMonster(MonsterBase monsterBase) 
     {
         Monster monster = Instantiate(MonsterPlacer.GetInstance().monsterPrefab, transform);
         monster.SetType(monsterBase);
         monsters.Add(monster);
         currentMonsters.Add(monster);
+        roomBase.MonsterAdded(this, monster);
     }
 
-    // TODO: Move this into RoomBase
     public void AddTrap(TrapBase trapBase)
     {
         Trap trap = Instantiate(TrapPlacer.GetInstance().trapPrefab, transform);
         trap.SetType(trapBase);
         traps.Add(trap);
         currentTraps.Add(trap);
+        roomBase.TrapAdded(this, trap);
     }
 
-    // TODO: Maybe move this into RoomBase
     public void Highlight(bool status) 
     {
         highlightBox.SetActive(status);
     }
 
-    
     protected void OnMouseDown()
     {
         GameManager.GetInstance().RoomClickedOn(this);
@@ -90,7 +78,10 @@ public class Room : MonoBehaviour
     public virtual void ResetRoom()
     {
         currentMonsters = new List<Monster>(monsters);
-        // currentTraps = new List<Trap>(traps);
+        foreach (Trap trap in currentTraps)
+        {
+            trap.triggered = false;
+        }
     }
 
     public void MonsterDied(Monster monster)
@@ -100,7 +91,7 @@ public class Room : MonoBehaviour
 
     public virtual void HeroesDefeatedMonsters()
     {
-        room.RoomDefeated(this);
+        roomBase.RoomDefeated(this);
     }
 
 

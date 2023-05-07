@@ -13,30 +13,20 @@ public class RoomBase : ScriptableObject
     [SerializeField] protected int trapCapacity;
     [SerializeField] protected Sprite sprite;
     [SerializeField] protected RuleTile tile;
-    
-
-    // Room calls PartyEntered on each trap
-    public virtual void PartyEntered(Room room, Party party) {
-        foreach (Trap roomTrap in room.traps)
-            roomTrap.trap.PartyEntered(party, roomTrap);
-    }
-
-    public virtual void SetType(Room room)
-    {
-        room.displayName = displayName;
-        room.monsterCapacity = monsterCapacity;
-        room.trapCapacity = trapCapacity;
-        
-    }
 
     public virtual void AddRoom(Room room)
     {
-        Debug.Log($"Adding to rooms");
+        // Debug.Log($"Adding to rooms");
         DungeonManager.GetInstance().rooms.Add(room);
         room.Highlight(false);
     }
 
     public virtual void RoomDefeated(Room room) {}
+    public virtual void RoomBuilt(Room room) {}
+    public virtual void MonsterAdded(Room room, Monster monster) {}
+    public virtual void TrapAdded(Room room, Trap trap) {}
+    
+    
     public int GetCost() {return cost;}
     public int GetMonster() {return monsterCapacity;}
     public int GetTrap() {return trapCapacity;}

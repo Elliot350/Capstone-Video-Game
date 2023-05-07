@@ -5,14 +5,13 @@ using UnityEngine.UI;
 
 public class Trap : MonoBehaviour
 {
-    public TrapBase trap;
+    public TrapBase trapBase;
 
     public string displayName;
-    public int damage;
-    public float triggerChance;
     public SpriteRenderer spriteRenderer;
     public Image image;
     public float countdown;
+    public bool triggered;
     
     // Start is called before the first frame update
     void Start()
@@ -37,12 +36,14 @@ public class Trap : MonoBehaviour
 
     public void SetType(TrapBase trapPreset)
     {
-        trap = trapPreset;
-        trap.SetType(this);
+        trapBase = trapPreset;
+        trapBase.SetType(this);
+        displayName = trapBase.GetName();
+        spriteRenderer.sprite = trapBase.GetSprite();
     }
 
     public void PartyEntered(Party party)
     {
-        trap.PartyEntered(party, this);
+        trapBase.PartyEntered(party, this);
     }
 }

@@ -17,6 +17,7 @@ public class TrapBase : ScriptableObject
     protected virtual void Trigger(Party party, Trap trap) {
         trap.image.gameObject.SetActive(true);
         trap.countdown = alertDisplayTime;
+        trap.triggered = true;
     }
     public virtual void PartyEntered(Party party, Trap trap) {}
     public virtual void PartyExited(Party party, Trap trap) {}
@@ -30,5 +31,4 @@ public class TrapBase : ScriptableObject
     public virtual string GetDescription() {return description;}
     public float GetChance() {return triggerChance;}
     public Sprite GetSprite() {return sprite;}
-
 }
