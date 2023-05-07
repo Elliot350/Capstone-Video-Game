@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     private float errorDisplayTime;
 
     public RoomDescriptionBox roomDescriptionBox;
+    public TrapDescriptionBox trapDescriptionBox;
 
     public Room tempRoom;
 

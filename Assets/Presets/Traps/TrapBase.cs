@@ -8,7 +8,7 @@ public class TrapBase : ScriptableObject
 {
     [SerializeField] protected string displayName;
     [SerializeField] protected int cost;
-    [SerializeField] protected int damage;
+    [SerializeField] protected string description;
     [SerializeField] protected float triggerChance;
     [SerializeField] protected Sprite sprite;
     [SerializeField] protected float alertDisplayTime = 1f;
@@ -24,5 +24,11 @@ public class TrapBase : ScriptableObject
         trap.displayName = displayName;
         trap.spriteRenderer.sprite = sprite;
     }
+
+    public string GetName() {return displayName;}
     public int GetCost() {return cost;}
+    public virtual string GetDescription() {return description;}
+    public float GetChance() {return triggerChance;}
+    public Sprite GetSprite() {return sprite;}
+
 }

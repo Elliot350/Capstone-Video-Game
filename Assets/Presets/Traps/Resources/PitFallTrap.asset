@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Pitfall Trap
   cost: 25
-  damage: 10
+  description: This trap has a {0}% chance to deal {1} damage to a random hero.
   triggerChance: 0.25
   sprite: {fileID: 0}
   alertDisplayTime: 1
+  damage: 10

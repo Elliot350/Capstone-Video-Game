@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Spike Trap
   cost: 10
-  damage: 3
+  description: This trap has a {0}% chance to deal {1} damage to a random hero.
   triggerChance: 0.8
   sprite: {fileID: 0}
   alertDisplayTime: 1
+  damage: 3

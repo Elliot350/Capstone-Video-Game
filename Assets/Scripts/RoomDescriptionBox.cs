@@ -10,18 +10,6 @@ public class RoomDescriptionBox : MonoBehaviour
     // [SerializeField] private SpriteRenderer bounds;
     // [SerializeField] private Camera cam;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void ShowDesciption(RoomBase room)
     {
         roomName.text = room.GetName();
@@ -31,7 +19,7 @@ public class RoomDescriptionBox : MonoBehaviour
         roomTrapCapacity.text = room.GetTrap().ToString();
         
         // hoverBox.transform.position.Set(GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).x, GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).y, hoverBox.transform.position.z);
-        hoverBox.transform.position = new Vector3(GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).x, GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).y + 1);
+        hoverBox.transform.position = new Vector3(GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).x, GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).y + 0.5f);
         hoverBox.SetActive(true);
     }
 
