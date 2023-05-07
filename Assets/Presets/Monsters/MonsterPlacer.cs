@@ -53,7 +53,7 @@ public class MonsterPlacer : MonoBehaviour
 
     public void BeginNewMonsterPlacement(MonsterBase monsterBase) 
     {
-        if (GameManager.GetInstance().money < monsterBase.cost)
+        if (GameManager.GetInstance().money < monsterBase.GetCost())
             return;
         currentlyPlacing = true;
         curMonsterBase = monsterBase;
@@ -93,7 +93,7 @@ public class MonsterPlacer : MonoBehaviour
     {
         if (room.monsters.Count < room.monsterCapacity) {
             room.AddMonster(monsterBase);
-            GameManager.GetInstance().SpendMoney(monsterBase.cost);
+            GameManager.GetInstance().SpendMoney(monsterBase.GetCost());
         }
     }
 }  

@@ -5,10 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Hero Base", menuName = "Presets/Hero Base")]
 public class FighterBase : ScriptableObject
 {
-    public string displayName;
-    public int maxHealth;
-    public int damage;
-    public Sprite sprite;
+    [SerializeField] protected string displayName;
+    [SerializeField] protected int maxHealth;
+    [SerializeField] protected int damage;
+    [SerializeField] protected Sprite sprite;
 
     public virtual void SetType(Fighter fighter) {
         fighter.displayName = displayName;
@@ -42,8 +42,8 @@ public class FighterBase : ScriptableObject
         Debug.LogWarning($"Not yet implemented FinishBattle");
     }
 
-    public string GetName()
-    {
-        return displayName;
-    }
+    public string GetName() {return displayName;}
+    public int GetMaxHealth() {return maxHealth;}
+    public int GetDamage() {return damage;}
+    public Sprite GetSprite() {return sprite;}
 }

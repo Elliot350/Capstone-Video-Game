@@ -17,3 +17,4 @@ MonoBehaviour:
   damage: 3
   sprite: {fileID: 21300000, guid: 421ed9c21c61783448ae028e6402c04a, type: 3}
   cost: 10
+  description: This is a spider

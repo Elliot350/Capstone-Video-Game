@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     public RoomDescriptionBox roomDescriptionBox;
     public TrapDescriptionBox trapDescriptionBox;
+    public MonsterDescriptionBox monsterDescriptionBox;
 
     public Room tempRoom;
 
@@ -99,5 +100,10 @@ public class GameManager : MonoBehaviour
     public void RoomClickedOn(Room room)
     {
         roomInfo.ShowRoom(room);
+    }
+
+    public void AddBoss()
+    {
+        RoomPlacer.GetInstance().tilemap.GetInstantiatedObject(DungeonManager.GetInstance().bossRoom).GetComponent<Room>().AddMonster(MonsterPlacer.GetInstance().monsterBases[0]);
     }
 }

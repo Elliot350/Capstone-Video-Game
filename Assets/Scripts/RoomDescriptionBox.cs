@@ -10,7 +10,7 @@ public class RoomDescriptionBox : MonoBehaviour
     // [SerializeField] private SpriteRenderer bounds;
     // [SerializeField] private Camera cam;
 
-    public void ShowDesciption(RoomBase room)
+    public void ShowDescription(RoomBase room)
     {
         roomName.text = room.GetName();
         roomCost.text = room.GetCost().ToString();

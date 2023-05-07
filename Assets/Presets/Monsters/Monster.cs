@@ -16,12 +16,12 @@ public class Monster : Fighter
     {
         this.monsterBase = monsterPreset;
         this.monsterBase.SetType(this);
-        spriteRenderer.sprite = monsterBase.sprite;
+        spriteRenderer.sprite = monsterBase.GetSprite();
     }
 
     public override void Die()
     {
-        Debug.Log($"I died!");
+        Debug.Log($"Monster died!");
         monsterBase.Die(this);
     }
 }

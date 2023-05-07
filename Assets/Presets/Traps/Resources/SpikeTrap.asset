@@ -16,6 +16,6 @@ MonoBehaviour:
   cost: 10
   description: This trap has a {0}% chance to deal {1} damage to a random hero.
   triggerChance: 0.8
-  sprite: {fileID: 0}
+  sprite: {fileID: -558199494, guid: a5416bd4a8fd449eb99749f3d9bd4a1e, type: 3}
   alertDisplayTime: 1
   damage: 3

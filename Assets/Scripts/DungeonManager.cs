@@ -63,6 +63,7 @@ public class DungeonManager : MonoBehaviour
         {
             room.ResetRoom();
         }
+        RoomPlacer.GetInstance().tilemap.GetInstantiatedObject(bossRoom).GetComponent<Room>().ResetRoom();
     }
     
 }

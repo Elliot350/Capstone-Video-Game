@@ -22,7 +22,7 @@ public class BuildRoomButton : MonoBehaviour
 
     public void HoverOver()
     {
-        GameManager.GetInstance().roomDescriptionBox.ShowDesciption(roomBase);
+        GameManager.GetInstance().roomDescriptionBox.ShowDescription(roomBase);
     }
 
     public void HoverOut()

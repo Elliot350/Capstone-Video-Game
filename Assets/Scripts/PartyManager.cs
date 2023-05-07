@@ -10,7 +10,7 @@ public class PartyManager : MonoBehaviour
 
     public Party partyPrefab;
     public Hero heroPrefab;
-    private Party party;
+    [SerializeField] private Party party;
 
     [SerializeField]
     private List<HeroBase> heroBases;
@@ -119,6 +119,9 @@ public class PartyManager : MonoBehaviour
             CreateHero(hero);
         }
         lastMoveTime = Time.time;
+        canMove = true;
+        moveStep = 0;
+        roadPath.Clear();
     }
 
     public void CompletedDungeon()
