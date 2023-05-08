@@ -17,7 +17,10 @@ public class Hero : Fighter
     public void SetType(HeroBase heroBase)
     {
         hero = heroBase;
-        hero.SetType(this);
+        displayName = hero.GetName();
+        maxHealth = hero.GetMaxHealth();
+        health = maxHealth;
+        damage = hero.GetDamage();
         slider.minValue = 0;
         slider.maxValue = maxHealth;
         slider.value = maxHealth;
@@ -30,10 +33,7 @@ public class Hero : Fighter
 
     public override void TakeDamage(int amount)
     {
-        health -= amount;
-        Debug.Log("Ouch! I just took some damage! Current health: " + health);
         slider.value = health;
-        if (health <= 0)
-            Die();
+        base.TakeDamage(amount);
     }
 }

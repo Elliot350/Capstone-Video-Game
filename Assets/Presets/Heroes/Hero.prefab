@@ -52,7 +52,10 @@ MonoBehaviour:
   damage: 0
   gold: 0
   spriteRenderer: {fileID: 4873101122486487365}
+  healthMultiplier: 1
+  damageMultiplier: 1
   slider: {fileID: 5864281695787844275}
+  hero: {fileID: 0}
 --- !u!1 &5863613591941653213
 GameObject:
   m_ObjectHideFlags: 0

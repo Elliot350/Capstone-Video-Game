@@ -10,10 +10,13 @@ public class Fighter : MonoBehaviour
     [SerializeField] public int damage;
     [SerializeField] public int gold;
     [SerializeField] public SpriteRenderer spriteRenderer;
+    public float healthMultiplier = 1f, damageMultiplier = 1f;
 
     public virtual void TakeDamage(int amount) 
     {
-        Debug.LogWarning($"Not yet implemented TakeDamage");
+        health -= amount;
+        if (health <= 0)
+            Die();
     }
 
     public virtual void Heal(int amount) 
@@ -21,9 +24,9 @@ public class Fighter : MonoBehaviour
         Debug.LogWarning($"Not yet implemented Heal");
     }
 
-    public virtual void Attack() 
+    public virtual void Attack(Fighter fighter) 
     {
-        Debug.LogWarning($"Not yet implemented Attack");
+        fighter.TakeDamage(Mathf.RoundToInt(damage * damageMultiplier));
     }
 
     public virtual void Die() 

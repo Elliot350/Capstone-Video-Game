@@ -4823,6 +4823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partyPrefab: {fileID: 8914675055799039662, guid: 34eef8326fb96994fa8f2b8c84f2c987, type: 3}
   heroPrefab: {fileID: 4720211062513481184, guid: 995e137adf9118a4eb36520ad4196d2a, type: 3}
+  party: {fileID: 0}
   heroBases: []
   moveTime: 1
   tilemap: {fileID: 1537955115}
@@ -5274,7 +5275,7 @@ RectTransform:
   m_GameObject: {fileID: 1334136562}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2101760237}
@@ -6384,7 +6385,7 @@ GameObject:
   - component: {fileID: 1532341117}
   - component: {fileID: 1532341116}
   m_Layer: 0
-  m_Name: MainCamera
+  m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9104,9 +9105,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: CreateBasicMonster
       objectReference: {fileID: 0}
-    - target: {fileID: 5847953939223851239, guid: 9d2cb107d094342c994c29b1a57ae466, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 1629371079}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d2cb107d094342c994c29b1a57ae466, type: 3}

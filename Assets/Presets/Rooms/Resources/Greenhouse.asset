@@ -9,13 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acaa2247657b4b94eabb3337b4581d65, type: 3}
+  m_Script: {fileID: 11500000, guid: dfd130f81d65d4183bde5eb1c4161163, type: 3}
   m_Name: Greenhouse
   m_EditorClassIdentifier: 
   displayName: Greenhouse
-  cost: 50
-  description: This room holds {0} monsters
+  cost: 30
+  description: This rooms gives a {0}% damage increase to {1} monsters.
   monsterCapacity: 5
   trapCapacity: 1
-  sprite: {fileID: 641922262, guid: 52c760ad2096e5a48912d0ffed2b769c, type: 3}
+  sprite: {fileID: -1415334182, guid: c172d3faf64e17c4b9029f89e94dd20c, type: 3}
   tile: {fileID: 11400000, guid: a0561a732026f9546920c54e9e9abe00, type: 2}
+  damageBoost: 0.2
+  tags:
+  - {fileID: 11400000, guid: 24eee85445c114cf480333deb6aeb7c2, type: 2}

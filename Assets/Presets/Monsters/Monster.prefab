@@ -135,3 +135,6 @@ MonoBehaviour:
   damage: 0
   gold: 0
   spriteRenderer: {fileID: 309815408028971371}
+  healthMultiplier: 1
+  damageMultiplier: 1
+  monsterBase: {fileID: 0}

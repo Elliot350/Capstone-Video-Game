@@ -33,5 +33,5 @@ public class RoomBase : ScriptableObject
     public Sprite GetSprite() {return sprite;}
     public RuleTile GetTile() {return tile;}
     public string GetName() {return displayName;}
-    public string GetDescription() {return string.Format(description, GetMonster());}
+    public virtual string GetDescription() {return string.Format(description, GetMonster());}
 }

@@ -8,6 +8,7 @@ public class FighterBase : ScriptableObject
     [SerializeField] protected string displayName;
     [SerializeField] protected int maxHealth;
     [SerializeField] protected int damage;
+    [SerializeField] protected float speed;
     [SerializeField] protected Sprite sprite;
 
     public virtual void SetType(Fighter fighter) {
@@ -17,27 +18,27 @@ public class FighterBase : ScriptableObject
         fighter.damage = damage;
     }
 
-    public virtual void TakeDamage(int amount) 
+    public virtual void OnTakenDamage(int amount) 
     {
         Debug.LogWarning($"Not yet implemented TakeDamage");
     }
 
-    public virtual void Heal(int amount) 
+    public virtual void OnHeal(int amount) 
     {
         Debug.LogWarning($"Not yet implemented Heal");
     }
 
-    public virtual void Attack() 
+    public virtual void OnAttack() 
     {
         Debug.LogWarning($"Not yet implemented Attack");
     }
 
-    public virtual void Die(Fighter fighter) 
+    public virtual void OnDeath(Fighter fighter) 
     {
         Debug.LogWarning($"Not yet implemented Die");
     }
 
-    public void FinishBattle() 
+    public void OnBattleFinished() 
     {
         Debug.LogWarning($"Not yet implemented FinishBattle");
     }
@@ -46,4 +47,5 @@ public class FighterBase : ScriptableObject
     public int GetMaxHealth() {return maxHealth;}
     public int GetDamage() {return damage;}
     public Sprite GetSprite() {return sprite;}
+    public float GetSpeed() {return speed;}
 }

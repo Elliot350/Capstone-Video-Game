@@ -22,12 +22,47 @@ public class FightManager : MonoBehaviour
             yield break;
         
         // Temporary kill of all the monsters, will later replace with a fight
-        for (int i = monsters.Count - 1; i >= 0; i--)
+        // for (int i = monsters.Count - 1; i >= 0; i--)
+        // {
+        //     // yield return new WaitForSeconds(1);
+        //     monsters[i].Die();
+        // }
+
+        List<Fighter> fighters = new List<Fighter>();
+        fighters.AddRange(monsters);
+        fighters.AddRange(heroes);
+        
+        int count = 0;
+
+        while (monsters.Count > 0 && heroes.Count > 0)
         {
-            // yield return new WaitForSeconds(1);
-            monsters[i].Die();
+            count++;
+            Debug.Log($"Heroes: {heroes.Count}, Monsters: {monsters.Count}");
+            foreach (Fighter f in fighters)
+            {
+                if (f is Monster && heroes.Count > 0)
+                {
+                    f.Attack(heroes[0]);
+                    f.Die();
+                }
+                else if (f is Hero && monsters.Count > 0)
+                {
+                    f.Attack(monsters[0]);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (count >= 10)
+            {
+                break;
+            }
         }
+
         yield return new WaitForSeconds(1);
+        Debug.Log("Fight Resolved");
 
         if (heroes.Count == 0)
         {

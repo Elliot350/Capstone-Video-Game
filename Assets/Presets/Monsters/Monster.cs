@@ -12,16 +12,20 @@ public class Monster : Fighter
         spriteRenderer.gameObject.SetActive(false);
     }
 
-    public void SetType(MonsterBase monsterPreset)
+    public void SetType(MonsterBase monsterBase)
     {
-        this.monsterBase = monsterPreset;
-        this.monsterBase.SetType(this);
+        this.monsterBase = monsterBase;
+        displayName = monsterBase.GetName();
+        maxHealth = monsterBase.GetMaxHealth();
+        health = maxHealth;
+        damage = monsterBase.GetDamage();
         spriteRenderer.sprite = monsterBase.GetSprite();
     }
 
     public override void Die()
     {
         Debug.Log($"Monster died!");
-        monsterBase.Die(this);
+        transform.parent.GetComponent<Room>().MonsterDied(this);
+        monsterBase.OnDeath(this);
     }
 }
