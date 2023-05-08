@@ -13,7 +13,7 @@ public class MonsterDescriptionBox : MonoBehaviour
         monsterName.text = monsterBase.GetName();
         monsterCost.text = monsterBase.GetCost().ToString();
         monsterDescription.text = monsterBase.GetDescription();
-        monsterTags.text = monsterBase.FormatTags();
+        monsterTags.text = Tag.FormatTags(monsterBase.GetTags());
         monsterHealth.text = monsterBase.GetMaxHealth().ToString();
         monsterDamage.text = monsterBase.GetDamage().ToString();
 

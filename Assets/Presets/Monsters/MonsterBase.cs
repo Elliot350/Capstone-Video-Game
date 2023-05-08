@@ -17,16 +17,9 @@ public class MonsterBase : FighterBase
             room.MonsterDied(monster);
     }
 
-    public string FormatTags() 
-    {
-        string tagsString = tags[0].FormatTag();
-        for (int i = 1; i < tags.Count; i++)  
-            tagsString += ", " + tags[i].FormatTag();
-        return tagsString;
-    }
     public virtual string GetDescription() 
     {
-        return string.Format(description, FormatTags());
+        return string.Format(description, Tag.FormatTags(tags));
     }
     public List<Tag> GetTags() {return tags;}
     public int GetCost() {return cost;}

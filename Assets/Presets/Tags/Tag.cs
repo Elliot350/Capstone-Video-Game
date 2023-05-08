@@ -12,4 +12,12 @@ public class Tag : ScriptableObject
     {
         return "<color=#" + ColorUtility.ToHtmlStringRGBA(color) + ">" + name + "</color>";
     }
+
+    public static string FormatTags(List<Tag> tags)
+    {
+        string formattedTags = tags[0].FormatTag();
+        for (int i = 1; i < tags.Count; i++)
+            formattedTags += ", " + tags[i].FormatTag();
+        return formattedTags;
+    }
 }
