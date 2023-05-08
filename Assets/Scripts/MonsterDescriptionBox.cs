@@ -5,7 +5,7 @@ using TMPro;
 
 public class MonsterDescriptionBox : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI monsterName, monsterCost, monsterDescription, monsterHealth, monsterDamage;
+    [SerializeField] private TextMeshProUGUI monsterName, monsterCost, monsterDescription, monsterTags, monsterHealth, monsterDamage;
     [SerializeField] private GameObject hoverBox;
 
     public void ShowDescription(MonsterBase monsterBase)
@@ -13,6 +13,7 @@ public class MonsterDescriptionBox : MonoBehaviour
         monsterName.text = monsterBase.GetName();
         monsterCost.text = monsterBase.GetCost().ToString();
         monsterDescription.text = monsterBase.GetDescription();
+        monsterTags.text = monsterBase.FormatTags();
         monsterHealth.text = monsterBase.GetMaxHealth().ToString();
         monsterDamage.text = monsterBase.GetDamage().ToString();
 

@@ -7,7 +7,7 @@ public class MonsterBase : FighterBase
 {
     [SerializeField] protected int cost;
     [SerializeField] protected string description;
-    [SerializeField] List<Tag> tags;
+    [SerializeField] protected List<Tag> tags;
 
     public virtual void MonsterSpawned() {}
     public override void OnDeath(Fighter fighter) 
@@ -18,10 +18,16 @@ public class MonsterBase : FighterBase
     public int GetCost() {return cost;}
     public virtual string GetDescription() 
     {
-        string displayTags = tags[0].FormatTag();
-        for (int i = 1; i < tags.Count; i++)
-            displayTags += ", " + tags[i].FormatTag();
-        return string.Format(description, displayTags);
+        return string.Format(description, FormatTags());
     }
     public List<Tag> GetTags() {return tags;}
+    public string FormatTags() 
+    {
+        string tagsString = tags[0].FormatTag();
+        for (int i = 1; i < tags.Count; i++)
+        {
+            tagsString += ", " + tags[i].FormatTag();
+        }
+        return tagsString;
+    }
 }
