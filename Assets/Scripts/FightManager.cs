@@ -6,6 +6,8 @@ public class FightManager : MonoBehaviour
 {
     private static FightManager instance;
 
+    public List<Fighter> fighters;
+
     private void Awake()
     {
         instance = this;
@@ -20,45 +22,36 @@ public class FightManager : MonoBehaviour
     {
         if (heroes.Count == 0 || monsters.Count == 0) 
             yield break;
-        
-        // Temporary kill of all the monsters, will later replace with a fight
-        // for (int i = monsters.Count - 1; i >= 0; i--)
-        // {
-        //     // yield return new WaitForSeconds(1);
-        //     monsters[i].Die();
-        // }
 
-        List<Fighter> fighters = new List<Fighter>();
+        fighters = new List<Fighter>();
         fighters.AddRange(monsters);
         fighters.AddRange(heroes);
-        
-        int count = 0;
+        fighters.Sort((f1, f2)=>f1.GetSpeed().CompareTo(f2.GetSpeed()));
 
         while (monsters.Count > 0 && heroes.Count > 0)
         {
-            count++;
-            Debug.Log($"Heroes: {heroes.Count}, Monsters: {monsters.Count}");
-            foreach (Fighter f in fighters)
+            Debug.Log($"Before: Heroes: {heroes.Count}, Monsters: {monsters.Count}");
+            for (int i = fighters.Count - 1; i >= 0; i--)
             {
-                if (f is Monster && heroes.Count > 0)
+                Debug.Log($"{fighters[i]} attacking...");
+                // Make sure the monster is still "alive"
+                if (fighters[i] is Monster && monsters.Contains(fighters[i].GetComponent<Monster>()) && heroes.Count > 0)
                 {
-                    f.Attack(heroes[0]);
-                    f.Die();
+                    fighters[i].Attack(heroes[0]);
+                    fighters[i].Die();
                 }
-                else if (f is Hero && monsters.Count > 0)
+                else if (fighters[i] is Hero && heroes.Contains(fighters[i].GetComponent<Hero>()) && monsters.Count > 0)
                 {
-                    f.Attack(monsters[0]);
+                    fighters[i].Attack(monsters[0]);
                 }
                 else
                 {
                     break;
                 }
+                Debug.Log($"During: Heroes: {heroes.Count}, Monsters: {monsters.Count}");
             }
+            Debug.Log($"After: Heroes: {heroes.Count}, Monsters: {monsters.Count}");
 
-            if (count >= 10)
-            {
-                break;
-            }
         }
 
         yield return new WaitForSeconds(1);

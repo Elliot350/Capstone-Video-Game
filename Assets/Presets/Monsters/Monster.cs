@@ -28,4 +28,9 @@ public class Monster : Fighter
         transform.parent.GetComponent<Room>().MonsterDied(this);
         monsterBase.OnDeath(this);
     }
+
+    public override float GetSpeed()
+    {
+        return monsterBase.GetSpeed();
+    }
 }

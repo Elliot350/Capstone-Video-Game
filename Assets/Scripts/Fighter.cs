@@ -43,4 +43,9 @@ public class Fighter : MonoBehaviour
     {
         return displayName;
     }
+
+    public virtual float GetSpeed()
+    {
+        return 1f;
+    }
 }

@@ -6,21 +6,15 @@ using UnityEngine.UI;
 public class Hero : Fighter
 {
     public Slider slider;
-    public HeroBase hero;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public HeroBase heroBase;
 
     public void SetType(HeroBase heroBase)
     {
-        hero = heroBase;
-        displayName = hero.GetName();
-        maxHealth = hero.GetMaxHealth();
+        this.heroBase = heroBase;
+        displayName = this.heroBase.GetName();
+        maxHealth = this.heroBase.GetMaxHealth();
         health = maxHealth;
-        damage = hero.GetDamage();
+        damage = this.heroBase.GetDamage();
         slider.minValue = 0;
         slider.maxValue = maxHealth;
         slider.value = maxHealth;
@@ -33,7 +27,12 @@ public class Hero : Fighter
 
     public override void TakeDamage(int amount)
     {
-        slider.value = health;
         base.TakeDamage(amount);
+        slider.value = health;
+    }
+
+    public override float GetSpeed()
+    {
+        return heroBase.GetSpeed();
     }
 }
