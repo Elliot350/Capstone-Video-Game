@@ -20,6 +20,8 @@ public class Monster : Fighter
         health = maxHealth;
         damage = monsterBase.GetDamage();
         spriteRenderer.sprite = monsterBase.GetSprite();
+        damageMultiplier = transform.parent.GetComponent<Room>().roomBase.CalculateDamage(this);
+        healthMultiplier = transform.parent.GetComponent<Room>().roomBase.CalculateHealth(this);
     }
 
     public override void Die()
