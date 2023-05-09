@@ -31,6 +31,12 @@ public class Monster : Fighter
         monsterBase.OnDeath(this);
     }
 
+    public override void Attack(List<Hero> fighters)
+    {
+        Debug.Log($"{this} is attackig for {damage * damageMultiplier}");
+        monsterBase.DecideTarget(fighters).TakeDamage(damage * damageMultiplier);
+    }
+
     public override float GetSpeed()
     {
         return monsterBase.GetSpeed();

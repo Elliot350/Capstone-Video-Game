@@ -43,6 +43,16 @@ public class FighterBase : ScriptableObject
         Debug.LogWarning($"Not yet implemented FinishBattle");
     }
 
+    public virtual Fighter DecideTarget(List<Hero> fighters)
+    {
+        return fighters[0];
+    }
+
+    public virtual Fighter DecideTarget(List<Monster> fighters)
+    {
+        return fighters[0];
+    }
+
     public string GetName() {return displayName;}
     public int GetMaxHealth() {return maxHealth;}
     public int GetDamage() {return damage;}

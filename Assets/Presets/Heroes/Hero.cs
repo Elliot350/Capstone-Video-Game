@@ -25,7 +25,7 @@ public class Hero : Fighter
         transform.parent.GetComponent<Party>().HeroDead(this);
     }
 
-    public override void TakeDamage(int amount)
+    public override void TakeDamage(float amount)
     {
         base.TakeDamage(amount);
         slider.value = health;
