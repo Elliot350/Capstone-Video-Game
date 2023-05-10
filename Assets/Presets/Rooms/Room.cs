@@ -27,8 +27,6 @@ public class Room : MonoBehaviour
 
     public IEnumerator PartyEntered(Party party)
     {
-        // Debug.Log($"PartyEntered");
-        // If there are traps, wait a second and trigger them
         if (currentTraps.Count > 0)
         {
             yield return new WaitForSeconds(1);

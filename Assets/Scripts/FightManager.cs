@@ -33,7 +33,7 @@ public class FightManager : MonoBehaviour
         // ShowFighters(fighters, room);
         foreach (Fighter f in fighters)
         {
-            f.ShowFighter();
+            // f.ShowFighter();
             Debug.Log($"Fighter: {f}");
         }
         
@@ -60,7 +60,7 @@ public class FightManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning($"{fighters[i]} wasn't a hero or a monster!");
+                    // Debug.LogWarning($"{fighters[i]} wasn't a hero or a monster!");
                     break;
                 }
                 // Debug.Log($"During: Heroes: {heroes.Count}, Monsters: {monsters.Count}");
@@ -94,7 +94,7 @@ public class FightManager : MonoBehaviour
         {
             if (f is Monster)
             {
-                f.ShowFighter(room);
+                // f.ShowFighter(room);
                 Debug.Log($"Before: {f.transform.position}, {f.gameObject.transform.position}");
                 f.gameObject.transform.position = new Vector3(f.transform.position.x - monsterOffset, f.transform.position.y, f.transform.position.z);
                 monsterOffset += 1f;
@@ -102,7 +102,7 @@ public class FightManager : MonoBehaviour
             }
             else if (f is Hero)
             {
-                f.ShowFighter(room);
+                // f.ShowFighter(room);
                 f.gameObject.transform.position.Set(f.transform.position.x + heroOffset, f.transform.position.y, f.transform.position.z);
                 heroOffset += 1f;
                 Debug.Log($"{heroOffset}");

@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class Fighter : MonoBehaviour
 {
-    [SerializeField] public string displayName;
-    [SerializeField] public float maxHealth;
-    [SerializeField] public float health;
-    [SerializeField] public float damage;
-    [SerializeField] public int gold;
-    [SerializeField] public SpriteRenderer spriteRenderer;
+    [SerializeField] protected string displayName;
+    [SerializeField] protected float maxHealth;
+    [SerializeField] protected float health;
+    [SerializeField] protected float damage;
     public float healthMultiplier = 1f, damageMultiplier = 1f;
 
     public virtual void TakeDamage(float amount) 
@@ -47,21 +45,24 @@ public class Fighter : MonoBehaviour
         Debug.LogWarning($"Not yet implemented FinishBattle");
     }
 
-    public void ShowFighter(Room room)
-    {
-        Debug.Log($"Showing {this}");
-        transform.position = room.transform.position;
-        spriteRenderer.gameObject.SetActive(true);
-    }
-
-    public void ShowFighter()
-    {
-        spriteRenderer.gameObject.SetActive(true);
-    }
-
     public string GetName()
     {
         return displayName;
+    }
+
+    public float GetHealth()
+    {
+        return health;
+    }
+
+    public float GetMaxHealth()
+    {
+        return maxHealth;
+    }
+
+    public float GetDamage()
+    {
+        return damage;
     }
 
     public virtual float GetSpeed()

@@ -12,10 +12,10 @@ public class FighterBase : ScriptableObject
     [SerializeField] protected Sprite sprite;
 
     public virtual void SetType(Fighter fighter) {
-        fighter.displayName = displayName;
-        fighter.maxHealth = maxHealth;
-        fighter.health = maxHealth;
-        fighter.damage = damage;
+        // fighter.displayName = displayName;
+        // fighter.maxHealth = maxHealth;
+        // fighter.health = maxHealth;
+        // fighter.damage = damage;
     }
 
     public virtual void OnTakenDamage(int amount) 

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Hero : Fighter
 {
+    [SerializeField] public SpriteRenderer spriteRenderer;
     public Slider slider;
     public HeroBase heroBase;
 

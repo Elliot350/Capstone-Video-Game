@@ -5,12 +5,8 @@ using UnityEngine;
 public class Monster : Fighter
 {
     public MonsterBase monsterBase;
+    public Sprite sprite;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        spriteRenderer.gameObject.SetActive(false);
-    }
 
     public void SetType(MonsterBase monsterBase)
     {
@@ -19,9 +15,9 @@ public class Monster : Fighter
         maxHealth = monsterBase.GetMaxHealth();
         health = maxHealth;
         damage = monsterBase.GetDamage();
-        spriteRenderer.sprite = monsterBase.GetSprite();
         damageMultiplier = transform.parent.GetComponent<Room>().roomBase.CalculateDamage(this);
         healthMultiplier = transform.parent.GetComponent<Room>().roomBase.CalculateHealth(this);
+        sprite = monsterBase.GetSprite();
     }
 
     public override void Die()

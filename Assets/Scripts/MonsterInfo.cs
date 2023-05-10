@@ -20,10 +20,10 @@ public class MonsterInfo : MonoBehaviour
 
     public void ShowMonster(Monster monster)
     {
-        monsterName.text = monster.displayName.ToUpper();
-        healthText.text = monster.maxHealth.ToString();
-        damageText.text = monster.damage.ToString();
-        monsterImage.sprite = monster.spriteRenderer.sprite;
+        monsterName.text = monster.GetName().ToUpper();
+        healthText.text = monster.GetMaxHealth().ToString();
+        damageText.text = monster.GetDamage().ToString();
+        monsterImage.sprite = monster.sprite;
         gameObject.SetActive(true);
     }
 }
