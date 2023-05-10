@@ -7,10 +7,13 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Animator roomMenu, trapMenu, monsterMenu;
     [SerializeField] private GameObject roomMenuOpen, roomMenuClose, trapMenuOpen, trapMenuClose, monsterMenuOpen, monsterMenuClose;
     private const string OPEN = "Open", CLOSE = "Close";
+    private bool roomOpen, trapOpen, monsterOpen;
 
     public void OpenRoomMenu()
     {
-        CloseAllMenus();
+        CloseTrapMenu();
+        CloseMonsterMenu();
+        roomOpen = true;
         roomMenu.SetTrigger(OPEN);
         roomMenuOpen.SetActive(false);
         roomMenuClose.SetActive(true);
@@ -18,7 +21,9 @@ public class MenuManager : MonoBehaviour
 
     public void OpenTrapMenu()
     {
-        CloseAllMenus();
+        CloseRoomMenu();
+        CloseMonsterMenu();
+        trapOpen = true;
         trapMenu.SetTrigger(OPEN);
         trapMenuOpen.SetActive(false);
         trapMenuClose.SetActive(true);
@@ -26,22 +31,48 @@ public class MenuManager : MonoBehaviour
 
     public void OpenMonsterMenu()
     {
-        CloseAllMenus();
+        CloseRoomMenu();
+        CloseTrapMenu();
+        monsterOpen = true;
         monsterMenu.SetTrigger(OPEN);
         monsterMenuOpen.SetActive(false);
         monsterMenuClose.SetActive(true);
     }
 
+    public void CloseRoomMenu()
+    {
+        if (!roomOpen)
+            return;
+        roomOpen = false;
+        roomMenu.SetTrigger(CLOSE);
+        roomMenuOpen.SetActive(true);
+        roomMenuClose.SetActive(false);
+    }
+
+    public void CloseTrapMenu()
+    {
+        if (!trapOpen)
+            return;
+        trapOpen = false;
+        trapMenu.SetTrigger(CLOSE);
+        trapMenuOpen.SetActive(true);
+        trapMenuClose.SetActive(false);
+    }
+
+    public void CloseMonsterMenu()
+    {
+        if (!monsterOpen)
+            return;
+        monsterOpen = false;
+        monsterMenu.SetTrigger(CLOSE);
+        monsterMenuOpen.SetActive(true);
+        monsterMenuClose.SetActive(false);
+    }
+
     public void CloseAllMenus()
     {
-        roomMenu.SetTrigger(CLOSE);
-        trapMenu.SetTrigger(CLOSE);
-        monsterMenu.SetTrigger(CLOSE);
-        roomMenuOpen.SetActive(true);
-        trapMenuOpen.SetActive(true);
-        monsterMenuOpen.SetActive(true);
-        roomMenuClose.SetActive(false);
-        trapMenuClose.SetActive(false);
-        monsterMenuClose.SetActive(false);
+        CloseRoomMenu();
+        CloseTrapMenu();
+        CloseMonsterMenu();
     }
 }
