@@ -8,8 +8,7 @@ public class Room : MonoBehaviour
 
     public string displayName;
     public int monsterCapacity;
-    public List<Monster> monsters;
-    public List<Monster> currentMonsters;
+    public List<MonsterBase> monsters;
     public int trapCapacity;
     public List<Trap> traps;
     public List<Trap> currentTraps;
@@ -37,21 +36,19 @@ public class Room : MonoBehaviour
             }
         }
         // If there are monsters, wait a second and fight them
-        if (currentMonsters.Count > 0)
+        if (monsters.Count > 0)
         {
             yield return new WaitForSeconds(1);
             Debug.Log($"Starting Fight");
-            yield return FightManager.GetInstance().StartCoroutine(FightManager.GetInstance().StartFight(party.heroes, currentMonsters, this));
+            // TODO: Fix this line
+            // yield return FightManager.GetInstance().StartCoroutine(FightManager.GetInstance().StartFight(party.heroes, monsters, this));
         }
     }
 
     public void AddMonster(MonsterBase monsterBase) 
     {
-        Monster monster = Instantiate(MonsterPlacer.GetInstance().monsterPrefab, transform);
-        monster.SetType(monsterBase);
-        monsters.Add(monster);
-        currentMonsters.Add(monster);
-        roomBase.MonsterAdded(this, monster);
+        monsters.Add(monsterBase);
+        roomBase.MonsterAdded(this, monsterBase);
     }
 
     public void AddTrap(TrapBase trapBase)
@@ -75,7 +72,6 @@ public class Room : MonoBehaviour
 
     public virtual void ResetRoom()
     {
-        currentMonsters = new List<Monster>(monsters);
         foreach (Trap trap in currentTraps)
         {
             trap.triggered = false;
@@ -84,7 +80,7 @@ public class Room : MonoBehaviour
 
     public void MonsterDied(Monster monster)
     {
-        currentMonsters.Remove(monster);
+        roomBase.OnMonsterDied(monster);
     }
 
     public virtual void HeroesDefeatedMonsters()

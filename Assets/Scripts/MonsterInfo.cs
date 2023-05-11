@@ -23,7 +23,7 @@ public class MonsterInfo : MonoBehaviour
         monsterName.text = monster.GetName().ToUpper();
         healthText.text = monster.GetMaxHealth().ToString();
         damageText.text = monster.GetDamage().ToString();
-        monsterImage.sprite = monster.sprite;
+        monsterImage.sprite = monster.GetSprite();
         gameObject.SetActive(true);
     }
 }

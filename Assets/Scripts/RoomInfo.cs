@@ -18,7 +18,7 @@ public class RoomInfo : MonoBehaviour
         // transform.position = GameManager.GetInstance().cam.WorldToViewportPoint(room.transform.position) - cam.transform.position;
         roomTitle.text = room.displayName.ToUpper();
 
-        while (monsterInfos.Count < room.currentMonsters.Count)
+        while (monsterInfos.Count < room.monsters.Count)
         {
             GameObject gameObject = Instantiate(monsterInfoPrefab, monsterInfoHolder.transform);
             MonsterInfo monsterInfo = gameObject.GetComponent<MonsterInfo>();
@@ -30,9 +30,9 @@ public class RoomInfo : MonoBehaviour
             info.gameObject.SetActive(false);
         }
 
-        for (int i = 0; i < room.currentMonsters.Count; i++)
+        for (int i = 0; i < room.monsters.Count; i++)
         {
-            monsterInfos[i].ShowMonster(room.currentMonsters[i]);
+            // monsterInfos[i].ShowMonster(room.monsters[i]);
         }
 
         gameObject.SetActive(true);

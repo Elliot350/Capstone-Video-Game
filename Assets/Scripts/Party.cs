@@ -5,7 +5,7 @@ using UnityEngine;
 public class Party : MonoBehaviour
 {
 
-    public List<Hero> heroes = new List<Hero>();
+    public List<HeroBase> heroes = new List<HeroBase>();
 
     private void Start()
     {
@@ -14,11 +14,17 @@ public class Party : MonoBehaviour
     }
 
     public void AddHero(Hero hero) {
+        heroes.Add(hero.heroBase);
+    }
+
+    public void AddHero(HeroBase hero)
+    {
         heroes.Add(hero);
     }
 
     public void AddHero(List<Hero> heroesList) {
-        heroes.AddRange(heroesList);
+        foreach (Hero h in heroesList)
+            heroes.Add(h.heroBase);
     }
 
     public void StartFight() {
@@ -26,19 +32,20 @@ public class Party : MonoBehaviour
     }
 
     public void ListHeroes() {
-        foreach (Hero hero in heroes)
+        foreach (HeroBase hero in heroes)
         {
             Debug.Log(hero.GetName());
         }
     }
 
-    public void HeroDead(Hero hero)
+    public void HeroDead(HeroBase hero)
     {
         heroes.Remove(hero);
     }
 
+    // TODO: Re-implement traps
     public void DamageHero(int damageAmount)
     {
-        heroes[Random.Range(0, heroes.Count - 1)].TakeDamage(damageAmount);
+        // heroes[Random.Range(0, heroes.Count - 1)].TakeDamage(damageAmount);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Fighter : MonoBehaviour
 {
@@ -8,11 +9,13 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float health;
     [SerializeField] protected float damage;
+    [SerializeField] protected Slider slider;
     public float healthMultiplier = 1f, damageMultiplier = 1f;
 
     public virtual void TakeDamage(float amount) 
     {
         health -= amount;
+        slider.value = health;
         if (health <= 0)
             Die();
     }
@@ -33,6 +36,11 @@ public class Fighter : MonoBehaviour
     {
         Debug.Log($"{this} is attacking for {damage * damageMultiplier}");
         fighters[0].TakeDamage(Mathf.RoundToInt(damage * damageMultiplier));
+    }
+
+    public virtual void DoneAttack()
+    {
+
     }
 
     public virtual void Die() 

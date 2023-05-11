@@ -100,9 +100,9 @@ public class PartyManager : MonoBehaviour
 
     public void CreateHero(HeroBase heroBase)
     {
-        Hero heroTemp = Instantiate(heroPrefab, party.transform);
-        heroTemp.SetType(heroBase);
-        party.AddHero(heroTemp);
+        // Hero heroTemp = Instantiate(heroPrefab, party.transform);
+        // heroTemp.SetType(heroBase);
+        party.AddHero(heroBase);
     }
 
     // Create a random party

@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class Hero : Fighter
 {
-    [SerializeField] public SpriteRenderer spriteRenderer;
-    public Slider slider;
+    [SerializeField] public Image image;
     public HeroBase heroBase;
 
     public void SetType(HeroBase heroBase)
@@ -19,17 +18,12 @@ public class Hero : Fighter
         slider.minValue = 0;
         slider.maxValue = maxHealth;
         slider.value = maxHealth;
+        image.sprite = heroBase.GetSprite();
     }
 
     public override void Die()
     {
-        transform.parent.GetComponent<Party>().HeroDead(this);
-    }
-
-    public override void TakeDamage(float amount)
-    {
-        base.TakeDamage(amount);
-        slider.value = health;
+        transform.parent.GetComponent<Party>().HeroDead(this.heroBase);
     }
 
     public override float GetSpeed()

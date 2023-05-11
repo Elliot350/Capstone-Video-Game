@@ -23,8 +23,9 @@ public class RoomBase : ScriptableObject
 
     public virtual void RoomDefeated(Room room) {}
     public virtual void RoomBuilt(Room room) {}
-    public virtual void MonsterAdded(Room room, Monster monster) {}
+    public virtual void MonsterAdded(Room room, MonsterBase monster) {}
     public virtual void TrapAdded(Room room, Trap trap) {}
+    public virtual void OnMonsterDied(Monster monster) {}
     public virtual float CalculateDamage(Monster monster) {return 1f;}
     public virtual float CalculateHealth(Monster monster) {return 1f;}
 
