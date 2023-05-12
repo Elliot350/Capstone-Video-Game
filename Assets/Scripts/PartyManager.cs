@@ -100,9 +100,10 @@ public class PartyManager : MonoBehaviour
 
     public void CreateHero(HeroBase heroBase)
     {
-        // Hero heroTemp = Instantiate(heroPrefab, party.transform);
-        // heroTemp.SetType(heroBase);
-        party.AddHero(heroBase);
+        Hero heroTemp = Instantiate(heroPrefab, FightManager.GetInstance().heroHolder.transform);
+        heroTemp.SetType(heroBase);
+        party.AddHero(heroTemp);
+        // party.AddHero(heroBase);
     }
 
     // Create a random party
@@ -113,7 +114,7 @@ public class PartyManager : MonoBehaviour
 
     public void CreateParty(List<HeroBase> list)
     {
-        party = Instantiate(partyPrefab, Vector3.zero, Quaternion.identity);
+        party = Instantiate(partyPrefab);
         foreach (HeroBase hero in list)
         {
             CreateHero(hero);
@@ -122,6 +123,7 @@ public class PartyManager : MonoBehaviour
         canMove = true;
         moveStep = 0;
         roadPath.Clear();
+        DungeonManager.GetInstance().ResetDungeon();
     }
 
     public void CompletedDungeon()
@@ -131,6 +133,13 @@ public class PartyManager : MonoBehaviour
 
     public void DestroyParty()
     {
+        foreach (Transform child in FightManager.GetInstance().heroHolder.transform)
+        {
+            if (child != FightManager.GetInstance().heroHolder.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
         Destroy(party.gameObject);
         party = null;
     }

@@ -6,12 +6,13 @@ public class FightManager : MonoBehaviour
 {
     private static FightManager instance;
 
-    public GameObject monsterPrefab, monsterHolder, heroPrefab, heroHolder;
+    public GameObject monsterPrefab, monsterHolder, heroPrefab, heroHolder, fightViewer;
     public List<Fighter> order;
     public List<Monster> monsters;
     public List<Hero> heroes;
 
-    private WaitForSeconds shortPause = new WaitForSeconds(1);
+    private WaitForSeconds shortPause = new WaitForSeconds(0.5f);
+    private WaitForSeconds secondPause = new WaitForSeconds(1);
 
     private void Awake()
     {
@@ -23,9 +24,9 @@ public class FightManager : MonoBehaviour
         return instance;
     }
 
-    public IEnumerator StartFight(List<Hero> heroBases, List<MonsterBase> monsterBases, Room room)
+    public IEnumerator StartFight(List<Hero> party, List<MonsterBase> monsterBases, Room room)
     {
-        if (heroBases.Count == 0 || monsterBases.Count == 0) 
+        if (party.Count == 0 || monsterBases.Count == 0) 
             yield break;
 
         order = new List<Fighter>();
@@ -41,10 +42,21 @@ public class FightManager : MonoBehaviour
             monsters.Add(monster);
         }
 
-        // TODO: Change this to make it spawn heroes
-        heroes.AddRange(heroBases);
-        order.AddRange(heroBases);
-        order.Sort((f1, f2)=>f1.GetSpeed().CompareTo(f2.GetSpeed()));
+        // foreach (HeroBase hb in heroBases)
+        // {
+        //     Hero hero = Instantiate(heroPrefab, heroHolder.transform).GetComponent<Hero>();
+        //     hero.SetType(hb, room);
+        //     order.Add(hero);
+        //     heroes.Add(hero);
+        // }
+        
+        foreach (Hero h in party)
+        {
+            order.Add(h);
+        }
+        order.Sort((f1, f2)=>f2.GetSpeed().CompareTo(f1.GetSpeed()));
+
+        fightViewer.SetActive(true);
 
         // ShowFighters(fighters, room);
         foreach (Fighter f in order)
@@ -53,41 +65,43 @@ public class FightManager : MonoBehaviour
             Debug.Log($"Fighter: {f}");
         }
         
-        yield return shortPause;
+        yield return secondPause;
+        yield return secondPause;
 
-        int turn = 0;
-        while (monsters.Count > 0 && heroes.Count > 0)
+        int count = 0;
+        // Each loop is one fighter attacking
+        while (monsters.Count > 0 && party.Count > 0)
         {
-            turn++;
-            Debug.Log($"Turn: {turn}, Monsters: {monsters.Count}, Heroes: {heroes.Count}");
-            // Debug.Log($"Before: Heroes: {heroes.Count}, Monsters: {monsters.Count}");
-            for (int i = order.Count - 1; i >= 0; i--)
-            {
-                Fighter fighter = order[i];
-                Debug.Log($"{fighter} attacking...");
-                // Make sure the monster is still "alive"
-                if (fighter is Monster && heroes.Count > 0)
-                {
-                    fighter.Attack(heroes);
-                }
-                else if (fighter is Hero && monsters.Count > 0)
-                {
-                    fighter.Attack(monsters);
-                }
-                yield return shortPause;
-                fighter.DoneAttack();
-                // Debug.Log($"During: Heroes: {heroes.Count}, Monsters: {monsters.Count}");
-            }
-            if (turn >= 10)
-                break;
-            // Debug.Log($"After: Heroes: {heroes.Count}, Monsters: {monsters.Count}");
+            count++;
 
+            Fighter fighter = order[0];
+            Debug.Log($"Attack #{count}: {fighter} attacking...");
+            // Make sure the monster is still "alive"
+            if (fighter is Monster && party.Count > 0)
+            {
+                fighter.Attack(party);
+            }
+            else if (fighter is Hero && monsters.Count > 0)
+            {
+                fighter.Attack(monsters);
+            }
+
+            yield return shortPause;
+            fighter.DoneAttack();
+            yield return shortPause;
+
+            // Move them to the end of the order
+            order.RemoveAt(0);
+            order.Add(fighter);
+            
+            if (count > 100)
+                break;
         }
 
-        yield return shortPause;
+        yield return secondPause;
         Debug.Log("Fight Resolved");
 
-        if (heroBases.Count == 0)
+        if (party.Count == 0)
         {
             Debug.Log("The party has been defeated!");
             PartyManager.GetInstance().DestroyParty();
@@ -97,6 +111,8 @@ public class FightManager : MonoBehaviour
             Debug.Log("The heroes defeated this room");
             room.HeroesDefeatedMonsters();
         }
+
+        fightViewer.SetActive(false);
 
     }
 

@@ -41,7 +41,7 @@ public class Room : MonoBehaviour
             yield return new WaitForSeconds(1);
             Debug.Log($"Starting Fight");
             // TODO: Fix this line
-            // yield return FightManager.GetInstance().StartCoroutine(FightManager.GetInstance().StartFight(party.heroes, monsters, this));
+            yield return FightManager.GetInstance().StartCoroutine(FightManager.GetInstance().StartFight(party.heroes, monsters, this));
         }
     }
 

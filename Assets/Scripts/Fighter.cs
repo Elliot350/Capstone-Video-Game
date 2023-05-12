@@ -10,6 +10,8 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected float health;
     [SerializeField] protected float damage;
     [SerializeField] protected Slider slider;
+    [SerializeField] protected Image image, alertImage;
+    [SerializeField] protected Room room;
     public float healthMultiplier = 1f, damageMultiplier = 1f;
 
     public virtual void TakeDamage(float amount) 
@@ -29,6 +31,7 @@ public class Fighter : MonoBehaviour
 
     public virtual void Attack(List<Monster> fighters) 
     {
+        alertImage.gameObject.SetActive(true);
         fighters[0].TakeDamage(Mathf.RoundToInt(damage * damageMultiplier));
     }
 
@@ -40,7 +43,7 @@ public class Fighter : MonoBehaviour
 
     public virtual void DoneAttack()
     {
-
+        alertImage.gameObject.SetActive(false);
     }
 
     public virtual void Die() 

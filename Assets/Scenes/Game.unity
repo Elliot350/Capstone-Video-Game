@@ -169,8 +169,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterPrefab: {fileID: 7567955543882232473, guid: 6ae37855008c01f49856470016b063c4, type: 3}
   monsterHolder: {fileID: 1245118054}
-  heroPrefab: {fileID: 0}
+  heroPrefab: {fileID: 7567955543882232473, guid: 242181db0a50e3740885d19bd3512225, type: 3}
   heroHolder: {fileID: 1023686946}
+  fightViewer: {fileID: 905412368}
   order: []
   monsters: []
   heroes: []
@@ -4369,7 +4370,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 5
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -5105,7 +5106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partyPrefab: {fileID: 8914675055799039662, guid: 34eef8326fb96994fa8f2b8c84f2c987, type: 3}
-  heroPrefab: {fileID: 4720211062513481184, guid: 995e137adf9118a4eb36520ad4196d2a, type: 3}
+  heroPrefab: {fileID: 5914685805447396931, guid: 242181db0a50e3740885d19bd3512225, type: 3}
   party: {fileID: 0}
   heroBases: []
   moveTime: 1

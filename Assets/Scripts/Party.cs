@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Party : MonoBehaviour
 {
-
-    public List<HeroBase> heroes = new List<HeroBase>();
+    // TODO: This could be actually Hero, with them all children of the fight viewer and they stay there.
+    public List<Hero> heroes = new List<Hero>();
 
     private void Start()
     {
@@ -14,17 +14,19 @@ public class Party : MonoBehaviour
     }
 
     public void AddHero(Hero hero) {
-        heroes.Add(hero.heroBase);
-    }
-
-    public void AddHero(HeroBase hero)
-    {
         heroes.Add(hero);
     }
 
+    // public void AddHero(HeroBase hero)
+    // {
+    //     heroes.Add(hero);
+    // }
+
     public void AddHero(List<Hero> heroesList) {
         foreach (Hero h in heroesList)
-            heroes.Add(h.heroBase);
+        {
+            heroes.Add(h);
+        }
     }
 
     public void StartFight() {
@@ -32,15 +34,16 @@ public class Party : MonoBehaviour
     }
 
     public void ListHeroes() {
-        foreach (HeroBase hero in heroes)
+        foreach (Hero hero in heroes)
         {
             Debug.Log(hero.GetName());
         }
     }
 
-    public void HeroDead(HeroBase hero)
+    public void HeroDead(Hero hero)
     {
         heroes.Remove(hero);
+        // Debug.Log($"Hero died! Can't do anything about it");
     }
 
     // TODO: Re-implement traps

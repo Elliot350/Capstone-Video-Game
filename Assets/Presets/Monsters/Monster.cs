@@ -7,9 +7,6 @@ public class Monster : Fighter
 {
     public MonsterBase monsterBase;
     // public Sprite sprite;
-    public Image image, alertImage;
-    public Room room;
-
 
     public void SetType(MonsterBase monsterBase, Room room)
     {

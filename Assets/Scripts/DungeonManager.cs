@@ -64,6 +64,13 @@ public class DungeonManager : MonoBehaviour
             room.ResetRoom();
         }
         RoomPlacer.GetInstance().tilemap.GetInstantiatedObject(bossRoom).GetComponent<Room>().ResetRoom();
+        foreach (Transform child in FightManager.GetInstance().monsterHolder.transform)
+        {
+            if (child != FightManager.GetInstance().monsterHolder.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
     }
     
 }
