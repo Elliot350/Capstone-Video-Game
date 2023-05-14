@@ -19,5 +19,8 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: aa615270c7999c34e844ae423800c155, type: 3}
   cost: 50
   description: This massive {0} monster is a formidable foe.
+  needsAll: 1
+  requirements:
+  - {fileID: 11400000, guid: 830c74c7f5693564b8294ca994c53272, type: 2}
   tags:
   - {fileID: 11400000, guid: cbff4e4fa7bfa5e46b777a50ae1d5ab8, type: 2}

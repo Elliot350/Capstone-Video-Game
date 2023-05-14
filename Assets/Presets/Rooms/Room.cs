@@ -11,8 +11,25 @@ public class Room : MonoBehaviour
     public List<MonsterBase> monsters;
     public int trapCapacity;
     public List<Trap> traps;
-    public List<Trap> currentTraps;
     public GameObject highlightBox;
+    public SpriteRenderer alertSprite;
+
+    private double cooldown;
+
+    private void Start() 
+    {
+        alertSprite.gameObject.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (cooldown > 0)
+        {
+            cooldown -= Time.deltaTime;
+            if (cooldown <= 0)
+                alertSprite.gameObject.SetActive(false);
+        }
+    }
 
     public void SetType(RoomBase roomBase)
     {
@@ -26,11 +43,11 @@ public class Room : MonoBehaviour
 
     public IEnumerator PartyEntered(Party party)
     {
-        if (currentTraps.Count > 0)
+        if (TrapsUntriggered())
         {
             yield return new WaitForSeconds(1);
             Debug.Log($"Triggering traps");
-            foreach (Trap trap in currentTraps)
+            foreach (Trap trap in traps)
             {
                 trap.PartyEntered(party);
             }
@@ -53,11 +70,27 @@ public class Room : MonoBehaviour
 
     public void AddTrap(TrapBase trapBase)
     {
-        Trap trap = Instantiate(TrapPlacer.GetInstance().trapPrefab, transform);
+        // Trap trap = Instantiate(TrapPlacer.GetInstance().trapPrefab, transform);
+        Trap trap = gameObject.AddComponent<Trap>();
         trap.SetType(trapBase);
         traps.Add(trap);
-        currentTraps.Add(trap);
         roomBase.TrapAdded(this, trap);
+    }
+
+    public void TrapTriggered()
+    {
+        alertSprite.gameObject.SetActive(true);
+        cooldown = 1f;
+    }
+
+    private bool TrapsUntriggered()
+    {
+        foreach (Trap trap in traps)
+        {
+            if (!trap.triggered)
+                return true;
+        }
+        return false;
     }
 
     public void Highlight(bool status) 
@@ -72,10 +105,25 @@ public class Room : MonoBehaviour
 
     public virtual void ResetRoom()
     {
-        foreach (Trap trap in currentTraps)
+        foreach (Trap trap in traps)
         {
             trap.triggered = false;
         }
+    }
+
+    private void OnMouseEnter() 
+    {
+        Tooltip.ShowTooltip_Static(GetStatus(), 12);
+    }
+
+    private void OnMouseExit() 
+    {
+        Tooltip.HideTooltip_Static();
+    }
+    
+    public string GetStatus()
+    {
+        return $"{displayName}\nMonsters ({monsters.Count}/{monsterCapacity})\nTraps ({traps.Count}/{trapCapacity})";
     }
 
     public void MonsterDied(Monster monster)

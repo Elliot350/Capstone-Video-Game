@@ -10,19 +10,20 @@ public class MonsterDescriptionBox : MonoBehaviour
 
     public void ShowDescription(MonsterBase monsterBase)
     {
-        monsterName.text = monsterBase.GetName();
-        monsterCost.text = monsterBase.GetCost().ToString();
-        monsterDescription.text = monsterBase.GetDescription();
-        monsterTags.text = Tag.FormatTags(monsterBase.GetTags());
-        monsterHealth.text = monsterBase.GetMaxHealth().ToString();
-        monsterDamage.text = monsterBase.GetDamage().ToString();
+        Tooltip.ShowTooltip_Static(monsterBase.GetDescription(), 12);
+        // monsterName.text = monsterBase.GetName();
+        // monsterCost.text = monsterBase.GetCost().ToString();
+        // monsterDescription.text = monsterBase.GetDescription();
+        // monsterTags.text = Tag.FormatTags(monsterBase.GetTags());
+        // monsterHealth.text = monsterBase.GetMaxHealth().ToString();
+        // monsterDamage.text = monsterBase.GetDamage().ToString();
 
-        hoverBox.transform.position = new Vector3(GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).x, GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).y + 0.5f);
-        hoverBox.SetActive(true);
+        // hoverBox.transform.position = new Vector3(GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).x, GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).y + 0.5f);
+        // hoverBox.SetActive(true);
     }
 
     public void HideDescription()
     {
-        hoverBox.SetActive(false);
+        Tooltip.HideTooltip_Static();
     }
 }
