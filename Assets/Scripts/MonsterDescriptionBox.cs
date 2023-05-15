@@ -26,4 +26,16 @@ public class MonsterDescriptionBox : MonoBehaviour
     {
         Tooltip.HideTooltip_Static();
     }
+
+    public void UnlockingMonster(MonsterBase monsterBase)
+    {
+        monsterName.text = monsterBase.GetName();
+        monsterCost.text = monsterBase.GetCost().ToString();
+        monsterDescription.text = monsterBase.GetDescription();
+        monsterTags.text = Tag.FormatTags(monsterBase.GetTags());
+        monsterHealth.text = monsterBase.GetMaxHealth().ToString();
+        monsterDamage.text = monsterBase.GetDamage().ToString();
+
+        hoverBox.SetActive(true);
+    }
 }

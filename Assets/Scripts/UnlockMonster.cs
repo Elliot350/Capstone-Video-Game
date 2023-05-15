@@ -8,6 +8,11 @@ public class UnlockMonster : MonoBehaviour
     public Image image;
     public MonsterBase monsterBase;
 
+    void Start()
+    {
+        image.sprite = monsterBase.GetSprite();
+    }
+
     public void UpdateVisuals()
     {
         if (UnlockManager.GetInstance().unlockedMonsters.Contains(monsterBase))
@@ -24,5 +29,21 @@ public class UnlockMonster : MonoBehaviour
 
         image.color = UnlockManager.GetInstance().lockedColor;
         
+    }
+
+    public void Clicked()
+    {
+        GameManager.GetInstance().monsterDescriptionBox.UnlockingMonster(monsterBase);
+        // UnlockManager.GetInstance().TryUnlock(monsterBase);
+    }
+
+    public void Hover()
+    {
+        Tooltip.ShowTooltip_Static(monsterBase.GetName() + (UnlockManager.GetInstance().IsMonsterUnlocked(monsterBase) ? " - (Unlocked)" : " - (Locked)"), 12);
+    }
+
+    public void EndHover()
+    {
+        Tooltip.HideTooltip_Static();
     }
 }

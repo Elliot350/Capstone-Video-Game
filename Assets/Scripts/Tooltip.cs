@@ -9,7 +9,7 @@ public class Tooltip : MonoBehaviour
 
     [SerializeField] private RectTransform rectTransform, canvasRectTransform, backgroundTransform;
     [SerializeField] private TextMeshProUGUI tooltipText;
-    [SerializeField] private const int DEFAULT_FONT_SIZE = 24;
+    [SerializeField] private const int DEFAULT_FONT_SIZE = 12;
 
     private void Awake() 
     {
@@ -43,17 +43,12 @@ public class Tooltip : MonoBehaviour
     private void SetRandomText()
     {
         string abc = "abcdefghijklmnopqrstuvwxyz\n\n\n\n\n\n\n";
-        string text = "Testing...";
+        string text = "Testing...\n";
         for (int i = 0; i < Random.Range(5, 50); i++)
         {
             text += abc[Random.Range(0, abc.Length)];
         }
         SetText(text);
-    }
-
-    private void ShowTooltip(string text)
-    {
-        ShowTooltip(text, DEFAULT_FONT_SIZE);
     }
 
     private void ShowTooltip(string text, int fontSize)
@@ -70,7 +65,7 @@ public class Tooltip : MonoBehaviour
 
     public static void ShowTooltip_Static(string text)
     {
-        instance.ShowTooltip(text);
+        instance.ShowTooltip(text, DEFAULT_FONT_SIZE);
     }
 
     public static void ShowTooltip_Static(string text, int fontSize)

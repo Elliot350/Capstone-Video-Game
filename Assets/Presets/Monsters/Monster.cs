@@ -36,7 +36,7 @@ public class Monster : Fighter
 
     public override void Attack(List<Hero> fighters)
     {
-        Debug.Log($"{this} is attackig for {damage * damageMultiplier}");
+        // Debug.Log($"{this} is attackig for {damage * damageMultiplier}");
         monsterBase.DecideTarget(fighters).TakeDamage(damage * damageMultiplier);
         alertImage.gameObject.SetActive(true);
     }

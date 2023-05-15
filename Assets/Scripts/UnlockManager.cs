@@ -8,10 +8,8 @@ public class UnlockManager : MonoBehaviour
     private static UnlockManager instance;
     public Color32 unlockedColor, unlockableColor, lockedColor;
 
-    public GameObject monsterButton, monsterMenu;
+    public GameObject monsterButton, monsterMenu, unlockTree;
     
-    public List<UnlockMonster> unlockButtons;
-
     public List<MonsterBase> unlockedMonsters;
 
     private void Awake() 
@@ -35,9 +33,10 @@ public class UnlockManager : MonoBehaviour
 
     public void UpdateVisuals()
     {
-        foreach (UnlockMonster button in unlockButtons)
+        foreach (Transform child in unlockTree.transform)
         {
-            button.UpdateVisuals();
+            // Some aren't UnlockMonsters need to change
+            child.gameObject.GetComponent<UnlockMonster>().UpdateVisuals();
         }
     }
 
