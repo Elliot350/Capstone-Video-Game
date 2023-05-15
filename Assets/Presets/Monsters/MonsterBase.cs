@@ -32,7 +32,7 @@ public class MonsterBase : FighterBase
     {
         foreach (MonsterBase mb in requirements)
         {
-            if (!UnlockManager.GetInstance().MonsterUnlocked(mb))
+            if (!UnlockManager.GetInstance().IsMonsterUnlocked(mb))
                 return false;
         }
         return true;
@@ -42,7 +42,7 @@ public class MonsterBase : FighterBase
     {
         foreach (MonsterBase mb in requirements)
         {
-            if (UnlockManager.GetInstance().MonsterUnlocked(mb))
+            if (UnlockManager.GetInstance().IsMonsterUnlocked(mb))
                 return true;
         }
         return false;
