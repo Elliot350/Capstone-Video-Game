@@ -114,7 +114,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 50}
-  m_SizeDelta: {x: 100, y: 10}
+  m_SizeDelta: {x: 50, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1781380678015415833
 CanvasRenderer:
@@ -309,12 +309,12 @@ MonoBehaviour:
   health: 0
   damage: 0
   slider: {fileID: 597169777994249712}
-  healthMultiplier: 1
-  damageMultiplier: 1
-  monsterBase: {fileID: 0}
   image: {fileID: 8780343267993231180}
   alertImage: {fileID: 6299024071316152130}
   room: {fileID: 0}
+  healthMultiplier: 1
+  damageMultiplier: 1
+  monsterBase: {fileID: 0}
 --- !u!223 &1120712176787730201
 Canvas:
   m_ObjectHideFlags: 0

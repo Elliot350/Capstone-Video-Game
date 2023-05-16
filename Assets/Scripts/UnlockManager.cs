@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class UnlockManager : MonoBehaviour
 {
     private static UnlockManager instance;
+
+    public MonsterBase selected;
+
     public Color32 unlockedColor, unlockableColor, lockedColor;
 
     public GameObject monsterButton, monsterMenu, unlockTree;
@@ -36,8 +39,14 @@ public class UnlockManager : MonoBehaviour
         foreach (Transform child in unlockTree.transform)
         {
             // Some aren't UnlockMonsters need to change
-            child.gameObject.GetComponent<UnlockMonster>().UpdateVisuals();
+            if (child.gameObject.TryGetComponent<UnlockMonster>(out UnlockMonster unlockMonster))
+                unlockMonster.UpdateVisuals();
         }
+    }
+
+    public void SelectedMonster(MonsterBase monsterBase)
+    {
+        selected = monsterBase;
     }
 
     public void TryUnlock(MonsterBase monsterBase)
@@ -46,6 +55,11 @@ public class UnlockManager : MonoBehaviour
         {
             Unlock(monsterBase);
         }
+    }
+
+    public void TryUnlock()
+    {
+        TryUnlock(selected);
     }
 
     public bool IsMonsterUnlocked(MonsterBase monsterBase)

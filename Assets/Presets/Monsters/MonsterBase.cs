@@ -22,9 +22,7 @@ public class MonsterBase : FighterBase
     public bool IsUnlockable() 
     {
         if (needsAll)
-        {
             return NeedsAll();
-        }
         return NeedsOne();
     }
 

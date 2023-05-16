@@ -2,12 +2,100 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuManager : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
+    private static UIManager instance;
+
+    public enum MenuState {
+        GAME,
+        FIGHT,
+        UNLOCK_MONSTER,
+        UNLOCK_TRAP,
+        UNLOCK_ROOM,
+    }
+    MenuState state = MenuState.GAME;
+
+    [Header("Fight Menu")]
+    [SerializeField] private GameObject fightMenu;
+
+    [Header("Unlock Menu")]
+    [SerializeField] private GameObject unlockMenu;
+
+    [Header("Build Menu")]
     [SerializeField] private Animator roomMenu, trapMenu, monsterMenu;
     [SerializeField] private GameObject roomMenuOpen, roomMenuClose, trapMenuOpen, trapMenuClose, monsterMenuOpen, monsterMenuClose;
     private const string OPEN = "Open", CLOSE = "Close";
     private bool roomOpen, trapOpen, monsterOpen;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    public static UIManager GetInstance()
+    {
+        return instance;
+    }
+
+    // ---------- General Menu Stuff ----------
+
+    private void SetMenus()
+    {
+        switch (state)
+        {
+            case MenuState.GAME:
+                CloseAllMenus();
+                break;
+            case MenuState.UNLOCK_MONSTER:
+                CloseAllMenus();
+                SetUnlockMenu(true);
+                break;
+            case MenuState.FIGHT:
+                CloseAllMenus();
+                SetFightMenu(true);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void SetMenu(MenuState menuState)
+    {
+        state = menuState;
+        SetMenus();
+    }
+
+    public void CloseAllMenus()
+    {
+        SetFightMenu(false);
+        SetUnlockMenu(false);
+    }
+
+    // ---------- Fight Menu ----------
+
+    private void SetFightMenu(bool active)
+    {
+        fightMenu.SetActive(active);
+    }
+
+    public void OpenFightMenu()
+    {
+        SetMenu(MenuState.FIGHT);
+    }
+
+    // ---------- Unlock Menu ----------
+
+    private void SetUnlockMenu(bool active)
+    {
+        unlockMenu.SetActive(active);
+    }
+
+    public void OpenUnlockMenu()
+    {
+        SetMenu(MenuState.UNLOCK_MONSTER);
+    }
+
+    // ---------- Build Menus ----------
 
     public void OpenRoomMenu()
     {
@@ -69,7 +157,7 @@ public class MenuManager : MonoBehaviour
         monsterMenuClose.SetActive(false);
     }
 
-    public void CloseAllMenus()
+    public void CloseBuildMenus()
     {
         CloseRoomMenu();
         CloseTrapMenu();

@@ -56,7 +56,7 @@ public class FightManager : MonoBehaviour
         }
         order.Sort((f1, f2)=>f2.GetSpeed().CompareTo(f1.GetSpeed()));
 
-        fightViewer.SetActive(true);
+        UIManager.GetInstance().OpenFightMenu();
 
         // ShowFighters(fighters, room);
         foreach (Fighter f in order)
@@ -112,7 +112,7 @@ public class FightManager : MonoBehaviour
             room.HeroesDefeatedMonsters();
         }
 
-        fightViewer.SetActive(false);
+        UIManager.GetInstance().CloseAllMenus();
 
     }
 

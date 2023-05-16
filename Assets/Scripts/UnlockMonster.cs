@@ -34,6 +34,7 @@ public class UnlockMonster : MonoBehaviour
     public void Clicked()
     {
         GameManager.GetInstance().monsterDescriptionBox.UnlockingMonster(monsterBase);
+        UnlockManager.GetInstance().SelectedMonster(monsterBase);
         // UnlockManager.GetInstance().TryUnlock(monsterBase);
     }
 
