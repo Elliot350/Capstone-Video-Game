@@ -10,6 +10,7 @@ public class FightManager : MonoBehaviour
     public List<Fighter> order;
     public List<Monster> monsters;
     public List<Hero> heroes;
+    public Room room;
 
     private WaitForSeconds shortPause = new WaitForSeconds(0.5f);
     private WaitForSeconds secondPause = new WaitForSeconds(1);
@@ -24,7 +25,7 @@ public class FightManager : MonoBehaviour
         return instance;
     }
 
-    public IEnumerator StartFight(List<Hero> party, List<MonsterBase> monsterBases, Room room)
+    public IEnumerator StartFight(List<Hero> party, List<MonsterBase> monsterBases, Room roomFight)
     {
         if (party.Count == 0 || monsterBases.Count == 0) 
             yield break;
@@ -33,7 +34,9 @@ public class FightManager : MonoBehaviour
 
         heroes = new List<Hero>();
         monsters = new List<Monster>();
+        room = roomFight;
 
+        // TODO: Use AddMonster instead
         foreach (MonsterBase mb in monsterBases)
         {
             Monster monster = Instantiate(monsterPrefab, monsterHolder.transform).GetComponent<Monster>();
@@ -87,7 +90,7 @@ public class FightManager : MonoBehaviour
             }
 
             yield return shortPause;
-            fighter.DoneAttack();
+            // fighter.DoneAttack();
             yield return shortPause;
 
             // Move them to the end of the order
@@ -146,6 +149,16 @@ public class FightManager : MonoBehaviour
             }
         }
     }
+
+    public void AddMonster(MonsterBase monsterBase)
+    {
+        Monster monster = Instantiate(monsterPrefab, monsterHolder.transform).GetComponent<Monster>();
+        monster.SetType(monsterBase, room);
+        order.Add(monster);
+        monsters.Add(monster);
+    }
+
+    // TODO: Add a Add Hero method maybe?
 
     public void ShowFighters(List<Fighter> fighters, Room room)
     {

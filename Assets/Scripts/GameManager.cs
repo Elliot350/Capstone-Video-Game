@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public TrapDescriptionBox trapDescriptionBox;
     public MonsterDescriptionBox monsterDescriptionBox;
 
-    public Room tempRoom;
+    public MonsterBase bossMonster;
 
     void Awake()
     {
@@ -104,6 +104,6 @@ public class GameManager : MonoBehaviour
 
     public void AddBoss()
     {
-        RoomPlacer.GetInstance().tilemap.GetInstantiatedObject(DungeonManager.GetInstance().bossRoom).GetComponent<Room>().AddMonster(MonsterPlacer.GetInstance().monsterBases[0]);
+        RoomPlacer.GetInstance().tilemap.GetInstantiatedObject(DungeonManager.GetInstance().bossRoom).GetComponent<Room>().AddMonster(bossMonster);
     }
 }

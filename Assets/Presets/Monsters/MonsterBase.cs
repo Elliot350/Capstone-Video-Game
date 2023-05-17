@@ -11,12 +11,19 @@ public class MonsterBase : FighterBase
     [SerializeField] protected List<MonsterBase> requirements;
     [SerializeField] protected List<Tag> tags;
 
+    // All types of monsters should inherit from this and overring the GetDescription and some other methods
+
     public virtual void MonsterSpawned() {}
 
-    public override void OnDeath(Fighter fighter) 
+    // Does this need to override? Could it be
+    // public void OnDealth(Monster monster)
+    // etc
+    public void OnDeath(Monster monster) 
     {
-        if (fighter.transform.parent.TryGetComponent<Room>(out Room room) && fighter.gameObject.TryGetComponent<Monster>(out Monster monster))
-            room.MonsterDied(monster);
+        monster.GetRoom().MonsterDied(monster);
+        
+        // if (fighter.transform.parent.TryGetComponent<Room>(out Room room) && fighter.gameObject.TryGetComponent<Monster>(out Monster monster))
+        //     room.MonsterDied(monster);
     }
 
     public bool IsUnlockable() 
@@ -46,6 +53,7 @@ public class MonsterBase : FighterBase
         return false;
     }
 
+    public virtual float GetDamageMultiplier() {return 0f;}
     public virtual string GetDescription() {return string.Format(description, Tag.FormatTags(tags));}
     public List<Tag> GetTags() {return tags;}
     public int GetCost() {return cost;}

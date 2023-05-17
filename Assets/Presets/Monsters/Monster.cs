@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class Monster : Fighter
 {
     public MonsterBase monsterBase;
-    // public Sprite sprite;
+    // TODO: Make this in Fighter instead
+    [SerializeField] private Animator animator;
 
     public void SetType(MonsterBase monsterBase, Room room)
     {
@@ -19,8 +20,8 @@ public class Monster : Fighter
         slider.maxValue = maxHealth;
         slider.value = health;
         damage = monsterBase.GetDamage();
-        damageMultiplier = room.roomBase.CalculateDamage(this);
-        healthMultiplier = room.roomBase.CalculateHealth(this);
+        damageMultiplier = CalculateDamageMultiplier();
+        healthMultiplier = 1f + room.roomBase.CalculateHealthMultiplier(this);
         image.sprite = monsterBase.GetSprite();
         alertImage.gameObject.SetActive(false);
     }
@@ -37,13 +38,17 @@ public class Monster : Fighter
     public override void Attack(List<Hero> fighters)
     {
         // Debug.Log($"{this} is attackig for {damage * damageMultiplier}");
-        monsterBase.DecideTarget(fighters).TakeDamage(damage * damageMultiplier);
-        alertImage.gameObject.SetActive(true);
+        float attackDamage = damage * CalculateDamageMultiplier();
+        Fighter target = monsterBase.DecideTarget(fighters);
+        Debug.Log($"Attacking for {attackDamage}");
+        target.TakeDamage(attackDamage);
+        animator.SetTrigger("Attack");
+        monsterBase.OnAttack();
     }
 
-    public override void DoneAttack()
+    private float CalculateDamageMultiplier()
     {
-        alertImage.gameObject.SetActive(false);
+        return 1f + room.roomBase.CalculateDamageMultiplier(this) + monsterBase.GetDamageMultiplier();
     }
 
     public override float GetSpeed()

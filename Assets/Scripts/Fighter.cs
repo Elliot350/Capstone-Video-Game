@@ -56,28 +56,10 @@ public class Fighter : MonoBehaviour
         Debug.LogWarning($"Not yet implemented FinishBattle");
     }
 
-    public string GetName()
-    {
-        return displayName;
-    }
-
-    public float GetHealth()
-    {
-        return health;
-    }
-
-    public float GetMaxHealth()
-    {
-        return maxHealth;
-    }
-
-    public float GetDamage()
-    {
-        return damage;
-    }
-
-    public virtual float GetSpeed()
-    {
-        return 1f;
-    }
+    public Room GetRoom() {return room;}
+    public string GetName() {return displayName;}
+    public float GetHealth() {return health;}
+    public float GetMaxHealth() {return maxHealth;}
+    public float GetDamage() {return damage;}
+    public virtual float GetSpeed() {return 1f;}
 }

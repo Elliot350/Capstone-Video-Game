@@ -8,14 +8,14 @@ public class DamageBuffRoomBase : RoomBase
     [SerializeField] protected float damageBoost;
     [SerializeField] protected List<Tag> tags;
 
-    public override float CalculateDamage(Monster monster)
+    public override float CalculateDamageMultiplier(Monster monster)
     {
         foreach (Tag t in tags)
         {
             if (monster.monsterBase.GetTags().Contains(t))
-                return base.CalculateDamage(monster) + damageBoost;
+                return base.CalculateDamageMultiplier(monster) + damageBoost;
         }
-        return base.CalculateDamage(monster);
+        return base.CalculateDamageMultiplier(monster);
     }
 
     public override string GetDescription()
