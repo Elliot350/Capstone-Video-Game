@@ -27,6 +27,19 @@ public class Hero : Fighter
         this.room = room;
     }
 
+    public override void Attack(List<Monster> fighters)
+    {
+        float attackDamage = heroBase.GetDamage() * CalculateDamageMultiplier();
+        Fighter target = heroBase.DecideTarget(fighters);
+        base.Attack(fighters);
+        target.TakeDamage(attackDamage);
+    }
+
+    private float CalculateDamageMultiplier()
+    {
+        return 1f + heroBase.GetDamageMultiplier();
+    }
+
     public override void Die()
     {
         PartyManager.GetInstance().GetParty().HeroDead(this);

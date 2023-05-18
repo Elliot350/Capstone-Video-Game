@@ -10,6 +10,7 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected float health;
     [SerializeField] protected float damage;
     [SerializeField] protected Slider slider;
+    [SerializeField] protected Animator animator;
     [SerializeField] protected Image image, alertImage;
     [SerializeField] protected Room room;
     public float healthMultiplier = 1f, damageMultiplier = 1f;
@@ -31,14 +32,12 @@ public class Fighter : MonoBehaviour
 
     public virtual void Attack(List<Monster> fighters) 
     {
-        alertImage.gameObject.SetActive(true);
-        fighters[0].TakeDamage(Mathf.RoundToInt(damage * damageMultiplier));
+        animator.SetTrigger("Attack");
     }
 
     public virtual void Attack(List<Hero> fighters) 
     {
-        Debug.Log($"{this} is attacking for {damage * damageMultiplier}");
-        fighters[0].TakeDamage(Mathf.RoundToInt(damage * damageMultiplier));
+        animator.SetTrigger("Attack");
     }
 
     public virtual void DoneAttack()

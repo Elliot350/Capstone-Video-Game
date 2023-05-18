@@ -12,6 +12,9 @@ public class FightManager : MonoBehaviour
     public List<Hero> heroes;
     public Room room;
 
+    private List<SpriteRenderer> portraits;
+    
+
     private WaitForSeconds shortPause = new WaitForSeconds(0.5f);
     private WaitForSeconds secondPause = new WaitForSeconds(1);
 
@@ -150,6 +153,11 @@ public class FightManager : MonoBehaviour
         }
     }
 
+    private void UpdateOrder()
+    {
+
+    }
+
     public void AddMonster(MonsterBase monsterBase)
     {
         Monster monster = Instantiate(monsterPrefab, monsterHolder.transform).GetComponent<Monster>();
@@ -159,33 +167,4 @@ public class FightManager : MonoBehaviour
     }
 
     // TODO: Add a Add Hero method maybe?
-
-    public void ShowFighters(List<Fighter> fighters, Room room)
-    {
-        float monsterOffset = 0f;
-        float heroOffset = 0f;
-
-        foreach (Fighter f in fighters)
-        {
-            if (f is Monster)
-            {
-                // f.ShowFighter(room);
-                Debug.Log($"Before: {f.transform.position}, {f.gameObject.transform.position}");
-                f.gameObject.transform.position = new Vector3(f.transform.position.x - monsterOffset, f.transform.position.y, f.transform.position.z);
-                monsterOffset += 1f;
-                Debug.Log($"After: {f.transform.position}, {f.gameObject.transform.position}");
-            }
-            else if (f is Hero)
-            {
-                // f.ShowFighter(room);
-                f.gameObject.transform.position.Set(f.transform.position.x + heroOffset, f.transform.position.y, f.transform.position.z);
-                heroOffset += 1f;
-                Debug.Log($"{heroOffset}");
-            }
-            else
-            {
-                Debug.LogWarning($"{f} wasn't a hero or a monster!");
-            }
-        }
-    }
 }

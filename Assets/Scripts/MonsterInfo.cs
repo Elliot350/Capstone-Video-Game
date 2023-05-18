@@ -11,7 +11,7 @@ public class MonsterInfo : MonoBehaviour
     
     private void Start()
     {
-        gameObject.SetActive(false);
+        
     }
 
     public void ShowMonster(MonsterBase mb)
@@ -24,5 +24,10 @@ public class MonsterInfo : MonoBehaviour
         monsterImage.sprite = mb.GetSprite();
         tagsText.text = Tag.FormatTags(mb.GetTags());
         gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }

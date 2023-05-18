@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class Monster : Fighter
 {
     public MonsterBase monsterBase;
-    // TODO: Make this in Fighter instead
-    [SerializeField] private Animator animator;
 
     public void SetType(MonsterBase monsterBase, Room room)
     {
@@ -42,7 +40,7 @@ public class Monster : Fighter
         Fighter target = monsterBase.DecideTarget(fighters);
         Debug.Log($"Attacking for {attackDamage}");
         target.TakeDamage(attackDamage);
-        animator.SetTrigger("Attack");
+        base.Attack(fighters);
         monsterBase.OnAttack();
     }
 

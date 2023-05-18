@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public enum MenuState {
         GAME,
         FIGHT,
+        PICK_BOSS,
         UNLOCK_MONSTER,
         UNLOCK_TRAP,
         UNLOCK_ROOM,
@@ -17,6 +18,9 @@ public class UIManager : MonoBehaviour
 
     [Header("Fight Menu")]
     [SerializeField] private GameObject fightMenu;
+
+    [Header("Pick Boss")]
+    [SerializeField] private GameObject bossMenu;
 
     [Header("Unlock Menu")]
     [SerializeField] private GameObject unlockMenu;
@@ -46,13 +50,17 @@ public class UIManager : MonoBehaviour
             case MenuState.GAME:
                 CloseAllMenus();
                 break;
-            case MenuState.UNLOCK_MONSTER:
-                CloseAllMenus();
-                SetUnlockMenu(true);
-                break;
             case MenuState.FIGHT:
                 CloseAllMenus();
                 SetFightMenu(true);
+                break;
+            case MenuState.PICK_BOSS:
+                CloseAllMenus();
+                SetBossMenu(true);
+                break;
+            case MenuState.UNLOCK_MONSTER:
+                CloseAllMenus();
+                SetUnlockMenu(true);
                 break;
             default:
                 break;
@@ -69,6 +77,7 @@ public class UIManager : MonoBehaviour
     {
         SetFightMenu(false);
         SetUnlockMenu(false);
+        SetBossMenu(false);
     }
 
     // ---------- Fight Menu ----------
@@ -81,6 +90,18 @@ public class UIManager : MonoBehaviour
     public void OpenFightMenu()
     {
         SetMenu(MenuState.FIGHT);
+    }
+
+    // ---------- Boss Menu ---------
+
+    private void SetBossMenu(bool active)
+    {
+        bossMenu.SetActive(active);
+    }
+
+    public void OpenBossMenu()
+    {
+        SetMenu(MenuState.PICK_BOSS);
     }
 
     // ---------- Unlock Menu ----------

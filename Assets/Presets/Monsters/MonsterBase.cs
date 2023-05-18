@@ -53,7 +53,6 @@ public class MonsterBase : FighterBase
         return false;
     }
 
-    public virtual float GetDamageMultiplier() {return 0f;}
     public virtual string GetDescription() {return string.Format(description, Tag.FormatTags(tags));}
     public List<Tag> GetTags() {return tags;}
     public int GetCost() {return cost;}

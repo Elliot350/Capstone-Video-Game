@@ -50,6 +50,7 @@ public class FighterBase : ScriptableObject
         return fighters[0];
     }
 
+    public virtual float GetDamageMultiplier() {return 0f;}
     public string GetName() {return displayName;}
     public int GetMaxHealth() {return maxHealth;}
     public virtual float GetDamage() {return damage;}
