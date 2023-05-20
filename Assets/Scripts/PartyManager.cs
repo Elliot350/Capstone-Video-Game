@@ -12,8 +12,9 @@ public class PartyManager : MonoBehaviour
     public Hero heroPrefab;
     [SerializeField] private Party party;
 
-    [SerializeField]
-    private List<HeroBase> heroBases;
+    [SerializeField] private List<HeroBase> heroBases;
+
+    [SerializeField] private List<HeroBase> tempParty;
 
     public float moveTime;
     private float lastMoveTime;
@@ -101,9 +102,14 @@ public class PartyManager : MonoBehaviour
     public void CreateHero(HeroBase heroBase)
     {
         Hero heroTemp = Instantiate(heroPrefab, FightManager.GetInstance().heroHolder.transform);
-        heroTemp.SetType(heroBase);
+        heroTemp.SetType(heroBase, null);
         party.AddHero(heroTemp);
         // party.AddHero(heroBase);
+    }
+
+    public void CreateSetParty()
+    {
+        CreateParty(tempParty);
     }
 
     // Create a random party

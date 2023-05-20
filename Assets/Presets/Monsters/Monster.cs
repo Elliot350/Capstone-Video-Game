@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 public class Monster : Fighter
 {
-    public MonsterBase monsterBase;
-
     public void SetType(MonsterBase monsterBase, Room room)
     {
-        this.monsterBase = monsterBase;
+        this.fighterBase = monsterBase;
         this.room = room;
         displayName = monsterBase.GetName();
         maxHealth = monsterBase.GetMaxHealth();
@@ -28,33 +26,38 @@ public class Monster : Fighter
     {
         Debug.Log($"Monster died!");
         room.MonsterDied(this);
-        monsterBase.OnDeath(this);
+        fighterBase.OnDeath(this);
         FightManager.GetInstance().FighterDied(this);
-        Destroy(gameObject);
+        animator.SetTrigger("Dead");
     }
 
     public override void Attack(List<Hero> fighters)
     {
         // Debug.Log($"{this} is attackig for {damage * damageMultiplier}");
         float attackDamage = damage * CalculateDamageMultiplier();
-        Fighter target = monsterBase.DecideTarget(fighters);
+        Fighter target = fighterBase.DecideTarget(fighters);
         Debug.Log($"Attacking for {attackDamage}");
-        target.TakeDamage(attackDamage);
+        target.TakeDamage(this, attackDamage);
         base.Attack(fighters);
-        monsterBase.OnAttack();
+        fighterBase.OnAttack();
     }
 
-    private float CalculateDamageMultiplier()
+    protected override float CalculateDamageMultiplier()
     {
-        return 1f + room.roomBase.CalculateDamageMultiplier(this) + monsterBase.GetDamageMultiplier();
+        return 1f + room.roomBase.CalculateDamageMultiplier(this) + fighterBase.GetDamageMultiplier(this);
+    }
+
+    public void DestroyGameObject()
+    {
+        Destroy(gameObject);
     }
 
     public override float GetSpeed()
     {
-        return monsterBase.GetSpeed();
+        return fighterBase.GetSpeed();
     }
 
-    public Sprite GetSprite()
+    public override Sprite GetSprite()
     {
         return image.sprite;
     }

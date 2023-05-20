@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FightManager : MonoBehaviour
 {
@@ -12,9 +13,9 @@ public class FightManager : MonoBehaviour
     public List<Hero> heroes;
     public Room room;
 
-    private List<SpriteRenderer> portraits;
+    [SerializeField] private GameObject portraitPrefab, orderHolder;
+    private List<Image> portraits = new List<Image>();
     
-
     private WaitForSeconds shortPause = new WaitForSeconds(0.5f);
     private WaitForSeconds secondPause = new WaitForSeconds(1);
 
@@ -34,18 +35,14 @@ public class FightManager : MonoBehaviour
             yield break;
 
         order = new List<Fighter>();
-
         heroes = new List<Hero>();
         monsters = new List<Monster>();
+        
         room = roomFight;
 
-        // TODO: Use AddMonster instead
         foreach (MonsterBase mb in monsterBases)
         {
-            Monster monster = Instantiate(monsterPrefab, monsterHolder.transform).GetComponent<Monster>();
-            monster.SetType(mb, room);
-            order.Add(monster);
-            monsters.Add(monster);
+            AddMonster(mb);
         }
 
         // foreach (HeroBase hb in heroBases)
@@ -59,8 +56,10 @@ public class FightManager : MonoBehaviour
         foreach (Hero h in party)
         {
             order.Add(h);
+            h.EnterRoom(room);
         }
         order.Sort((f1, f2)=>f2.GetSpeed().CompareTo(f1.GetSpeed()));
+        UpdateOrder();
 
         UIManager.GetInstance().OpenFightMenu();
 
@@ -99,6 +98,7 @@ public class FightManager : MonoBehaviour
             // Move them to the end of the order
             order.RemoveAt(0);
             order.Add(fighter);
+            UpdateOrder();
             
             if (count > 100)
                 break;
@@ -155,7 +155,27 @@ public class FightManager : MonoBehaviour
 
     private void UpdateOrder()
     {
+        while (portraits.Count < order.Count)
+        {
+            AddPortrait();
+        }
 
+        foreach (Image i in portraits)
+        {
+            i.gameObject.SetActive(false);
+        }
+        
+        for (int i = 0; i < order.Count; i++)
+        {
+            portraits[i].sprite = order[i].GetSprite();
+            portraits[i].gameObject.SetActive(true);
+        }
+    }
+
+    private void AddPortrait()
+    {
+        GameObject gameObject = Instantiate(portraitPrefab, orderHolder.transform);
+        portraits.Add(gameObject.GetComponent<Image>());
     }
 
     public void AddMonster(MonsterBase monsterBase)

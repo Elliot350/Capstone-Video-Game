@@ -5,48 +5,38 @@ using UnityEngine.UI;
 
 public class Hero : Fighter
 {
-    public HeroBase heroBase;
-
-    public void SetType(HeroBase heroBase)
+    public void EnterRoom(Room room)
     {
-        this.heroBase = heroBase;
-        displayName = this.heroBase.GetName();
-        maxHealth = this.heroBase.GetMaxHealth();
-        health = maxHealth;
-        damage = this.heroBase.GetDamage();
-        slider.minValue = 0;
-        slider.maxValue = maxHealth;
-        slider.value = maxHealth;
-        image.sprite = heroBase.GetSprite();
-        alertImage.gameObject.SetActive(false);
+        this.room = room;
     }
 
-    public void SetType(HeroBase heroBase, Room room)
+    public override void TakeDamage(Fighter source, float amount)
     {
-        SetType(heroBase);
-        this.room = room;
+        fighterBase.OnTakenDamage(source, amount);
+        base.TakeDamage(source, amount);
     }
 
     public override void Attack(List<Monster> fighters)
     {
-        float attackDamage = heroBase.GetDamage() * CalculateDamageMultiplier();
-        Fighter target = heroBase.DecideTarget(fighters);
+        float attackDamage = fighterBase.GetDamage() * CalculateDamageMultiplier();
+        Fighter target = fighterBase.DecideTarget(fighters);
         base.Attack(fighters);
-        target.TakeDamage(attackDamage);
-    }
-
-    private float CalculateDamageMultiplier()
-    {
-        return 1f + heroBase.GetDamageMultiplier();
+        target.TakeDamage(this, attackDamage);
     }
 
     public override void Die()
     {
+        fighterBase.OnDeath(lastAttacker);
         PartyManager.GetInstance().GetParty().HeroDead(this);
+    }
+
+    public override Sprite GetSprite()
+    {
+        return fighterBase.GetSprite();
     }
 
     public override float GetSpeed()
     {
-        return heroBase.GetSpeed();
+        return fighterBase.GetSpeed();
     }
 }

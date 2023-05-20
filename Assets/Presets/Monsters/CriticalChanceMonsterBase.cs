@@ -9,7 +9,7 @@ public class CriticalChanceMonsterBase : MonsterBase
     [SerializeField] protected float criticalMultiplier;
 
     // TODO: Make Monster get attack from MonsterBase, Room, etc.
-    public override float GetDamageMultiplier()
+    public override float GetDamageMultiplier(Fighter f)
     {
         return Random.Range(0f, 1f) < criticalChance ? criticalMultiplier : 0;
     }

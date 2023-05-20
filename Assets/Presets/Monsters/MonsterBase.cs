@@ -9,7 +9,6 @@ public class MonsterBase : FighterBase
     [SerializeField] protected string description;
     [SerializeField] protected bool needsAll;
     [SerializeField] protected List<MonsterBase> requirements;
-    [SerializeField] protected List<Tag> tags;
 
     // All types of monsters should inherit from this and overring the GetDescription and some other methods
 
@@ -54,6 +53,5 @@ public class MonsterBase : FighterBase
     }
 
     public virtual string GetDescription() {return string.Format(description, Tag.FormatTags(tags));}
-    public List<Tag> GetTags() {return tags;}
     public int GetCost() {return cost;}
 }
