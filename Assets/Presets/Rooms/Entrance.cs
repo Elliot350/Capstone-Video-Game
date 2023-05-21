@@ -7,7 +7,7 @@ public class Entrance : RoomBase
 {
     public override void AddRoom(Room room)
     {
-        DungeonManager.GetInstance().entrance = Vector3Int.FloorToInt(room.transform.position);
+        DungeonManager.GetInstance().SetEntrance(Vector3Int.FloorToInt(room.transform.position));
         room.Highlight(false);
     }
 }

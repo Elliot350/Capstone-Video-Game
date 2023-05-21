@@ -17,7 +17,7 @@ public class RoomBase : ScriptableObject
     public virtual void AddRoom(Room room)
     {
         // Debug.Log($"Adding to rooms");
-        DungeonManager.GetInstance().rooms.Add(room);
+        DungeonManager.GetInstance().GetRooms().Add(room);
         room.Highlight(false);
     }
 

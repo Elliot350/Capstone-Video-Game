@@ -32,6 +32,6 @@ public class BuildMonsterButton : MonoBehaviour
 
     public void Clicked()
     {
-        MonsterPlacer.GetInstance().BeginNewMonsterPlacement(monsterBase);
+        DungeonManager.GetInstance().BeginNewPlacement(monsterBase);
     }
 }

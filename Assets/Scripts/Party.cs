@@ -9,7 +9,7 @@ public class Party : MonoBehaviour
 
     private void Start()
     {
-        transform.position = DungeonManager.GetInstance().entrance;
+        transform.position = DungeonManager.GetInstance().GetEntrance();
         PartyManager.GetInstance().GenerateCompletePath();
     }
 

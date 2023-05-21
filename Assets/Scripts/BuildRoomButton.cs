@@ -32,7 +32,7 @@ public class BuildRoomButton : MonoBehaviour
 
     public void Clicked()
     {
-        RoomPlacer.GetInstance().BeginNewRoomPlacement(roomBase);
+        DungeonManager.GetInstance().BeginNewPlacement(roomBase);
     }
 
 }

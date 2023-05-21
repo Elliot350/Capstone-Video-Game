@@ -4978,7 +4978,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1759908043}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoomPlacer, Assembly-CSharp
         m_MethodName: BeginNewRoomPlacement
         m_Mode: 2
@@ -9356,10 +9356,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9356ef02374f4d4da503e246da83421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rooms: []
-  hallways: []
-  entrance: {x: 0, y: 0, z: 0}
-  bossRoom: {x: 0, y: 0, z: 0}
+  placementIndicator: {fileID: 1408544812}
+  tilemap: {fileID: 1537955115}
   hallwayBase: {fileID: 11400000, guid: 85ac73ba74ccc534d85cd17db754cb21, type: 2}
   roomBase: {fileID: 11400000, guid: 00c5b23d5d048f54d893fa8a12dac29d, type: 2}
   entranceBase: {fileID: 11400000, guid: 39a8b0bc6364eb14290679fa22946a20, type: 2}
@@ -10282,9 +10280,6 @@ GameObject:
   - component: {fileID: 1759908041}
   - component: {fileID: 1759908040}
   - component: {fileID: 1759908042}
-  - component: {fileID: 1759908043}
-  - component: {fileID: 1759908044}
-  - component: {fileID: 1759908045}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -10346,52 +10341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95ac59e51d0dc64d8bce377a4720377, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1759908043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1759908039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 494bd497c14b2e5428e8465c25472685, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placementIndicator: {fileID: 1408544812}
-  tilemap: {fileID: 1537955115}
-  tile: {fileID: 11400000, guid: 6d42391d41b67c049a38ec238af74cc0, type: 2}
-  roomBases: []
---- !u!114 &1759908044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1759908039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd6b9fef392ea764a81a2399c81951d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placementIndicator: {fileID: 1408544812}
-  monsterPrefab: {fileID: 2662237381807311990, guid: 6ae37855008c01f49856470016b063c4, type: 3}
-  monsterBases: []
---- !u!114 &1759908045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1759908039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2f1da494ba712f44a1b90818054974e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placementIndicator: {fileID: 1408544812}
-  trapPrefab: {fileID: 7215844278289656969, guid: ec96b5f0703574e29b8dc9dfe5a740c7, type: 3}
-  trapBases: []
 --- !u!224 &1787555401 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4602848106210746331, guid: a2067c2490eaf45ac9733c1b06e5b429, type: 3}

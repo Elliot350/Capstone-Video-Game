@@ -85,10 +85,10 @@ public class PartyManager : MonoBehaviour
         // Next position is move step plus one
         Vector3Int newPosition = new Vector3Int(roadPath[moveStep + 1].X, roadPath[moveStep + 1].Y);
         
-        if (RoomPlacer.GetInstance().tilemap.GetTile(newPosition) != null) {
+        if (DungeonManager.GetInstance().GetTilemap().GetTile(newPosition) != null) {
             canMove = false;
             party.transform.position = newPosition;
-            Room room = RoomPlacer.GetInstance().tilemap.GetInstantiatedObject(Vector3Int.FloorToInt(party.transform.position)).GetComponent<Room>();
+            Room room = DungeonManager.GetInstance().GetTilemap().GetInstantiatedObject(Vector3Int.FloorToInt(party.transform.position)).GetComponent<Room>();
             yield return room.StartCoroutine(room.PartyEntered(party));
             lastMoveTime = Time.time;
             moveStep++;
@@ -192,7 +192,7 @@ public class PartyManager : MonoBehaviour
         List<Vector2Int> rooms = new List<Vector2Int>();
         rooms = GetRoomsInOrder();
 
-        Vector2Int entrancePosition = new Vector2Int((int) DungeonManager.GetInstance().entrance.x, (int) DungeonManager.GetInstance().entrance.y);
+        Vector2Int entrancePosition = new Vector2Int((int) DungeonManager.GetInstance().GetEntrance().x, (int) DungeonManager.GetInstance().GetEntrance().y);
         roadPath.AddRange(astar.CreatePath(spots, rooms[0], entrancePosition, 100));
 
         for (int i = 1; i < rooms.Count; i++)
@@ -200,7 +200,7 @@ public class PartyManager : MonoBehaviour
             roadPath.AddRange(astar.CreatePath(spots, rooms[i], rooms[i - 1], 100));
         }
 
-        Vector2Int bossRoomPosition = new Vector2Int((int) DungeonManager.GetInstance().bossRoom.x, (int) DungeonManager.GetInstance().bossRoom.y);
+        Vector2Int bossRoomPosition = new Vector2Int((int) DungeonManager.GetInstance().GetBossRoom().x, (int) DungeonManager.GetInstance().GetBossRoom().y);
         roadPath.AddRange(astar.CreatePath(spots, bossRoomPosition, rooms[rooms.Count - 1], 100));
 
         // Remove duplicate positions
@@ -219,9 +219,9 @@ public class PartyManager : MonoBehaviour
         Debug.Log("Getting the rooms in order");
         List<Vector2Int> list = new List<Vector2Int>();
 
-        Vector2Int entrancePosition = new Vector2Int(DungeonManager.GetInstance().entrance.x, DungeonManager.GetInstance().entrance.y);
+        Vector2Int entrancePosition = new Vector2Int(DungeonManager.GetInstance().GetEntrance().x, DungeonManager.GetInstance().GetEntrance().y);
         
-        foreach (Room room in DungeonManager.GetInstance().rooms)
+        foreach (Room room in DungeonManager.GetInstance().GetRooms())
         {
             Vector2Int nextRoomPos = new Vector2Int((int) room.transform.position.x, (int) room.transform.position.y);
             bool placed = false;

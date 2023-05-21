@@ -7,7 +7,7 @@ public class Hallway : RoomBase
 {
     public override void AddRoom(Room room)
     {
-        DungeonManager.GetInstance().hallways.Add(room);
+        DungeonManager.GetInstance().GetHallways().Add(room);
         room.Highlight(false);
     }
 }
