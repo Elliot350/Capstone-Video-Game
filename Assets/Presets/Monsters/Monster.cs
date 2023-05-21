@@ -46,12 +46,7 @@ public class Monster : Fighter
     {
         return 1f + room.roomBase.CalculateDamageMultiplier(this) + fighterBase.GetDamageMultiplier(this);
     }
-
-    public void DestroyGameObject()
-    {
-        Destroy(gameObject);
-    }
-
+    
     public override float GetSpeed()
     {
         return fighterBase.GetSpeed();

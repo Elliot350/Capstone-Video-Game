@@ -94,6 +94,11 @@ public class Fighter : MonoBehaviour
         return 1f + room.roomBase.CalculateDamageMultiplier(this) + fighterBase.GetDamageMultiplier(this);
     }
 
+    public void DestroyGameObject()
+    {
+        Destroy(gameObject);
+    }
+
     public virtual Sprite GetSprite() {return null;}
     public Room GetRoom() {return room;}
     public string GetName() {return displayName;}
