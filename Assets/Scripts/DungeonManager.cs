@@ -27,6 +27,7 @@ public class DungeonManager : MonoBehaviour
     [SerializeField] private RoomBase roomBase;
     [SerializeField] private RoomBase entranceBase;
     [SerializeField] private RoomBase bossRoomBase;
+    [SerializeField] private MonsterBase monster;
 
     private List<RoomBase> roomBases;
 
@@ -157,6 +158,9 @@ public class DungeonManager : MonoBehaviour
         PlaceRoom(1, 0, hallwayBase);
 
         PlaceRoom(-2, 0, roomBase);
+        PlaceMonster(-2, 0, monster);
+        PlaceMonster(-2, 0, monster);
+        PlaceMonster(-2, 0, monster);
         PlaceRoom(2, 0, roomBase);
 
         PlaceRoom(0, -2, entranceBase);

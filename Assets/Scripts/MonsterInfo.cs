@@ -20,7 +20,10 @@ public class MonsterInfo : MonoBehaviour
         healthText.text = mb.GetMaxHealth().ToString();
         damageText.text = mb.GetDamage().ToString();
         costText.text = mb.GetCost().ToString();
-        descriptionText.text = mb.GetDescription();
+        string text = "";
+        foreach (Ability a in mb.GetAbilities())
+            text += a.GetDescription();
+        descriptionText.text = text;
         monsterImage.sprite = mb.GetSprite();
         tagsText.text = Tag.FormatTags(mb.GetTags());
         gameObject.SetActive(true);

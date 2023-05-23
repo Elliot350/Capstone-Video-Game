@@ -5,30 +5,10 @@ using UnityEngine.UI;
 
 public class Monster : Fighter
 {
-    public void SetType(MonsterBase monsterBase, Room room)
+    public override void Die(Damage attack)
     {
-        this.fighterBase = monsterBase;
-        this.room = room;
-        displayName = monsterBase.GetName();
-        maxHealth = monsterBase.GetMaxHealth();
-        health = maxHealth;
-        slider.minValue = 0;
-        slider.maxValue = maxHealth;
-        slider.value = health;
-        damage = monsterBase.GetDamage();
-        damageMultiplier = CalculateDamageMultiplier();
-        healthMultiplier = 1f + room.roomBase.CalculateHealthMultiplier(this);
-        image.sprite = monsterBase.GetSprite();
-        alertImage.gameObject.SetActive(false);
-    }
-
-    public override void Die()
-    {
-        Debug.Log($"Monster died!");
         room.MonsterDied(this);
-        fighterBase.OnDeath(this);
-        FightManager.GetInstance().FighterDied(this);
-        animator.SetTrigger("Dead");
+        base.Die(attack);
     }
 
     public override void Attack(List<Hero> fighters)
@@ -37,14 +17,9 @@ public class Monster : Fighter
         float attackDamage = damage * CalculateDamageMultiplier();
         Fighter target = fighterBase.DecideTarget(fighters);
         Debug.Log($"Attacking for {attackDamage}");
-        target.TakeDamage(this, attackDamage);
+        target.TakeDamage(new Damage(this, target, attackDamage));
         base.Attack(fighters);
         fighterBase.OnAttack();
-    }
-
-    protected override float CalculateDamageMultiplier()
-    {
-        return 1f + room.roomBase.CalculateDamageMultiplier(this) + fighterBase.GetDamageMultiplier(this);
     }
     
     public override float GetSpeed()

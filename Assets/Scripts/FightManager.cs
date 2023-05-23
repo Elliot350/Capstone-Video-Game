@@ -45,6 +45,8 @@ public class FightManager : MonoBehaviour
             AddMonster(mb);
         }
 
+        heroes.AddRange(party);
+
         // foreach (HeroBase hb in heroBases)
         // {
         //     Hero hero = Instantiate(heroPrefab, heroHolder.transform).GetComponent<Hero>();
@@ -170,6 +172,8 @@ public class FightManager : MonoBehaviour
             portraits[i].sprite = order[i].GetSprite();
             portraits[i].gameObject.SetActive(true);
         }
+
+        orderHolder.GetComponent<Animator>().SetTrigger("Next");
     }
 
     private void AddPortrait()

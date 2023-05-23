@@ -9,6 +9,7 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float health;
     [SerializeField] protected float damage;
+    [SerializeField] protected List<Ability> abilities;
     [SerializeField] protected List<Tag> tags;
     [SerializeField] protected Slider slider;
     [SerializeField] protected Animator animator;
@@ -27,7 +28,8 @@ public class Fighter : MonoBehaviour
         maxHealth = fighterBase.GetMaxHealth();
         health = maxHealth;
         damage = fighterBase.GetDamage();
-        tags = fighterBase.GetTags();
+        abilities = new List<Ability>(fighterBase.GetAbilities());
+        tags = new List<Tag>(fighterBase.GetTags());
         slider.minValue = 0f;
         slider.maxValue = maxHealth;
         slider.value = maxHealth;
@@ -41,25 +43,21 @@ public class Fighter : MonoBehaviour
         SetType(fighterBase);
     }
 
-    public virtual void TakeDamage(Fighter source, float amount) 
+    public virtual void TakeDamage(Damage attack)
     {
-        lastAttacker = source;
-        TakeDamage(amount);
-    }
-
-    public virtual void TakeDamage(float amount)
-    {
-        health -= amount;
+        health -= attack.damage;
         slider.value = health;
-        fighterBase.OnTakenDamage(lastAttacker, amount);
+        foreach (Ability a in abilities)
+            a.OnTakenDamage(attack);
         if (health <= 0)
-            Die();
+            Die(attack);
     }
 
     public virtual void Heal(float amount) 
     {
         health += amount;
-        fighterBase.OnHeal();
+        foreach (Ability a in abilities)
+            a.OnHeal(this);
         if (health > maxHealth)
             health = maxHealth;
     }
@@ -67,11 +65,15 @@ public class Fighter : MonoBehaviour
     public virtual void Attack(List<Monster> fighters) 
     {
         animator.SetTrigger("Attack");
+        foreach (Ability a in abilities)
+            a.OnAttack(this);
     }
 
     public virtual void Attack(List<Hero> fighters) 
     {
         animator.SetTrigger("Attack");
+        foreach (Ability a in abilities)
+            a.OnAttack(this);
     }
 
     public virtual void DoneAttack()
@@ -79,19 +81,33 @@ public class Fighter : MonoBehaviour
         alertImage.gameObject.SetActive(false);
     }
 
-    public virtual void Die() 
+    public virtual void Die(Damage attack) 
     {
-        Debug.LogWarning($"Not yet implemented Die");
+        FightManager.GetInstance().FighterDied(this);
+        foreach (Ability a in abilities)
+            a.OnDeath(attack);
+        animator.SetTrigger("Dead");
     }
 
     public void FinishBattle() 
     {
-        Debug.LogWarning($"Not yet implemented FinishBattle");
+        foreach (Ability a in abilities)
+            a.OnBattleFinished(this);
+    }
+
+    public void StartBattle()
+    {
+        foreach (Ability a in abilities)
+            a.OnBattleStarted(this);
     }
 
     protected virtual float CalculateDamageMultiplier()
     {
-        return 1f + room.roomBase.CalculateDamageMultiplier(this) + fighterBase.GetDamageMultiplier(this);
+        float multiplier = 1f + room.roomBase.CalculateDamageMultiplier(this);
+        foreach (Ability a in abilities)
+            multiplier += a.GetDamageMultiplier(this);
+        Debug.Log($"Multiplier is {multiplier}");
+        return multiplier;
     }
 
     public void DestroyGameObject()
@@ -107,4 +123,27 @@ public class Fighter : MonoBehaviour
     public float GetDamage() {return damage;}
     public List<Tag> GetTags() {return tags;}
     public virtual float GetSpeed() {return 1f;}
+    public string GetDescription()
+    {
+        if (abilities.Count == 0)
+            return "No abilities";
+        string text = "";
+        foreach (Ability a in abilities)
+            text += a.Format();
+        return text;
+    }
+}
+
+public class Damage
+{
+    public Fighter source;
+    public Fighter target;
+    public float damage;
+
+    public Damage(Fighter source, Fighter target, float damage)
+    {
+        this.source = source;
+        this.target = target;
+        this.damage = damage;
+    }
 }

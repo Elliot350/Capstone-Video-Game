@@ -7,8 +7,8 @@ public class DeathDamageHero : HeroBase
 {
     [SerializeField] protected float deathDamage;
 
-    public override void OnDeath(Fighter source)
+    public override void OnDeath(Damage attack)
     {
-        source.TakeDamage(deathDamage);   
+        attack.source.TakeDamage(new Damage(attack.target, attack.source, deathDamage));
     }
 }

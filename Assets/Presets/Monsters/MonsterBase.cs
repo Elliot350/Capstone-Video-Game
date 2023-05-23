@@ -52,6 +52,5 @@ public class MonsterBase : FighterBase
         return false;
     }
 
-    public virtual string GetDescription() {return string.Format(description, Tag.FormatTags(tags));}
     public int GetCost() {return cost;}
 }

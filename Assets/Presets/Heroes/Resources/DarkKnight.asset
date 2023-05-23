@@ -9,12 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99ac7db106d6e4d84a019d9bd3ebb0e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 1dedaa80607ff03468c4124aab944655, type: 3}
   m_Name: DarkKnight
   m_EditorClassIdentifier: 
   displayName: Dark Knight
-  maxHealth: 17
+  maxHealth: 15
   damage: 2
   speed: 1
+  abilities:
+  - {fileID: 11400000, guid: 7c535ede88688dc48b937c9eb37c469e, type: 2}
+  tags: []
   sprite: {fileID: 1379590926, guid: d8e84b4bdabdd4476aadab46f5e84638, type: 3}
-  returnDamage: 1

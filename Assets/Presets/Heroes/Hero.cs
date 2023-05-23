@@ -10,24 +10,18 @@ public class Hero : Fighter
         this.room = room;
     }
 
-    public override void TakeDamage(Fighter source, float amount)
-    {
-        fighterBase.OnTakenDamage(source, amount);
-        base.TakeDamage(source, amount);
-    }
-
     public override void Attack(List<Monster> fighters)
     {
         float attackDamage = fighterBase.GetDamage() * CalculateDamageMultiplier();
         Fighter target = fighterBase.DecideTarget(fighters);
         base.Attack(fighters);
-        target.TakeDamage(this, attackDamage);
+        target.TakeDamage(new Damage(this, target, attackDamage));
     }
 
-    public override void Die()
+    public override void Die(Damage attack)
     {
-        fighterBase.OnDeath(lastAttacker);
         PartyManager.GetInstance().GetParty().HeroDead(this);
+        base.Die(attack);
     }
 
     public override Sprite GetSprite()

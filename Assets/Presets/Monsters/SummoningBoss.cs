@@ -12,8 +12,4 @@ public class SummoningBoss : BossBase
         FightManager.GetInstance().AddMonster(summoningMonster);
     }
 
-    public override string GetDescription()
-    {
-        return string.Format(description, Tag.FormatTags(tags), summoningMonster.GetName());
-    }
 }

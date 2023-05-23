@@ -324,6 +324,7 @@ GameObject:
   - component: {fileID: 86326586}
   - component: {fileID: 86326588}
   - component: {fileID: 86326587}
+  - component: {fileID: 86326589}
   m_Layer: 5
   m_Name: Order
   m_TagString: Untagged
@@ -346,11 +347,11 @@ RectTransform:
   m_Father: {fileID: 905412369}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -125}
-  m_SizeDelta: {x: 0, y: -250}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 155, y: 0}
+  m_SizeDelta: {x: 350, y: 50}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &86326587
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -372,7 +373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 325
+    m_Left: 0
     m_Right: 0
     m_Top: 5
     m_Bottom: 0
@@ -383,6 +384,26 @@ MonoBehaviour:
   m_Spacing: {x: 10, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!95 &86326589
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86326585}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f9386418f54b77446b14c2aa25b4c0ce, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &97083910
 GameObject:
   m_ObjectHideFlags: 0
@@ -4366,7 +4387,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &905412369
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6141,7 +6162,7 @@ MonoBehaviour:
   party: {fileID: 0}
   heroBases: []
   tempParty:
-  - {fileID: 11400000, guid: d8bff5786b18e4363a2797a5567baf0e, type: 2}
+  - {fileID: 11400000, guid: 218e8e8060af9824389d66c8bf279838, type: 2}
   - {fileID: 11400000, guid: 4c38f69c2ef206a4cb2a502ed25644a2, type: 2}
   moveTime: 1
   tilemap: {fileID: 1537955115}
@@ -9362,6 +9383,7 @@ MonoBehaviour:
   roomBase: {fileID: 11400000, guid: 00c5b23d5d048f54d893fa8a12dac29d, type: 2}
   entranceBase: {fileID: 11400000, guid: 39a8b0bc6364eb14290679fa22946a20, type: 2}
   bossRoomBase: {fileID: 11400000, guid: 041ae1b6491d14521881d8194cc3258b, type: 2}
+  monster: {fileID: 11400000, guid: 660e93d7a31dc264e99f3bf3bcf714f9, type: 2}
 --- !u!4 &1629371080
 Transform:
   m_ObjectHideFlags: 0
