@@ -13,10 +13,10 @@ public class Monster : Fighter
 
     public override void Attack(List<Hero> fighters)
     {
-        // Debug.Log($"{this} is attackig for {damage * damageMultiplier}");
-        float attackDamage = damage * CalculateDamageMultiplier();
+        float damageMultiplier = CalculateDamageMultiplier();
+        float attackDamage = damage * damageMultiplier;
         Fighter target = fighterBase.DecideTarget(fighters);
-        Debug.Log($"Attacking for {attackDamage}");
+        Debug.Log($"Attacking for {attackDamage} ({damage} * {damageMultiplier})");
         target.TakeDamage(new Damage(this, target, attackDamage));
         base.Attack(fighters);
         fighterBase.OnAttack();

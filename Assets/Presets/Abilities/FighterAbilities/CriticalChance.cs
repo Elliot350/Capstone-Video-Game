@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CriticalChance", menuName = "Abilities/Critical Chance")]
+[CreateAssetMenu(fileName = "CriticalChance", menuName = "Abilities/Fighters/Critical Chance")]
 public class CriticalChance : Ability
 {
     [SerializeField] protected float criticalChance;

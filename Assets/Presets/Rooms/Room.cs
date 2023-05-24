@@ -11,6 +11,7 @@ public class Room : MonoBehaviour
     public List<MonsterBase> monsters;
     public int trapCapacity;
     public List<Trap> traps;
+    public List<RoomAbility> abilities;
     public GameObject highlightBox;
     public SpriteRenderer alertSprite;
 
@@ -34,6 +35,7 @@ public class Room : MonoBehaviour
     public void SetType(RoomBase roomBase)
     {
         this.roomBase = roomBase;
+        this.abilities = new List<RoomAbility>(roomBase.GetAbilities());
         displayName = this.roomBase.GetName();
         monsterCapacity = this.roomBase.GetMonster();
         trapCapacity = this.roomBase.GetTrap();
@@ -43,6 +45,9 @@ public class Room : MonoBehaviour
 
     public IEnumerator PartyEntered(Party party)
     {
+        foreach (RoomAbility a in abilities)
+            a.PartyEntered(party);
+
         if (TrapsUntriggered())
         {
             yield return new WaitForSeconds(1);
@@ -93,6 +98,14 @@ public class Room : MonoBehaviour
         return false;
     }
 
+    public float GetDamageMultiplier(Fighter f)
+    {
+        float multiplier = 0f;
+        foreach (RoomAbility a in abilities)
+            multiplier += a.GetDamageMultiplier(f);
+        return multiplier;
+    }
+
     public void Highlight(bool status) 
     {
         highlightBox.SetActive(status);
@@ -126,9 +139,24 @@ public class Room : MonoBehaviour
         return $"{displayName}\nMonsters ({monsters.Count}/{monsterCapacity})\nTraps ({traps.Count}/{trapCapacity})";
     }
 
+    public string GetDescription()
+    {
+        string text = "";
+        foreach (RoomAbility a in abilities)
+            text += a.Format();
+        return text;
+    }
+
     public void MonsterDied(Monster monster)
     {
-        roomBase.OnMonsterDied(monster);
+        foreach (RoomAbility a in abilities)
+            a.OnMonsterDied(monster);
+    }
+
+    public void HeroDied(Hero hero)
+    {
+        foreach (RoomAbility a in abilities)
+            a.OnHeroDied(hero);
     }
 
     public virtual void HeroesDefeatedMonsters()

@@ -7,9 +7,10 @@ public class Tooltip : MonoBehaviour
 {
     public static Tooltip instance {get; private set;}
 
+    [SerializeField] private GameObject textTooltip;
     [SerializeField] private RectTransform rectTransform, canvasRectTransform, backgroundTransform;
     [SerializeField] private TextMeshProUGUI tooltipText;
-    [SerializeField] private const int DEFAULT_FONT_SIZE = 12;
+    [SerializeField] private const int DEFAULT_FONT_SIZE = 24;
 
     private void Awake() 
     {
@@ -51,26 +52,26 @@ public class Tooltip : MonoBehaviour
         SetText(text);
     }
 
-    private void ShowTooltip(string text, int fontSize)
+    private void SetTooltip(string text, int fontSize)
     {
         SetText(text);
         tooltipText.fontSize = fontSize;
-        gameObject.SetActive(true);
+        textTooltip.SetActive(true);
     }
 
     public void HideTooltip()
     {
-        gameObject.SetActive(false);
+        textTooltip.SetActive(false);
     }
 
     public static void ShowTooltip_Static(string text)
     {
-        instance.ShowTooltip(text, DEFAULT_FONT_SIZE);
+        instance.SetTooltip(text, DEFAULT_FONT_SIZE);
     }
 
     public static void ShowTooltip_Static(string text, int fontSize)
     {
-        instance.ShowTooltip(text, fontSize);
+        instance.SetTooltip(text, fontSize);
     }
 
     public static void HideTooltip_Static()

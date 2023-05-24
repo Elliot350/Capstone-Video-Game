@@ -11,6 +11,7 @@ public class RoomBase : ScriptableObject
     [SerializeField] protected string description;
     [SerializeField] protected int monsterCapacity;
     [SerializeField] protected int trapCapacity;
+    [SerializeField] protected List<RoomAbility> abilities;
     [SerializeField] protected Sprite sprite;
     [SerializeField] protected RuleTile tile;
 
@@ -32,6 +33,7 @@ public class RoomBase : ScriptableObject
     public int GetCost() {return cost;}
     public int GetMonster() {return monsterCapacity;}
     public int GetTrap() {return trapCapacity;}
+    public List<RoomAbility> GetAbilities() {return abilities;}
     public Sprite GetSprite() {return sprite;}
     public RuleTile GetTile() {return tile;}
     public string GetName() {return displayName;}

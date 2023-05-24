@@ -9,20 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c20a00ad19038b4fa59346862413373, type: 3}
+  m_Script: {fileID: 11500000, guid: 69f6baaa74a17c14e871549b2bd4ece9, type: 3}
   m_Name: Centipede
   m_EditorClassIdentifier: 
   displayName: Centipede
-  maxHealth: 7
+  maxHealth: 0
   damage: 4
   speed: 2
+  abilities:
+  - {fileID: 11400000, guid: aeab42ae11eaf57488843446aa6fd680, type: 2}
+  tags:
+  - {fileID: 11400000, guid: 24eee85445c114cf480333deb6aeb7c2, type: 2}
   sprite: {fileID: 21300000, guid: c482b6ab601eed146b6ba782772fce9c, type: 3}
   cost: 50
-  description: This {0} monster has a {1}% chance to deal {2}% extra damage.
+  description: 
   needsAll: 0
   requirements:
   - {fileID: 11400000, guid: 660e93d7a31dc264e99f3bf3bcf714f9, type: 2}
-  tags:
-  - {fileID: 11400000, guid: 24eee85445c114cf480333deb6aeb7c2, type: 2}
-  criticalChance: 0.5
-  criticalMultiplier: 0.5

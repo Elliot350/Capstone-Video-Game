@@ -137,12 +137,14 @@ public class FightManager : MonoBehaviour
 
     public void FighterDied(Fighter f)
     {
+        Debug.Log($"{f} died");
         if (f is Monster)
         {
             if (monsters.Contains(f.GetComponent<Monster>()))
             {
                 monsters.Remove(f.GetComponent<Monster>());
                 order.Remove(f);
+                Debug.Log($"{f} removed! (m)");
             }
         }
         else if (f is Hero)
@@ -151,6 +153,7 @@ public class FightManager : MonoBehaviour
             {
                 heroes.Remove(f.GetComponent<Hero>());
                 order.Remove(f);
+                Debug.Log($"{f} removed! (h)");
             }
         }
     }

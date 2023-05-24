@@ -6,7 +6,6 @@ using UnityEngine;
 public class MonsterBase : FighterBase
 {
     [SerializeField] protected int cost;
-    [SerializeField] protected string description;
     [SerializeField] protected bool needsAll;
     [SerializeField] protected List<MonsterBase> requirements;
 

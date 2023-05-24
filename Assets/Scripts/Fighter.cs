@@ -103,16 +103,20 @@ public class Fighter : MonoBehaviour
 
     protected virtual float CalculateDamageMultiplier()
     {
-        float multiplier = 1f + room.roomBase.CalculateDamageMultiplier(this);
+        float multiplier = 1f + room.GetDamageMultiplier(this);
         foreach (Ability a in abilities)
             multiplier += a.GetDamageMultiplier(this);
-        Debug.Log($"Multiplier is {multiplier}");
         return multiplier;
     }
 
     public void DestroyGameObject()
     {
         Destroy(gameObject);
+    }
+
+    public bool HasTag(Tag t)
+    {
+        return tags.Contains(t);
     }
 
     public virtual Sprite GetSprite() {return null;}

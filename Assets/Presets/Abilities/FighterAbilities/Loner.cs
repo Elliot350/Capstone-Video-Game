@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Loner", menuName = "Abilities/Loner")]
+[CreateAssetMenu(fileName = "Loner", menuName = "Abilities/Fighter/Loner")]
 public class Loner : Ability
 {
     [SerializeField] private float damagePerSpace;
