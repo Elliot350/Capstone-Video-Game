@@ -11,6 +11,11 @@ public class Monster : Fighter
         base.Die(attack);
     }
 
+    protected override void SetAnimator()
+    {
+        animator.SetBool("Monster", true);
+    }
+
     public override void Attack(List<Hero> fighters)
     {
         float damageMultiplier = CalculateDamageMultiplier();

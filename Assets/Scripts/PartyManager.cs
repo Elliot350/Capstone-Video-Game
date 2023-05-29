@@ -10,10 +10,10 @@ public class PartyManager : MonoBehaviour
 
     public Party partyPrefab;
     public Hero heroPrefab;
+
     [SerializeField] private Party party;
-
+    [SerializeField] private PartyStatus partyStatus;
     [SerializeField] private List<HeroBase> heroBases;
-
     [SerializeField] private List<HeroBase> tempParty;
 
     public float moveTime;
@@ -130,11 +130,23 @@ public class PartyManager : MonoBehaviour
         moveStep = 0;
         roadPath.Clear();
         DungeonManager.GetInstance().ResetDungeon();
+        partyStatus.SetParty(party);
     }
 
     public void CompletedDungeon()
     {
         DestroyParty();
+    }
+
+    public void HeroHurt(Hero h)
+    {
+        partyStatus.SetHeroHealth(h);
+    }
+
+    public void HeroDied(Hero h)
+    {
+        partyStatus.RemoveHero(h);
+        party.HeroDead(h);
     }
 
     public void DestroyParty()
@@ -147,6 +159,7 @@ public class PartyManager : MonoBehaviour
             }
         }
         Destroy(party.gameObject);
+        partyStatus.RemoveAllHeroes();
         party = null;
     }
 

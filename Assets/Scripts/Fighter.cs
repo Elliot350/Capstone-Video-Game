@@ -35,6 +35,12 @@ public class Fighter : MonoBehaviour
         slider.value = maxHealth;
         image.sprite = fighterBase.GetSprite();
         alertImage.gameObject.SetActive(false);
+
+    }
+
+    protected virtual void SetAnimator()
+    {
+        Debug.LogWarning($"Did not set Animator!");
     }
 
     public void SetType(FighterBase fighterBase, Room room)
@@ -45,6 +51,7 @@ public class Fighter : MonoBehaviour
 
     public virtual void TakeDamage(Damage attack)
     {
+        animator.SetTrigger("Hurt");
         health -= attack.damage;
         slider.value = health;
         foreach (Ability a in abilities)

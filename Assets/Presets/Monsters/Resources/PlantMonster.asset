@@ -16,12 +16,13 @@ MonoBehaviour:
   maxHealth: 10
   damage: 2
   speed: 1
-  sprite: {fileID: 21300000, guid: 7c27adbe70c44604e9466f4509358f0d, type: 3}
-  cost: 20
-  description: This {0} monster has a lot of health but relatively weak damage.
-  needsAll: 1
-  requirements:
-  - {fileID: 11400000, guid: 660e93d7a31dc264e99f3bf3bcf714f9, type: 2}
+  abilities:
+  - {fileID: 11400000, guid: 18948fd4b336b654ca4f345f6287260d, type: 2}
   tags:
   - {fileID: 11400000, guid: bf7c8f5fd4bfc644ab4fe00e4d030fe6, type: 2}
   - {fileID: 11400000, guid: 98971a9458ee42143aea2c92b351e18b, type: 2}
+  sprite: {fileID: 21300000, guid: 7c27adbe70c44604e9466f4509358f0d, type: 3}
+  cost: 20
+  needsAll: 1
+  requirements:
+  - {fileID: 11400000, guid: 660e93d7a31dc264e99f3bf3bcf714f9, type: 2}
