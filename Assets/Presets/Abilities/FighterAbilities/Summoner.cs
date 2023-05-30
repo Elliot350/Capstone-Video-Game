@@ -1,0 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "Summoner", menuName = "Abilities/Fighter/Summoner")]
+public class Summoner : Ability
+{
+    [SerializeField] private MonsterBase monsterToSummon;
+
+    public override void OnAttack(Damage attack)
+    {
+        FightManager.GetInstance().AddMonster(monsterToSummon);
+    }
+
+    public override string GetDescription()
+    {
+        return string.Format(description, monsterToSummon.GetName());
+    }
+}

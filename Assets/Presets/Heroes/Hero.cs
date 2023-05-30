@@ -12,21 +12,26 @@ public class Hero : Fighter
 
     protected override void SetAnimator()
     {
-        animator.SetBool("Monster", false);
+        isMonster = false;
     }
 
     public override void Attack(List<Monster> fighters)
     {
         float attackDamage = fighterBase.GetDamage() * CalculateDamageMultiplier();
         Fighter target = fighterBase.DecideTarget(fighters);
-        base.Attack(fighters);
-        target.TakeDamage(new Damage(this, target, attackDamage));
+        Damage attack = new Damage(this, target, attackDamage);
+        foreach (Ability a in abilities)
+            a.OnAttack(attack);
+        CatchUpAbilities();
+        animator.SetBool("Monster", isMonster);
+        animator.SetTrigger("Attack");
+        target.TakeDamage(attack);
     }
 
     public override void TakeDamage(Damage attack)
     {
-        base.TakeDamage(attack);
         PartyManager.GetInstance().HeroHurt(this);
+        base.TakeDamage(attack);
     }
 
     public override void Die(Damage attack)

@@ -50,6 +50,8 @@ public class DungeonManager : MonoBehaviour
             UpdatePlacementIndicator();
         if (currentlyPlacing && Input.GetMouseButtonDown(0))
             Place();
+        if (Input.GetKeyDown(KeyCode.Space))
+            BeginNewPlacement(entranceBase);
     }
 
     private void UpdatePlacementIndicator()

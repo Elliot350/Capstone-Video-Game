@@ -9,7 +9,7 @@ public class Ability : ScriptableObject
 
     public virtual void OnTakenDamage(Damage attack) {}
     public virtual void OnHeal(Fighter f) {}
-    public virtual void OnAttack(Fighter f) {}
+    public virtual void OnAttack(Damage attack) {}
     public virtual void OnDeath(Damage attack) {}
     public virtual void OnBattleStarted(Fighter f) {}
     public virtual void OnBattleFinished(Fighter f) {}

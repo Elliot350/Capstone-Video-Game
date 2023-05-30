@@ -136,6 +136,10 @@ public class Room : MonoBehaviour
     
     public string GetStatus()
     {
+        if (roomBase is Hallway)
+            return "Hallway";
+        if (roomBase is Entrance)
+            return "Entrance";
         return $"{displayName}\nMonsters ({monsters.Count}/{monsterCapacity})\nTraps ({traps.Count}/{trapCapacity})";
     }
 

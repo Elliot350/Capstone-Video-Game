@@ -13,7 +13,7 @@ public class Monster : Fighter
 
     protected override void SetAnimator()
     {
-        animator.SetBool("Monster", true);
+        isMonster = true;
     }
 
     public override void Attack(List<Hero> fighters)
@@ -21,10 +21,12 @@ public class Monster : Fighter
         float damageMultiplier = CalculateDamageMultiplier();
         float attackDamage = damage * damageMultiplier;
         Fighter target = fighterBase.DecideTarget(fighters);
-        Debug.Log($"Attacking for {attackDamage} ({damage} * {damageMultiplier})");
+        Damage attack = new Damage(this, target, attackDamage);
+        foreach (Ability a in abilities)
+            a.OnAttack(attack);
+        animator.SetBool("Monster", isMonster);
+        animator.SetTrigger("Attack");
         target.TakeDamage(new Damage(this, target, attackDamage));
-        base.Attack(fighters);
-        fighterBase.OnAttack();
     }
     
     public override float GetSpeed()

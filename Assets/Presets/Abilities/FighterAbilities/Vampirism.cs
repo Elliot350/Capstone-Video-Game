@@ -7,9 +7,9 @@ public class Vampirism : Ability
 {
     [SerializeField] private float healAmount;
 
-    public override void OnAttack(Fighter f)
+    public override void OnAttack(Damage attack)
     {
-        f.Heal(healAmount);
+        attack.source.Heal(healAmount);
     }
 
     public override string GetDescription()

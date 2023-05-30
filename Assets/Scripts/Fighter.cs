@@ -13,6 +13,7 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected List<Tag> tags;
     [SerializeField] protected Slider slider;
     [SerializeField] protected Animator animator;
+    protected bool isMonster;
     [SerializeField] protected Image image, alertImage;
 
     protected float healthMultiplier = 1f;
@@ -20,6 +21,9 @@ public class Fighter : MonoBehaviour
     protected Fighter lastAttacker;
     protected Room room;
     protected FighterBase fighterBase;
+
+    private List<Ability> abilitiesToRemove;
+    private List<Ability> abilitiesToAdd;
 
     public void SetType(FighterBase fighterBase)
     {
@@ -32,15 +36,15 @@ public class Fighter : MonoBehaviour
         tags = new List<Tag>(fighterBase.GetTags());
         slider.minValue = 0f;
         slider.maxValue = maxHealth;
-        slider.value = maxHealth;
+        SetHealthBar();
         image.sprite = fighterBase.GetSprite();
         alertImage.gameObject.SetActive(false);
-
+        SetAnimator();
     }
 
     protected virtual void SetAnimator()
     {
-        Debug.LogWarning($"Did not set Animator!");
+        Debug.LogWarning($"Did not set Animator! ({this}) - ({gameObject})");
     }
 
     public void SetType(FighterBase fighterBase, Room room)
@@ -51,11 +55,12 @@ public class Fighter : MonoBehaviour
 
     public virtual void TakeDamage(Damage attack)
     {
-        animator.SetTrigger("Hurt");
-        health -= attack.damage;
-        slider.value = health;
         foreach (Ability a in abilities)
             a.OnTakenDamage(attack);
+        animator.SetBool("Monster", isMonster);
+        animator.SetTrigger("Hurt");
+        health -= attack.damage;
+        SetHealthBar();
         if (health <= 0)
             Die(attack);
     }
@@ -67,20 +72,23 @@ public class Fighter : MonoBehaviour
             a.OnHeal(this);
         if (health > maxHealth)
             health = maxHealth;
+        SetHealthBar();
     }
 
     public virtual void Attack(List<Monster> fighters) 
     {
-        animator.SetTrigger("Attack");
-        foreach (Ability a in abilities)
-            a.OnAttack(this);
+        // animator.SetBool("Monster", isMonster);
+        // animator.SetTrigger("Attack");
+        // foreach (Ability a in abilities)
+        //     a.OnAttack(this);
     }
 
     public virtual void Attack(List<Hero> fighters) 
     {
-        animator.SetTrigger("Attack");
-        foreach (Ability a in abilities)
-            a.OnAttack(this);
+        // animator.SetBool("Monster", isMonster);
+        // animator.SetTrigger("Attack");
+        // foreach (Ability a in abilities)
+        //     a.OnAttack(this);
     }
 
     public virtual void DoneAttack()
@@ -94,6 +102,11 @@ public class Fighter : MonoBehaviour
         foreach (Ability a in abilities)
             a.OnDeath(attack);
         animator.SetTrigger("Dead");
+    }
+
+    private void SetHealthBar()
+    {
+        slider.value = health;
     }
 
     public void FinishBattle() 
@@ -113,7 +126,7 @@ public class Fighter : MonoBehaviour
         float multiplier = 1f + room.GetDamageMultiplier(this);
         foreach (Ability a in abilities)
             multiplier += a.GetDamageMultiplier(this);
-        return multiplier;
+        return Mathf.Max(multiplier, 0);
     }
 
     public void DestroyGameObject()
@@ -124,6 +137,31 @@ public class Fighter : MonoBehaviour
     public bool HasTag(Tag t)
     {
         return tags.Contains(t);
+    }
+
+    protected void CatchUpAbilities()
+    {
+        foreach (Ability a in abilitiesToAdd)
+            abilities.Add(a);
+        foreach (Ability a in abilitiesToRemove)
+        {
+            if (abilities.Contains(a))
+                abilities.Remove(a);
+        }
+        abilitiesToAdd.Clear();
+        abilitiesToRemove.Clear();
+    }
+
+    public void AddAbility(Ability a)
+    {
+        abilitiesToAdd.Add(a);
+    }
+
+    public void RemoveAbility(Ability a)
+    {
+        if (!abilities.Contains(a))
+            return;
+        abilitiesToRemove.Add(a);
     }
 
     public virtual Sprite GetSprite() {return null;}

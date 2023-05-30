@@ -64,13 +64,6 @@ public class FightManager : MonoBehaviour
         UpdateOrder();
 
         UIManager.GetInstance().OpenFightMenu();
-
-        // ShowFighters(fighters, room);
-        foreach (Fighter f in order)
-        {
-            // f.ShowFighter();
-            Debug.Log($"Fighter: {f}");
-        }
         
         yield return secondPause;
         yield return secondPause;
@@ -187,8 +180,11 @@ public class FightManager : MonoBehaviour
 
     public void AddMonster(MonsterBase monsterBase)
     {
+        Debug.Log($"Creating monster...");
         Monster monster = Instantiate(monsterPrefab, monsterHolder.transform).GetComponent<Monster>();
+        Debug.Log($"Setting type");
         monster.SetType(monsterBase, room);
+        
         order.Add(monster);
         monsters.Add(monster);
     }

@@ -9502,7 +9502,7 @@ MonoBehaviour:
   option1: {fileID: 4832455387413454331}
   option2: {fileID: 1276476029}
   boss1: {fileID: 11400000, guid: c1f2a582c47a4464db00366430db9594, type: 2}
-  boss2: {fileID: 11400000, guid: c1f2a582c47a4464db00366430db9594, type: 2}
+  boss2: {fileID: 11400000, guid: 206b9ba3bc6308d4a89d5f4728ad7037, type: 2}
 --- !u!1 &1629371078
 GameObject:
   m_ObjectHideFlags: 0

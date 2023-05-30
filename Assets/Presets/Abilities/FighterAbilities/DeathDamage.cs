@@ -9,6 +9,8 @@ public class DeathDamage : Ability
 
     public override void OnDeath(Damage attack)
     {
+        if (attack.source == null)
+            return;
         attack.source.TakeDamage(new Damage(attack.target, attack.source, deathDamage));
     }
 

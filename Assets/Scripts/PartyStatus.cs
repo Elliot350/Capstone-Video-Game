@@ -20,13 +20,13 @@ public class PartyStatus : MonoBehaviour
     public void RemoveAllHeroes()
     {
         foreach (Hero h in heroStatuses.Keys)
-        {
-            heroStatuses.Remove(h);
-        }
+            Destroy(heroStatuses[h]);
+        heroStatuses.Clear();
     }
 
     public void RemoveHero(Hero h)
     {
+        Destroy(heroStatuses[h]);
         heroStatuses.Remove(h);
     }
 
