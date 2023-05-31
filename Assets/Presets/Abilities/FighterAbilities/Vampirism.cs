@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Vampirism", menuName = "Abilities/Fighter/Vampirism")]
-public class Vampirism : Ability
+public class Vampirism : FighterAbility
 {
     [SerializeField] private float healAmount;
 

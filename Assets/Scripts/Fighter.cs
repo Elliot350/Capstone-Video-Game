@@ -9,7 +9,7 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float health;
     [SerializeField] protected float damage;
-    [SerializeField] protected List<Ability> abilities;
+    [SerializeField] protected List<FighterAbility> abilities;
     [SerializeField] protected List<Tag> tags;
     [SerializeField] protected Slider slider;
     [SerializeField] protected Animator animator;
@@ -22,8 +22,8 @@ public class Fighter : MonoBehaviour
     protected Room room;
     protected FighterBase fighterBase;
 
-    private List<Ability> abilitiesToRemove = new List<Ability>();
-    private List<Ability> abilitiesToAdd = new List<Ability>();
+    private List<FighterAbility> abilitiesToRemove = new List<FighterAbility>();
+    private List<FighterAbility> abilitiesToAdd = new List<FighterAbility>();
 
     public void SetType(FighterBase fighterBase)
     {
@@ -32,7 +32,7 @@ public class Fighter : MonoBehaviour
         maxHealth = fighterBase.GetMaxHealth();
         health = maxHealth;
         damage = fighterBase.GetDamage();
-        abilities = new List<Ability>(fighterBase.GetAbilities());
+        abilities = new List<FighterAbility>(fighterBase.GetAbilities());
         tags = new List<Tag>(fighterBase.GetTags());
         slider.minValue = 0f;
         slider.maxValue = maxHealth;
@@ -55,7 +55,7 @@ public class Fighter : MonoBehaviour
 
     public virtual void TakeDamage(Damage attack)
     {
-        foreach (Ability a in abilities)
+        foreach (FighterAbility a in abilities)
             a.OnTakenDamage(attack);
         HurtAnimation();
         health -= attack.damage;
@@ -67,7 +67,7 @@ public class Fighter : MonoBehaviour
     public virtual void Heal(float amount) 
     {
         health += amount;
-        foreach (Ability a in abilities)
+        foreach (FighterAbility a in abilities)
             a.OnHeal(this);
         if (health > maxHealth)
             health = maxHealth;
@@ -94,7 +94,7 @@ public class Fighter : MonoBehaviour
             float damageMultiplier = CalculateDamageMultiplier();
             float attackDamage = damage * damageMultiplier;
             Damage attack = new Damage(this, target, attackDamage);
-            foreach (Ability a in abilities)
+            foreach (FighterAbility a in abilities)
                 a.OnAttack(attack);
             CatchUpAbilities();
             AttackAnimation();
@@ -108,7 +108,7 @@ public class Fighter : MonoBehaviour
         float damageMultiplier = CalculateDamageMultiplier();
         float attackDamage = damage * damageMultiplier;
         Damage attack = new Damage(this, f, attackDamage);
-        foreach (Ability a in abilities)
+        foreach (FighterAbility a in abilities)
             a.OnAttack(attack);
         CatchUpAbilities();
         AttackAnimation();
@@ -120,12 +120,86 @@ public class Fighter : MonoBehaviour
         List<Fighter> targets = new List<Fighter>();
         targets.Add(fighters[0]);
 
-        foreach (Ability a in abilities)
+        foreach (FighterAbility a in abilities)
         {
             if (a.DecideTargets(fighters).Count >= targets.Count)
                 targets = a.DecideTargets(fighters);
         }
         return targets;
+    }
+
+    public virtual void DoneAttack()
+    {
+        alertImage.gameObject.SetActive(false);
+    }
+
+    public virtual void Die(Damage attack) 
+    {
+        FightManager.GetInstance().FighterDied(this);
+        foreach (FighterAbility a in abilities)
+            a.OnDeath(attack);
+        DeathAnimation();
+    }
+
+    private void SetHealthBar()
+    {
+        slider.value = health;
+    }
+
+    public void FinishBattle() 
+    {
+        foreach (FighterAbility a in abilities)
+            a.OnBattleFinished(this);
+    }
+
+    public void StartBattle()
+    {
+        foreach (FighterAbility a in abilities)
+            a.OnBattleStarted(this);
+    }
+
+    protected virtual float CalculateDamageMultiplier()
+    {
+        float multiplier = 1f + room.GetDamageMultiplier(this);
+        foreach (FighterAbility a in abilities)
+            multiplier += a.GetDamageMultiplier(this);
+        return Mathf.Max(multiplier, 0);
+    }
+
+    public void DestroyGameObject()
+    {
+        Destroy(gameObject);
+    }
+
+    public bool HasTag(Tag t)
+    {
+        return tags.Contains(t);
+    }
+
+    protected void CatchUpAbilities()
+    {
+        // Debug.Log($"Catching up abilities ({abilities.Count} + {abilitiesToAdd.Count} - {abilitiesToRemove.Count})");
+        foreach (FighterAbility a in abilitiesToAdd)
+            abilities.Add(a);
+        foreach (FighterAbility a in abilitiesToRemove)
+        {
+            if (abilities.Contains(a))
+                abilities.Remove(a);
+        }
+        abilitiesToAdd.Clear();
+        abilitiesToRemove.Clear();
+        // Debug.Log(abilities.Count);
+    }
+
+    public void AddAbility(FighterAbility a)
+    {
+        abilitiesToAdd.Add(a);
+    }
+
+    public void RemoveAbility(FighterAbility a)
+    {
+        // Debug.Log($"Adding {a} ({a.GetName()}) to remove");
+        abilitiesToRemove.Add(a);
     }
 
     protected virtual void AttackAnimation()
@@ -145,80 +219,6 @@ public class Fighter : MonoBehaviour
         animator.SetTrigger("Dead");
     }
 
-    public virtual void DoneAttack()
-    {
-        alertImage.gameObject.SetActive(false);
-    }
-
-    public virtual void Die(Damage attack) 
-    {
-        FightManager.GetInstance().FighterDied(this);
-        foreach (Ability a in abilities)
-            a.OnDeath(attack);
-        DeathAnimation();
-    }
-
-    private void SetHealthBar()
-    {
-        slider.value = health;
-    }
-
-    public void FinishBattle() 
-    {
-        foreach (Ability a in abilities)
-            a.OnBattleFinished(this);
-    }
-
-    public void StartBattle()
-    {
-        foreach (Ability a in abilities)
-            a.OnBattleStarted(this);
-    }
-
-    protected virtual float CalculateDamageMultiplier()
-    {
-        float multiplier = 1f + room.GetDamageMultiplier(this);
-        foreach (Ability a in abilities)
-            multiplier += a.GetDamageMultiplier(this);
-        return Mathf.Max(multiplier, 0);
-    }
-
-    public void DestroyGameObject()
-    {
-        Destroy(gameObject);
-    }
-
-    public bool HasTag(Tag t)
-    {
-        return tags.Contains(t);
-    }
-
-    protected void CatchUpAbilities()
-    {
-        // Debug.Log($"Catching up abilities ({abilities.Count} + {abilitiesToAdd.Count} - {abilitiesToRemove.Count})");
-        foreach (Ability a in abilitiesToAdd)
-            abilities.Add(a);
-        foreach (Ability a in abilitiesToRemove)
-        {
-            if (abilities.Contains(a))
-                abilities.Remove(a);
-        }
-        abilitiesToAdd.Clear();
-        abilitiesToRemove.Clear();
-        // Debug.Log(abilities.Count);
-    }
-
-    public void AddAbility(Ability a)
-    {
-        abilitiesToAdd.Add(a);
-    }
-
-    public void RemoveAbility(Ability a)
-    {
-        // Debug.Log($"Adding {a} ({a.GetName()}) to remove");
-        abilitiesToRemove.Add(a);
-    }
-
     public virtual Sprite GetSprite() {return image.sprite;}
     public Room GetRoom() {return room;}
     public string GetName() {return displayName;}
@@ -232,8 +232,8 @@ public class Fighter : MonoBehaviour
         if (abilities.Count == 0)
             return "No abilities";
         string text = "";
-        foreach (Ability a in abilities)
-            text += a.Format();
+        foreach (FighterAbility a in abilities)
+            text += a.GetAbility();
         return text;
     }
 }

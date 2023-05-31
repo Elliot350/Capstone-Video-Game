@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DeathDamage", menuName = "Abilities/Fighter/Death Damage")]
-public class DeathDamage : Ability
+public class DeathDamage : FighterAbility
 {
     [SerializeField] private float deathDamage;
 

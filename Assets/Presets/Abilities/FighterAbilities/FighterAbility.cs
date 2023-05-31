@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ability : ScriptableObject
+public class FighterAbility : Ability
 {
-    [SerializeField] protected string abilityName;
-    [SerializeField] protected string description;
-
     public virtual void OnTakenDamage(Damage attack) {}
     public virtual void OnHeal(Fighter f) {}
     public virtual void OnAttack(Damage attack) {}
@@ -16,8 +13,4 @@ public class Ability : ScriptableObject
     public virtual float GetDamageMultiplier(Fighter f) {return 0f;}
 
     public virtual List<Fighter> DecideTargets(List<Fighter> fighters) {return new List<Fighter>();}
-
-    public string GetName() {return abilityName;}
-    public virtual string GetDescription() {return string.Format(description);}
-    public virtual string Format() {return $"[{GetName()}] - {GetDescription()}";}
 }

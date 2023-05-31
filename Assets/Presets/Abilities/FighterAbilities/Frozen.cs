@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Frozen", menuName = "Abilities/Fighter/Frozen")]
-public class Frozen : Ability
+public class Frozen : FighterAbility
 {
     public override void OnAttack(Damage attack)
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CriticalChance", menuName = "Abilities/Fighter/Critical Chance")]
-public class CriticalChance : Ability
+public class CriticalChance : FighterAbility
 {
     [SerializeField] protected float criticalChance;
     [SerializeField] protected float criticalMultiplier;

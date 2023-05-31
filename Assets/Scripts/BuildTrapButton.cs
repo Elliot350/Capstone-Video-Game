@@ -14,20 +14,14 @@ public class BuildTrapButton : MonoBehaviour
         image.sprite = trapBase.GetSprite();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void HoverOver()
     {
-        GameManager.GetInstance().trapDescriptionBox.ShowDesciption(trapBase);
+        Tooltip.ShowTooltip_Static(trapBase);
     }
 
     public void HoverOut()
     {
-        GameManager.GetInstance().trapDescriptionBox.HideDescription();
+        Tooltip.HideTooltip_Static();
     }
 
     public void Clicked()

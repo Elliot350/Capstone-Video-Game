@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     
     public int money;
-    public int day;
     public TextMeshProUGUI statsText;
 
     public RoomInfo roomInfo;

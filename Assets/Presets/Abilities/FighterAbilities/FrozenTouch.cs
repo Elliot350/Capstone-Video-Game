@@ -4,9 +4,9 @@ using UnityEngine;
 
 // TODO: Should change this to AddAbility instead
 [CreateAssetMenu(fileName = "FrozenTouch", menuName = "Abilities/Fighter/Frozen Touch")]
-public class FrozenTouch : Ability
+public class FrozenTouch : FighterAbility
 {
-    [SerializeField] private Ability ability;
+    [SerializeField] private FighterAbility ability;
 
     public override void OnAttack(Damage attack)
     {

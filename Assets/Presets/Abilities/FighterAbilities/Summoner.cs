@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Summoner", menuName = "Abilities/Fighter/Summoner")]
-public class Summoner : Ability
+public class Summoner : FighterAbility
 {
     [SerializeField] private MonsterBase monsterToSummon;
 

@@ -21,7 +21,7 @@ public class MonsterInfo : MonoBehaviour
         damageText.text = mb.GetDamage().ToString();
         costText.text = mb.GetCost().ToString();
         string text = "";
-        foreach (Ability a in mb.GetAbilities())
+        foreach (FighterAbility a in mb.GetAbilities())
             text += a.GetDescription();
         descriptionText.text = text;
         monsterImage.sprite = mb.GetSprite();

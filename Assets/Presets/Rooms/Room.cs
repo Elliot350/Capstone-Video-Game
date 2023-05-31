@@ -64,6 +64,7 @@ public class Room : MonoBehaviour
             Debug.Log($"Starting Fight");
             // TODO: Fix this line
             yield return FightManager.GetInstance().StartCoroutine(FightManager.GetInstance().StartFight(party.heroes, monsters, this));
+            Debug.Log($"Fight Done?");
         }
     }
 
@@ -147,7 +148,7 @@ public class Room : MonoBehaviour
     {
         string text = "";
         foreach (RoomAbility a in abilities)
-            text += a.Format();
+            text += a.GetAbility();
         return text;
     }
 

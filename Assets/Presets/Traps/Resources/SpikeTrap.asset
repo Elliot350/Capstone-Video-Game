@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13cb70171730b994f85e5e3161aac07d, type: 3}
+  m_Script: {fileID: 11500000, guid: 28be13bed78024f68917e8d8c211fe46, type: 3}
   m_Name: SpikeTrap
   m_EditorClassIdentifier: 
   displayName: Spike Trap
   cost: 10
-  description: This trap has a {0}% chance to deal {1} damage to a random hero.
+  description: 
+  abilities:
+  - {fileID: 11400000, guid: 0c086500fb1c9ac44b79556d1b7fd2a2, type: 2}
   triggerChance: 0.8
   sprite: {fileID: -558199494, guid: a5416bd4a8fd449eb99749f3d9bd4a1e, type: 3}
   alertDisplayTime: 1
-  damage: 3

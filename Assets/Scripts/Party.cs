@@ -46,9 +46,13 @@ public class Party : MonoBehaviour
         // Debug.Log($"Hero died! Can't do anything about it");
     }
 
-    // TODO: Re-implement traps
-    public void DamageHero(int damageAmount)
+    public void DamageHero(float damageAmount)
     {
-        // heroes[Random.Range(0, heroes.Count - 1)].TakeDamage(damageAmount);
+        DamageHero(heroes[Random.Range(0, heroes.Count - 1)], damageAmount);
+    }
+
+    public void DamageHero(Hero hero, float damageAmount)
+    {
+        hero.TakeDamage(new Damage(null, hero, damageAmount));
     }
 }

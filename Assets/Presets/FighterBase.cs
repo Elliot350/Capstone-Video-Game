@@ -8,7 +8,7 @@ public class FighterBase : ScriptableObject
     [SerializeField] protected int maxHealth;
     [SerializeField] protected float damage;
     [SerializeField] protected float speed;
-    [SerializeField] protected List<Ability> abilities;
+    [SerializeField] protected List<FighterAbility> abilities;
     [SerializeField] protected List<Tag> tags;
     [SerializeField] protected Sprite sprite;
 
@@ -36,17 +36,17 @@ public class FighterBase : ScriptableObject
     public string GetName() {return displayName;}
     public int GetMaxHealth() {return maxHealth;}
     public virtual float GetDamage() {return damage;}
-    public List<Ability> GetAbilities() {return abilities;}
+    public List<FighterAbility> GetAbilities() {return abilities;}
     public List<Tag> GetTags() {return tags;}
     public Sprite GetSprite() {return sprite;}
     public float GetSpeed() {return speed;}
     public string GetDescription()
     {
         if (abilities.Count == 0)
-            return "No abilities";
+            return "<i>No abilities</i>";
         string text = "";
-        foreach (Ability a in abilities)
-            text += a.Format();
+        foreach (FighterAbility a in abilities)
+            text += a.GetAbility();
         return text;
     }
 }

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "Trap Preset", menuName = "Presets/Trap Preset")]
+[CreateAssetMenu(fileName = "Trap Preset", menuName = "Presets/Trap Base")]
 public class TrapBase : ScriptableObject
 {
     [SerializeField] protected string displayName;
     [SerializeField] protected int cost;
     [SerializeField] protected string description;
+    [SerializeField] protected List<TrapAbility> abilities;
     [SerializeField] protected float triggerChance;
     [SerializeField] protected Sprite sprite;
     [SerializeField] protected float alertDisplayTime = 1f;
@@ -23,7 +24,16 @@ public class TrapBase : ScriptableObject
 
     public string GetName() {return displayName;}
     public int GetCost() {return cost;}
-    public virtual string GetDescription() {return description;}
     public float GetChance() {return triggerChance;}
     public Sprite GetSprite() {return sprite;}
+    public List<TrapAbility> GetAbilities() {return abilities;}
+    public virtual string GetDescription() 
+    {
+        if (abilities.Count == 0)
+            return "<i>No abilities</i>";
+        string text = "";
+        foreach (TrapAbility a in abilities)
+            text += a.GetAbility();
+        return text;
+    }
 }
