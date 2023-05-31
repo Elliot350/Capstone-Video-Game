@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Centipede
   m_EditorClassIdentifier: 
   displayName: Centipede
-  maxHealth: 0
+  maxHealth: 10
   damage: 4
   speed: 2
   abilities:
@@ -22,7 +22,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 24eee85445c114cf480333deb6aeb7c2, type: 2}
   sprite: {fileID: 21300000, guid: c482b6ab601eed146b6ba782772fce9c, type: 3}
   cost: 50
-  description: 
   needsAll: 0
   requirements:
   - {fileID: 11400000, guid: 660e93d7a31dc264e99f3bf3bcf714f9, type: 2}

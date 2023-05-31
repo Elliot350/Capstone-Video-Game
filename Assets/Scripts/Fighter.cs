@@ -22,8 +22,8 @@ public class Fighter : MonoBehaviour
     protected Room room;
     protected FighterBase fighterBase;
 
-    private List<Ability> abilitiesToRemove;
-    private List<Ability> abilitiesToAdd;
+    private List<Ability> abilitiesToRemove = new List<Ability>();
+    private List<Ability> abilitiesToAdd = new List<Ability>();
 
     public void SetType(FighterBase fighterBase)
     {
@@ -57,8 +57,7 @@ public class Fighter : MonoBehaviour
     {
         foreach (Ability a in abilities)
             a.OnTakenDamage(attack);
-        animator.SetBool("Monster", isMonster);
-        animator.SetTrigger("Hurt");
+        HurtAnimation();
         health -= attack.damage;
         SetHealthBar();
         if (health <= 0)
@@ -75,20 +74,75 @@ public class Fighter : MonoBehaviour
         SetHealthBar();
     }
 
-    public virtual void Attack(List<Monster> fighters) 
+    public IEnumerator StartAttack(List<Fighter> fighters)
     {
-        // animator.SetBool("Monster", isMonster);
-        // animator.SetTrigger("Attack");
-        // foreach (Ability a in abilities)
-        //     a.OnAttack(this);
+        CatchUpAbilities();
+        List<Fighter> targets = DecideTargets(fighters);
+        foreach (Fighter target in targets)
+        {
+            Attack(target);
+            yield return new WaitForSeconds(2);
+        }
     }
 
-    public virtual void Attack(List<Hero> fighters) 
+    public virtual void Attack(List<Fighter> fighters) 
     {
-        // animator.SetBool("Monster", isMonster);
-        // animator.SetTrigger("Attack");
-        // foreach (Ability a in abilities)
-        //     a.OnAttack(this);
+        CatchUpAbilities();
+        List<Fighter> targets = DecideTargets(fighters);
+        foreach (Fighter target in targets)
+        {
+            float damageMultiplier = CalculateDamageMultiplier();
+            float attackDamage = damage * damageMultiplier;
+            Damage attack = new Damage(this, target, attackDamage);
+            foreach (Ability a in abilities)
+                a.OnAttack(attack);
+            CatchUpAbilities();
+            AttackAnimation();
+            target.TakeDamage(attack);
+        }
+        
+    }
+
+    public virtual void Attack(Fighter f)
+    {
+        float damageMultiplier = CalculateDamageMultiplier();
+        float attackDamage = damage * damageMultiplier;
+        Damage attack = new Damage(this, f, attackDamage);
+        foreach (Ability a in abilities)
+            a.OnAttack(attack);
+        CatchUpAbilities();
+        AttackAnimation();
+        f.TakeDamage(attack);
+    }
+
+    protected virtual List<Fighter> DecideTargets(List<Fighter> fighters)
+    {
+        List<Fighter> targets = new List<Fighter>();
+        targets.Add(fighters[0]);
+
+        foreach (Ability a in abilities)
+        {
+            if (a.DecideTargets(fighters).Count >= targets.Count)
+                targets = a.DecideTargets(fighters);
+        }
+        return targets;
+    }
+
+    protected virtual void AttackAnimation()
+    {
+        animator.SetBool("Monster", isMonster);
+        animator.SetTrigger("Attack");
+    }
+
+    protected virtual void HurtAnimation()
+    {
+        animator.SetBool("Monster", isMonster);
+        animator.SetTrigger("Hurt");
+    }
+
+    protected virtual void DeathAnimation()
+    {
+        animator.SetTrigger("Dead");
     }
 
     public virtual void DoneAttack()
@@ -101,7 +155,7 @@ public class Fighter : MonoBehaviour
         FightManager.GetInstance().FighterDied(this);
         foreach (Ability a in abilities)
             a.OnDeath(attack);
-        animator.SetTrigger("Dead");
+        DeathAnimation();
     }
 
     private void SetHealthBar()
@@ -141,6 +195,7 @@ public class Fighter : MonoBehaviour
 
     protected void CatchUpAbilities()
     {
+        // Debug.Log($"Catching up abilities ({abilities.Count} + {abilitiesToAdd.Count} - {abilitiesToRemove.Count})");
         foreach (Ability a in abilitiesToAdd)
             abilities.Add(a);
         foreach (Ability a in abilitiesToRemove)
@@ -150,6 +205,7 @@ public class Fighter : MonoBehaviour
         }
         abilitiesToAdd.Clear();
         abilitiesToRemove.Clear();
+        // Debug.Log(abilities.Count);
     }
 
     public void AddAbility(Ability a)
@@ -159,19 +215,18 @@ public class Fighter : MonoBehaviour
 
     public void RemoveAbility(Ability a)
     {
-        if (!abilities.Contains(a))
-            return;
+        // Debug.Log($"Adding {a} ({a.GetName()}) to remove");
         abilitiesToRemove.Add(a);
     }
 
-    public virtual Sprite GetSprite() {return null;}
+    public virtual Sprite GetSprite() {return image.sprite;}
     public Room GetRoom() {return room;}
     public string GetName() {return displayName;}
     public float GetHealth() {return health;}
     public float GetMaxHealth() {return maxHealth;}
     public float GetDamage() {return damage;}
     public List<Tag> GetTags() {return tags;}
-    public virtual float GetSpeed() {return 1f;}
+    public virtual float GetSpeed() {return fighterBase.GetSpeed();}
     public string GetDescription()
     {
         if (abilities.Count == 0)

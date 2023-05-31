@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FrostDragon
   m_EditorClassIdentifier: 
   displayName: Frost Dragon
-  maxHealth: 20
+  maxHealth: 30
   damage: 5
   speed: 1
   abilities:

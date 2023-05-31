@@ -6316,9 +6316,9 @@ MonoBehaviour:
   partyStatus: {fileID: 690323910}
   heroBases: []
   tempParty:
-  - {fileID: 11400000, guid: ed72ef59fb5ea9443bbe35cbbcac15f7, type: 2}
   - {fileID: 11400000, guid: 218e8e8060af9824389d66c8bf279838, type: 2}
-  - {fileID: 11400000, guid: 4c38f69c2ef206a4cb2a502ed25644a2, type: 2}
+  - {fileID: 11400000, guid: 218e8e8060af9824389d66c8bf279838, type: 2}
+  - {fileID: 11400000, guid: 218e8e8060af9824389d66c8bf279838, type: 2}
   moveTime: 1
   tilemap: {fileID: 1537955115}
   roadMap: {fileID: 658443061}
@@ -9538,7 +9538,7 @@ MonoBehaviour:
   roomBase: {fileID: 11400000, guid: 00c5b23d5d048f54d893fa8a12dac29d, type: 2}
   entranceBase: {fileID: 11400000, guid: 39a8b0bc6364eb14290679fa22946a20, type: 2}
   bossRoomBase: {fileID: 11400000, guid: 041ae1b6491d14521881d8194cc3258b, type: 2}
-  monster: {fileID: 11400000, guid: 660e93d7a31dc264e99f3bf3bcf714f9, type: 2}
+  monster: {fileID: 11400000, guid: 830c74c7f5693564b8294ca994c53272, type: 2}
 --- !u!4 &1629371080
 Transform:
   m_ObjectHideFlags: 0

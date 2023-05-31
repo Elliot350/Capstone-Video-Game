@@ -9,8 +9,8 @@ public class FightManager : MonoBehaviour
 
     public GameObject monsterPrefab, monsterHolder, heroPrefab, heroHolder, fightViewer;
     public List<Fighter> order;
-    public List<Monster> monsters;
-    public List<Hero> heroes;
+    public List<Fighter> monsters;
+    public List<Fighter> heroes;
     public Room room;
 
     [SerializeField] private GameObject portraitPrefab, orderHolder;
@@ -35,8 +35,8 @@ public class FightManager : MonoBehaviour
             yield break;
 
         order = new List<Fighter>();
-        heroes = new List<Hero>();
-        monsters = new List<Monster>();
+        heroes = new List<Fighter>();
+        monsters = new List<Fighter>();
         
         room = roomFight;
 
@@ -79,7 +79,8 @@ public class FightManager : MonoBehaviour
             // Make sure the monster is still "alive"
             if (fighter is Monster && party.Count > 0)
             {
-                fighter.Attack(party);
+                // fighter.Attack(heroes);
+                yield return fighter.StartCoroutine(fighter.StartAttack(heroes));
             }
             else if (fighter is Hero && monsters.Count > 0)
             {
@@ -113,6 +114,9 @@ public class FightManager : MonoBehaviour
             room.HeroesDefeatedMonsters();
         }
 
+        heroes.Clear();
+        monsters.Clear();
+        order.Clear();
         UIManager.GetInstance().CloseAllMenus();
 
     }

@@ -14,20 +14,7 @@ public class Hero : Fighter
     {
         isMonster = false;
     }
-
-    public override void Attack(List<Monster> fighters)
-    {
-        float attackDamage = fighterBase.GetDamage() * CalculateDamageMultiplier();
-        Fighter target = fighterBase.DecideTarget(fighters);
-        Damage attack = new Damage(this, target, attackDamage);
-        foreach (Ability a in abilities)
-            a.OnAttack(attack);
-        CatchUpAbilities();
-        animator.SetBool("Monster", isMonster);
-        animator.SetTrigger("Attack");
-        target.TakeDamage(attack);
-    }
-
+    
     public override void TakeDamage(Damage attack)
     {
         PartyManager.GetInstance().HeroHurt(this);
@@ -38,15 +25,5 @@ public class Hero : Fighter
     {
         PartyManager.GetInstance().HeroDied(this);
         base.Die(attack);
-    }
-
-    public override Sprite GetSprite()
-    {
-        return fighterBase.GetSprite();
-    }
-
-    public override float GetSpeed()
-    {
-        return fighterBase.GetSpeed();
     }
 }

@@ -15,6 +15,8 @@ public class Ability : ScriptableObject
     public virtual void OnBattleFinished(Fighter f) {}
     public virtual float GetDamageMultiplier(Fighter f) {return 0f;}
 
+    public virtual List<Fighter> DecideTargets(List<Fighter> fighters) {return new List<Fighter>();}
+
     public string GetName() {return abilityName;}
     public virtual string GetDescription() {return string.Format(description);}
     public virtual string Format() {return $"[{GetName()}] - {GetDescription()}";}
