@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FighterAbility : Ability
+public abstract class FighterAbility : Ability
 {
     public virtual void OnTakenDamage(Damage attack) {}
     public virtual void OnHeal(Fighter f) {}

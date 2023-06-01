@@ -9,4 +9,9 @@ public class HydraStrike : FighterAbility
     {
         return fighters;
     }
+
+    public override string GetDescription()
+    {
+        return description;
+    }
 }

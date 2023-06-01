@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acaa2247657b4b94eabb3337b4581d65, type: 3}
-  m_Name: Forge
+  m_Name: CorruptedRoom
   m_EditorClassIdentifier: 
-  displayName: Forge
-  cost: 55
-  description: This room holds {0} monsters
-  monsterCapacity: 5
-  trapCapacity: 5
+  displayName: Corrupted Room
+  cost: 15
+  description: 
+  monsterCapacity: 3
+  trapCapacity: 0
   abilities:
-  - {fileID: 11400000, guid: ad54717d31591fd41b31bf6aea124511, type: 2}
-  sprite: {fileID: -1966300989, guid: c172d3faf64e17c4b9029f89e94dd20c, type: 3}
-  tile: {fileID: 11400000, guid: 3c81d8cf5b9e1434aab93f10b3362b11, type: 2}
+  - {fileID: 11400000, guid: 0526d162d206c3c42991559488a51da2, type: 2}
+  sprite: {fileID: 21300000, guid: 61e555c891dad4d4196787ecbf2303d9, type: 3}
+  tile: {fileID: 11400000, guid: 6c53bd4725eec1249a7b58cb113b2009, type: 2}

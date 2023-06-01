@@ -6,7 +6,7 @@ using UnityEngine;
 public class Tag : ScriptableObject
 {
     public string Name => name;
-    public Color color;
+    public Color color = Color.white;
 
     public string FormatTag() 
     {

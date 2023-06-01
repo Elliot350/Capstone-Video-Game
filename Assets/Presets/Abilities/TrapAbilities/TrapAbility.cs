@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrapAbility : Ability
+public abstract class TrapAbility : Ability
 {
     [SerializeField] protected float chance;
 

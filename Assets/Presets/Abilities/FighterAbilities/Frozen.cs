@@ -10,4 +10,9 @@ public class Frozen : FighterAbility
         attack.damage = 0;
         attack.source.RemoveAbility(this);
     }
+
+    public override string GetDescription()
+    {
+        return description;
+    }
 }

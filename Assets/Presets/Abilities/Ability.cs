@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ability : ScriptableObject
+public abstract class Ability : ScriptableObject
 {
     [SerializeField] protected string abilityName;
     [SerializeField] protected string description;
@@ -10,6 +10,6 @@ public class Ability : ScriptableObject
 
 
     public string GetName() {return abilityName;}
-    public virtual string GetDescription() {return string.Format(description);}
+    public abstract string GetDescription();
     public virtual string GetAbility() {return $"[{GetName()}] - ({GetDescription()})";}
 }

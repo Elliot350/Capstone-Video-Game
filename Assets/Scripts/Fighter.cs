@@ -176,6 +176,13 @@ public class Fighter : MonoBehaviour
         return tags.Contains(t);
     }
 
+    public void AddTag(Tag t)
+    {
+        if (tags.Contains(t)) 
+            return;
+        tags.Add(t);
+    }
+
     protected void CatchUpAbilities()
     {
         // Debug.Log($"Catching up abilities ({abilities.Count} + {abilitiesToAdd.Count} - {abilitiesToRemove.Count})");

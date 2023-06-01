@@ -63,6 +63,7 @@ public class FightManager : MonoBehaviour
         order.Sort((f1, f2)=>f2.GetSpeed().CompareTo(f1.GetSpeed()));
         UpdateOrder();
 
+        room.StartingFight(monsters, heroes);
         UIManager.GetInstance().OpenFightMenu();
         
         yield return secondPause;

@@ -16,6 +16,7 @@ public class Room : MonoBehaviour
     public SpriteRenderer alertSprite;
 
     private double cooldown;
+    private bool visited;
 
     private void Start() 
     {
@@ -40,7 +41,8 @@ public class Room : MonoBehaviour
         monsterCapacity = this.roomBase.GetMonster();
         trapCapacity = this.roomBase.GetTrap();
         this.roomBase.AddRoom(this);
-        roomBase.RoomBuilt(this);
+        foreach (RoomAbility a in abilities)
+            a.RoomBuilt(this);
     }
 
     public IEnumerator PartyEntered(Party party)
@@ -58,7 +60,7 @@ public class Room : MonoBehaviour
             }
         }
         // If there are monsters, wait a second and fight them
-        if (monsters.Count > 0)
+        if (monsters.Count > 0 && !visited)
         {
             yield return new WaitForSeconds(1);
             Debug.Log($"Starting Fight");
@@ -68,10 +70,18 @@ public class Room : MonoBehaviour
         }
     }
 
+    public void StartingFight(List<Fighter> monsters, List<Fighter> heroes)
+    {
+        foreach (RoomAbility a in abilities)
+            a.FightStarted(monsters, heroes);
+    }
+
     public void AddMonster(MonsterBase monsterBase) 
     {
         monsters.Add(monsterBase);
         roomBase.MonsterAdded(this, monsterBase);
+        foreach (RoomAbility a in abilities)
+            a.OnMonsterAdded(monsterBase);
     }
 
     public void AddTrap(TrapBase trapBase)
@@ -123,6 +133,7 @@ public class Room : MonoBehaviour
         {
             trap.triggered = false;
         }
+        visited = false;
     }
 
     private void OnMouseEnter() 
@@ -167,6 +178,9 @@ public class Room : MonoBehaviour
     public virtual void HeroesDefeatedMonsters()
     {
         roomBase.RoomDefeated(this);
+        foreach (RoomAbility a in abilities)
+            a.PartyWon(PartyManager.GetInstance().GetParty());
+        visited = true;
     }
 
 
