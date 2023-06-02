@@ -81,12 +81,15 @@ public class FightManager : MonoBehaviour
             if (fighter is Monster && party.Count > 0)
             {
                 // fighter.Attack(heroes);
-                yield return fighter.StartCoroutine(fighter.StartAttack(heroes));
+                // yield return fighter.StartCoroutine(fighter.StartAttack(heroes));
+                fighter.AddAction(new GetTargets(fighter, heroes));
             }
             else if (fighter is Hero && monsters.Count > 0)
             {
-                fighter.Attack(monsters);
+                // fighter.Attack(monsters);
             }
+
+            yield return fighter.StartCoroutine(fighter.DoActions());
 
             yield return shortPause;
             // fighter.DoneAttack();
@@ -144,6 +147,8 @@ public class FightManager : MonoBehaviour
                 order.Remove(f);
                 Debug.Log($"{f} removed! (m)");
             }
+            else
+                Debug.LogWarning($"Didn't destroy {f}");
         }
         else if (f is Hero)
         {
@@ -153,7 +158,11 @@ public class FightManager : MonoBehaviour
                 order.Remove(f);
                 Debug.Log($"{f} removed! (h)");
             }
+            else 
+                Debug.LogWarning($"Didn't destroy {f}");
         }
+        else
+            Debug.LogWarning($"Don't know what {f} is");
     }
 
     private void UpdateOrder()

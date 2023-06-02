@@ -18,9 +18,12 @@ public class Fighter : MonoBehaviour
 
     protected float healthMultiplier = 1f;
     protected float damageMultiplier = 1f;
+    public bool alive = true;
     protected Fighter lastAttacker;
     protected Room room;
     protected FighterBase fighterBase;
+
+    private List<Action> actions = new List<Action>();
 
     private List<FighterAbility> abilitiesToRemove = new List<FighterAbility>();
     private List<FighterAbility> abilitiesToAdd = new List<FighterAbility>();
@@ -64,6 +67,13 @@ public class Fighter : MonoBehaviour
             Die(attack);
     }
 
+    public virtual void TakeDamage(float amount)
+    {
+        health -= amount;
+        SetHealthBar();
+        HurtAnimation();
+    }
+
     public virtual void Heal(float amount) 
     {
         health += amount;
@@ -74,15 +84,41 @@ public class Fighter : MonoBehaviour
         SetHealthBar();
     }
 
-    public IEnumerator StartAttack(List<Fighter> fighters)
+
+    // public IEnumerator StartAttack(List<Fighter> fighters)
+    // {
+    //     CatchUpAbilities();
+    //     List<Fighter> targets = DecideTargets(fighters);
+    //     foreach (Fighter target in targets)
+    //     {
+    //         // Attack(target);
+    //         actions.Add(new Attack(this, target));
+    //         yield return new WaitForSeconds(2);
+    //     }
+    // }
+
+    WaitForSeconds pause = new WaitForSeconds(1);
+
+    public IEnumerator DoActions()
     {
-        CatchUpAbilities();
-        List<Fighter> targets = DecideTargets(fighters);
-        foreach (Fighter target in targets)
+        while (actions.Count > 0 && alive)
         {
-            Attack(target);
-            yield return new WaitForSeconds(2);
+            actions[0].Do();
+            actions.RemoveAt(0);
+            yield return pause;
         }
+    }
+
+    public void AddAction(Action action)
+    {
+        Debug.Log($"Adding action - {action}");
+        actions.Add(action);
+    }
+
+    public void AddImportantAction(Action action)
+    {
+        Debug.Log($"Adding ACTION - {action}");
+        actions.Insert(1, action);
     }
 
     public virtual void Attack(List<Fighter> fighters) 
@@ -158,6 +194,11 @@ public class Fighter : MonoBehaviour
             a.OnBattleStarted(this);
     }
 
+    public float CalculateDamage()
+    {
+        return damage * CalculateDamageMultiplier();
+    }
+
     protected virtual float CalculateDamageMultiplier()
     {
         float multiplier = 1f + room.GetDamageMultiplier(this);
@@ -168,6 +209,9 @@ public class Fighter : MonoBehaviour
 
     public void DestroyGameObject()
     {
+        Debug.Log($"Destroying...");
+        alive = false;
+        StopCoroutine(DoActions());
         Destroy(gameObject);
     }
 
@@ -209,20 +253,21 @@ public class Fighter : MonoBehaviour
         abilitiesToRemove.Add(a);
     }
 
-    protected virtual void AttackAnimation()
+    public virtual void AttackAnimation()
     {
         animator.SetBool("Monster", isMonster);
         animator.SetTrigger("Attack");
     }
 
-    protected virtual void HurtAnimation()
+    public virtual void HurtAnimation()
     {
         animator.SetBool("Monster", isMonster);
         animator.SetTrigger("Hurt");
     }
 
-    protected virtual void DeathAnimation()
+    public virtual void DeathAnimation()
     {
+        alive = false;
         animator.SetTrigger("Dead");
     }
 
@@ -243,6 +288,7 @@ public class Fighter : MonoBehaviour
             text += a.GetAbility();
         return text;
     }
+    public List<FighterAbility> GetAbilities() {return abilities;}
 }
 
 public class Damage
@@ -256,5 +302,130 @@ public class Damage
         this.source = source;
         this.target = target;
         this.damage = damage;
+    }
+}
+
+public abstract class Action
+{
+    public Fighter fighter;
+
+    public Action(Fighter fighter) 
+    {this.fighter = fighter;}
+
+    public abstract void Do();
+}
+
+public class Attack : Action
+{
+    private Fighter source, target;
+
+    public Attack(Fighter source, Fighter target) : base (source)
+    {
+        this.source = source;
+        this.target = target;
+    }
+
+    public override void Do()
+    {
+        float attackDamage = source.CalculateDamage();
+        Damage attack = new Damage(source, target, attackDamage);
+        foreach (FighterAbility a in source.GetAbilities())
+            a.OnAttack(attack);
+        source.AttackAnimation();
+        target.TakeDamage(attack); 
+    }
+}
+
+public class TakeDamage : Action
+{
+    private Damage attack;
+
+    public TakeDamage(Damage attack) : base(attack.target)
+    {
+        this.attack = attack;
+    }
+
+    public override void Do()
+    {
+        foreach (FighterAbility a in fighter.GetAbilities())
+            a.OnTakenDamage(attack);
+        fighter.TakeDamage(attack.damage);
+        if (fighter.GetHealth() <= 0)
+            fighter.AddImportantAction(new Die(fighter, attack));
+    }
+}
+
+public class RemoveAbility : Action
+{
+    private FighterAbility ability;
+
+    public RemoveAbility(Fighter fighter, FighterAbility ability) : base(fighter)
+    {
+        this.fighter = fighter;
+        this.ability = ability;
+    }
+
+    public override void Do()
+    {
+        if (fighter.GetAbilities().Contains(ability))
+            fighter.GetAbilities().Remove(ability);
+    }
+}
+
+public class AddAbility : Action
+{
+    private FighterAbility ability;
+
+    public AddAbility(Fighter fighter, FighterAbility ability) : base(fighter)
+    {
+        this.fighter = fighter;
+        this.ability = ability;
+    }
+
+    public override void Do()
+    {
+        if (!fighter.GetAbilities().Contains(ability))
+            fighter.GetAbilities().Add(ability);
+    }
+}
+
+public class Die : Action
+{
+    private Damage attack;
+
+    public Die(Fighter fighter, Damage attack) : base(fighter)
+    {
+        this.attack = attack;
+    }
+
+    public override void Do()
+    {
+        foreach (FighterAbility a in fighter.GetAbilities())
+            a.OnDeath(attack);
+        FightManager.GetInstance().FighterDied(fighter);
+        fighter.DeathAnimation();
+    }
+}
+
+public class GetTargets : Action
+{
+    private List<Fighter> fighters;
+
+    public GetTargets(Fighter fighter, List<Fighter> fighters) : base(fighter)
+    {
+        this.fighters = fighters;
+    }
+
+    public override void Do()
+    {
+        List<Fighter> targets = new List<Fighter>();
+        targets.Add(fighters[0]);
+        foreach (FighterAbility a in fighter.GetAbilities())
+        {
+            if (a.DecideTargets(fighters).Count >= targets.Count)
+                targets = a.DecideTargets(fighters);
+        }
+        foreach (Fighter f in targets)
+            fighter.AddAction(new Attack(fighter, f));
     }
 }
