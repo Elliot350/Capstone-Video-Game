@@ -60,6 +60,7 @@ public class FightManager : MonoBehaviour
             order.Add(h);
             h.EnterRoom(room);
         }
+
         order.Sort((f1, f2)=>f2.GetSpeed().CompareTo(f1.GetSpeed()));
         UpdateOrder();
 
@@ -78,7 +79,7 @@ public class FightManager : MonoBehaviour
             Fighter fighter = order[0];
             Debug.Log($"Attack #{count}: {fighter} attacking...");
             // Make sure the monster is still "alive"
-            if (fighter is Monster && party.Count > 0)
+            if (fighter is Monster && heroes.Count > 0)
             {
                 // fighter.Attack(heroes);
                 // yield return fighter.StartCoroutine(fighter.StartAttack(heroes));
@@ -88,10 +89,10 @@ public class FightManager : MonoBehaviour
             {
                 // fighter.Attack(monsters);
             }
-
             yield return fighter.StartCoroutine(fighter.DoActions());
+            Debug.Log(fighter + " done");
+            
 
-            yield return shortPause;
             // fighter.DoneAttack();
             yield return shortPause;
 
@@ -141,28 +142,34 @@ public class FightManager : MonoBehaviour
         Debug.Log($"{f} died");
         if (f is Monster)
         {
-            if (monsters.Contains(f.GetComponent<Monster>()))
+            if (monsters.Contains(f))
             {
-                monsters.Remove(f.GetComponent<Monster>());
+                monsters.Remove(f);
                 order.Remove(f);
                 Debug.Log($"{f} removed! (m)");
             }
             else
+            {
                 Debug.LogWarning($"Didn't destroy {f}");
+            }
         }
         else if (f is Hero)
         {
-            if (heroes.Contains(f.GetComponent<Hero>()))
+            if (heroes.Contains(f))
             {
-                heroes.Remove(f.GetComponent<Hero>());
+                heroes.Remove(f);
                 order.Remove(f);
                 Debug.Log($"{f} removed! (h)");
             }
-            else 
+            else
+            {
                 Debug.LogWarning($"Didn't destroy {f}");
+            }
         }
         else
+        {
             Debug.LogWarning($"Don't know what {f} is");
+        }
     }
 
     private void UpdateOrder()

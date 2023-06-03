@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Return Damage
   description: 'On Attacked: Return {0} damage back to attacker'
-  returnDamage: 2
+  returnDamage: 4

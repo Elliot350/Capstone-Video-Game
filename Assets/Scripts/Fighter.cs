@@ -24,6 +24,7 @@ public class Fighter : MonoBehaviour
     protected FighterBase fighterBase;
 
     private List<Action> actions = new List<Action>();
+    private WaitForSeconds pause = new WaitForSeconds(1);
 
     private List<FighterAbility> abilitiesToRemove = new List<FighterAbility>();
     private List<FighterAbility> abilitiesToAdd = new List<FighterAbility>();
@@ -97,27 +98,29 @@ public class Fighter : MonoBehaviour
     //     }
     // }
 
-    WaitForSeconds pause = new WaitForSeconds(1);
 
     public IEnumerator DoActions()
     {
         while (actions.Count > 0 && alive)
         {
+            Debug.Log($"Doing action {actions[0]}");
             actions[0].Do();
             actions.RemoveAt(0);
             yield return pause;
         }
+        Debug.Log("No more actions");
+        yield break;
     }
 
     public void AddAction(Action action)
     {
-        Debug.Log($"Adding action - {action}");
+        // Debug.Log($"Adding action - {action}");
         actions.Add(action);
     }
 
     public void AddImportantAction(Action action)
     {
-        Debug.Log($"Adding ACTION - {action}");
+        // Debug.Log($"Adding ACTION - {action}");
         actions.Insert(1, action);
     }
 
@@ -211,8 +214,8 @@ public class Fighter : MonoBehaviour
     {
         Debug.Log($"Destroying...");
         alive = false;
-        StopCoroutine(DoActions());
-        Destroy(gameObject);
+        // StopAllCoroutines();
+        Destroy(gameObject, 0.75f);
     }
 
     public bool HasTag(Tag t)
