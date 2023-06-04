@@ -13,6 +13,7 @@ public class ReturnDamage : FighterAbility
             return;
         // attack.source.TakeDamage(new Damage(attack.target, attack.source, returnDamage));
         attack.source.AddImportantAction(new TakeDamage(new Damage(attack.target, attack.source, returnDamage)));
+        attack.target.AddImportantAction(new TriggerOtherFighter(attack.target, attack.source));
     }
 
     public override string GetDescription()

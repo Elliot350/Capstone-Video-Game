@@ -7,8 +7,8 @@ public class SpikeHero : HeroBase
 {
     [SerializeField] protected float returnDamage;
 
-    public override void OnTakenDamage(Damage attack)
-    {
-        attack.source.TakeDamage(new Damage(attack.target, attack.source, returnDamage));
-    }
+    // public override void OnTakenDamage(Damage attack)
+    // {
+    //     attack.source.TakeDamage(new Damage(attack.target, attack.source, returnDamage));
+    // }
 }

@@ -9,7 +9,7 @@ public class Vampirism : FighterAbility
 
     public override void OnAttack(Damage attack)
     {
-        attack.source.Heal(healAmount);
+        attack.source.AddImportantAction(new Heal(attack.source, healAmount));
     }
 
     public override string GetDescription()

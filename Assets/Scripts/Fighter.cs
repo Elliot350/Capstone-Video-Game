@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Fighter : MonoBehaviour
 {
@@ -19,9 +20,12 @@ public class Fighter : MonoBehaviour
     protected float healthMultiplier = 1f;
     protected float damageMultiplier = 1f;
     public bool alive = true;
+    private bool busy;
     protected Fighter lastAttacker;
     protected Room room;
     protected FighterBase fighterBase;
+
+    [SerializeField] private TextMeshProUGUI actionCount;
 
     private List<Action> actions = new List<Action>();
     private WaitForSeconds pause = new WaitForSeconds(1);
@@ -57,16 +61,16 @@ public class Fighter : MonoBehaviour
         SetType(fighterBase);
     }
 
-    public virtual void TakeDamage(Damage attack)
-    {
-        foreach (FighterAbility a in abilities)
-            a.OnTakenDamage(attack);
-        HurtAnimation();
-        health -= attack.damage;
-        SetHealthBar();
-        if (health <= 0)
-            Die(attack);
-    }
+    // public virtual void TakeDamage(Damage attack)
+    // {
+    //     foreach (FighterAbility a in abilities)
+    //         a.OnTakenDamage(attack);
+    //     HurtAnimation();
+    //     health -= attack.damage;
+    //     SetHealthBar();
+    //     if (health <= 0)
+    //         Die(attack);
+    // }
 
     public virtual void TakeDamage(float amount)
     {
@@ -75,84 +79,65 @@ public class Fighter : MonoBehaviour
         HurtAnimation();
     }
 
-    public virtual void Heal(float amount) 
+    public virtual void Heal(float amount)
     {
         health += amount;
-        foreach (FighterAbility a in abilities)
-            a.OnHeal(this);
-        if (health > maxHealth)
-            health = maxHealth;
         SetHealthBar();
     }
 
-
-    // public IEnumerator StartAttack(List<Fighter> fighters)
-    // {
-    //     CatchUpAbilities();
-    //     List<Fighter> targets = DecideTargets(fighters);
-    //     foreach (Fighter target in targets)
-    //     {
-    //         // Attack(target);
-    //         actions.Add(new Attack(this, target));
-    //         yield return new WaitForSeconds(2);
-    //     }
-    // }
-
-
     public IEnumerator DoActions()
     {
+        busy = true;
+        ShowActions();
         while (actions.Count > 0 && alive)
         {
-            Debug.Log($"Doing action {actions[0]}");
-            actions[0].Do();
-            actions.RemoveAt(0);
             yield return pause;
+            Debug.Log($"Doing action {actions[0]}");
+            Action upcomingAction = actions[0];
+            actions.RemoveAt(0);
+            yield return StartCoroutine(upcomingAction.Do());
+            ShowActions();
+            
+            if (!alive)
+            {
+                busy = false;
+                DestroyGameObject();
+                yield break;
+            }
         }
+        busy = false;
         Debug.Log("No more actions");
         yield break;
+    }
+
+    private void ShowActions()
+    {
+        string str = actions.Count.ToString() + ":\n";
+        foreach (Action a in actions)
+        {
+            str += a + "\n";
+        }
+        actionCount.text = str;
     }
 
     public void AddAction(Action action)
     {
         // Debug.Log($"Adding action - {action}");
-        actions.Add(action);
+        if (actions.Count > 1)
+            actions.Insert(0, action);
+        else 
+            actions.Add(action);
     }
 
     public void AddImportantAction(Action action)
     {
         // Debug.Log($"Adding ACTION - {action}");
-        actions.Insert(1, action);
+        if (actions.Count > 1)
+            actions.Insert(0, action);
+        else 
+            actions.Add(action);
     }
 
-    public virtual void Attack(List<Fighter> fighters) 
-    {
-        CatchUpAbilities();
-        List<Fighter> targets = DecideTargets(fighters);
-        foreach (Fighter target in targets)
-        {
-            float damageMultiplier = CalculateDamageMultiplier();
-            float attackDamage = damage * damageMultiplier;
-            Damage attack = new Damage(this, target, attackDamage);
-            foreach (FighterAbility a in abilities)
-                a.OnAttack(attack);
-            CatchUpAbilities();
-            AttackAnimation();
-            target.TakeDamage(attack);
-        }
-        
-    }
-
-    public virtual void Attack(Fighter f)
-    {
-        float damageMultiplier = CalculateDamageMultiplier();
-        float attackDamage = damage * damageMultiplier;
-        Damage attack = new Damage(this, f, attackDamage);
-        foreach (FighterAbility a in abilities)
-            a.OnAttack(attack);
-        CatchUpAbilities();
-        AttackAnimation();
-        f.TakeDamage(attack);
-    }
 
     protected virtual List<Fighter> DecideTargets(List<Fighter> fighters)
     {
@@ -170,14 +155,6 @@ public class Fighter : MonoBehaviour
     public virtual void DoneAttack()
     {
         alertImage.gameObject.SetActive(false);
-    }
-
-    public virtual void Die(Damage attack) 
-    {
-        FightManager.GetInstance().FighterDied(this);
-        foreach (FighterAbility a in abilities)
-            a.OnDeath(attack);
-        DeathAnimation();
     }
 
     private void SetHealthBar()
@@ -213,7 +190,6 @@ public class Fighter : MonoBehaviour
     public void DestroyGameObject()
     {
         Debug.Log($"Destroying...");
-        alive = false;
         // StopAllCoroutines();
         Destroy(gameObject, 0.75f);
     }
@@ -292,6 +268,7 @@ public class Fighter : MonoBehaviour
         return text;
     }
     public List<FighterAbility> GetAbilities() {return abilities;}
+    public bool IsBusy() {return busy;}
 }
 
 public class Damage
@@ -308,6 +285,8 @@ public class Damage
     }
 }
 
+// ---------- Actions ----------
+
 public abstract class Action
 {
     public Fighter fighter;
@@ -315,7 +294,7 @@ public abstract class Action
     public Action(Fighter fighter) 
     {this.fighter = fighter;}
 
-    public abstract void Do();
+    public abstract IEnumerator Do();
 }
 
 public class Attack : Action
@@ -328,14 +307,15 @@ public class Attack : Action
         this.target = target;
     }
 
-    public override void Do()
+    public override IEnumerator Do()
     {
         float attackDamage = source.CalculateDamage();
         Damage attack = new Damage(source, target, attackDamage);
         foreach (FighterAbility a in source.GetAbilities())
             a.OnAttack(attack);
         source.AttackAnimation();
-        target.TakeDamage(attack); 
+        target.AddAction(new TakeDamage(attack));
+        yield return target.StartCoroutine(target.DoActions());
     }
 }
 
@@ -348,13 +328,32 @@ public class TakeDamage : Action
         this.attack = attack;
     }
 
-    public override void Do()
+    public override IEnumerator Do()
     {
         foreach (FighterAbility a in fighter.GetAbilities())
             a.OnTakenDamage(attack);
         fighter.TakeDamage(attack.damage);
         if (fighter.GetHealth() <= 0)
             fighter.AddImportantAction(new Die(fighter, attack));
+        yield break;
+    }
+}
+
+public class Heal : Action
+{
+    private float amount;
+
+    public Heal(Fighter fighter, float amount) : base(fighter)
+    {
+        this.amount = amount;
+    }
+
+    public override IEnumerator Do()
+    {
+        foreach (FighterAbility a in fighter.GetAbilities())
+            a.OnHeal(fighter);
+        fighter.Heal(amount);
+        yield break;
     }
 }
 
@@ -368,10 +367,11 @@ public class RemoveAbility : Action
         this.ability = ability;
     }
 
-    public override void Do()
+    public override IEnumerator Do()
     {
         if (fighter.GetAbilities().Contains(ability))
             fighter.GetAbilities().Remove(ability);
+        yield break;
     }
 }
 
@@ -385,10 +385,11 @@ public class AddAbility : Action
         this.ability = ability;
     }
 
-    public override void Do()
+    public override IEnumerator Do()
     {
         if (!fighter.GetAbilities().Contains(ability))
             fighter.GetAbilities().Add(ability);
+        yield break;
     }
 }
 
@@ -401,12 +402,13 @@ public class Die : Action
         this.attack = attack;
     }
 
-    public override void Do()
+    public override IEnumerator Do()
     {
         foreach (FighterAbility a in fighter.GetAbilities())
             a.OnDeath(attack);
         FightManager.GetInstance().FighterDied(fighter);
         fighter.DeathAnimation();
+        yield break;
     }
 }
 
@@ -419,7 +421,7 @@ public class GetTargets : Action
         this.fighters = fighters;
     }
 
-    public override void Do()
+    public override IEnumerator Do()
     {
         List<Fighter> targets = new List<Fighter>();
         targets.Add(fighters[0]);
@@ -430,5 +432,21 @@ public class GetTargets : Action
         }
         foreach (Fighter f in targets)
             fighter.AddAction(new Attack(fighter, f));
+        yield break;
+    }
+}
+
+public class TriggerOtherFighter : Action
+{
+    private Fighter target;
+
+    public TriggerOtherFighter(Fighter fighter, Fighter target) : base(fighter)
+    {
+        this.target = target;
+    }
+
+    public override IEnumerator Do()
+    {
+        yield return target.StartCoroutine(target.DoActions());
     }
 }

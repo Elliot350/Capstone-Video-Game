@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO: Should change this to AddAbility instead
 [CreateAssetMenu(fileName = "FrozenTouch", menuName = "Abilities/Fighter/Frozen Touch")]
 public class FrozenTouch : FighterAbility
 {
@@ -10,7 +9,7 @@ public class FrozenTouch : FighterAbility
 
     public override void OnAttack(Damage attack)
     {
-        attack.target.AddAbility(ability);
+        attack.target.AddAction(new AddAbility(attack.target, ability));
     }
 
     public override string GetDescription()

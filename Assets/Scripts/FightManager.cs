@@ -87,18 +87,21 @@ public class FightManager : MonoBehaviour
             }
             else if (fighter is Hero && monsters.Count > 0)
             {
-                // fighter.Attack(monsters);
+                fighter.AddAction(new GetTargets(fighter, monsters));
             }
+            
+            // Have the fighter actually do their attack
             yield return fighter.StartCoroutine(fighter.DoActions());
             Debug.Log(fighter + " done");
+
+            // If they are still alive, move them to the end of the order
+            if (fighter.alive)
+            {
+                order.RemoveAt(0);
+                order.Add(fighter);
+            }
             
-
-            // fighter.DoneAttack();
             yield return shortPause;
-
-            // Move them to the end of the order
-            order.RemoveAt(0);
-            order.Add(fighter);
             UpdateOrder();
             
             if (count > 100)

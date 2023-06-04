@@ -11,7 +11,7 @@ public class DeathDamage : FighterAbility
     {
         if (attack.source == null)
             return;
-        attack.source.TakeDamage(new Damage(attack.target, attack.source, deathDamage));
+        attack.source.AddAction(new TakeDamage(new Damage(attack.target, attack.source, deathDamage)));
     }
 
     public override string GetDescription()

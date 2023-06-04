@@ -9,6 +9,7 @@ public class DeathDamageHero : HeroBase
 
     public override void OnDeath(Damage attack)
     {
-        attack.source.TakeDamage(new Damage(attack.target, attack.source, deathDamage));
+        attack.source.AddAction(new TakeDamage(new Damage(attack.target, attack.source, deathDamage)));
+        // yield return attack.source.StartCoroutine(attack.source.DoActions());
     }
 }

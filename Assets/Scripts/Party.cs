@@ -53,6 +53,7 @@ public class Party : MonoBehaviour
 
     public void DamageHero(Hero hero, float damageAmount)
     {
-        hero.TakeDamage(new Damage(null, hero, damageAmount));
+        hero.AddAction(new TakeDamage(new Damage(null, hero, damageAmount)));
+        hero.DoActions();
     }
 }
