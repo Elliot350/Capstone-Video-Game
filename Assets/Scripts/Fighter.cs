@@ -57,17 +57,6 @@ public class Fighter : MonoBehaviour
         SetType(fighterBase);
     }
 
-    // public virtual void TakeDamage(Damage attack)
-    // {
-    //     foreach (FighterAbility a in abilities)
-    //         a.OnTakenDamage(attack);
-    //     HurtAnimation();
-    //     health -= attack.damage;
-    //     SetHealthBar();
-    //     if (health <= 0)
-    //         Die(attack);
-    // }
-
     public virtual void TakeDamage(float amount)
     {
         health -= amount;
@@ -79,62 +68,6 @@ public class Fighter : MonoBehaviour
     {
         health += amount;
         SetHealthBar();
-    }
-
-    // public IEnumerator TakeTurn()
-    // {
-    //     yield return StartCoroutine(DoActions());
-    //     if (!alive) DestroyGameObject();
-    //     yield break;
-    // }
-
-    // public IEnumerator DoActions()
-    // {
-    //     ShowActions();
-    //     while (actions.Count > 0 && alive)
-    //     {
-    //         Debug.Log($"Doing action {actions[0]}");
-    //         Action currentAction = actions[0];
-    //         actions.RemoveAt(0);
-    //         yield return StartCoroutine(currentAction.Do());
-    //         ShowActions();
-    //         ShowActions();
-            
-    //         if (!alive)
-    //         {
-    //             yield break;
-    //         }
-    //     }
-    //     if (FightManager.GetInstance().currentTurn != this && !alive) DestroyGameObject();
-    //     yield break;
-    // }
-
-    // private void ShowActions()
-    // {
-    //     string str = actions.Count.ToString() + ":\n";
-    //     foreach (Action a in actions)
-    //     {
-    //         str += a + "\n";
-    //     }
-    //     actionCount.text = str;
-    // }
-
-    protected virtual List<Fighter> DecideTargets(List<Fighter> fighters)
-    {
-        List<Fighter> targets = new List<Fighter>();
-        targets.Add(fighters[0]);
-
-        foreach (FighterAbility a in abilities)
-        {
-            if (a.DecideTargets(fighters).Count >= targets.Count)
-                targets = a.DecideTargets(fighters);
-        }
-        return targets;
-    }
-
-    public virtual void DoneAttack()
-    {
-        alertImage.gameObject.SetActive(false);
     }
 
     private void SetHealthBar()
@@ -167,12 +100,12 @@ public class Fighter : MonoBehaviour
         return Mathf.Max(multiplier, 0);
     }
 
-    public void DestroyGameObject()
-    {
-        Debug.Log($"Destroying...");
-        // StopAllCoroutines();
-        Destroy(gameObject);
-    }
+    // public void DestroyGameObject()
+    // {
+    //     Debug.Log($"Destroying...");
+    //     // StopAllCoroutines();
+    //     Destroy(gameObject);
+    // }
 
     public bool HasTag(Tag t)
     {

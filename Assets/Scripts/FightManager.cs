@@ -9,34 +9,40 @@ public class FightManager : MonoBehaviour
     private static FightManager instance;
 
     // Prefabs
-    [SerializeField] private GameObject monsterPrefab, heroPrefab;
-    // Holder for monster and heroes
-    [SerializeField] private GameObject monsterHolder, heroHolder;
+    [Header("Prefabs")]
+    [SerializeField] private GameObject monsterPrefab;
+    [SerializeField] private GameObject heroPrefab;
+    [SerializeField] private GameObject portraitPrefab;
+
+    // Holder for monsters, heroes and the whole order
+    [Header("Holders")]
+    [SerializeField] private GameObject monsterHolder;
+    [SerializeField] private GameObject heroHolder;
+    [SerializeField] private GameObject orderHolder;
+
     // Lists for fights
-    [SerializeField] private List<Fighter> order, monsters, heroes;
+    [Header("Lists")]
+    [SerializeField] private List<Fighter> order;
+    [SerializeField] private List<Fighter> monsters;
+    [SerializeField] private List<Fighter> heroes;
     // Action list that controlls the fights
     private List<Action> actions;
     // Current room the fight is in
     private Room room; // Could maybe remove this
-
-    [SerializeField] private GameObject portraitPrefab;
-    [SerializeField] private GameObject orderHolder;
+    
     private List<Image> portraits = new List<Image>();
     
+    // Time pauses for fights
     private WaitForSeconds shortPause = new WaitForSeconds(0.5f);
     private WaitForSeconds secondPause = new WaitForSeconds(1);
 
+    // Temporary debug text
+    [Header("Temporary debug text")]
     [SerializeField] private TextMeshProUGUI actionsText;
 
-    private void Awake()
-    {
-        instance = this;
-    }
+    private void Awake() {instance = this;}
 
-    public static FightManager GetInstance()
-    {
-        return instance;
-    }
+    public static FightManager GetInstance() {return instance;}
 
     public IEnumerator StartFight(List<Hero> party, List<MonsterBase> monsterBases, Room roomFight)
     {
@@ -52,37 +58,42 @@ public class FightManager : MonoBehaviour
 
         room = roomFight;
 
+        // Add the monsters to monsters and order, and instantiate them to monster holder
         foreach (MonsterBase mb in monsterBases)
-        {
             AddMonster(mb);
-        }
 
+        // Add the heroes to the hero list
         heroes.AddRange(party);
         
+        // Add the heroes to order and set their room to the current room
         foreach (Hero h in party)
         {
             order.Add(h);
             h.EnterRoom(room);
         }
 
+        // Sort the fighters by their speed value (TODO: randomize the list before)
         order.Sort((f1, f2)=>f2.GetSpeed().CompareTo(f1.GetSpeed()));
         UpdateOrder();
 
-        room.StartingFight(monsters, heroes);
+        // Open the fight menu
         UIManager.GetInstance().OpenFightMenu();
+        room.StartingFight(monsters, heroes);
         
         yield return secondPause;
-        yield return secondPause;
 
+        // Fail safe, in case there is an infinite loop
         int count = 0;
-        // Each loop is one fighter attacking
+
+        // Each loop is one fighter attacking, with all the actions resolved
         while (monsters.Count > 0 && party.Count > 0)
         {
             count++;
 
             Fighter fighter = order[0];
             Debug.Log($"Attack #{count}: {fighter} attacking...");
-            // Make sure the monster is still "alive"
+
+            // Make sure there is still something to attack, and add the GetTargets action for the current fighter
             if (fighter is Monster && heroes.Count > 0)
             {
                 AddAction(new GetTargets(fighter, heroes));
@@ -92,6 +103,7 @@ public class FightManager : MonoBehaviour
                 AddAction(new GetTargets(fighter, monsters));
             }
 
+            // Resolve all of the actions
             while (actions.Count > 0)
             {
                 Action currentAction = actions[0];
@@ -130,13 +142,39 @@ public class FightManager : MonoBehaviour
             room.HeroesDefeatedMonsters();
         }
 
+        // Clear the lists and close the menu
         heroes.Clear();
         monsters.Clear();
         order.Clear();
         UIManager.GetInstance().CloseAllMenus();
 
     }
+    
+    public void AddMonster(MonsterBase monsterBase)
+    {
+        Debug.Log($"Creating monster...");
+        Monster monster = Instantiate(monsterPrefab, monsterHolder.transform).GetComponent<Monster>();
+        Debug.Log($"Setting type");
+        monster.SetType(monsterBase, room);
+        
+        order.Add(monster);
+        monsters.Add(monster);
+    }
 
+    private void AddPortrait()
+    {
+        GameObject gameObject = Instantiate(portraitPrefab, orderHolder.transform);
+        portraits.Add(gameObject.GetComponent<Image>());
+    }
+
+    public void AddAction(Action action)
+    {
+        if (actions.Count > 0)
+            actions.Insert(0, action);
+        else
+            actions.Add(action);
+    }
+    
     private void ShowActions()
     {
         string str = actions.Count.ToString() + ":\n";
@@ -145,17 +183,6 @@ public class FightManager : MonoBehaviour
             str += a + "\n";
         }
         actionsText.text = str;
-    }
-
-    public int CountHeroes()
-    {
-        int count = 0;
-        foreach (Fighter f in order)
-        {
-            if (f is Hero)
-                count++;
-        }
-        return count;
     }
 
     public void FighterDied(Fighter f)
@@ -167,6 +194,7 @@ public class FightManager : MonoBehaviour
             {
                 monsters.Remove(f);
                 order.Remove(f);
+                Destroy(f.gameObject, 0.3f);
                 Debug.Log($"{f} removed! (m)");
             }
             else
@@ -181,6 +209,7 @@ public class FightManager : MonoBehaviour
                 heroes.Remove(f);
                 order.Remove(f);
                 PartyManager.GetInstance().HeroDied(f.GetComponent<Hero>());
+                Destroy(f.gameObject, 0.3f);
                 Debug.Log($"{f} removed! (h)");
             }
             else
@@ -196,16 +225,15 @@ public class FightManager : MonoBehaviour
 
     private void UpdateOrder()
     {
+        // If there isn't enough portraits, add them
         while (portraits.Count < order.Count)
-        {
             AddPortrait();
-        }
 
+        // Hide all the portraits
         foreach (Image i in portraits)
-        {
             i.gameObject.SetActive(false);
-        }
         
+        // Set each portrait to the corresponding Fighter
         for (int i = 0; i < order.Count; i++)
         {
             portraits[i].sprite = order[i].GetSprite();
@@ -213,31 +241,6 @@ public class FightManager : MonoBehaviour
         }
 
         orderHolder.GetComponent<Animator>().SetTrigger("Next");
-    }
-
-    private void AddPortrait()
-    {
-        GameObject gameObject = Instantiate(portraitPrefab, orderHolder.transform);
-        portraits.Add(gameObject.GetComponent<Image>());
-    }
-
-    public void AddMonster(MonsterBase monsterBase)
-    {
-        Debug.Log($"Creating monster...");
-        Monster monster = Instantiate(monsterPrefab, monsterHolder.transform).GetComponent<Monster>();
-        Debug.Log($"Setting type");
-        monster.SetType(monsterBase, room);
-        
-        order.Add(monster);
-        monsters.Add(monster);
-    }
-
-    public void AddAction(Action action)
-    {
-        if (actions.Count > 0)
-            actions.Insert(0, action);
-        else
-            actions.Add(action);
     }
 
     public GameObject GetMonsterHolder() {return monsterHolder;}
@@ -259,6 +262,30 @@ public abstract class Action
     public abstract IEnumerator Do();
     protected void AddAction(Action a) {FightManager.GetInstance().AddAction(a);}
     // public float GetWaitTime() {return waitTime;}
+}
+
+public class GetTargets : Action
+{
+    private List<Fighter> fighters;
+
+    public GetTargets(Fighter fighter, List<Fighter> fighters) : base(fighter)
+    {
+        this.fighters = fighters;
+    }
+
+    public override IEnumerator Do()
+    {
+        List<Fighter> targets = new List<Fighter>();
+        targets.Add(fighters[0]);
+        foreach (FighterAbility a in fighter.GetAbilities())
+        {
+            if (a.DecideTargets(fighters).Count >= targets.Count)
+                targets = a.DecideTargets(fighters);
+        }
+        foreach (Fighter f in targets)
+            AddAction(new Attack(fighter, f));
+        yield break;
+    }
 }
 
 public class Attack : Action
@@ -299,6 +326,25 @@ public class TakeDamage : Action
         fighter.TakeDamage(attack.damage);
         if (fighter.GetHealth() <= 0)
             AddAction(new Die(fighter, attack));
+        yield break;
+    }
+}
+
+public class Die : Action
+{
+    private Damage attack;
+
+    public Die(Fighter fighter, Damage attack) : base(fighter)
+    {
+        this.attack = attack;
+    }
+
+    public override IEnumerator Do()
+    {
+        foreach (FighterAbility a in fighter.GetAbilities())
+            a.OnDeath(attack);
+        FightManager.GetInstance().FighterDied(fighter);
+        fighter.DeathAnimation();
         yield break;
     }
 }
@@ -353,49 +399,6 @@ public class AddAbility : Action
     {
         if (!fighter.GetAbilities().Contains(ability))
             fighter.GetAbilities().Add(ability);
-        yield break;
-    }
-}
-
-public class Die : Action
-{
-    private Damage attack;
-
-    public Die(Fighter fighter, Damage attack) : base(fighter)
-    {
-        this.attack = attack;
-    }
-
-    public override IEnumerator Do()
-    {
-        foreach (FighterAbility a in fighter.GetAbilities())
-            a.OnDeath(attack);
-        FightManager.GetInstance().FighterDied(fighter);
-        fighter.DeathAnimation();
-        yield break;
-    }
-}
-
-public class GetTargets : Action
-{
-    private List<Fighter> fighters;
-
-    public GetTargets(Fighter fighter, List<Fighter> fighters) : base(fighter)
-    {
-        this.fighters = fighters;
-    }
-
-    public override IEnumerator Do()
-    {
-        List<Fighter> targets = new List<Fighter>();
-        targets.Add(fighters[0]);
-        foreach (FighterAbility a in fighter.GetAbilities())
-        {
-            if (a.DecideTargets(fighters).Count >= targets.Count)
-                targets = a.DecideTargets(fighters);
-        }
-        foreach (Fighter f in targets)
-            AddAction(new Attack(fighter, f));
         yield break;
     }
 }
