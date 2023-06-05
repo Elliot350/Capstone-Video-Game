@@ -36,6 +36,8 @@ public class FightManager : MonoBehaviour
     private WaitForSeconds shortPause = new WaitForSeconds(0.5f);
     private WaitForSeconds secondPause = new WaitForSeconds(1);
 
+    [SerializeField] private bool fastForward;
+
     // Temporary debug text
     [Header("Temporary debug text")]
     [SerializeField] private TextMeshProUGUI actionsText;
@@ -110,7 +112,7 @@ public class FightManager : MonoBehaviour
                 ShowActions();
                 actions.RemoveAt(0);
                 yield return StartCoroutine(currentAction.Do());
-                yield return secondPause;
+                yield return new WaitForSeconds(fastForward ? currentAction.GetWaitTime() / 4f : currentAction.GetWaitTime());
                 ShowActions();
             }
 
@@ -194,7 +196,7 @@ public class FightManager : MonoBehaviour
             {
                 monsters.Remove(f);
                 order.Remove(f);
-                Destroy(f.gameObject, 0.3f);
+                Destroy(f.gameObject, fastForward ? 0f : 0.3f);
                 Debug.Log($"{f} removed! (m)");
             }
             else
@@ -209,7 +211,7 @@ public class FightManager : MonoBehaviour
                 heroes.Remove(f);
                 order.Remove(f);
                 PartyManager.GetInstance().HeroDied(f.GetComponent<Hero>());
-                Destroy(f.gameObject, 0.3f);
+                Destroy(f.gameObject, fastForward ? 0f : 0.3f);
                 Debug.Log($"{f} removed! (h)");
             }
             else
@@ -245,6 +247,7 @@ public class FightManager : MonoBehaviour
 
     public GameObject GetMonsterHolder() {return monsterHolder;}
     public GameObject GetHeroHolder() {return heroHolder;}
+    public bool FastForwarding() {return fastForward;}
 }
 
 // ---------- Actions ----------
@@ -252,16 +255,17 @@ public class FightManager : MonoBehaviour
 public abstract class Action
 {
     public Fighter fighter;
-    // private float waitTime = 1f;
+    protected float waitTime;
 
     public Action(Fighter fighter) 
     {
         this.fighter = fighter;
+        waitTime = 1f;
     }
 
     public abstract IEnumerator Do();
     protected void AddAction(Action a) {FightManager.GetInstance().AddAction(a);}
-    // public float GetWaitTime() {return waitTime;}
+    public float GetWaitTime() {return waitTime;}
 }
 
 public class GetTargets : Action
@@ -271,6 +275,7 @@ public class GetTargets : Action
     public GetTargets(Fighter fighter, List<Fighter> fighters) : base(fighter)
     {
         this.fighters = fighters;
+        waitTime = 0f;
     }
 
     public override IEnumerator Do()
@@ -375,6 +380,7 @@ public class RemoveAbility : Action
     {
         this.fighter = fighter;
         this.ability = ability;
+        waitTime = 0f;
     }
 
     public override IEnumerator Do()
@@ -393,6 +399,7 @@ public class AddAbility : Action
     {
         this.fighter = fighter;
         this.ability = ability;
+        waitTime = 0f;
     }
 
     public override IEnumerator Do()

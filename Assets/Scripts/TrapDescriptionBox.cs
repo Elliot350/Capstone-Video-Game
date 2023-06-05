@@ -14,7 +14,7 @@ public class TrapDescriptionBox : MonoBehaviour
         trapCost.text = trap.GetCost().ToString();
         trapDescription.text = trap.GetDescription();
 
-        hoverBox.transform.position = new Vector3(GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).x, GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).y + 0.5f);
+        // hoverBox.transform.position = new Vector3(GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).x, GameManager.GetInstance().cam.ScreenToWorldPoint(Input.mousePosition).y + 0.5f);
         hoverBox.SetActive(true);
     }
 

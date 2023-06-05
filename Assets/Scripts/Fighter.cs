@@ -147,18 +147,24 @@ public class Fighter : MonoBehaviour
 
     public virtual void AttackAnimation()
     {
+        if (FightManager.GetInstance().FastForwarding())
+            return;
         animator.SetBool("Monster", isMonster);
         animator.SetTrigger("Attack");
     }
 
     public virtual void HurtAnimation()
     {
+        if (FightManager.GetInstance().FastForwarding())
+            return;
         animator.SetBool("Monster", isMonster);
         animator.SetTrigger("Hurt");
     }
 
     public virtual void DeathAnimation()
     {
+        if (FightManager.GetInstance().FastForwarding())
+            return;
         animator.SetTrigger("Dead");
     }
 

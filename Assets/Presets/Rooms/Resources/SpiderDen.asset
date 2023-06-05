@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acaa2247657b4b94eabb3337b4581d65, type: 3}
+  m_Name: SpiderDen
+  m_EditorClassIdentifier: 
+  displayName: Spider Den
+  cost: 5
+  description: 
+  monsterCapacity: 6
+  trapCapacity: 0
+  abilities:
+  - {fileID: 11400000, guid: 9a339e1a31493544daf35d1f0d7f7823, type: 2}
+  sprite: {fileID: 21300000, guid: db9620d69a77853498a5281c092537cc, type: 3}
+  tile: {fileID: 11400000, guid: 03bd9ee88b5abca438cd7c3ca1d4d71a, type: 2}

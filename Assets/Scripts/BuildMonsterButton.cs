@@ -22,12 +22,12 @@ public class BuildMonsterButton : MonoBehaviour
 
     public void HoverOver()
     {
-        GameManager.GetInstance().monsterDescriptionBox.ShowDescription(monsterBase);
+        Tooltip.ShowTooltip_Static(monsterBase);
     }
 
     public void HoverOut()
     {
-        GameManager.GetInstance().monsterDescriptionBox.HideDescription();
+        Tooltip.HideTooltip_Static();
     }
 
     public void Clicked()

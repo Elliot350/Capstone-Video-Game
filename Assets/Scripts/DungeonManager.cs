@@ -54,6 +54,22 @@ public class DungeonManager : MonoBehaviour
             BeginNewPlacement(entranceBase);
     }
 
+    public void PlaceImportantRooms()
+    {
+        BeginNewPlacement(entranceBase);
+    }
+
+    public void EntrancePlaced(Vector3Int pos)
+    {
+        entrance = pos;
+        BeginNewPlacement(bossRoomBase);
+    }
+
+    public void BossRoomPlaced(Vector3Int pos)
+    {
+        bossRoom = pos;
+    }
+
     private void UpdatePlacementIndicator()
     {
         lastUpdateTime = Time.time;
@@ -72,6 +88,11 @@ public class DungeonManager : MonoBehaviour
     public void BeginNewPlacement(MonsterBase monsterBase)
     {
         if (GameManager.GetInstance().money < monsterBase.GetCost()) return;
+        foreach (Room r in rooms)
+        {
+            if (r.CanAddMonster(monsterBase))
+                r.Highlight(true);
+        }
         currentlyPlacing = true;
         curMonsterBase = monsterBase;
         placementIndicator.SetActive(true);
@@ -92,6 +113,7 @@ public class DungeonManager : MonoBehaviour
         curRoomBase = null;
         curMonsterBase = null;
         curTrapBase = null;
+        HighlightRooms(false);
     }
 
     private void Place()
@@ -110,10 +132,10 @@ public class DungeonManager : MonoBehaviour
     private void PlaceRoom(Vector3Int pos, RoomBase roomBase)
     {
         if (tilemap.GetTile(pos) != null) return;
+        CancelPlacement();
         tilemap.SetTile(pos, roomBase.GetTile());
         tilemap.GetInstantiatedObject(pos).GetComponent<Room>().SetType(roomBase);
         GameManager.GetInstance().SpendMoney(roomBase.GetCost());
-        CancelPlacement();
     }
 
     private void PlaceMonster(int x, int y, MonsterBase monsterBase)
@@ -191,9 +213,7 @@ public class DungeonManager : MonoBehaviour
         }
     }
 
-    public void SetBossRoom(Vector3Int pos) {bossRoom = pos;}
     public Vector3Int GetBossRoom() {return bossRoom;}
-    public void SetEntrance(Vector3Int pos) {entrance = pos;}
     public Vector3Int GetEntrance() {return entrance;}
     public List<Room> GetRooms() {return rooms;}
     public List<Room> GetHallways() {return hallways;}

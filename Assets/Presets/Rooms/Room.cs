@@ -183,5 +183,15 @@ public class Room : MonoBehaviour
         visited = true;
     }
 
-
+    public virtual bool CanAddMonster(MonsterBase monster)
+    {
+        if (monsters.Count >= monsterCapacity)
+            return false;
+        foreach (RoomAbility a in abilities)
+        {
+            if (!a.CanAddMonster(monster))
+                return false;
+        }
+        return true;
+    }
 }

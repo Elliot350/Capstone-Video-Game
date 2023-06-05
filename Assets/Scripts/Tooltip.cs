@@ -7,11 +7,28 @@ public class Tooltip : MonoBehaviour
 {
     public static Tooltip instance {get; private set;}
 
-    [SerializeField] private GameObject textTooltip, trapTooltip;
-    [SerializeField] private TrapDescriptionBox trapDescriptionBox;
-    [SerializeField] private RectTransform rectTransform, canvasRectTransform, backgroundTransform;
+    [Header("General Stuff")]
+    [SerializeField] RectTransform canvasRectTransform;
+    [SerializeField] private RectTransform rectTransform;
+
+    [Header("Plaintext Tooltip")]
+    [SerializeField] private GameObject textTooltip;
     [SerializeField] private TextMeshProUGUI tooltipText;
+    [SerializeField] private RectTransform textBackgroundTransform;
     [SerializeField] private const int DEFAULT_FONT_SIZE = 24;
+    
+    [Header("Trap Tooltip")]
+    [SerializeField] private GameObject trapTooltip;
+    [SerializeField] private TrapDescriptionBox trapDescriptionBox;
+
+    [Header("Monster Tooltip")]
+    [SerializeField] private GameObject monsterTooltip;
+    [SerializeField] private MonsterDescriptionBox monsterDescriptionBox;
+
+    [Header("Room Tooltip")]
+    [SerializeField] private GameObject roomTooltip;
+    [SerializeField] private RoomDescriptionBox roomDescriptionBox;
+    
     private GameObject currentTooltip;
     
     private void Awake() 
@@ -45,19 +62,19 @@ public class Tooltip : MonoBehaviour
 
         Vector2 textSize = tooltipText.GetRenderedValues(false);
         Vector2 paddingSize = new Vector2(8, 8);
-        backgroundTransform.sizeDelta = textSize + paddingSize;
+        textBackgroundTransform.sizeDelta = textSize + paddingSize;
     }
 
-    private void SetRandomText()
-    {
-        string abc = "abcdefghijklmnopqrstuvwxyz\n\n\n\n\n\n\n";
-        string text = "Testing...\n";
-        for (int i = 0; i < Random.Range(5, 50); i++)
-        {
-            text += abc[Random.Range(0, abc.Length)];
-        }
-        SetText(text);
-    }
+    // private void SetRandomText()
+    // {
+    //     string abc = "abcdefghijklmnopqrstuvwxyz\n\n\n\n\n\n\n";
+    //     string text = "Testing...\n";
+    //     for (int i = 0; i < Random.Range(5, 50); i++)
+    //     {
+    //         text += abc[Random.Range(0, abc.Length)];
+    //     }
+    //     SetText(text);
+    // }
 
     private void SetTooltip(string text, int fontSize)
     {
@@ -74,10 +91,26 @@ public class Tooltip : MonoBehaviour
         currentTooltip.SetActive(true);
     }
 
+    private void SetTooltip(MonsterBase monsterBase)
+    {
+        monsterDescriptionBox.ShowDescription(monsterBase);
+        currentTooltip = monsterTooltip;
+        currentTooltip.SetActive(true);
+    }
+
+    private void SetTooltip(RoomBase roomBase)
+    {
+        roomDescriptionBox.ShowDescription(roomBase);
+        currentTooltip = roomTooltip;
+        currentTooltip.SetActive(true);
+    }
+
     public void HideTooltip()
     {
         textTooltip.SetActive(false);
         trapTooltip.SetActive(false);
+        monsterTooltip.SetActive(false);
+        roomTooltip.SetActive(false);
         // currentTooltip.SetActive(false);
     }
 
@@ -94,6 +127,16 @@ public class Tooltip : MonoBehaviour
     public static void ShowTooltip_Static(TrapBase trapBase)
     {
         instance.SetTooltip(trapBase);
+    }
+
+    public static void ShowTooltip_Static(MonsterBase monsterBase)
+    {
+        instance.SetTooltip(monsterBase);
+    }
+
+    public static void ShowTooltip_Static(RoomBase roomBase)
+    {
+        instance.SetTooltip(roomBase);
     }
 
     public static void HideTooltip_Static()
