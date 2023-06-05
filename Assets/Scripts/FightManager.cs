@@ -11,6 +11,7 @@ public class FightManager : MonoBehaviour
     public List<Fighter> order;
     public List<Fighter> monsters;
     public List<Fighter> heroes;
+    public Fighter currentTurn;
     public Room room;
 
     [SerializeField] private GameObject portraitPrefab, orderHolder;
@@ -77,6 +78,7 @@ public class FightManager : MonoBehaviour
             count++;
 
             Fighter fighter = order[0];
+            currentTurn = fighter;
             Debug.Log($"Attack #{count}: {fighter} attacking...");
             // Make sure the monster is still "alive"
             if (fighter is Monster && heroes.Count > 0)
@@ -91,7 +93,7 @@ public class FightManager : MonoBehaviour
             }
             
             // Have the fighter actually do their attack
-            yield return fighter.StartCoroutine(fighter.DoActions());
+            yield return fighter.StartCoroutine(fighter.TakeTurn());
             Debug.Log(fighter + " done");
 
             // If they are still alive, move them to the end of the order
@@ -162,6 +164,7 @@ public class FightManager : MonoBehaviour
             {
                 heroes.Remove(f);
                 order.Remove(f);
+                PartyManager.GetInstance().HeroDied(f.GetComponent<Hero>());
                 Debug.Log($"{f} removed! (h)");
             }
             else

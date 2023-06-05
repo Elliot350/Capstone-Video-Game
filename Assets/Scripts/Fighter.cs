@@ -85,28 +85,35 @@ public class Fighter : MonoBehaviour
         SetHealthBar();
     }
 
+    public IEnumerator TakeTurn()
+    {
+        busy = true;
+        yield return StartCoroutine(DoActions());
+        busy = false;
+        if (!alive) DestroyGameObject();
+        yield break;
+    }
+
     public IEnumerator DoActions()
     {
         busy = true;
         ShowActions();
         while (actions.Count > 0 && alive)
         {
-            yield return pause;
             Debug.Log($"Doing action {actions[0]}");
-            Action upcomingAction = actions[0];
+            Action currentAction = actions[0];
             actions.RemoveAt(0);
-            yield return StartCoroutine(upcomingAction.Do());
+            yield return StartCoroutine(currentAction.Do());
+            ShowActions();
+            yield return currentAction.GetWait();
             ShowActions();
             
             if (!alive)
             {
-                busy = false;
-                DestroyGameObject();
                 yield break;
             }
         }
-        busy = false;
-        Debug.Log("No more actions");
+        if (FightManager.GetInstance().currentTurn != this && !alive) DestroyGameObject();
         yield break;
     }
 
@@ -123,7 +130,7 @@ public class Fighter : MonoBehaviour
     public void AddAction(Action action)
     {
         // Debug.Log($"Adding action - {action}");
-        if (actions.Count > 1)
+        if (actions.Count > 0)
             actions.Insert(0, action);
         else 
             actions.Add(action);
@@ -132,7 +139,7 @@ public class Fighter : MonoBehaviour
     public void AddImportantAction(Action action)
     {
         // Debug.Log($"Adding ACTION - {action}");
-        if (actions.Count > 1)
+        if (actions.Count > 0)
             actions.Insert(0, action);
         else 
             actions.Add(action);
@@ -290,11 +297,17 @@ public class Damage
 public abstract class Action
 {
     public Fighter fighter;
+    private float waitTime = 1f;
+    private WaitForSeconds waitFor;
 
     public Action(Fighter fighter) 
-    {this.fighter = fighter;}
+    {
+        this.fighter = fighter;
+        waitFor = new WaitForSeconds(waitTime);
+    }
 
     public abstract IEnumerator Do();
+    public WaitForSeconds GetWait() {return waitFor;}
 }
 
 public class Attack : Action
@@ -360,6 +373,7 @@ public class Heal : Action
 public class RemoveAbility : Action
 {
     private FighterAbility ability;
+    private float waitTime = 0f;
 
     public RemoveAbility(Fighter fighter, FighterAbility ability) : base(fighter)
     {
@@ -378,6 +392,7 @@ public class RemoveAbility : Action
 public class AddAbility : Action
 {
     private FighterAbility ability;
+    private float waitTime = 0f;
 
     public AddAbility(Fighter fighter, FighterAbility ability) : base(fighter)
     {
@@ -415,6 +430,7 @@ public class Die : Action
 public class GetTargets : Action
 {
     private List<Fighter> fighters;
+    private float waitTime = 0f;
 
     public GetTargets(Fighter fighter, List<Fighter> fighters) : base(fighter)
     {
@@ -439,6 +455,7 @@ public class GetTargets : Action
 public class TriggerOtherFighter : Action
 {
     private Fighter target;
+    private float waitTime = 0f;
 
     public TriggerOtherFighter(Fighter fighter, Fighter target) : base(fighter)
     {
