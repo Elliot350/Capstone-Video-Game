@@ -101,7 +101,7 @@ public class PartyManager : MonoBehaviour
 
     public void CreateHero(HeroBase heroBase)
     {
-        Hero heroTemp = Instantiate(heroPrefab, FightManager.GetInstance().heroHolder.transform);
+        Hero heroTemp = Instantiate(heroPrefab, FightManager.GetInstance().GetHeroHolder().transform);
         heroTemp.SetType(heroBase, null);
         party.AddHero(heroTemp);
         // party.AddHero(heroBase);
@@ -151,9 +151,9 @@ public class PartyManager : MonoBehaviour
 
     public void DestroyParty()
     {
-        foreach (Transform child in FightManager.GetInstance().heroHolder.transform)
+        foreach (Transform child in FightManager.GetInstance().GetHeroHolder().transform)
         {
-            if (child != FightManager.GetInstance().heroHolder.transform)
+            if (child != FightManager.GetInstance().GetHeroHolder().transform)
             {
                 Destroy(child.gameObject);
             }

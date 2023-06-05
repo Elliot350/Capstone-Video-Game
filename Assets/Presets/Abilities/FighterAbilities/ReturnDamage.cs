@@ -12,8 +12,7 @@ public class ReturnDamage : FighterAbility
         if (attack.source == null)
             return;
         // attack.source.TakeDamage(new Damage(attack.target, attack.source, returnDamage));
-        attack.source.AddImportantAction(new TakeDamage(new Damage(attack.target, attack.source, returnDamage)));
-        attack.target.AddImportantAction(new TriggerOtherFighter(attack.target, attack.source));
+        FightManager.GetInstance().AddAction(new TakeDamage(new Damage(attack.target, attack.source, returnDamage)));
     }
 
     public override string GetDescription()

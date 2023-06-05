@@ -181,9 +181,10 @@ public class DungeonManager : MonoBehaviour
             room.ResetRoom();
         }
         tilemap.GetInstantiatedObject(bossRoom).GetComponent<Room>().ResetRoom();
-        foreach (Transform child in FightManager.GetInstance().monsterHolder.transform)
+        // Im not sure if this is the best way?
+        foreach (Transform child in FightManager.GetInstance().GetMonsterHolder().transform)
         {
-            if (child != FightManager.GetInstance().monsterHolder.transform)
+            if (child != FightManager.GetInstance().GetMonsterHolder().transform)
             {
                 Destroy(child.gameObject);
             }
