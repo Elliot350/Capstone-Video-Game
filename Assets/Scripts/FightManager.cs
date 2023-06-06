@@ -154,9 +154,7 @@ public class FightManager : MonoBehaviour
     
     public void AddMonster(MonsterBase monsterBase)
     {
-        Debug.Log($"Creating monster...");
         Monster monster = Instantiate(monsterPrefab, monsterHolder.transform).GetComponent<Monster>();
-        Debug.Log($"Setting type");
         monster.SetType(monsterBase, room);
         
         order.Add(monster);
@@ -245,6 +243,10 @@ public class FightManager : MonoBehaviour
         orderHolder.GetComponent<Animator>().SetTrigger("Next");
     }
 
+    public List<Fighter> GetMonsters() {return monsters;}
+    public List<Fighter> GetHeroes() {return heroes;}
+    public List<Fighter> GetFighters() {return order;}
+    public Room GetRoom() {return room;}
     public GameObject GetMonsterHolder() {return monsterHolder;}
     public GameObject GetHeroHolder() {return heroHolder;}
     public bool FastForwarding() {return fastForward;}
@@ -263,6 +265,7 @@ public abstract class Action
         waitTime = 1f;
     }
 
+    // Might be able to make this a normal funcion now
     public abstract IEnumerator Do();
     protected void AddAction(Action a) {FightManager.GetInstance().AddAction(a);}
     public float GetWaitTime() {return waitTime;}
@@ -280,6 +283,8 @@ public class GetTargets : Action
 
     public override IEnumerator Do()
     {
+        if (!FightManager.GetInstance().GetFighters().Contains(fighter) || fighters.Count == 0)
+            yield break;
         List<Fighter> targets = new List<Fighter>();
         targets.Add(fighters[0]);
         foreach (FighterAbility a in fighter.GetAbilities())
@@ -326,9 +331,7 @@ public class TakeDamage : Action
 
     public override IEnumerator Do()
     {
-        foreach (FighterAbility a in fighter.GetAbilities())
-            a.OnTakenDamage(attack);
-        fighter.TakeDamage(attack.damage);
+        fighter.TakeDamage(attack);
         if (fighter.GetHealth() <= 0)
             AddAction(new Die(fighter, attack));
         yield break;
@@ -346,10 +349,8 @@ public class Die : Action
 
     public override IEnumerator Do()
     {
-        foreach (FighterAbility a in fighter.GetAbilities())
-            a.OnDeath(attack);
+        fighter.Die(attack);
         FightManager.GetInstance().FighterDied(fighter);
-        fighter.DeathAnimation();
         yield break;
     }
 }
@@ -365,8 +366,6 @@ public class Heal : Action
 
     public override IEnumerator Do()
     {
-        foreach (FighterAbility a in fighter.GetAbilities())
-            a.OnHeal(fighter);
         fighter.Heal(amount);
         yield break;
     }

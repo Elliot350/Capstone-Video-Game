@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public int money;
     public TextMeshProUGUI statsText;
 
-    public RoomInfo roomInfo;
+    // public RoomInfo roomInfo;
     public Camera cam;
 
     public Animator roomMenu, trapMenu, monsterMenu;
@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
 
     public void RoomClickedOn(Room room)
     {
-        roomInfo.ShowRoom(room);
+        // roomInfo.ShowRoom(room);
     }
 
     public void AddBoss()

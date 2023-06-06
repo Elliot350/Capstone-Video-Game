@@ -163,16 +163,16 @@ public class Room : MonoBehaviour
         return text;
     }
 
-    public void MonsterDied(Monster monster)
+    public void MonsterDied(Fighter f)
     {
         foreach (RoomAbility a in abilities)
-            a.OnMonsterDied(monster);
+            a.OnMonsterDied(f);
     }
 
-    public void HeroDied(Hero hero)
+    public void HeroDied(Fighter f)
     {
         foreach (RoomAbility a in abilities)
-            a.OnHeroDied(hero);
+            a.OnHeroDied(f);
     }
 
     public virtual void HeroesDefeatedMonsters()
@@ -194,4 +194,6 @@ public class Room : MonoBehaviour
         }
         return true;
     }
+
+    public List<RoomAbility> GetAbilities() {return abilities;}
 }

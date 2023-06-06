@@ -70,7 +70,6 @@ public class PartyManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            
             Vector3 world = camera.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int gridPos = tilemap.WorldToCell(world);
             roadMap.SetTile(new Vector3Int(gridPos.x, gridPos.y, 0), null);
@@ -237,6 +236,9 @@ public class PartyManager : MonoBehaviour
         foreach (Room room in DungeonManager.GetInstance().GetRooms())
         {
             Vector2Int nextRoomPos = new Vector2Int((int) room.transform.position.x, (int) room.transform.position.y);
+            // Skip over this roo if there is no path
+            if (astar.CreatePath(spots, entrancePosition, nextRoomPos, 100) == null)
+                continue;
             bool placed = false;
             if (list.Count > 0)
             {

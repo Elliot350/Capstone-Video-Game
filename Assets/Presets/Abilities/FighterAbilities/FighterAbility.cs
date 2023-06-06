@@ -10,6 +10,9 @@ public abstract class FighterAbility : Ability
     public virtual void OnHeal(Fighter f) {}
     public virtual void OnAttack(Damage attack) {}
     public virtual void OnDeath(Damage attack) {}
+    public virtual void OnHeroDied(Fighter f, Fighter dead) {OnFighterDied(f, dead);}
+    public virtual void OnMonsterDied(Fighter f, Fighter dead) {OnFighterDied(f, dead);}
+    protected virtual void OnFighterDied(Fighter f, Fighter dead) {}
     public virtual void OnBattleStarted(Fighter f) {}
     public virtual void OnBattleFinished(Fighter f) {}
     public virtual float GetDamageMultiplier(Fighter f) {return 0f;}

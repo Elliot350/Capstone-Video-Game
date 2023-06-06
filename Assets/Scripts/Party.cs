@@ -55,6 +55,6 @@ public class Party : MonoBehaviour
     {
         // hero.AddAction(new TakeDamage(new Damage(null, hero, damageAmount)));
         // hero.DoActions();
-        hero.TakeDamage(damageAmount);
+        hero.TakeDamage(new Damage(null, hero, damageAmount));
     }
 }
