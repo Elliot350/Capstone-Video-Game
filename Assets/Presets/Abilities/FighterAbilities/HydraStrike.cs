@@ -8,7 +8,6 @@ public class HydraStrike : FighterAbility
     public override List<Fighter> DecideTargets(List<Fighter> fighters)
     {
         List<Fighter> targets = new List<Fighter>(fighters);
-        targets.Reverse();
         return targets;
     }
 

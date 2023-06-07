@@ -30,7 +30,7 @@ public class Fighter : MonoBehaviour
     private List<FighterAbility> abilitiesToRemove = new List<FighterAbility>();
     private List<FighterAbility> abilitiesToAdd = new List<FighterAbility>();
 
-    public void SetType(FighterBase fighterBase)
+    public virtual void SetType(FighterBase fighterBase)
     {
         this.fighterBase = fighterBase;
         displayName = fighterBase.GetName();
@@ -80,7 +80,7 @@ public class Fighter : MonoBehaviour
         slider.value = health;
     }
 
-    public void Die(Damage attack)
+    public virtual void Die(Damage attack)
     {
         foreach (FighterAbility a in abilities)
             a.OnDeath(attack);

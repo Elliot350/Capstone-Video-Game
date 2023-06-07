@@ -192,6 +192,11 @@ public class Room : MonoBehaviour
             if (!a.CanAddMonster(monster))
                 return false;
         }
+        foreach (FighterAbility a in monster.GetAbilities())
+        {
+            if (!a.CanAddMonster(monster, this))
+                return false;
+        }
         return true;
     }
 

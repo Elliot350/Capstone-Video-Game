@@ -106,6 +106,12 @@ public class DungeonManager : MonoBehaviour
         placementIndicator.SetActive(true);
     }
 
+    public void BeginNewPlacement()
+    {
+        currentlyPlacing = true;
+        placementIndicator.SetActive(true);
+    }
+
     private void CancelPlacement()
     {
         currentlyPlacing = false;
@@ -121,7 +127,7 @@ public class DungeonManager : MonoBehaviour
         if (curRoomBase != null) PlaceRoom(curPlacementPos, curRoomBase);
         else if (curMonsterBase != null) PlaceMonster(curPlacementPos, curMonsterBase);
         else if (curTrapBase != null) PlaceTrap(curPlacementPos, curTrapBase);
-        else Debug.LogWarning("Can't place anything!");
+        else DestroyTile(curPlacementPos);
     }
 
     private void PlaceRoom(int x, int y, RoomBase roomBase)
@@ -132,7 +138,7 @@ public class DungeonManager : MonoBehaviour
     private void PlaceRoom(Vector3Int pos, RoomBase roomBase)
     {
         if (tilemap.GetTile(pos) != null) return;
-        CancelPlacement();
+        if (roomBase != hallwayBase) CancelPlacement();
         tilemap.SetTile(pos, roomBase.GetTile());
         tilemap.GetInstantiatedObject(pos).GetComponent<Room>().SetType(roomBase);
         GameManager.GetInstance().SpendMoney(roomBase.GetCost());
@@ -145,7 +151,7 @@ public class DungeonManager : MonoBehaviour
 
     private void PlaceMonster(Vector3Int pos, MonsterBase monsterBase)
     {
-        if (tilemap.GetTile(pos) == null) return;
+        if (tilemap.GetTile(pos) == null || !tilemap.GetInstantiatedObject(pos).GetComponent<Room>().CanAddMonster(monsterBase)) return;
         Room room = tilemap.GetInstantiatedObject(pos).GetComponent<Room>();
         if (room.monsters.Count >= room.monsterCapacity) return;
         room.AddMonster(monsterBase);
@@ -166,6 +172,16 @@ public class DungeonManager : MonoBehaviour
         room.AddTrap(trapBase);
         GameManager.GetInstance().SpendMoney(trapBase.GetCost());
         CancelPlacement();
+    }
+
+    private void DestroyTile(Vector3Int pos)
+    {
+        if (tilemap.GetTile(pos) == null) return;
+        // TODO: Change this to a method in room so it refunds some money for the room, monsters and traps
+        tilemap.SetTile(pos, null);
+        CancelPlacement();
+        // Hide because we would be hovering over something and it gets destroyed so we need to stop hovering
+        Tooltip.HideTooltip_Static();
     }
 
     public void PlaceBasicDungeon() {
@@ -213,8 +229,10 @@ public class DungeonManager : MonoBehaviour
         }
     }
 
-    public Vector3Int GetBossRoom() {return bossRoom;}
-    public Vector3Int GetEntrance() {return entrance;}
+    public Vector3Int GetBossRoomPos() {return bossRoom;}
+    public Vector2Int GetBossRoomTile() {return new Vector2Int(bossRoom.x, bossRoom.y);}
+    public Vector3Int GetEntrancePos() {return entrance;}
+    public Vector2Int GetEntranceTile() {return new Vector2Int(entrance.x, entrance.y);}
     public List<Room> GetRooms() {return rooms;}
     public List<Room> GetHallways() {return hallways;}
     public Tilemap GetTilemap() {return tilemap;}

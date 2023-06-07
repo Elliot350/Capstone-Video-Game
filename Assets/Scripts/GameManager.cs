@@ -103,11 +103,11 @@ public class GameManager : MonoBehaviour
 
     public void AddBoss()
     {
-        DungeonManager.GetInstance().GetTilemap().GetInstantiatedObject(DungeonManager.GetInstance().GetBossRoom()).GetComponent<Room>().AddMonster(bossMonster);
+        DungeonManager.GetInstance().GetTilemap().GetInstantiatedObject(DungeonManager.GetInstance().GetBossRoomPos()).GetComponent<Room>().AddMonster(bossMonster);
     }
 
     public void AddBoss(MonsterBase monster)
     {
-        DungeonManager.GetInstance().GetTilemap().GetInstantiatedObject(DungeonManager.GetInstance().GetBossRoom()).GetComponent<Room>().AddMonster(monster);
+        DungeonManager.GetInstance().GetTilemap().GetInstantiatedObject(DungeonManager.GetInstance().GetBossRoomPos()).GetComponent<Room>().AddMonster(monster);
     }
 }

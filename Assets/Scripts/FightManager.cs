@@ -27,6 +27,7 @@ public class FightManager : MonoBehaviour
     [SerializeField] private List<Fighter> heroes;
     // Action list that controlls the fights
     private List<Action> actions;
+    private List<Action> actionsToAdd;
     // Current room the fight is in
     private Room room; // Could maybe remove this
     
@@ -57,6 +58,7 @@ public class FightManager : MonoBehaviour
         heroes = new List<Fighter>();
         monsters = new List<Fighter>();
         actions = new List<Action>();
+        actionsToAdd = new List<Action>();
 
         room = roomFight;
 
@@ -106,14 +108,23 @@ public class FightManager : MonoBehaviour
             }
 
             // Resolve all of the actions
+            actions.AddRange(actionsToAdd);
+            actionsToAdd.Clear();
             while (actions.Count > 0)
             {
                 Action currentAction = actions[0];
                 ShowActions();
                 actions.RemoveAt(0);
-                yield return StartCoroutine(currentAction.Do());
+                if (!order.Contains(currentAction.fighter))
+                    yield return StartCoroutine(currentAction.Do());
                 yield return new WaitForSeconds(fastForward ? currentAction.GetWaitTime() / 4f : currentAction.GetWaitTime());
+                if (actions.Count < 1)
+                    actions.AddRange(actionsToAdd);
+                else
+                    actions.InsertRange(0, actionsToAdd);
+                actionsToAdd.Clear();
                 ShowActions();
+                
             }
 
             // If they are still alive, move them to the end of the order
@@ -169,10 +180,11 @@ public class FightManager : MonoBehaviour
 
     public void AddAction(Action action)
     {
-        if (actions.Count > 0)
-            actions.Insert(0, action);
-        else
-            actions.Add(action);
+        // if (actions.Count > 0)
+        //     actions.Insert(0, action);
+        // else
+        //     actions.Add(action);
+        actionsToAdd.Add(action);
     }
     
     private void ShowActions()
@@ -300,21 +312,20 @@ public class GetTargets : Action
 
 public class Attack : Action
 {
-    private Fighter source, target;
+    private Fighter target;
 
     public Attack(Fighter source, Fighter target) : base (source)
     {
-        this.source = source;
         this.target = target;
     }
 
     public override IEnumerator Do()
     {
-        float attackDamage = source.CalculateDamage();
-        Damage attack = new Damage(source, target, attackDamage);
-        foreach (FighterAbility a in source.GetAbilities())
+        float attackDamage = fighter.CalculateDamage();
+        Damage attack = new Damage(fighter, target, attackDamage);
+        foreach (FighterAbility a in fighter.GetAbilities())
             a.OnAttack(attack);
-        source.AttackAnimation();
+        fighter.AttackAnimation();
         AddAction(new TakeDamage(attack));
         yield break;
     }

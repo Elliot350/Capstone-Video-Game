@@ -114,11 +114,22 @@ public class PartyManager : MonoBehaviour
     // Create a random party
     public void CreateParty()
     {
-        CreateParty(new List<HeroBase>{heroBases[0]});
+        List<HeroBase> heroes = new List<HeroBase>();
+        for (int i = 0; i < 3; i++)
+        {
+            heroes.Add(heroBases[Random.Range(0, heroBases.Count)]);
+        }
+        CreateParty(heroes);
     }
 
     public void CreateParty(List<HeroBase> list)
     {
+        CreateGrid();
+        if (astar.CreatePath(spots, DungeonManager.GetInstance().GetEntranceTile(), DungeonManager.GetInstance().GetBossRoomTile(), 100) == null)
+        {
+            Debug.Log($"No path available from entrance to boss room!");
+            return;
+        }
         party = Instantiate(partyPrefab);
         foreach (HeroBase hero in list)
         {
@@ -204,7 +215,7 @@ public class PartyManager : MonoBehaviour
         List<Vector2Int> rooms = new List<Vector2Int>();
         rooms = GetRoomsInOrder();
 
-        Vector2Int entrancePosition = new Vector2Int((int) DungeonManager.GetInstance().GetEntrance().x, (int) DungeonManager.GetInstance().GetEntrance().y);
+        Vector2Int entrancePosition = DungeonManager.GetInstance().GetEntranceTile();
         roadPath.AddRange(astar.CreatePath(spots, rooms[0], entrancePosition, 100));
 
         for (int i = 1; i < rooms.Count; i++)
@@ -212,7 +223,7 @@ public class PartyManager : MonoBehaviour
             roadPath.AddRange(astar.CreatePath(spots, rooms[i], rooms[i - 1], 100));
         }
 
-        Vector2Int bossRoomPosition = new Vector2Int((int) DungeonManager.GetInstance().GetBossRoom().x, (int) DungeonManager.GetInstance().GetBossRoom().y);
+        Vector2Int bossRoomPosition = DungeonManager.GetInstance().GetBossRoomTile();
         roadPath.AddRange(astar.CreatePath(spots, bossRoomPosition, rooms[rooms.Count - 1], 100));
 
         // Remove duplicate positions
@@ -231,7 +242,7 @@ public class PartyManager : MonoBehaviour
         Debug.Log("Getting the rooms in order");
         List<Vector2Int> list = new List<Vector2Int>();
 
-        Vector2Int entrancePosition = new Vector2Int(DungeonManager.GetInstance().GetEntrance().x, DungeonManager.GetInstance().GetEntrance().y);
+        Vector2Int entrancePosition = new Vector2Int(DungeonManager.GetInstance().GetEntrancePos().x, DungeonManager.GetInstance().GetEntrancePos().y);
         
         foreach (Room room in DungeonManager.GetInstance().GetRooms())
         {

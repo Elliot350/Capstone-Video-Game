@@ -20,3 +20,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7c535ede88688dc48b937c9eb37c469e, type: 2}
   tags: []
   sprite: {fileID: 1379590926, guid: d8e84b4bdabdd4476aadab46f5e84638, type: 3}
+  gold: 15
