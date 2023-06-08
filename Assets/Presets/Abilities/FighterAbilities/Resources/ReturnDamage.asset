@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Return Damage
   description: 'On Attacked: Return {0} damage back to attacker'
-  animation: {fileID: 7400000, guid: 0f65e56f486f3a443bbc950baa1e79fb, type: 2}
+  animationTrigger: ReturnDamage
   returnDamage: 4
