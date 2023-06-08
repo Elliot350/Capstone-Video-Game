@@ -155,7 +155,7 @@ public class PartyManager : MonoBehaviour
 
     public void HeroDied(Hero h)
     {
-        partyStatus.RemoveHero(h);
+        // partyStatus.RemoveHero(h);
         party.HeroDead(h);
     }
 

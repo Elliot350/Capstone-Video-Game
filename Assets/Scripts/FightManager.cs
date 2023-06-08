@@ -115,7 +115,7 @@ public class FightManager : MonoBehaviour
                 Action currentAction = actions[0];
                 ShowActions();
                 actions.RemoveAt(0);
-                if (!order.Contains(currentAction.fighter))
+                if (order.Contains(currentAction.fighter))
                     yield return StartCoroutine(currentAction.Do());
                 yield return new WaitForSeconds(fastForward ? currentAction.GetWaitTime() / 4f : currentAction.GetWaitTime());
                 if (actions.Count < 1)
@@ -335,7 +335,7 @@ public class TakeDamage : Action
 {
     private Damage attack;
 
-    public TakeDamage(Damage attack) : base(attack.target)
+    public TakeDamage(Damage attack) : base(attack.GetTarget())
     {
         this.attack = attack;
     }

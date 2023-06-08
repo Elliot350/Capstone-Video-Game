@@ -7,8 +7,8 @@ public class Frozen : FighterAbility
 {
     public override void OnAttack(Damage attack)
     {
-        attack.damage = 0;
-        FightManager.GetInstance().AddAction(new RemoveAbility(attack.source, this));
+        attack.SetDamage(0);
+        FightManager.GetInstance().AddAction(new RemoveAbility(attack.GetSource(), this));
     }
 
     public override string GetDescription()

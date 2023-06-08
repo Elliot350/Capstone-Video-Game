@@ -23,11 +23,11 @@ public class DungeonManager : MonoBehaviour
     private Vector3Int entrance;
     private Vector3Int bossRoom;
 
-    [SerializeField] private RoomBase hallwayBase;
-    [SerializeField] private RoomBase roomBase;
-    [SerializeField] private RoomBase entranceBase;
-    [SerializeField] private RoomBase bossRoomBase;
-    [SerializeField] private MonsterBase monster;
+    [SerializeField] private RoomBase hallwayBasePrefab;
+    [SerializeField] private RoomBase roomBasePrefab;
+    [SerializeField] private RoomBase entranceBasePrefab;
+    [SerializeField] private RoomBase bossRoomBasePrefab;
+    [SerializeField] private MonsterBase tempMonster;
 
     private List<RoomBase> roomBases;
 
@@ -51,18 +51,18 @@ public class DungeonManager : MonoBehaviour
         if (currentlyPlacing && Input.GetMouseButtonDown(0))
             Place();
         if (Input.GetKeyDown(KeyCode.Space))
-            BeginNewPlacement(entranceBase);
+            BeginNewPlacement(entranceBasePrefab);
     }
 
     public void PlaceImportantRooms()
     {
-        BeginNewPlacement(entranceBase);
+        BeginNewPlacement(entranceBasePrefab);
     }
 
     public void EntrancePlaced(Vector3Int pos)
     {
         entrance = pos;
-        BeginNewPlacement(bossRoomBase);
+        BeginNewPlacement(bossRoomBasePrefab);
     }
 
     public void BossRoomPlaced(Vector3Int pos)
@@ -79,7 +79,7 @@ public class DungeonManager : MonoBehaviour
 
     public void BeginNewPlacement(RoomBase roomBase)
     {
-        if (GameManager.GetInstance().money < roomBase.GetCost()) return;
+        if (!GameManager.GetInstance().HasEnoughMoney(roomBase.GetCost())) return;
         currentlyPlacing = true;
         curRoomBase = roomBase;
         placementIndicator.SetActive(true);
@@ -87,7 +87,7 @@ public class DungeonManager : MonoBehaviour
 
     public void BeginNewPlacement(MonsterBase monsterBase)
     {
-        if (GameManager.GetInstance().money < monsterBase.GetCost()) return;
+        if (!GameManager.GetInstance().HasEnoughMoney(monsterBase.GetCost())) return;
         foreach (Room r in rooms)
         {
             if (r.CanAddMonster(monsterBase))
@@ -100,7 +100,7 @@ public class DungeonManager : MonoBehaviour
 
     public void BeginNewPlacement(TrapBase trapBase)
     {
-        if (GameManager.GetInstance().money < trapBase.GetCost()) return;
+        if (!GameManager.GetInstance().HasEnoughMoney(trapBase.GetCost())) return;
         currentlyPlacing = true;
         curTrapBase = trapBase;
         placementIndicator.SetActive(true);
@@ -138,10 +138,10 @@ public class DungeonManager : MonoBehaviour
     private void PlaceRoom(Vector3Int pos, RoomBase roomBase)
     {
         if (tilemap.GetTile(pos) != null) return;
-        if (roomBase != hallwayBase) CancelPlacement();
+        if (roomBase != hallwayBasePrefab) CancelPlacement();
+        GameManager.GetInstance().SpendMoney(roomBase.GetCost());
         tilemap.SetTile(pos, roomBase.GetTile());
         tilemap.GetInstantiatedObject(pos).GetComponent<Room>().SetType(roomBase);
-        GameManager.GetInstance().SpendMoney(roomBase.GetCost());
     }
 
     private void PlaceMonster(int x, int y, MonsterBase monsterBase)
@@ -186,34 +186,34 @@ public class DungeonManager : MonoBehaviour
 
     public void PlaceBasicDungeon() {
 
-        GameManager.GetInstance().money += 300;
+        PlaceRoom(0, 3, bossRoomBasePrefab);
 
-        PlaceRoom(0, 3, bossRoomBase);
+        PlaceRoom(0, 2, hallwayBasePrefab);
+        PlaceRoom(0, 1, hallwayBasePrefab);
+        PlaceRoom(0, 0, hallwayBasePrefab);
+        PlaceRoom(0, -1, hallwayBasePrefab);
+        PlaceRoom(-1, 0, hallwayBasePrefab);
+        PlaceRoom(1, 0, hallwayBasePrefab);
 
-        PlaceRoom(0, 2, hallwayBase);
-        PlaceRoom(0, 1, hallwayBase);
-        PlaceRoom(0, 0, hallwayBase);
-        PlaceRoom(0, -1, hallwayBase);
-        PlaceRoom(-1, 0, hallwayBase);
-        PlaceRoom(1, 0, hallwayBase);
+        PlaceRoom(-2, 0, roomBasePrefab);
+        PlaceMonster(-2, 0, tempMonster);
+        PlaceMonster(-2, 0, tempMonster);
+        PlaceMonster(-2, 0, tempMonster);
+        PlaceRoom(2, 0, roomBasePrefab);
 
-        PlaceRoom(-2, 0, roomBase);
-        PlaceMonster(-2, 0, monster);
-        PlaceMonster(-2, 0, monster);
-        PlaceMonster(-2, 0, monster);
-        PlaceRoom(2, 0, roomBase);
-
-        PlaceRoom(0, -2, entranceBase);
+        PlaceRoom(0, -2, entranceBasePrefab);
     }
 
-    public void HighlightRooms(bool status) {
+    public void HighlightRooms(bool status) 
+    {
         foreach (Room room in rooms)
         {
             room.Highlight(status);
         }
     }
 
-    public void ResetDungeon() {
+    public void ResetDungeon() 
+    {
         foreach (Room room in rooms)
         {
             room.ResetRoom();

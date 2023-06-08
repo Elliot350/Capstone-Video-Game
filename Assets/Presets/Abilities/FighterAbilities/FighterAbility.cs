@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class FighterAbility : Ability
 {
-    [SerializeField] protected Animation animation;
+    [SerializeField] protected string animationTrigger;
 
     public virtual void OnTakenDamage(Damage attack) {}
     public virtual void OnHeal(Fighter f) {}

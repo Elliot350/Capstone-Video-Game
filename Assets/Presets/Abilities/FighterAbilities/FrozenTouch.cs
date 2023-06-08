@@ -9,7 +9,7 @@ public class FrozenTouch : FighterAbility
 
     public override void OnAttack(Damage attack)
     {
-        FightManager.GetInstance().AddAction(new AddAbility(attack.target, ability));
+        FightManager.GetInstance().AddAction(new AddAbility(attack.GetTarget(), ability));
     }
 
     public override string GetDescription()

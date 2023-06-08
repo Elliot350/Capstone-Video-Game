@@ -13,7 +13,7 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected List<FighterAbility> abilities;
     [SerializeField] protected List<Tag> tags;
     [SerializeField] protected Slider slider;
-    [SerializeField] protected Animator animator;
+    [SerializeField] protected Animator animator, effectAnimator;
     protected bool isMonster;
     [SerializeField] protected Image image, alertImage;
 
@@ -62,7 +62,7 @@ public class Fighter : MonoBehaviour
     {
         foreach (FighterAbility a in abilities)
             a.OnTakenDamage(attack);
-        health -= attack.damage;
+        health -= attack.GetDamage();
         SetHealthBar();
         HurtAnimation();
     }
@@ -155,7 +155,7 @@ public class Fighter : MonoBehaviour
 
     public virtual void AttackAnimation()
     {
-        if (FightManager.GetInstance().FastForwarding())
+        if (FightManager.GetInstance().FastForwarding() || !animator.isActiveAndEnabled)
             return;
         animator.SetBool("Monster", isMonster);
         animator.SetTrigger("Attack");
@@ -163,7 +163,7 @@ public class Fighter : MonoBehaviour
 
     public virtual void HurtAnimation()
     {
-        if (FightManager.GetInstance().FastForwarding())
+        if (FightManager.GetInstance().FastForwarding() || !animator.isActiveAndEnabled)
             return;
         animator.SetBool("Monster", isMonster);
         animator.SetTrigger("Hurt");
@@ -171,9 +171,16 @@ public class Fighter : MonoBehaviour
 
     public virtual void DeathAnimation()
     {
-        if (FightManager.GetInstance().FastForwarding())
+        if (FightManager.GetInstance().FastForwarding() || !animator.isActiveAndEnabled)
             return;
         animator.SetTrigger("Dead");
+    }
+
+    public virtual void PlayEffect(string animationName)
+    {
+        if (FightManager.GetInstance().FastForwarding() || !effectAnimator.isActiveAndEnabled)
+            return;
+        effectAnimator.SetTrigger(animationName);
     }
 
     public virtual Sprite GetSprite() {return image.sprite;}
@@ -198,9 +205,9 @@ public class Fighter : MonoBehaviour
 
 public class Damage
 {
-    public Fighter source;
-    public Fighter target;
-    public float damage;
+    private Fighter source;
+    private Fighter target;
+    private float damage;
 
     public Damage(Fighter source, Fighter target, float damage)
     {
@@ -208,4 +215,9 @@ public class Damage
         this.target = target;
         this.damage = damage;
     }
+
+    public Fighter GetSource() {return source;}
+    public Fighter GetTarget() {return target;}
+    public void SetDamage(float amount) {damage = amount;}
+    public float GetDamage() {return damage;}
 }

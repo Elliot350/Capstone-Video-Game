@@ -7,8 +7,11 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     
-    public int money;
-    public TextMeshProUGUI statsText;
+    [Header("Currency Stuff")]
+    [SerializeField] private int money;
+    [SerializeField] private int mana;
+    [SerializeField] private TextMeshProUGUI moneyText;
+    [SerializeField] private TextMeshProUGUI manaText;
 
     // public RoomInfo roomInfo;
     public Camera cam;
@@ -71,6 +74,11 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public bool HasEnoughMoney(int amount)
+    {
+        return money >= amount;
+    }
+
     public void GainMoney(int amount)
     {
         money += amount;
@@ -80,6 +88,23 @@ public class GameManager : MonoBehaviour
     public void SpendMoney(int amount)
     {
         money -= amount;
+        FormatText();
+    }
+
+    public bool HasEnoughMana(int amount)
+    {
+        return mana >= amount;
+    }
+
+    public void GainMana(int amount)
+    {
+        mana += amount;
+        FormatText();
+    }
+
+    public void SpendMana(int amount)
+    {
+        mana -= amount;
         FormatText();
     }
 
@@ -93,7 +118,8 @@ public class GameManager : MonoBehaviour
 
     public void FormatText()
     {
-        statsText.text = $"${money}";
+        moneyText.text = $"${money}";
+        manaText.text = $"{mana}M";
     }
 
     public void RoomClickedOn(Room room)

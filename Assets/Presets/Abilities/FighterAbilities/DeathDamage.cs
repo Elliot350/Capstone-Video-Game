@@ -9,9 +9,9 @@ public class DeathDamage : FighterAbility
 
     public override void OnDeath(Damage attack)
     {
-        if (attack.source == null)
+        if (attack.GetSource() == null)
             return;
-        FightManager.GetInstance().AddAction(new TakeDamage(new Damage(attack.target, attack.source, deathDamage)));
+        FightManager.GetInstance().AddAction(new TakeDamage(new Damage(attack.GetTarget(), attack.GetSource(), deathDamage)));
     }
 
     public override string GetDescription()

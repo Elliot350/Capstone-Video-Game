@@ -10,7 +10,6 @@ public class Reaper : FighterAbility
 
     protected override void OnFighterDied(Fighter f, Fighter dead)
     {
-        Debug.Log($"Fighter! (REAPER)");
         if (damageGain > 0)
             // Maybe this should be an Action, just for consistancy
             f.AddDamage(damageGain);
