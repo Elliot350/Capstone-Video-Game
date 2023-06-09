@@ -108,21 +108,16 @@ public class FightManager : MonoBehaviour
             }
 
             // Resolve all of the actions
-            actions.AddRange(actionsToAdd);
-            actionsToAdd.Clear();
+            CatchUpActions();
             while (actions.Count > 0)
             {
                 Action currentAction = actions[0];
                 ShowActions();
                 actions.RemoveAt(0);
                 if (order.Contains(currentAction.fighter))
-                    yield return StartCoroutine(currentAction.Do());
+                    currentAction.Do();
                 yield return new WaitForSeconds(fastForward ? currentAction.GetWaitTime() / 4f : currentAction.GetWaitTime());
-                if (actions.Count < 1)
-                    actions.AddRange(actionsToAdd);
-                else
-                    actions.InsertRange(0, actionsToAdd);
-                actionsToAdd.Clear();
+                CatchUpActions();
                 ShowActions();
                 
             }
@@ -185,6 +180,15 @@ public class FightManager : MonoBehaviour
         // else
         //     actions.Add(action);
         actionsToAdd.Add(action);
+    }
+
+    private void CatchUpActions()
+    {
+        if (actions.Count > 0)
+            actions.InsertRange(0, actionsToAdd);
+        else
+            actions.AddRange(actionsToAdd);
+        actionsToAdd.Clear();
     }
     
     private void ShowActions()
@@ -277,8 +281,8 @@ public abstract class Action
         waitTime = 1f;
     }
 
-    // Might be able to make this a normal funcion now
-    public abstract IEnumerator Do();
+    // Might be able to make this a normal function now
+    public abstract void Do();
     protected void AddAction(Action a) {FightManager.GetInstance().AddAction(a);}
     public float GetWaitTime() {return waitTime;}
 }
@@ -293,10 +297,10 @@ public class GetTargets : Action
         waitTime = 0f;
     }
 
-    public override IEnumerator Do()
+    public override void Do()
     {
         if (!FightManager.GetInstance().GetFighters().Contains(fighter) || fighters.Count == 0)
-            yield break;
+            return;
         List<Fighter> targets = new List<Fighter>();
         targets.Add(fighters[0]);
         foreach (FighterAbility a in fighter.GetAbilities())
@@ -306,7 +310,7 @@ public class GetTargets : Action
         }
         foreach (Fighter f in targets)
             AddAction(new Attack(fighter, f));
-        yield break;
+        
     }
 }
 
@@ -319,7 +323,7 @@ public class Attack : Action
         this.target = target;
     }
 
-    public override IEnumerator Do()
+    public override void Do()
     {
         float attackDamage = fighter.CalculateDamage();
         Damage attack = new Damage(fighter, target, attackDamage);
@@ -327,7 +331,6 @@ public class Attack : Action
             a.OnAttack(attack);
         fighter.AttackAnimation();
         AddAction(new TakeDamage(attack));
-        yield break;
     }
 }
 
@@ -340,12 +343,11 @@ public class TakeDamage : Action
         this.attack = attack;
     }
 
-    public override IEnumerator Do()
+    public override void Do()
     {
         fighter.TakeDamage(attack);
         if (fighter.GetHealth() <= 0)
             AddAction(new Die(fighter, attack));
-        yield break;
     }
 }
 
@@ -358,11 +360,10 @@ public class Die : Action
         this.attack = attack;
     }
 
-    public override IEnumerator Do()
+    public override void Do()
     {
         fighter.Die(attack);
         FightManager.GetInstance().FighterDied(fighter);
-        yield break;
     }
 }
 
@@ -375,10 +376,9 @@ public class Heal : Action
         this.amount = amount;
     }
 
-    public override IEnumerator Do()
+    public override void Do()
     {
         fighter.Heal(amount);
-        yield break;
     }
 }
 
@@ -393,11 +393,10 @@ public class RemoveAbility : Action
         waitTime = 0f;
     }
 
-    public override IEnumerator Do()
+    public override void Do()
     {
         if (fighter.GetAbilities().Contains(ability))
             fighter.GetAbilities().Remove(ability);
-        yield break;
     }
 }
 
@@ -412,10 +411,9 @@ public class AddAbility : Action
         waitTime = 0f;
     }
 
-    public override IEnumerator Do()
+    public override void Do()
     {
         if (!fighter.GetAbilities().Contains(ability))
             fighter.GetAbilities().Add(ability);
-        yield break;
     }
 }
