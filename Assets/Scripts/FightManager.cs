@@ -415,5 +415,6 @@ public class AddAbility : Action
     {
         if (!fighter.GetAbilities().Contains(ability))
             fighter.GetAbilities().Add(ability);
+        ability.OnAdded(fighter);
     }
 }

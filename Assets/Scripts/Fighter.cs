@@ -13,7 +13,9 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected List<FighterAbility> abilities;
     [SerializeField] protected List<Tag> tags;
     [SerializeField] protected Slider slider;
-    [SerializeField] protected Animator animator, effectAnimator;
+    [SerializeField] protected Animator animator;
+    [SerializeField] protected GameObject effectAnimator;
+    private List<Effect> effects = new List<Effect>();
     protected bool isMonster;
     [SerializeField] protected Image image, alertImage;
 
@@ -176,11 +178,32 @@ public class Fighter : MonoBehaviour
         animator.SetTrigger("Dead");
     }
 
-    public virtual void PlayEffect(string animationName)
+    public virtual Effect PlayEffect(string animationName)
     {
-        if (FightManager.GetInstance().FastForwarding() || !effectAnimator.isActiveAndEnabled)
+        if (FightManager.GetInstance().FastForwarding())
+            return null;
+        Effect newEffect = Instantiate(effectAnimator, transform).GetComponent<Effect>();
+        effects.Add(newEffect);
+        newEffect.PlayEffect(animationName);
+        return newEffect;
+    }
+
+    public virtual Effect PlayEffect(string animationName, Effect effect)
+    {
+        Debug.Log("Playing prexisting");
+        if (!effects.Contains(effect))
+            return effect;
+        effect.PlayEffect(animationName);
+        Debug.Log("It worked");
+        return effect;
+    }
+
+    public void EffectDone(Effect effect)
+    {
+        if (!effects.Contains(effect))
             return;
-        effectAnimator.SetTrigger(animationName);
+        effects.Remove(effect);
+        Destroy(effect);
     }
 
     public virtual Sprite GetSprite() {return image.sprite;}
@@ -207,6 +230,7 @@ public class Damage
 {
     private Fighter source;
     private Fighter target;
+    // TODO: Change this to a damage, damageMultiplier and damageModifier 
     private float damage;
 
     public Damage(Fighter source, Fighter target, float damage)

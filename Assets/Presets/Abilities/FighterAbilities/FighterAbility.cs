@@ -6,6 +6,7 @@ public abstract class FighterAbility : Ability
 {
     [SerializeField] protected string animationTrigger;
 
+    public virtual void OnAdded(Fighter f) {}
     public virtual void OnTakenDamage(Damage attack) {}
     public virtual void OnHeal(Fighter f) {}
     public virtual void OnAttack(Damage attack) {}
