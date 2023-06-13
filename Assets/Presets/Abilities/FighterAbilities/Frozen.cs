@@ -14,10 +14,9 @@ public class Frozen : FighterAbility
 
     public override void OnAttack(Damage attack)
     {
-        Debug.Log("Neutralizing...");
         attack.SetDamage(0);
         FightManager.GetInstance().AddAction(new RemoveAbility(attack.GetSource(), this));
-        attack.GetSource().PlayEffect("FrozenDone", effect);
+        FightManager.GetInstance().AddAction(new ContinueAnimation(attack.GetSource(), "FrozenDone", effect));
     }
 
     public override string GetDescription()

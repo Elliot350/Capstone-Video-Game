@@ -418,3 +418,37 @@ public class AddAbility : Action
         ability.OnAdded(fighter);
     }
 }
+
+public class PlayAnimation : Action
+{
+    string animationName;
+
+    public PlayAnimation(Fighter fighter, string animationName) : base(fighter)
+    {
+        this.animationName = animationName;
+        waitTime = 0f;
+    }
+
+    public override void Do()
+    {
+        fighter.PlayEffect(animationName);
+    }
+}
+
+public class ContinueAnimation : Action
+{
+    string animationName;
+    Effect effect;
+
+    public ContinueAnimation(Fighter fighter, string animationName, Effect effect) : base(fighter)
+    {
+        this.animationName = animationName;
+        this.effect = effect;
+        waitTime = 0f;
+    }
+
+    public override void Do()
+    {
+        fighter.PlayEffect(animationName, effect);
+    }
+}

@@ -27,13 +27,5 @@ public class TrapBase : ScriptableObject
     public float GetChance() {return triggerChance;}
     public Sprite GetSprite() {return sprite;}
     public List<TrapAbility> GetAbilities() {return abilities;}
-    public virtual string GetDescription() 
-    {
-        if (abilities.Count == 0)
-            return "<i>No abilities</i>";
-        string text = "";
-        foreach (TrapAbility a in abilities)
-            text += a.GetAbility();
-        return text;
-    }
+    public virtual string GetDescription() {return Ability.GetDescriptionFromList(abilities);}
 }

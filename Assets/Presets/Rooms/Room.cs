@@ -157,10 +157,7 @@ public class Room : MonoBehaviour
 
     public string GetDescription()
     {
-        string text = "";
-        foreach (RoomAbility a in abilities)
-            text += a.GetAbility();
-        return text;
+        return Ability.GetDescriptionFromList(abilities);
     }
 
     public void MonsterDied(Fighter f)

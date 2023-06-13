@@ -30,6 +30,7 @@ public class PartyManager : MonoBehaviour
     new Camera camera;
     BoundsInt bounds;
     public Vector2Int start;
+    private const int PATH_LENGTH = 100;
 
 
     private void Awake()
@@ -125,7 +126,7 @@ public class PartyManager : MonoBehaviour
     public void CreateParty(List<HeroBase> list)
     {
         CreateGrid();
-        if (astar.CreatePath(spots, DungeonManager.GetInstance().GetEntranceTile(), DungeonManager.GetInstance().GetBossRoomTile(), 100) == null)
+        if (astar.CreatePath(spots, DungeonManager.GetInstance().GetEntranceTile(), DungeonManager.GetInstance().GetBossRoomTile(), PATH_LENGTH) == null)
         {
             Debug.Log($"No path available from entrance to boss room!");
             return;
@@ -216,15 +217,23 @@ public class PartyManager : MonoBehaviour
         rooms = GetRoomsInOrder();
 
         Vector2Int entrancePosition = DungeonManager.GetInstance().GetEntranceTile();
-        roadPath.AddRange(astar.CreatePath(spots, rooms[0], entrancePosition, 100));
-
-        for (int i = 1; i < rooms.Count; i++)
-        {
-            roadPath.AddRange(astar.CreatePath(spots, rooms[i], rooms[i - 1], 100));
-        }
-
         Vector2Int bossRoomPosition = DungeonManager.GetInstance().GetBossRoomTile();
-        roadPath.AddRange(astar.CreatePath(spots, bossRoomPosition, rooms[rooms.Count - 1], 100));
+        
+        if (rooms.Count == 0)
+        {
+            roadPath.AddRange(astar.CreatePath(spots, bossRoomPosition, entrancePosition, PATH_LENGTH));
+        }
+        else
+        {
+            roadPath.AddRange(astar.CreatePath(spots, rooms[0], entrancePosition, PATH_LENGTH));
+
+            for (int i = 1; i < rooms.Count; i++)
+            {
+                roadPath.AddRange(astar.CreatePath(spots, rooms[i], rooms[i - 1], PATH_LENGTH));
+            }
+
+            roadPath.AddRange(astar.CreatePath(spots, bossRoomPosition, rooms[rooms.Count - 1], PATH_LENGTH));
+        }
 
         // Remove duplicate positions
         for (int i = roadPath.Count - 1; i > 0; i--)
@@ -233,7 +242,6 @@ public class PartyManager : MonoBehaviour
                 roadPath.RemoveAt(i);
             }
         }
-
 
     }
 
@@ -247,8 +255,8 @@ public class PartyManager : MonoBehaviour
         foreach (Room room in DungeonManager.GetInstance().GetRooms())
         {
             Vector2Int nextRoomPos = new Vector2Int((int) room.transform.position.x, (int) room.transform.position.y);
-            // Skip over this roo if there is no path
-            if (astar.CreatePath(spots, entrancePosition, nextRoomPos, 100) == null)
+            // Skip over this room if there is no path
+            if (astar.CreatePath(spots, entrancePosition, nextRoomPos, PATH_LENGTH) == null)
                 continue;
             bool placed = false;
             if (list.Count > 0)

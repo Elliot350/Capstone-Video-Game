@@ -40,13 +40,5 @@ public class FighterBase : ScriptableObject
     public List<Tag> GetTags() {return tags;}
     public Sprite GetSprite() {return sprite;}
     public float GetSpeed() {return speed;}
-    public string GetDescription()
-    {
-        if (abilities.Count == 0)
-            return "<i>No abilities</i>";
-        string text = "";
-        foreach (FighterAbility a in abilities)
-            text += a.GetAbility();
-        return text;
-    }
+    public string GetDescription() {return Ability.GetDescriptionFromList(abilities);}
 }

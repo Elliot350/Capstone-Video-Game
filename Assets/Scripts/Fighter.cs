@@ -13,6 +13,7 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected List<FighterAbility> abilities;
     [SerializeField] protected List<Tag> tags;
     [SerializeField] protected Slider slider;
+    [SerializeField] protected TextMeshProUGUI healthBarText;
     [SerializeField] protected Animator animator;
     [SerializeField] protected GameObject effectAnimator;
     private List<Effect> effects = new List<Effect>();
@@ -25,6 +26,8 @@ public class Fighter : MonoBehaviour
     protected Fighter lastAttacker;
     protected Room room;
     protected FighterBase fighterBase;
+
+    [SerializeField] protected ParticleSystem healParticles;
 
     // private List<Action> actions = new List<Action>();
     // private WaitForSeconds pause = new WaitForSeconds(1);
@@ -74,12 +77,14 @@ public class Fighter : MonoBehaviour
         foreach (FighterAbility a in abilities)
             a.OnHeal(this);
         health += amount;
+        healParticles.Play();
         SetHealthBar();
     }
 
     private void SetHealthBar()
     {
         slider.value = health;
+        healthBarText.text = $"{health}/{maxHealth}";
     }
 
     public virtual void Die(Damage attack)
@@ -190,11 +195,9 @@ public class Fighter : MonoBehaviour
 
     public virtual Effect PlayEffect(string animationName, Effect effect)
     {
-        Debug.Log("Playing prexisting");
         if (!effects.Contains(effect))
             return effect;
         effect.PlayEffect(animationName);
-        Debug.Log("It worked");
         return effect;
     }
 
@@ -203,7 +206,7 @@ public class Fighter : MonoBehaviour
         if (!effects.Contains(effect))
             return;
         effects.Remove(effect);
-        Destroy(effect);
+        Destroy(effect.gameObject);
     }
 
     public virtual Sprite GetSprite() {return image.sprite;}
@@ -214,15 +217,7 @@ public class Fighter : MonoBehaviour
     public float GetDamage() {return damage;}
     public List<Tag> GetTags() {return tags;}
     public virtual float GetSpeed() {return fighterBase.GetSpeed();}
-    public string GetDescription()
-    {
-        if (abilities.Count == 0)
-            return "No abilities";
-        string text = "";
-        foreach (FighterAbility a in abilities)
-            text += a.GetAbility();
-        return text;
-    }
+    public string GetDescription() {return Ability.GetDescriptionFromList(abilities);}
     public List<FighterAbility> GetAbilities() {return abilities;}
 }
 
