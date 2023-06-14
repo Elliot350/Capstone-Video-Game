@@ -8,7 +8,7 @@ public class Reaper : FighterAbility
     [SerializeField] private float healthGain;
     [SerializeField] private float damageGain;
 
-    protected override void OnFighterDied(Fighter f, Fighter dead)
+    public override void OnFighterDied(Fighter f, Fighter dead)
     {
         if (damageGain > 0)
             // Maybe this should be an Action, just for consistancy

@@ -52,4 +52,5 @@ public class MonsterBase : FighterBase
     }
 
     public int GetCost() {return cost;}
+    public List<MonsterBase> GetRequirements() {return requirements;}
 }

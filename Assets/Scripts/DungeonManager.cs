@@ -8,25 +8,39 @@ public class DungeonManager : MonoBehaviour
 {
     private static DungeonManager instance;
 
+    // If we are currently placing something
     private bool currentlyPlacing;
+
+    // The current thing we are placing
     private RoomBase curRoomBase;
     private MonsterBase curMonsterBase;
     private TrapBase curTrapBase;
-    private float placementIndicatorUpdateRate = 0.05f;
-    private float lastUpdateTime;
-    private Vector3Int curPlacementPos;
+
+    // The placement indicator
+    [Header("Placement Indicator Settings")]
     [SerializeField] private GameObject placementIndicator;
+    [SerializeField] private float placementIndicatorUpdateRate = 0.05f;
+    private float lastUpdateTime;
+    // Current position the mouse is and where we would place something
+    private Vector3Int curPlacementPos;
+
+    // The tilemap with the room and hallways
     [SerializeField] private Tilemap tilemap;
     
+    // Lists that hold all of the rooms and hallways
     private List<Room> rooms = new List<Room>();
     private List<Room> hallways = new List<Room>();
+    // Positions of the entrance and boss room
     private Vector3Int entrance;
     private Vector3Int bossRoom;
 
+    [Header("Prefabs for placing a basic dungeon")]
     [SerializeField] private RoomBase hallwayBasePrefab;
     [SerializeField] private RoomBase roomBasePrefab;
     [SerializeField] private RoomBase entranceBasePrefab;
     [SerializeField] private RoomBase bossRoomBasePrefab;
+
+    [Header("Temporary monster for placing a basic dungeon")]
     [SerializeField] private MonsterBase tempMonster;
 
     private List<RoomBase> roomBases;
@@ -35,6 +49,7 @@ public class DungeonManager : MonoBehaviour
     {
         instance = this;
         roomBases = Resources.LoadAll<RoomBase>("").ToList();
+        InvokeRepeating("TriggerPeriodicRooms", 1f, 1f);
     }
 
     public static DungeonManager GetInstance() 
@@ -80,9 +95,8 @@ public class DungeonManager : MonoBehaviour
     public void BeginNewPlacement(RoomBase roomBase)
     {
         if (!GameManager.GetInstance().HasEnoughMoney(roomBase.GetCost())) return;
-        currentlyPlacing = true;
         curRoomBase = roomBase;
-        placementIndicator.SetActive(true);
+        BeginNewPlacement();
     }
 
     public void BeginNewPlacement(MonsterBase monsterBase)
@@ -93,17 +107,15 @@ public class DungeonManager : MonoBehaviour
             if (r.CanAddMonster(monsterBase))
                 r.Highlight(true);
         }
-        currentlyPlacing = true;
         curMonsterBase = monsterBase;
-        placementIndicator.SetActive(true);
+        BeginNewPlacement();
     }
 
     public void BeginNewPlacement(TrapBase trapBase)
     {
         if (!GameManager.GetInstance().HasEnoughMoney(trapBase.GetCost())) return;
-        currentlyPlacing = true;
         curTrapBase = trapBase;
-        placementIndicator.SetActive(true);
+        BeginNewPlacement();
     }
 
     public void BeginNewPlacement()
@@ -185,6 +197,14 @@ public class DungeonManager : MonoBehaviour
     }
 
     public void PlaceBasicDungeon() {
+        
+        // Place a basic dungeon like this:
+        //     B 
+        //     | 
+        //     | 
+        //  R--+--R
+        //     | 
+        //     E 
 
         PlaceRoom(0, 3, bossRoomBasePrefab);
 
@@ -204,7 +224,7 @@ public class DungeonManager : MonoBehaviour
         PlaceRoom(0, -2, entranceBasePrefab);
     }
 
-    public void HighlightRooms(bool status) 
+    private void HighlightRooms(bool status) 
     {
         foreach (Room room in rooms)
         {
@@ -227,6 +247,12 @@ public class DungeonManager : MonoBehaviour
                 Destroy(child.gameObject);
             }
         }
+    }
+
+    private void TriggerPeriodicRooms()
+    {
+        foreach (Room r in rooms)
+            r.TriggerPeriodic();
     }
 
     public Vector3Int GetBossRoomPos() {return bossRoom;}

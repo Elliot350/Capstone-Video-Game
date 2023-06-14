@@ -15,6 +15,13 @@ public class UnlockManager : MonoBehaviour
     
     public List<MonsterBase> unlockedMonsters;
 
+    public MonsterDescriptionBox monsterDescriptionBox;
+
+    
+    [Header("Temp stuff")]
+    public Color lineColor;
+    public Material lineMaterial;
+
     private void Awake() 
     {
         instance = this;
@@ -65,5 +72,17 @@ public class UnlockManager : MonoBehaviour
     public bool IsMonsterUnlocked(MonsterBase monsterBase)
     {
         return unlockedMonsters.Contains(monsterBase);
+    }
+
+    public Vector3 GetPositionOfButton(MonsterBase monsterBase)
+    {
+        foreach (Transform child in transform)
+        {
+            UnlockMonster button;
+            TryGetComponent<UnlockMonster>(out button);
+            if (button.monsterBase == monsterBase)
+                return button.transform.position;
+        }
+        return Vector3.zero;
     }
 }

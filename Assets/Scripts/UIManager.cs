@@ -26,10 +26,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject unlockMenu;
 
     [Header("Build Menu")]
-    [SerializeField] private Animator roomMenu, trapMenu, monsterMenu;
+    [SerializeField] private Animator roomMenu;
+    [SerializeField] private Animator trapMenu;
+    [SerializeField] private Animator monsterMenu;
     [SerializeField] private GameObject roomMenuOpen, roomMenuClose, trapMenuOpen, trapMenuClose, monsterMenuOpen, monsterMenuClose;
     private const string OPEN = "Open", CLOSE = "Close";
     private bool roomOpen, trapOpen, monsterOpen;
+
 
     private void Awake()
     {

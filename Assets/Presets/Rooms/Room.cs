@@ -197,5 +197,11 @@ public class Room : MonoBehaviour
         return true;
     }
 
+    public void TriggerPeriodic()
+    {
+        foreach (RoomAbility a in abilities)
+            a.Periodic();
+    }
+
     public List<RoomAbility> GetAbilities() {return abilities;}
 }

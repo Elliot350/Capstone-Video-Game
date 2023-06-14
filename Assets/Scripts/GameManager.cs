@@ -7,27 +7,15 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     
-    [Header("Currency Stuff")]
+    [Header("Currencies")]
     [SerializeField] private int money;
     [SerializeField] private int mana;
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private TextMeshProUGUI manaText;
 
     // public RoomInfo roomInfo;
-    public Camera cam;
-
-    public Animator roomMenu, trapMenu, monsterMenu;
-    
-    public GameObject errorPanel;
-    public TextMeshProUGUI errorText;
-    private bool error = false;
-    private float errorTime;
-    [SerializeField]
-    private float errorDisplayTime;
-
-    public RoomDescriptionBox roomDescriptionBox;
-    public TrapDescriptionBox trapDescriptionBox;
-    public MonsterDescriptionBox monsterDescriptionBox;
+    [Header("Camera")]
+    [SerializeField] private Camera cam;
 
     public MonsterBase bossMonster;
 
@@ -45,11 +33,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (error && errorTime + errorDisplayTime < Time.time) {
-            errorPanel.SetActive(false);
-            error = false;
-        }
-
         if (Input.GetKeyDown(KeyCode.M)) {
             GainMoney(100);
         }
@@ -106,14 +89,6 @@ public class GameManager : MonoBehaviour
     {
         mana -= amount;
         FormatText();
-    }
-
-    public void ErrorMessage(string message)
-    {
-        errorTime = Time.time;
-        error = true;
-        errorText.text = "[Error] " + message;
-        errorPanel.SetActive(true);
     }
 
     public void FormatText()

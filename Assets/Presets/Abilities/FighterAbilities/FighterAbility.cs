@@ -13,7 +13,7 @@ public abstract class FighterAbility : Ability
     public virtual void OnDeath(Damage attack) {}
     public virtual void OnHeroDied(Fighter f, Fighter dead) {OnFighterDied(f, dead);}
     public virtual void OnMonsterDied(Fighter f, Fighter dead) {OnFighterDied(f, dead);}
-    protected virtual void OnFighterDied(Fighter f, Fighter dead) {}
+    public virtual void OnFighterDied(Fighter f, Fighter dead) {}
     public virtual void OnBattleStarted(Fighter f) {}
     public virtual void OnBattleFinished(Fighter f) {}
     public virtual bool CanAddMonster(MonsterBase m, Room r) {return true;}

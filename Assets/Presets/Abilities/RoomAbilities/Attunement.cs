@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Attunement", menuName = "Abilities/Rooms/Attunement")]
+[CreateAssetMenu(fileName = "Attunement", menuName = "Abilities/Room/Attunement")]
 public class Attunement : RoomAbility
 {
     public List<Tag> tags;
@@ -20,6 +20,6 @@ public class Attunement : RoomAbility
 
     public override string GetDescription()
     {
-        return string.Format(description, damageMultiplier, Tag.FormatTags(tags));
+        return string.Format(description, damageMultiplier * 100, Tag.FormatTags(tags));
     }
 }

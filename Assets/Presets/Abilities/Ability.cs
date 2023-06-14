@@ -14,10 +14,10 @@ public abstract class Ability : ScriptableObject
     public static string GetDescriptionFromList(List<Ability> abilities)
     {
         if (abilities.Count == 0)
-            return "<i>No abilities<i/>";
+            return "<i>No abilities</i>";
         string text = "";
         foreach (Ability a in abilities)
-            text += a.GetDescription() + "\n";
+            text += a.GetAbility() + "\n";
         return text;
     }
 

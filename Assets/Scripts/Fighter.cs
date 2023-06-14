@@ -109,13 +109,19 @@ public class Fighter : MonoBehaviour
     public void HeroDied(Fighter f)
     {
         foreach (FighterAbility a in abilities)
+        {
             a.OnHeroDied(this, f);
+            a.OnFighterDied(this, f);
+        }
     }
 
     public void MonsterDied(Fighter f)
     {
         foreach (FighterAbility a in abilities)
+        {
             a.OnMonsterDied(this, f);
+            a.OnFighterDied(this, f);
+        }
     }
 
     public void FinishBattle() 

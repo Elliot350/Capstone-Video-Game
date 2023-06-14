@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Opportunist", menuName = "Abilities/Fighter/Opportunist")]
 public class Opportunist : FighterAbility
 {
-    protected override void OnFighterDied(Fighter f, Fighter dead)
+    public override void OnFighterDied(Fighter f, Fighter dead)
     {
         FightManager.GetInstance().AddAction(new GetTargets(f, FightManager.GetInstance().GetHeroes()));
     }
