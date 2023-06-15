@@ -186,7 +186,7 @@ public class Room : MonoBehaviour
             return false;
         foreach (RoomAbility a in abilities)
         {
-            if (!a.CanAddMonster(monster))
+            if (!a.CanAddMonster(this, monster))
                 return false;
         }
         foreach (FighterAbility a in monster.GetAbilities())
@@ -194,6 +194,17 @@ public class Room : MonoBehaviour
             if (!a.CanAddMonster(monster, this))
                 return false;
         }
+        return true;
+    }
+
+    public virtual bool CanAddTrap(TrapBase trap)
+    {
+        if (traps.Count >= trapCapacity)
+            return false;
+        foreach (RoomAbility a in abilities)
+            if (!a.CanAddTrap(this, trap))
+                return false;
+        
         return true;
     }
 

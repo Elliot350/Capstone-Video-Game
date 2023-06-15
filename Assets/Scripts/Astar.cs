@@ -21,7 +21,7 @@ public class Astar
         // Debug.Log(end.height);
         if (end == null || start == null || end.height >= 1)
         {
-            Debug.LogWarning("No valid path");
+            Debug.LogWarning($"No valid path from ({start.X}, {start.Y}) to ({end.X}, {end.Y})");
             return false;
         }
         return true;

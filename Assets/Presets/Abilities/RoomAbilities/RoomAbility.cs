@@ -14,5 +14,6 @@ public abstract class RoomAbility : Ability
     public virtual void OnFighterDied(Fighter f) {}
     public virtual void PartyWon(Party p) {}
     public virtual float GetDamageMultiplier(Fighter f) {return 0f;}
-    public virtual bool CanAddMonster(MonsterBase monster) {return true;}
+    public virtual bool CanAddMonster(Room r, MonsterBase monster) {return true;}
+    public virtual bool CanAddTrap(Room r, TrapBase trap) {return true;}
 }

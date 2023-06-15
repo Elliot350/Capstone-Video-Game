@@ -7,51 +7,41 @@ public class UnlockMonster : MonoBehaviour
 {
     public Image image;
     public MonsterBase monsterBase;
+    public List<Image> lines = new List<Image>();
 
     void Start()
     {
         image.sprite = monsterBase.GetSprite();
     }
 
-    public void CreateLines()
-    {
-        foreach (MonsterBase mb in monsterBase.GetRequirements())
-        {
-            Vector3 buttonPosition = UnlockManager.GetInstance().GetPositionOfButton(mb);
-            DrawLine(buttonPosition, transform.position, UnlockManager.GetInstance().lineColor, 10f);
-        }
-    }
-
-    void DrawLine(Vector3 start, Vector3 end, Color color, float duration = 0.2f)
-    {
-        GameObject myLine = new GameObject();
-        myLine.transform.position = start;
-        myLine.AddComponent<LineRenderer>();
-        LineRenderer lr = myLine.GetComponent<LineRenderer>();
-        lr.material = UnlockManager.GetInstance().lineMaterial;
-        lr.startColor = color;
-        lr.startWidth = 10f;
-        lr.SetPosition(0, start);
-        lr.SetPosition(1, end);
-        GameObject.Destroy(myLine, duration);
-    }
-
     public void UpdateVisuals()
     {
+        // If it is already unlocked
         if (UnlockManager.GetInstance().unlockedMonsters.Contains(monsterBase))
         {
             image.color = UnlockManager.GetInstance().unlockedColor;
+            SetLine(UnlockManager.GetInstance().unlockedLineColor);
             return;
         }
         
         if (monsterBase.IsUnlockable())
         {
             image.color = UnlockManager.GetInstance().unlockableColor;
+            SetLine(UnlockManager.GetInstance().lockedLineColor);
             return;
         }
 
+        SetLine(UnlockManager.GetInstance().lockedLineColor);
         image.color = UnlockManager.GetInstance().lockedColor;
         
+    }
+
+    private void SetLine(Color color)
+    {
+        foreach (Image i in lines)
+        {
+            i.color = color;
+        }
     }
 
     public void Clicked()

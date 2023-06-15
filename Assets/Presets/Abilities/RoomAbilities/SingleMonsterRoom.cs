@@ -7,7 +7,7 @@ public class SingleMonsterRoom : RoomAbility
 {
     [SerializeField] private MonsterBase singleMonster;
 
-    public override bool CanAddMonster(MonsterBase monster)
+    public override bool CanAddMonster(Room r, MonsterBase monster)
     {
         return singleMonster == monster;
     }

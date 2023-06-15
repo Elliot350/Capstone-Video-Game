@@ -7,7 +7,7 @@ public class SingleTagRoom : RoomAbility
 {
     [SerializeField] private Tag singleTag;
 
-    public override bool CanAddMonster(MonsterBase monster)
+    public override bool CanAddMonster(Room r, MonsterBase monster)
     {
         return monster.GetTags().Contains(singleTag);
     }

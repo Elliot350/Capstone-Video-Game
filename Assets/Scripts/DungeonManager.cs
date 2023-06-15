@@ -136,39 +136,57 @@ public class DungeonManager : MonoBehaviour
 
     private void Place()
     {
-        if (curRoomBase != null) PlaceRoom(curPlacementPos, curRoomBase);
-        else if (curMonsterBase != null) PlaceMonster(curPlacementPos, curMonsterBase);
-        else if (curTrapBase != null) PlaceTrap(curPlacementPos, curTrapBase);
+        if (curRoomBase != null) 
+        {
+            if (GameManager.GetInstance().HasEnoughMoney(curRoomBase.GetCost()) && PlaceRoom(curPlacementPos, curRoomBase))
+            {
+                GameManager.GetInstance().SpendMoney(curRoomBase.GetCost());
+                if (curRoomBase != hallwayBasePrefab) CancelPlacement();
+            }
+        }
+        else if (curMonsterBase != null) 
+        {
+            if (GameManager.GetInstance().HasEnoughMoney(curMonsterBase.GetCost()) && PlaceMonster(curPlacementPos, curMonsterBase))
+            {
+                GameManager.GetInstance().SpendMoney(curMonsterBase.GetCost());
+                CancelPlacement();
+            }
+        }
+        else if (curTrapBase != null) 
+        {
+            if (GameManager.GetInstance().HasEnoughMoney(curTrapBase.GetCost()) && PlaceTrap(curPlacementPos, curTrapBase))
+            {
+                GameManager.GetInstance().SpendMoney(curTrapBase.GetCost());
+                CancelPlacement();
+            }
+        }
         else DestroyTile(curPlacementPos);
     }
 
-    private void PlaceRoom(int x, int y, RoomBase roomBase)
+    private bool PlaceRoom(int x, int y, RoomBase roomBase)
     {
-        PlaceRoom(new Vector3Int(x, y), roomBase);
+        return PlaceRoom(new Vector3Int(x, y), roomBase);
     }
 
-    private void PlaceRoom(Vector3Int pos, RoomBase roomBase)
+    private bool PlaceRoom(Vector3Int pos, RoomBase roomBase)
     {
-        if (tilemap.GetTile(pos) != null) return;
-        if (roomBase != hallwayBasePrefab) CancelPlacement();
-        GameManager.GetInstance().SpendMoney(roomBase.GetCost());
+        if (tilemap.GetTile(pos) != null) return false;
         tilemap.SetTile(pos, roomBase.GetTile());
         tilemap.GetInstantiatedObject(pos).GetComponent<Room>().SetType(roomBase);
+        return true;
     }
 
-    private void PlaceMonster(int x, int y, MonsterBase monsterBase)
+    private bool PlaceMonster(int x, int y, MonsterBase monsterBase)
     {
-        PlaceMonster(new Vector3Int(x, y), monsterBase);
+        return PlaceMonster(new Vector3Int(x, y), monsterBase);
     }
 
-    private void PlaceMonster(Vector3Int pos, MonsterBase monsterBase)
+    private bool PlaceMonster(Vector3Int pos, MonsterBase monsterBase)
     {
-        if (tilemap.GetTile(pos) == null || !tilemap.GetInstantiatedObject(pos).GetComponent<Room>().CanAddMonster(monsterBase)) return;
+        if (tilemap.GetTile(pos) == null || !tilemap.GetInstantiatedObject(pos).GetComponent<Room>().CanAddMonster(monsterBase)) return false;
         Room room = tilemap.GetInstantiatedObject(pos).GetComponent<Room>();
-        if (room.monsters.Count >= room.monsterCapacity) return;
         room.AddMonster(monsterBase);
-        GameManager.GetInstance().SpendMoney(monsterBase.GetCost());
-        CancelPlacement();
+        return true;
     }
 
     private void PlaceTrap(int x, int y, TrapBase trapBase)
@@ -176,14 +194,12 @@ public class DungeonManager : MonoBehaviour
         PlaceTrap(new Vector3Int(x, y), trapBase);
     }
 
-    private void PlaceTrap(Vector3Int pos, TrapBase trapBase)
+    private bool PlaceTrap(Vector3Int pos, TrapBase trapBase)
     {
-        if (tilemap.GetTile(pos) == null) return;
+        if (tilemap.GetTile(pos) == null || !tilemap.GetInstantiatedObject(pos).GetComponent<Room>().CanAddTrap(trapBase)) return false;
         Room room = tilemap.GetInstantiatedObject(pos).GetComponent<Room>();
-        if (room.traps.Count >= room.trapCapacity) return;
         room.AddTrap(trapBase);
-        GameManager.GetInstance().SpendMoney(trapBase.GetCost());
-        CancelPlacement();
+        return true;
     }
 
     private void DestroyTile(Vector3Int pos)
