@@ -7,7 +7,7 @@ public class UnlockMonster : MonoBehaviour
 {
     public Image image;
     public MonsterBase monsterBase;
-    public List<Image> lines = new List<Image>();
+    public List<Line> lines = new List<Line>();
 
     void Start()
     {
@@ -20,27 +20,27 @@ public class UnlockMonster : MonoBehaviour
         if (UnlockManager.GetInstance().unlockedMonsters.Contains(monsterBase))
         {
             image.color = UnlockManager.GetInstance().unlockedColor;
-            SetLine(UnlockManager.GetInstance().unlockedLineColor);
+            SetLineColours(UnlockManager.GetInstance().unlockedLineColor);
             return;
         }
         
         if (monsterBase.IsUnlockable())
         {
             image.color = UnlockManager.GetInstance().unlockableColor;
-            SetLine(UnlockManager.GetInstance().lockedLineColor);
+            SetLineColours(UnlockManager.GetInstance().lockedLineColor);
             return;
         }
 
-        SetLine(UnlockManager.GetInstance().lockedLineColor);
+        SetLineColours(UnlockManager.GetInstance().lockedLineColor);
         image.color = UnlockManager.GetInstance().lockedColor;
         
     }
 
-    private void SetLine(Color color)
+    private void SetLineColours(Color color)
     {
-        foreach (Image i in lines)
+        foreach (Line l in lines)
         {
-            i.color = color;
+            l.SetColours(color);
         }
     }
 
