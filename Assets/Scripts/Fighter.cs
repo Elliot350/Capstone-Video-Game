@@ -74,10 +74,12 @@ public class Fighter : MonoBehaviour
 
     public virtual void Heal(float amount)
     {
+        Debug.Log($"Healing ({health} + {amount})");
         foreach (FighterAbility a in abilities)
             a.OnHeal(this);
         health += amount;
-        healParticles.Play();
+        Debug.Log($"After {health}");
+        // healParticles.Play();
         SetHealthBar();
     }
 
@@ -215,6 +217,7 @@ public class Fighter : MonoBehaviour
         Destroy(effect.gameObject);
     }
 
+    public bool IsMonster() {return isMonster;}
     public virtual Sprite GetSprite() {return image.sprite;}
     public Room GetRoom() {return room;}
     public string GetName() {return displayName;}

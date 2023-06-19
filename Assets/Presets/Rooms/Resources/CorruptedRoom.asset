@@ -19,5 +19,6 @@ MonoBehaviour:
   trapCapacity: 0
   abilities:
   - {fileID: 11400000, guid: 0526d162d206c3c42991559488a51da2, type: 2}
+  - {fileID: 11400000, guid: e1306a937d08e804ab473b68efdd24a6, type: 2}
   sprite: {fileID: 21300000, guid: 61e555c891dad4d4196787ecbf2303d9, type: 3}
   tile: {fileID: 11400000, guid: 6c53bd4725eec1249a7b58cb113b2009, type: 2}

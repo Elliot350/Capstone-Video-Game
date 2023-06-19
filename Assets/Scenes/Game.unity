@@ -5726,9 +5726,9 @@ MonoBehaviour:
   partyStatus: {fileID: 690323910}
   heroBases: []
   tempParty:
-  - {fileID: 11400000, guid: 218e8e8060af9824389d66c8bf279838, type: 2}
-  - {fileID: 11400000, guid: 218e8e8060af9824389d66c8bf279838, type: 2}
-  - {fileID: 11400000, guid: 218e8e8060af9824389d66c8bf279838, type: 2}
+  - {fileID: 11400000, guid: ed72ef59fb5ea9443bbe35cbbcac15f7, type: 2}
+  - {fileID: 11400000, guid: ed72ef59fb5ea9443bbe35cbbcac15f7, type: 2}
+  - {fileID: 11400000, guid: ed72ef59fb5ea9443bbe35cbbcac15f7, type: 2}
   moveTime: 1
   tilemap: {fileID: 1537955115}
   roadMap: {fileID: 658443061}
