@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
+using UnityEngine.EventSystems;
 
-public class DungeonManager : MonoBehaviour
+public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
 {
     private static DungeonManager instance;
 
@@ -63,10 +64,24 @@ public class DungeonManager : MonoBehaviour
             CancelPlacement();
         if (Time.time - lastUpdateTime > placementIndicatorUpdateRate)
             UpdatePlacementIndicator();
-        if (currentlyPlacing && Input.GetMouseButtonDown(0))
+        if (currentlyPlacing && Input.GetMouseButtonUp(0) && (curRoomBase == null || Selector.instance.AllowedPosition()))
             Place();
         if (Input.GetKeyDown(KeyCode.Space))
             BeginNewPlacement(entranceBasePrefab);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log($"PointerClick");
+        if (currentlyPlacing)
+            Place();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        Debug.Log($"PointerDown");
+        if (currentlyPlacing)
+            Place();
     }
 
     public void PlaceImportantRooms()
@@ -88,6 +103,9 @@ public class DungeonManager : MonoBehaviour
     private void UpdatePlacementIndicator()
     {
         lastUpdateTime = Time.time;
+        // if (!Selector.instance.AllowedPosition())
+        //     return;
+        
         curPlacementPos = Selector.instance.GetCurTilePosition();
         placementIndicator.transform.position = curPlacementPos;
     }
@@ -271,6 +289,7 @@ public class DungeonManager : MonoBehaviour
             r.TriggerPeriodic();
     }
 
+    public bool IsPlacing() {return currentlyPlacing;}
     public Vector3Int GetBossRoomPos() {return bossRoom;}
     public Vector2Int GetBossRoomTile() {return new Vector2Int(bossRoom.x, bossRoom.y);}
     public Vector3Int GetEntrancePos() {return entrance;}

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Room : MonoBehaviour
+public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public RoomBase roomBase;
 
@@ -136,15 +137,33 @@ public class Room : MonoBehaviour
         visited = false;
     }
 
-    private void OnMouseEnter() 
+    public void OnPointerEnter(PointerEventData eventData)
     {
         Tooltip.ShowTooltip_Static(GetStatus(), 12);
     }
 
-    private void OnMouseExit() 
+    public void OnPointerExit(PointerEventData eventData)
     {
         Tooltip.HideTooltip_Static();
     }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (!DungeonManager.GetInstance().IsPlacing())
+        {
+            Debug.Log($"Room pressed");
+        }
+    }
+
+    // private void OnMouseEnter() 
+    // {
+    //     Tooltip.ShowTooltip_Static(GetStatus(), 12);
+    // }
+
+    // private void OnMouseExit() 
+    // {
+    //     Tooltip.HideTooltip_Static();
+    // }
     
     public string GetStatus()
     {

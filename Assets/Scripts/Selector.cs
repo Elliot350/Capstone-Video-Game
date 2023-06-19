@@ -25,10 +25,15 @@ public class Selector : MonoBehaviour
         
     }
 
+    public bool AllowedPosition()
+    {
+        return !EventSystem.current.IsPointerOverGameObject();
+    }
+
     public Vector3Int GetCurTilePosition()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
-            return new Vector3Int(0, 0, 0);
+        // if (EventSystem.current.IsPointerOverGameObject())
+        //     return Vector3Int.zero;
         
         // Plane plane = new Plane(Vector3.up, Vector3.zero);
         // Ray ray = cam.ScreenPointToRay(Input.mousePosition);
