@@ -5,10 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HydraStrike", menuName = "Abilities/Fighter/Hydra Strike")]
 public class HydraStrike : FighterAbility
 {
+    public override bool ModifiesTargets()
+    {
+        return true;
+    }
+
     public override List<Fighter> DecideTargets(List<Fighter> fighters)
     {
-        List<Fighter> targets = new List<Fighter>(fighters);
-        return targets;
+        return new List<Fighter>(fighters);
     }
 
     public override string GetDescription()

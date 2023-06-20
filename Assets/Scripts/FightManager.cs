@@ -301,14 +301,8 @@ public class GetTargets : Action
     {
         if (!FightManager.GetInstance().GetFighters().Contains(fighter) || fighters.Count == 0)
             return;
-        List<Fighter> targets = new List<Fighter>();
-        targets.Add(fighters[0]);
-        foreach (FighterAbility a in fighter.GetAbilities())
-        {
-            if (a.DecideTargets(fighters).Count >= targets.Count)
-                targets = a.DecideTargets(fighters);
-        }
-        foreach (Fighter f in targets)
+        
+        foreach (Fighter f in fighter.GetTargets(fighters))
             AddAction(new Attack(fighter, f));
         
     }

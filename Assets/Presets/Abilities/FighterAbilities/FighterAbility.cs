@@ -19,5 +19,6 @@ public abstract class FighterAbility : Ability
     public virtual bool CanAddMonster(MonsterBase m, Room r) {return true;}
     public virtual float GetDamageMultiplier(Fighter f) {return 0f;}
 
+    public virtual bool ModifiesTargets() {return false;}
     public virtual List<Fighter> DecideTargets(List<Fighter> fighters) {return new List<Fighter>();}
 }

@@ -156,6 +156,7 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
     {
         if (curRoomBase != null) 
         {
+            // If we have enough money, and the room was placed correctly, spend the money and cancel the placement (unless we are currently placing a hallway)
             if (GameManager.GetInstance().HasEnoughMoney(curRoomBase.GetCost()) && PlaceRoom(curPlacementPos, curRoomBase))
             {
                 GameManager.GetInstance().SpendMoney(curRoomBase.GetCost());
@@ -164,6 +165,7 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
         }
         else if (curMonsterBase != null) 
         {
+            // If we have enough money, and the monster was placed correctly, spend the money and cancel the placement
             if (GameManager.GetInstance().HasEnoughMoney(curMonsterBase.GetCost()) && PlaceMonster(curPlacementPos, curMonsterBase))
             {
                 GameManager.GetInstance().SpendMoney(curMonsterBase.GetCost());
@@ -172,6 +174,7 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
         }
         else if (curTrapBase != null) 
         {
+            // If we have enough money, and the trap was placed correctly, spend the money and cancel the placement
             if (GameManager.GetInstance().HasEnoughMoney(curTrapBase.GetCost()) && PlaceTrap(curPlacementPos, curTrapBase))
             {
                 GameManager.GetInstance().SpendMoney(curTrapBase.GetCost());

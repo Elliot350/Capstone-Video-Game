@@ -53,6 +53,7 @@ MonoBehaviour:
   monsters: []
   trapCapacity: 1
   traps: []
+  abilities: []
   highlightBox: {fileID: 4548838832357989998}
   alertSprite: {fileID: 6246823676935368838}
 --- !u!61 &4762841160346086844

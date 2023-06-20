@@ -151,6 +151,20 @@ public class Fighter : MonoBehaviour
         return Mathf.Max(multiplier, 0);
     }
 
+    public List<Fighter> GetTargets(List<Fighter> fighters)
+    {
+        List<Fighter> targets = new List<Fighter>();
+
+        foreach (FighterAbility a in abilities)
+        {
+            if (a.ModifiesTargets() && targets.Count <= a.DecideTargets(fighters).Count)
+                targets = a.DecideTargets(fighters);
+        }
+        if (targets.Count == 0)
+            targets.Add(fighters[0]);
+        return targets;
+    }
+
     public void AddDamage(float amount)
     {
         damageModifier += amount;

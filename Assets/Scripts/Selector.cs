@@ -22,7 +22,7 @@ public class Selector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // Debug.Log($"Is the pointer over something? {EventSystem.current.IsPointerOverGameObject()}");
     }
 
     public bool AllowedPosition()
