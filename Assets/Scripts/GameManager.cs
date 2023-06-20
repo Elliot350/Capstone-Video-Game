@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private TextMeshProUGUI manaText;
 
+    [Header("Lists for all types of monsters, trap, heroes and rooms")]
+    [SerializeField] private List<RoomBase> roomBases = new List<RoomBase>();
+    [SerializeField] private List<MonsterBase> monsterBases = new List<MonsterBase>();
+    [SerializeField] private List<HeroBase> heroBases = new List<HeroBase>();
+    [SerializeField] private List<TrapBase> trapBases = new List<TrapBase>();
+
     // public RoomInfo roomInfo;
     [Header("Camera")]
     [SerializeField] private Camera cam;
@@ -22,6 +29,10 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        roomBases = Resources.LoadAll<RoomBase>("").ToList();
+        monsterBases = Resources.LoadAll<MonsterBase>("").ToList();
+        heroBases = Resources.LoadAll<HeroBase>("").ToList();
+        trapBases = Resources.LoadAll<TrapBase>("").ToList();
     }
 
     // Start is called before the first frame update
@@ -111,4 +122,41 @@ public class GameManager : MonoBehaviour
     {
         DungeonManager.GetInstance().GetTilemap().GetInstantiatedObject(DungeonManager.GetInstance().GetBossRoomPos()).GetComponent<Room>().AddMonster(monster);
     }
+
+    public HeroBase GetRandomHero()
+    {
+        return heroBases[Random.Range(0, heroBases.Count)];
+    }
+
+    // public HeroBase GetRandomHero(List<HeroBase> excludedHeroes)
+    // {
+    //     HeroBase selected;
+    //     int count = 0;
+    //     do 
+    //     {
+    //         selected = GetRandomHero();
+    //         count++;
+    //     } while (!excludedHeroes.Contains(selected) && count < 10);
+    //     return selected;
+    // }
+
+    public HeroBase GetRandomHero(HeroBase excludedHero)
+    {
+        // Minus 1 because there is one heroBase excluded
+        int index = Random.Range(0, heroBases.Count - 1);
+        return heroBases[index <= heroBases.IndexOf(excludedHero) ? index : index + 1];
+    }
+
+    public MonsterBase GetRandomMonster()
+    {
+        return monsterBases[Random.Range(0, monsterBases.Count)];
+    }
+
+    public MonsterBase GetRandomMonster(MonsterBase excludedMonster)
+    {
+        // Minus 1 because there is one heroBase excluded
+        int index = Random.Range(0, monsterBases.Count - 1);
+        return monsterBases[index <= monsterBases.IndexOf(excludedMonster) ? index : index + 1];
+    }
+    
 }

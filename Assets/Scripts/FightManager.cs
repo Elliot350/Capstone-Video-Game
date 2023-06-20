@@ -89,6 +89,11 @@ public class FightManager : MonoBehaviour
         // Fail safe, in case there is an infinite loop
         int count = 0;
 
+        foreach (Fighter f in order)
+        {
+            AddAction(new BattleStart(f));
+        }
+
         // Each loop is one fighter attacking, with all the actions resolved
         while (monsters.Count > 0 && party.Count > 0)
         {
@@ -410,6 +415,19 @@ public class AddAbility : Action
         if (!fighter.GetAbilities().Contains(ability))
             fighter.GetAbilities().Add(ability);
         ability.OnAdded(fighter);
+    }
+}
+
+public class BattleStart : Action
+{
+    public BattleStart(Fighter fighter) : base(fighter)
+    {
+
+    }
+
+    public override void Do()
+    {
+        fighter.StartBattle();
     }
 }
 

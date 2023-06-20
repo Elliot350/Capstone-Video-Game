@@ -12,26 +12,6 @@ public class FighterBase : ScriptableObject
     [SerializeField] protected List<Tag> tags;
     [SerializeField] protected Sprite sprite;
 
-    public virtual void SetType(Fighter fighter) {
-        // fighter.displayName = displayName;
-        // fighter.maxHealth = maxHealth;
-        // fighter.health = maxHealth;
-        // fighter.damage = damage;
-    }
-
-    public virtual void OnTakenDamage(Damage attack) {}
-
-    public virtual void OnHeal() {}
-
-    public virtual void OnAttack() {}
-
-    public virtual void OnDeath(Damage attack) {}
-
-    public void OnBattleFinished() 
-    {
-        Debug.LogWarning($"Not yet implemented FinishBattle");
-    }
-
     public virtual float GetDamageMultiplier(Fighter f) {return 0f;}
     public string GetName() {return displayName;}
     public int GetMaxHealth() {return maxHealth;}

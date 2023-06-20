@@ -13,7 +13,6 @@ public class PartyManager : MonoBehaviour
 
     [SerializeField] private Party party;
     [SerializeField] private PartyStatus partyStatus;
-    [SerializeField] private List<HeroBase> heroBases;
     [SerializeField] private List<HeroBase> tempParty;
 
     public float moveTime;
@@ -50,8 +49,6 @@ public class PartyManager : MonoBehaviour
 
     private void Start()
     {
-        heroBases = Resources.LoadAll<HeroBase>("").ToList();
-
         // tilemap.CompressBounds();
         // roadMap.CompressBounds();
         bounds = tilemap.cellBounds;
@@ -118,7 +115,7 @@ public class PartyManager : MonoBehaviour
         List<HeroBase> heroes = new List<HeroBase>();
         for (int i = 0; i < 3; i++)
         {
-            heroes.Add(heroBases[Random.Range(0, heroBases.Count)]);
+            heroes.Add(GameManager.GetInstance().GetRandomHero());
         }
         CreateParty(heroes);
     }

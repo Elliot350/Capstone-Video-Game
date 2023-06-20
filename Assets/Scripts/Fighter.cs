@@ -25,7 +25,7 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected float damageModifier = 0f;
     protected Fighter lastAttacker;
     protected Room room;
-    protected FighterBase fighterBase;
+    protected FighterBase fighterType;
 
     [SerializeField] protected ParticleSystem healParticles;
 
@@ -37,7 +37,7 @@ public class Fighter : MonoBehaviour
 
     public virtual void SetType(FighterBase fighterBase)
     {
-        this.fighterBase = fighterBase;
+        this.fighterType = fighterBase;
         displayName = fighterBase.GetName();
         maxHealth = fighterBase.GetMaxHealth();
         health = maxHealth;
@@ -231,6 +231,7 @@ public class Fighter : MonoBehaviour
         Destroy(effect.gameObject);
     }
 
+    public FighterBase GetFighterType() {return fighterType;}
     public bool IsMonster() {return isMonster;}
     public virtual Sprite GetSprite() {return image.sprite;}
     public Room GetRoom() {return room;}
@@ -239,7 +240,7 @@ public class Fighter : MonoBehaviour
     public float GetMaxHealth() {return maxHealth;}
     public float GetDamage() {return damage;}
     public List<Tag> GetTags() {return tags;}
-    public virtual float GetSpeed() {return fighterBase.GetSpeed();}
+    public virtual float GetSpeed() {return fighterType.GetSpeed();}
     public string GetDescription() {return Ability.GetDescriptionFromList(abilities);}
     public List<FighterAbility> GetAbilities() {return abilities;}
 }
