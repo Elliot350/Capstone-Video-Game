@@ -18,6 +18,7 @@ public class FighterBase : ScriptableObject
     public virtual float GetDamage() {return damage;}
     public List<FighterAbility> GetAbilities() {return abilities;}
     public List<Tag> GetTags() {return tags;}
+    public bool HasTag(Tag tag) {return tags.Contains(tag);}
     public Sprite GetSprite() {return sprite;}
     public float GetSpeed() {return speed;}
     public string GetDescription() {return Ability.GetDescriptionFromList(abilities);}

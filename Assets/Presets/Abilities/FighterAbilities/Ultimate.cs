@@ -7,7 +7,7 @@ public class Ultimate : FighterAbility
 {
     public override bool CanAddMonster(MonsterBase m, Room r)
     {
-        return !r.monsters.Contains(m);
+        return !r.GetMonsters().Contains(m);
     }
 
     public override string GetDescription()

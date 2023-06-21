@@ -27,12 +27,6 @@ public class Hero : Fighter
     {
         isMonster = false;
     }
-    
-    // public override void TakeDamage(Damage attack)
-    // {
-    //     PartyManager.GetInstance().HeroHurt(this);
-    //     base.TakeDamage(attack);
-    // }
 
     public override void Die(Damage attack)
     {

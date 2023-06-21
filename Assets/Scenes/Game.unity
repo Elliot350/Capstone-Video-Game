@@ -10039,7 +10039,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1707333547
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10259,6 +10259,7 @@ MonoBehaviour:
   trapBases: []
   cam: {fileID: 1532341115}
   bossMonster: {fileID: 11400000, guid: c1f2a582c47a4464db00366430db9594, type: 2}
+  tagToSearch: {fileID: 11400000, guid: 24eee85445c114cf480333deb6aeb7c2, type: 2}
 --- !u!4 &1759908041
 Transform:
   m_ObjectHideFlags: 0

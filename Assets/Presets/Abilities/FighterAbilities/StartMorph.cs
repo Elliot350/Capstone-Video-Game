@@ -7,7 +7,7 @@ public class StartMorph : FighterAbility
 {
     public override void OnBattleStarted(Fighter f)
     {
-        f.SetType(GameManager.GetInstance().GetRandomMonster());
+        FightManager.GetInstance().AddAction(new Morph(f, GameManager.GetInstance().GetRandomMonster()));
     }
 
     public override string GetDescription()

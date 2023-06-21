@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
 
     public MonsterBase bossMonster;
 
+    [Header("Debug stuff")]
+    [SerializeField] private Tag tagToSearch;
+
     void Awake()
     {
         instance = this;
@@ -54,6 +57,10 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F)) {
             // FightManager.GetInstance().StartFight(PartyManager.GetInstance().party.heroes, tempRoom.monsters);
+        }
+
+        if (Input.GetKeyDown(KeyCode.G)) {
+            Debug.Log($"Result: {GetRandomMonster(tagToSearch)}");
         }
     }
 
@@ -154,9 +161,45 @@ public class GameManager : MonoBehaviour
 
     public MonsterBase GetRandomMonster(MonsterBase excludedMonster)
     {
-        // Minus 1 because there is one heroBase excluded
+        // Minus 1 because there is one monsterBase excluded
         int index = Random.Range(0, monsterBases.Count - 1);
         return monsterBases[index <= monsterBases.IndexOf(excludedMonster) ? index : index + 1];
     }
+
+    // public MonsterBase GetRandomMonster(Tag tag)
+    // {
+    //     List<MonsterBase> possibleMonsters = new List<MonsterBase>();
+
+
+    //     monsterBases.ForEach((monsterBase) => {
+    //         if (monsterBase.HasTag(tag))
+    //             possibleMonsters.Add(monsterBase);
+    //     });
+
+    //     return possibleMonsters.Count > 0 ? possibleMonsters[Random.Range(0, possibleMonsters.Count)] : null;
+    // }
+
+    public MonsterBase GetRandomMonster(Tag tag)
+    {
+        // I want to do it like
+        // GetRandomMonster(Func<MonsterBase, bool> condition)
+
+        // Then?
+        // monsterBases.Select(condition)
+
+        // Func<string, string> selector = str => str.ToUpper();
+        List<MonsterBase> possibleMonsters = new List<MonsterBase>();
+
+        // var monsters = monsterBases.Select(p => p.GetCost());
+        // Debug.Log($"{monsters}");
+
+        monsterBases.ForEach((monsterBase) => {
+            if (monsterBase.HasTag(tag))
+                possibleMonsters.Add(monsterBase);
+        });
+
+        return possibleMonsters.Count > 0 ? possibleMonsters[Random.Range(0, possibleMonsters.Count)] : null;
+    }
+
     
 }

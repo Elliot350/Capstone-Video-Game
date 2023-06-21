@@ -47,13 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633a6150d93994443aaeadc78640e2f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomBase: {fileID: 0}
-  displayName: 
-  monsterCapacity: 3
   monsters: []
-  trapCapacity: 1
   traps: []
-  abilities: []
   highlightBox: {fileID: 4548838832357989998}
   alertSprite: {fileID: 6246823676935368838}
 --- !u!61 &4762841160346086844

@@ -5,16 +5,16 @@ using UnityEngine.EventSystems;
 
 public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    public RoomBase roomBase;
+    protected RoomBase roomType;
 
-    public string displayName;
-    public int monsterCapacity;
-    public List<MonsterBase> monsters;
-    public int trapCapacity;
-    public List<Trap> traps;
-    public List<RoomAbility> abilities;
-    public GameObject highlightBox;
-    public SpriteRenderer alertSprite;
+    protected string displayName;
+    protected int monsterCapacity;
+    [SerializeField] protected List<MonsterBase> monsters;
+    protected int trapCapacity;
+    [SerializeField] protected List<Trap> traps;
+    protected List<RoomAbility> abilities;
+    [SerializeField] protected GameObject highlightBox;
+    [SerializeField] protected SpriteRenderer alertSprite;
 
     private double cooldown;
     private bool visited;
@@ -36,14 +36,107 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void SetType(RoomBase roomBase)
     {
-        this.roomBase = roomBase;
+        this.roomType = roomBase;
         this.abilities = new List<RoomAbility>(roomBase.GetAbilities());
-        displayName = this.roomBase.GetName();
-        monsterCapacity = this.roomBase.GetMonster();
-        trapCapacity = this.roomBase.GetTrap();
-        this.roomBase.AddRoom(this);
+        displayName = this.roomType.GetName();
+        monsterCapacity = this.roomType.GetMonster();
+        trapCapacity = this.roomType.GetTrap();
+        this.roomType.AddRoom(this);
         foreach (RoomAbility a in abilities)
             a.RoomBuilt(this);
+    }
+
+    public void TriggerPeriodic()
+    {
+        foreach (RoomAbility a in abilities)
+            a.Periodic();
+    }
+
+    public void MonsterDied(Fighter f)
+    {
+        foreach (RoomAbility a in abilities)
+            a.OnMonsterDied(f);
+    }
+
+    public void HeroDied(Fighter f)
+    {
+        foreach (RoomAbility a in abilities)
+            a.OnHeroDied(f);
+    }
+
+    public void StartingFight(List<Fighter> monsters, List<Fighter> heroes)
+    {
+        foreach (RoomAbility a in abilities)
+            a.FightStarted(monsters, heroes);
+    }
+
+    public float GetDamageMultiplier(Fighter f)
+    {
+        float multiplier = 0f;
+        foreach (RoomAbility a in abilities)
+            multiplier += a.GetDamageMultiplier(f);
+        return multiplier;
+    }
+
+    public virtual bool CanAddMonster(MonsterBase monster)
+    {
+        if (monsters.Count >= monsterCapacity)
+            return false;
+        foreach (RoomAbility a in abilities)
+        {
+            if (!a.CanAddMonster(this, monster))
+                return false;
+        }
+        foreach (FighterAbility a in monster.GetAbilities())
+        {
+            if (!a.CanAddMonster(monster, this))
+                return false;
+        }
+        return true;
+    }
+
+    public void AddMonster(MonsterBase monsterBase) 
+    {
+        monsters.Add(monsterBase);
+        roomType.MonsterAdded(this, monsterBase);
+        foreach (RoomAbility a in abilities)
+            a.OnMonsterAdded(monsterBase);
+    }
+
+    public virtual bool CanAddTrap(TrapBase trap)
+    {
+        if (traps.Count >= trapCapacity)
+            return false;
+        foreach (RoomAbility a in abilities)
+            if (!a.CanAddTrap(this, trap))
+                return false;
+        
+        return true;
+    }
+
+    public void AddTrap(TrapBase trapBase)
+    {
+        // Trap trap = Instantiate(TrapPlacer.GetInstance().trapPrefab, transform);
+        Trap trap = gameObject.AddComponent<Trap>();
+        trap.SetType(trapBase);
+        traps.Add(trap);
+        roomType.TrapAdded(this, trap);
+    }
+
+    public void TrapTriggered()
+    {
+        alertSprite.gameObject.SetActive(true);
+        cooldown = 1f;
+    }
+
+    private bool TrapsUntriggered()
+    {
+        foreach (Trap trap in traps)
+        {
+            if (!trap.triggered)
+                return true;
+        }
+        return false;
     }
 
     public IEnumerator PartyEntered(Party party)
@@ -65,68 +158,17 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         {
             yield return new WaitForSeconds(1);
             Debug.Log($"Starting Fight");
-            // TODO: Fix this line
             yield return FightManager.GetInstance().StartCoroutine(FightManager.GetInstance().StartFight(party.heroes, monsters, this));
             Debug.Log($"Fight Done?");
         }
     }
 
-    public void StartingFight(List<Fighter> monsters, List<Fighter> heroes)
-    {
-        foreach (RoomAbility a in abilities)
-            a.FightStarted(monsters, heroes);
-    }
-
-    public void AddMonster(MonsterBase monsterBase) 
-    {
-        monsters.Add(monsterBase);
-        roomBase.MonsterAdded(this, monsterBase);
-        foreach (RoomAbility a in abilities)
-            a.OnMonsterAdded(monsterBase);
-    }
-
-    public void AddTrap(TrapBase trapBase)
-    {
-        // Trap trap = Instantiate(TrapPlacer.GetInstance().trapPrefab, transform);
-        Trap trap = gameObject.AddComponent<Trap>();
-        trap.SetType(trapBase);
-        traps.Add(trap);
-        roomBase.TrapAdded(this, trap);
-    }
-
-    public void TrapTriggered()
-    {
-        alertSprite.gameObject.SetActive(true);
-        cooldown = 1f;
-    }
-
-    private bool TrapsUntriggered()
-    {
-        foreach (Trap trap in traps)
-        {
-            if (!trap.triggered)
-                return true;
-        }
-        return false;
-    }
-
-    public float GetDamageMultiplier(Fighter f)
-    {
-        float multiplier = 0f;
-        foreach (RoomAbility a in abilities)
-            multiplier += a.GetDamageMultiplier(f);
-        return multiplier;
-    }
 
     public void Highlight(bool status) 
     {
         highlightBox.SetActive(status);
     }
 
-    protected void OnMouseDown()
-    {
-        GameManager.GetInstance().RoomClickedOn(this);
-    }
 
     public virtual void ResetRoom()
     {
@@ -152,86 +194,35 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         if (!DungeonManager.GetInstance().IsPlacing())
         {
             Debug.Log($"Room pressed");
+            // GameManager.GetInstance().RoomClickedOn(this);
         }
     }
 
-    // private void OnMouseEnter() 
-    // {
-    //     Tooltip.ShowTooltip_Static(GetStatus(), 12);
-    // }
-
-    // private void OnMouseExit() 
-    // {
-    //     Tooltip.HideTooltip_Static();
-    // }
-    
     public string GetStatus()
     {
-        if (roomBase is Hallway)
+        if (roomType is Hallway)
             return "Hallway";
-        if (roomBase is Entrance)
+        if (roomType is Entrance)
             return "Entrance";
         return $"{displayName}\nMonsters ({monsters.Count}/{monsterCapacity})\nTraps ({traps.Count}/{trapCapacity})";
     }
 
-    public string GetDescription()
-    {
-        return Ability.GetDescriptionFromList(abilities);
-    }
 
-    public void MonsterDied(Fighter f)
-    {
-        foreach (RoomAbility a in abilities)
-            a.OnMonsterDied(f);
-    }
-
-    public void HeroDied(Fighter f)
-    {
-        foreach (RoomAbility a in abilities)
-            a.OnHeroDied(f);
-    }
 
     public virtual void HeroesDefeatedMonsters()
     {
-        roomBase.RoomDefeated(this);
+        roomType.RoomDefeated(this);
         foreach (RoomAbility a in abilities)
             a.PartyWon(PartyManager.GetInstance().GetParty());
         visited = true;
     }
 
-    public virtual bool CanAddMonster(MonsterBase monster)
-    {
-        if (monsters.Count >= monsterCapacity)
-            return false;
-        foreach (RoomAbility a in abilities)
-        {
-            if (!a.CanAddMonster(this, monster))
-                return false;
-        }
-        foreach (FighterAbility a in monster.GetAbilities())
-        {
-            if (!a.CanAddMonster(monster, this))
-                return false;
-        }
-        return true;
-    }
 
-    public virtual bool CanAddTrap(TrapBase trap)
-    {
-        if (traps.Count >= trapCapacity)
-            return false;
-        foreach (RoomAbility a in abilities)
-            if (!a.CanAddTrap(this, trap))
-                return false;
-        
-        return true;
-    }
 
-    public void TriggerPeriodic()
-    {
-        foreach (RoomAbility a in abilities)
-            a.Periodic();
-    }
-
+    public string GetDescription() {return Ability.GetDescriptionFromList(abilities);}
     public List<RoomAbility> GetAbilities() {return abilities;}
+    public List<MonsterBase> GetMonsters() {return monsters;}
+    public int GetMonsterCapacity() {return monsterCapacity;}
+    public List<Trap> GetTraps() {return traps;}
+    public int GetTrapCapacity() {return trapCapacity;}
 }

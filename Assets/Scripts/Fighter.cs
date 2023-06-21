@@ -105,6 +105,10 @@ public class Fighter : MonoBehaviour
                 f.MonsterDied(this);
             FightManager.GetInstance().GetRoom().MonsterDied(this);
         }
+        else 
+        {
+            Debug.LogWarning($"Not sure what {this} is.");
+        }
         DeathAnimation();
     }
 

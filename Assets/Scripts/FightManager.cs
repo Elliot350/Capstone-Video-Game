@@ -26,8 +26,8 @@ public class FightManager : MonoBehaviour
     [SerializeField] private List<Fighter> monsters;
     [SerializeField] private List<Fighter> heroes;
     // Action list that controlls the fights
-    private List<Action> actions;
-    private List<Action> actionsToAdd;
+    private List<FightAction> actions;
+    private List<FightAction> actionsToAdd;
     // Current room the fight is in
     private Room room; // Could maybe remove this
     
@@ -57,8 +57,8 @@ public class FightManager : MonoBehaviour
         order = new List<Fighter>();
         heroes = new List<Fighter>();
         monsters = new List<Fighter>();
-        actions = new List<Action>();
-        actionsToAdd = new List<Action>();
+        actions = new List<FightAction>();
+        actionsToAdd = new List<FightAction>();
 
         room = roomFight;
 
@@ -116,7 +116,7 @@ public class FightManager : MonoBehaviour
             CatchUpActions();
             while (actions.Count > 0)
             {
-                Action currentAction = actions[0];
+                FightAction currentAction = actions[0];
                 ShowActions();
                 actions.RemoveAt(0);
                 if (order.Contains(currentAction.fighter))
@@ -178,7 +178,7 @@ public class FightManager : MonoBehaviour
         portraits.Add(gameObject.GetComponent<Image>());
     }
 
-    public void AddAction(Action action)
+    public void AddAction(FightAction action)
     {
         // if (actions.Count > 0)
         //     actions.Insert(0, action);
@@ -199,7 +199,7 @@ public class FightManager : MonoBehaviour
     private void ShowActions()
     {
         string str = actions.Count.ToString() + ":\n";
-        foreach (Action a in actions)
+        foreach (FightAction a in actions)
         {
             str += a + "\n";
         }
@@ -275,12 +275,12 @@ public class FightManager : MonoBehaviour
 
 // ---------- Actions ----------
 
-public abstract class Action
+public abstract class FightAction
 {
     public Fighter fighter;
     protected float waitTime;
 
-    public Action(Fighter fighter) 
+    public FightAction(Fighter fighter) 
     {
         this.fighter = fighter;
         waitTime = 1f;
@@ -288,11 +288,11 @@ public abstract class Action
 
     // Might be able to make this a normal function now
     public abstract void Do();
-    protected void AddAction(Action a) {FightManager.GetInstance().AddAction(a);}
+    protected void AddAction(FightAction a) {FightManager.GetInstance().AddAction(a);}
     public float GetWaitTime() {return waitTime;}
 }
 
-public class GetTargets : Action
+public class GetTargets : FightAction
 {
     private List<Fighter> fighters;
 
@@ -313,7 +313,7 @@ public class GetTargets : Action
     }
 }
 
-public class Attack : Action
+public class Attack : FightAction
 {
     private Fighter target;
 
@@ -333,7 +333,7 @@ public class Attack : Action
     }
 }
 
-public class TakeDamage : Action
+public class TakeDamage : FightAction
 {
     private Damage attack;
 
@@ -350,7 +350,7 @@ public class TakeDamage : Action
     }
 }
 
-public class Die : Action
+public class Die : FightAction
 {
     private Damage attack;
 
@@ -366,7 +366,7 @@ public class Die : Action
     }
 }
 
-public class Heal : Action
+public class Heal : FightAction
 {
     private float amount;
 
@@ -381,7 +381,7 @@ public class Heal : Action
     }
 }
 
-public class RemoveAbility : Action
+public class RemoveAbility : FightAction
 {
     private FighterAbility ability;
 
@@ -399,7 +399,7 @@ public class RemoveAbility : Action
     }
 }
 
-public class AddAbility : Action
+public class AddAbility : FightAction
 {
     private FighterAbility ability;
 
@@ -418,11 +418,11 @@ public class AddAbility : Action
     }
 }
 
-public class BattleStart : Action
+public class BattleStart : FightAction
 {
     public BattleStart(Fighter fighter) : base(fighter)
     {
-
+        waitTime = 0f;
     }
 
     public override void Do()
@@ -431,7 +431,7 @@ public class BattleStart : Action
     }
 }
 
-public class PlayAnimation : Action
+public class PlayAnimation : FightAction
 {
     string animationName;
 
@@ -447,7 +447,7 @@ public class PlayAnimation : Action
     }
 }
 
-public class ContinueAnimation : Action
+public class ContinueAnimation : FightAction
 {
     string animationName;
     Effect effect;
@@ -462,5 +462,20 @@ public class ContinueAnimation : Action
     public override void Do()
     {
         fighter.PlayEffect(animationName, effect);
+    }
+}
+
+public class Morph : FightAction
+{
+    FighterBase fighterBase;
+
+    public Morph(Fighter fighter, FighterBase fighterBase) : base(fighter)
+    {
+        this.fighterBase = fighterBase;
+    }
+
+    public override void Do()
+    {
+        fighter.SetType(fighterBase);
     }
 }
