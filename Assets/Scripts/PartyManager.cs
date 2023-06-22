@@ -8,27 +8,39 @@ public class PartyManager : MonoBehaviour
 {
     private static PartyManager instance;
 
-    public Party partyPrefab;
-    public Hero heroPrefab;
-
+    [Header("The current party")]
     [SerializeField] private Party party;
+    
+    // Prefabs for creating parties and heroes
+    [Header("Prefabs")]
+    [SerializeField] private Party partyPrefab;
+    [SerializeField] private Hero heroPrefab;
     [SerializeField] private PartyStatus partyStatus;
+    
+    [Header("Debug party set up")]
     [SerializeField] private List<HeroBase> tempParty;
 
-    public float moveTime;
+    [Header("Time between moves")]
+    [SerializeField] private float moveTime;
     private float lastMoveTime;
     private int moveStep;
     private bool canMove;
 
-    public Tilemap tilemap;
-    public Tilemap roadMap;
-    public TileBase roadTile;
-    public Vector3Int[,] spots;
-    Astar astar;
-    List<Spot> roadPath = new List<Spot>();
+    [Header("References to Tilemaps")]
+    [SerializeField] private Tilemap tilemap;
+    [SerializeField] private Tilemap roadMap;
+    [SerializeField] private TileBase roadTile;
+
+    // Astar stuff
+    private Astar astar;
+    private Vector3Int[,] spots;
     new Camera camera;
-    BoundsInt bounds;
-    public Vector2Int start;
+    private BoundsInt bounds;
+    
+    // The path the party will take
+    private List<Spot> roadPath = new List<Spot>();
+
+    // Max length for pathfinding
     private const int PATH_LENGTH = 100;
 
 
@@ -202,7 +214,6 @@ public class PartyManager : MonoBehaviour
 
     public void GenerateCompletePath()
     {
-
         tilemap.CompressBounds();
         roadMap.CompressBounds();
         CreateGrid();
@@ -271,7 +282,6 @@ public class PartyManager : MonoBehaviour
             if (!placed)
                 list.Add(nextRoomPos);
         }
-
         return list;
     }
 }
