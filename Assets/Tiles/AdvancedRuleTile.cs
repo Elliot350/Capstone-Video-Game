@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
 
-[CreateAssetMenu(menuName = "Custom Tiles/Advanced Rule Tile")]
+[CreateAssetMenu(menuName = "Other/Advanced Rule Tile")]
 public class AdvancedRuleTile : RuleTile<AdvancedRuleTile.Neighbor> {
     public bool alwayConnect;
     public TileBase[] tilesToConnect;

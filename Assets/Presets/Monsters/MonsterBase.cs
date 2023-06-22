@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Monster Preset", menuName = "Presets/Monster Preset")]
+[CreateAssetMenu(fileName = "Monster", menuName = "Bases/New Monster")]
 public class MonsterBase : FighterBase
 {
     [SerializeField] protected int cost;

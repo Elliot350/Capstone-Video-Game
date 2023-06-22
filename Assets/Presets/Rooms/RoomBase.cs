@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[CreateAssetMenu(fileName = "Room Preset", menuName = "Presets/Room Preset")]
+[CreateAssetMenu(fileName = "Room", menuName = "Bases/New Room")]
 public class RoomBase : ScriptableObject
 {
     [SerializeField] protected string displayName;

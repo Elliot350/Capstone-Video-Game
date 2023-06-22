@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Boss Room Preset", menuName = "Presets/Rooms/Boss Room Preset")]
+[CreateAssetMenu(fileName = "Boss Room", menuName = "Bases/Other/New Boss Room")]
 public class BossRoom : RoomBase
 {
     public override void AddRoom(Room room)

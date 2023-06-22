@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Tag", menuName = "Tags/New Tag")]
+[CreateAssetMenu(fileName = "Tag", menuName = "Other/New Tag")]
 public class Tag : ScriptableObject
 {
     public string Name => name;

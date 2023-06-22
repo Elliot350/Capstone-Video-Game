@@ -9,16 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dedaa80607ff03468c4124aab944655, type: 3}
-  m_Name: TestHero
+  m_Script: {fileID: 11500000, guid: 7e9ae4c72a725f44c895b90bb79c4d16, type: 3}
+  m_Name: Mixed
   m_EditorClassIdentifier: 
-  displayName: Knight
-  maxHealth: 15
-  damage: 5
-  speed: 2
-  abilities: []
-  tags:
+  heroes:
   - {fileID: 11400000, guid: 7d4b226e4dbf19f4ea3d38e6cb55c31f, type: 2}
   - {fileID: 11400000, guid: b3f165c186f502340a9ea39b61475af0, type: 2}
-  sprite: {fileID: 774607577, guid: d8e84b4bdabdd4476aadab46f5e84638, type: 3}
-  gold: 5
+  - {fileID: 11400000, guid: 48ee044356859664eb58885a21147a1d, type: 2}

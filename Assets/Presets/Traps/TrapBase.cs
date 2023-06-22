@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "Trap Preset", menuName = "Presets/Trap Base")]
+[CreateAssetMenu(fileName = "Trap", menuName = "Bases/New Trap")]
 public class TrapBase : ScriptableObject
 {
     [SerializeField] protected string displayName;
