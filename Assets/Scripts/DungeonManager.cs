@@ -33,7 +33,7 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
     private List<Room> hallways = new List<Room>();
     // Positions of the entrance and boss room
     private Vector3Int entrance;
-    private Vector3Int bossRoom;
+    [SerializeField] private Vector3Int bossRoom;
 
     [Header("Prefabs for placing a basic dungeon")]
     [SerializeField] private RoomBase hallwayBasePrefab;
@@ -227,6 +227,15 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
     {
         if (tilemap.GetTile(pos) == null) return;
         // TODO: Change this to a method in room so it refunds some money for the room, monsters and traps
+        Room destroyedRoom = tilemap.GetInstantiatedObject(pos).GetComponent<Room>();
+        if (rooms.Contains(destroyedRoom))
+            rooms.Remove(destroyedRoom);
+        else if (hallways.Contains(destroyedRoom))
+            hallways.Remove(destroyedRoom);
+        if (pos == bossRoom)
+            bossRoom = Vector3Int.zero;
+        else if (pos == entrance)
+            bossRoom = Vector3Int.zero;
         tilemap.SetTile(pos, null);
         CancelPlacement();
         // Hide because we would be hovering over something and it gets destroyed so we need to stop hovering

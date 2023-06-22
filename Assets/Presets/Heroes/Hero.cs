@@ -23,9 +23,10 @@ public class Hero : Fighter
         this.room = room;
     }
 
-    protected override void SetAnimator()
+    protected override void SetTypes()
     {
         isMonster = false;
+        isBoss = false;
     }
 
     public override void Die(Damage attack)

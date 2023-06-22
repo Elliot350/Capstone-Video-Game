@@ -78,7 +78,7 @@ public class FightManager : MonoBehaviour
 
         // Sort the fighters by their speed value (TODO: randomize the list before)
         order.Sort((f1, f2)=>f2.GetSpeed().CompareTo(f1.GetSpeed()));
-        UpdateOrder();
+        UpdateOrder(false);
 
         // Open the fight menu
         UIManager.GetInstance().OpenFightMenu();
@@ -135,7 +135,7 @@ public class FightManager : MonoBehaviour
             }
             
             yield return shortPause;
-            UpdateOrder();
+            UpdateOrder(true);
             
             if (count > 100)
                 break;
@@ -215,6 +215,8 @@ public class FightManager : MonoBehaviour
             {
                 monsters.Remove(f);
                 order.Remove(f);
+                foreach (Fighter fighter in order)
+                    fighter.MonsterDied(f);
                 Destroy(f.gameObject, fastForward ? 0f : 0.3f);
                 Debug.Log($"{f} removed! (m)");
             }
@@ -230,6 +232,8 @@ public class FightManager : MonoBehaviour
                 heroes.Remove(f);
                 order.Remove(f);
                 PartyManager.GetInstance().HeroDied(f.GetComponent<Hero>());
+                foreach (Fighter fighter in order)
+                    fighter.HeroDied(f);
                 Destroy(f.gameObject, fastForward ? 0f : 0.3f);
                 Debug.Log($"{f} removed! (h)");
             }
@@ -242,9 +246,10 @@ public class FightManager : MonoBehaviour
         {
             Debug.LogWarning($"Don't know what {f} is");
         }
+        UpdateOrder(false);
     }
 
-    private void UpdateOrder()
+    private void UpdateOrder(bool newTurn)
     {
         // If there isn't enough portraits, add them
         while (portraits.Count < order.Count)
@@ -261,7 +266,8 @@ public class FightManager : MonoBehaviour
             portraits[i].gameObject.SetActive(true);
         }
 
-        orderHolder.GetComponent<Animator>().SetTrigger("Next");
+        if (newTurn)
+            orderHolder.GetComponent<Animator>().SetTrigger("Next");
     }
 
     public List<Fighter> GetMonsters() {return monsters;}
@@ -477,5 +483,20 @@ public class Morph : FightAction
     public override void Do()
     {
         fighter.SetType(fighterBase);
+    }
+}
+
+public class Summon : FightAction
+{
+    MonsterBase monsterToSummon;
+
+    public Summon(Fighter fighter, MonsterBase summon) : base(fighter)
+    {
+        this.monsterToSummon = summon;
+    }
+
+    public override void Do()
+    {
+        FightManager.GetInstance().AddMonster(monsterToSummon);
     }
 }

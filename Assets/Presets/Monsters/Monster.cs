@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class Monster : Fighter
 {
-    protected override void SetAnimator()
+    protected override void SetTypes()
     {
         isMonster = true;
+        isBoss = false;
     }
 }

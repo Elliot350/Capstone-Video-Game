@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 using System.Linq;
 
 public class GameManager : MonoBehaviour
@@ -55,13 +56,9 @@ public class GameManager : MonoBehaviour
             DungeonManager.GetInstance().PlaceBasicDungeon();
         }
 
-        if (Input.GetKeyDown(KeyCode.F)) {
-            // FightManager.GetInstance().StartFight(PartyManager.GetInstance().party.heroes, tempRoom.monsters);
-        }
-
-        if (Input.GetKeyDown(KeyCode.G)) {
-            Debug.Log($"Result: {GetRandomMonster(tagToSearch)}");
-        }
+        // if (Input.GetKeyDown(KeyCode.G)) {
+        //     Debug.Log($"Result: {GetRandomMonster((m) => m.HasTag(tagToSearch))}");
+        // }
     }
 
 
@@ -132,73 +129,37 @@ public class GameManager : MonoBehaviour
 
     public HeroBase GetRandomHero()
     {
-        return heroBases[Random.Range(0, heroBases.Count)];
+        return heroBases[UnityEngine.Random.Range(0, heroBases.Count)];
     }
 
-    // public HeroBase GetRandomHero(List<HeroBase> excludedHeroes)
-    // {
-    //     HeroBase selected;
-    //     int count = 0;
-    //     do 
-    //     {
-    //         selected = GetRandomHero();
-    //         count++;
-    //     } while (!excludedHeroes.Contains(selected) && count < 10);
-    //     return selected;
-    // }
-
-    public HeroBase GetRandomHero(HeroBase excludedHero)
+    public HeroBase GetRandomHero(Func<HeroBase, bool> condition)
     {
-        // Minus 1 because there is one heroBase excluded
-        int index = Random.Range(0, heroBases.Count - 1);
-        return heroBases[index <= heroBases.IndexOf(excludedHero) ? index : index + 1];
+        List<HeroBase> possibleHeroes = new List<HeroBase>();
+
+        heroBases.ForEach((heroBase) => {
+            if (condition(heroBase))
+                possibleHeroes.Add(heroBase);
+        });
+
+        return possibleHeroes.Count > 0 ? possibleHeroes[UnityEngine.Random.Range(0, possibleHeroes.Count)] : null;
     }
+
 
     public MonsterBase GetRandomMonster()
     {
-        return monsterBases[Random.Range(0, monsterBases.Count)];
+        return monsterBases[UnityEngine.Random.Range(0, monsterBases.Count)];
     }
 
-    public MonsterBase GetRandomMonster(MonsterBase excludedMonster)
+    public MonsterBase GetRandomMonster(Func<MonsterBase, bool> condition)
     {
-        // Minus 1 because there is one monsterBase excluded
-        int index = Random.Range(0, monsterBases.Count - 1);
-        return monsterBases[index <= monsterBases.IndexOf(excludedMonster) ? index : index + 1];
-    }
-
-    // public MonsterBase GetRandomMonster(Tag tag)
-    // {
-    //     List<MonsterBase> possibleMonsters = new List<MonsterBase>();
-
-
-    //     monsterBases.ForEach((monsterBase) => {
-    //         if (monsterBase.HasTag(tag))
-    //             possibleMonsters.Add(monsterBase);
-    //     });
-
-    //     return possibleMonsters.Count > 0 ? possibleMonsters[Random.Range(0, possibleMonsters.Count)] : null;
-    // }
-
-    public MonsterBase GetRandomMonster(Tag tag)
-    {
-        // I want to do it like
-        // GetRandomMonster(Func<MonsterBase, bool> condition)
-
-        // Then?
-        // monsterBases.Select(condition)
-
-        // Func<string, string> selector = str => str.ToUpper();
         List<MonsterBase> possibleMonsters = new List<MonsterBase>();
 
-        // var monsters = monsterBases.Select(p => p.GetCost());
-        // Debug.Log($"{monsters}");
-
         monsterBases.ForEach((monsterBase) => {
-            if (monsterBase.HasTag(tag))
+            if (condition(monsterBase))
                 possibleMonsters.Add(monsterBase);
         });
 
-        return possibleMonsters.Count > 0 ? possibleMonsters[Random.Range(0, possibleMonsters.Count)] : null;
+        return possibleMonsters.Count > 0 ? possibleMonsters[UnityEngine.Random.Range(0, possibleMonsters.Count)] : null;
     }
 
     

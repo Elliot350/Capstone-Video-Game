@@ -10,6 +10,7 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float health;
     [SerializeField] protected float damage;
+    [SerializeField] protected float damageModifier = 0f;
     [SerializeField] protected List<FighterAbility> abilities;
     [SerializeField] protected List<Tag> tags;
     [SerializeField] protected Slider slider;
@@ -18,11 +19,11 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected GameObject effectAnimator;
     private List<Effect> effects = new List<Effect>();
     protected bool isMonster;
+    protected bool isBoss;
     [SerializeField] protected Image image, alertImage;
 
     protected float healthMultiplier = 1f;
     protected float damageMultiplier = 1f;
-    [SerializeField] protected float damageModifier = 0f;
     protected Fighter lastAttacker;
     protected Room room;
     protected FighterBase fighterType;
@@ -49,12 +50,12 @@ public class Fighter : MonoBehaviour
         SetHealthBar();
         image.sprite = fighterBase.GetSprite();
         alertImage.gameObject.SetActive(false);
-        SetAnimator();
+        SetTypes();
     }
 
-    protected virtual void SetAnimator()
+    protected virtual void SetTypes()
     {
-        Debug.LogWarning($"Did not set Animator! ({this}) - ({gameObject})");
+        Debug.LogWarning($"Did not set Types! ({this}) - ({gameObject})");
     }
 
     public void SetType(FighterBase fighterBase, Room room)
@@ -93,22 +94,22 @@ public class Fighter : MonoBehaviour
     {
         foreach (FighterAbility a in abilities)
             a.OnDeath(attack);
-        if (this is Hero)
-        {
-            foreach (Fighter f in FightManager.GetInstance().GetFighters())
-                f.HeroDied(this);
-            FightManager.GetInstance().GetRoom().HeroDied(this);
-        }
-        else if (this is Monster)
-        {
-            foreach (Fighter f in FightManager.GetInstance().GetFighters())
-                f.MonsterDied(this);
-            FightManager.GetInstance().GetRoom().MonsterDied(this);
-        }
-        else 
-        {
-            Debug.LogWarning($"Not sure what {this} is.");
-        }
+        // if (this is Hero)
+        // {
+        //     foreach (Fighter f in FightManager.GetInstance().GetFighters())
+        //         f.HeroDied(this);
+        //     FightManager.GetInstance().GetRoom().HeroDied(this);
+        // }
+        // else if (this is Monster)
+        // {
+        //     foreach (Fighter f in FightManager.GetInstance().GetFighters())
+        //         f.MonsterDied(this);
+        //     FightManager.GetInstance().GetRoom().MonsterDied(this);
+        // }
+        // else 
+        // {
+        //     Debug.LogWarning($"Not sure what {this} is.");
+        // }
         DeathAnimation();
     }
 
