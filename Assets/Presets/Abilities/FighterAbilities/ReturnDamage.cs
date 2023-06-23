@@ -9,10 +9,10 @@ public class ReturnDamage : FighterAbility
 
     public override void OnTakenDamage(Damage attack)
     {
-        if (attack.GetSource() == null)
+        if (attack.Source == null)
             return;
-        attack.GetTarget().PlayEffect(animationTrigger);
-        FightManager.GetInstance().AddAction(new TakeDamage(new Damage(attack.GetTarget(), attack.GetSource(), returnDamage)));
+        attack.Target.PlayEffect(animationTrigger);
+        FightManager.GetInstance().AddAction(new TakeDamage(new Damage(attack.Target, attack.Source, returnDamage)));
     }
 
     public override string GetDescription()

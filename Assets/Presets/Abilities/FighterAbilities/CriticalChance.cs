@@ -8,9 +8,10 @@ public class CriticalChance : FighterAbility
     [SerializeField] protected float criticalChance;
     [SerializeField] protected float criticalMultiplier;
 
-    public override float GetDamageMultiplier(Fighter f)
+    public override void OnAttack(Damage attack)
     {
-        return Random.Range(0f, 1f) < criticalChance ? criticalMultiplier : 0;
+        if (Random.Range(0f, 1f) < criticalChance)
+            attack.Multiplier += criticalMultiplier;
     }
 
     public override string GetDescription()

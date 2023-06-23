@@ -38,6 +38,7 @@ public class FightManager : MonoBehaviour
     private WaitForSeconds secondPause = new WaitForSeconds(1);
 
     [SerializeField] private bool fastForward;
+    [SerializeField] private GameObject pointer;
 
     // Temporary debug text
     [Header("Temporary debug text")]
@@ -118,6 +119,7 @@ public class FightManager : MonoBehaviour
             {
                 FightAction currentAction = actions[0];
                 ShowActions();
+                pointer.transform.position = currentAction.GetFighter().transform.position;
                 actions.RemoveAt(0);
                 if (order.Contains(currentAction.fighter))
                     currentAction.Do();
@@ -292,10 +294,10 @@ public abstract class FightAction
         waitTime = 1f;
     }
 
-    // Might be able to make this a normal function now
     public abstract void Do();
     protected void AddAction(FightAction a) {FightManager.GetInstance().AddAction(a);}
     public float GetWaitTime() {return waitTime;}
+    public Fighter GetFighter() {return fighter;}
 }
 
 public class GetTargets : FightAction
@@ -343,7 +345,7 @@ public class TakeDamage : FightAction
 {
     private Damage attack;
 
-    public TakeDamage(Damage attack) : base(attack.GetTarget())
+    public TakeDamage(Damage attack) : base(attack.Target)
     {
         this.attack = attack;
     }

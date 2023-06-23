@@ -132,6 +132,17 @@ public class PartyManager : MonoBehaviour
         CreateParty(heroes);
     }
 
+    public void CreateParty(PartyLayout layout)
+    {
+        List<HeroBase> heroes = new List<HeroBase>();
+        foreach (Tag t in layout.GetHeroes())
+        {
+            // Get a random hero that has the current tag
+            heroes.Add(GameManager.GetInstance().GetRandomHero((h) => h.HasTag(t)));
+        }
+        CreateParty(heroes);
+    }
+
     public void CreateParty(List<HeroBase> list)
     {
         CreateGrid();

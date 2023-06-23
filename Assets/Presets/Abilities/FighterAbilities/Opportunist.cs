@@ -7,7 +7,6 @@ public class Opportunist : FighterAbility
 {
     public override void OnFighterDied(Fighter f, Fighter dead)
     {
-        Debug.Log($"Attacking an extra time");
         FightManager.GetInstance().AddAction(new GetTargets(f, FightManager.GetInstance().GetHeroes()));
     }
 

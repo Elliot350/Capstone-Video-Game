@@ -68,24 +68,23 @@ public class Fighter : MonoBehaviour
     {
         foreach (FighterAbility a in abilities)
             a.OnTakenDamage(attack);
-        health -= attack.GetDamage();
+        health -= attack.CalculatedDamage;
         SetHealthBar();
         HurtAnimation();
     }
 
     public virtual void Heal(float amount)
     {
-        Debug.Log($"Healing ({health} + {amount})");
         foreach (FighterAbility a in abilities)
             a.OnHeal(this);
         health += amount;
-        Debug.Log($"After {health}");
         // healParticles.Play();
         SetHealthBar();
     }
 
     private void SetHealthBar()
     {
+        health = Mathf.Clamp(health, 0, maxHealth);
         slider.value = health;
         healthBarText.text = $"{health}/{maxHealth}";
     }
@@ -238,18 +237,48 @@ public class Damage
 {
     private Fighter source;
     private Fighter target;
-    // TODO: Change this to a damage, damageMultiplier and damageModifier 
     private float damage;
+    private float damageMultiplier;
+    private float damageModifier;
 
-    public Damage(Fighter source, Fighter target, float damage)
+    public Damage(Fighter target, float damage) : this(null, target, damage, 1f, 0f) {}
+    public Damage(Fighter source, Fighter target, float damage) : this(source, target, damage, 1f, 0f) {}
+
+    public Damage(Fighter source, Fighter target, float damage, float damageMultiplier, float damageModifier)
     {
         this.source = source;
         this.target = target;
         this.damage = damage;
+        this.damageMultiplier = damageMultiplier;
+        this.damageModifier = damageModifier;
     }
 
-    public Fighter GetSource() {return source;}
-    public Fighter GetTarget() {return target;}
-    public void SetDamage(float amount) {damage = amount;}
-    public float GetDamage() {return damage;}
+    public Fighter Source
+    {
+        get {return source;}
+    }
+    public Fighter Target
+    {
+        get {return target;}
+    }
+
+    public float RawDamage
+    {
+        get {return damage;}
+        set {damage = value;}
+    }
+    public float Multiplier
+    {
+        get {return damageMultiplier;}
+        set {damageMultiplier = value;}
+    }
+    public float Modifier
+    {
+        get {return damageModifier;}
+        set {damageModifier = value;}
+    }
+    public float CalculatedDamage
+    {
+        get {return damage * damageMultiplier + damageModifier;}
+    }
 }

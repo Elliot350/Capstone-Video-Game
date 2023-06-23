@@ -9,7 +9,7 @@ public class Summoner : FighterAbility
 
     public override void OnAttack(Damage attack)
     {
-        FightManager.GetInstance().AddAction(new Summon(attack.GetSource(), monsterToSummon));
+        FightManager.GetInstance().AddAction(new Summon(attack.Target, monsterToSummon));
     }
 
     public override string GetDescription()

@@ -9,7 +9,7 @@ public class Loner : FighterAbility
 
     public override float GetDamageMultiplier(Fighter f)
     {
-        return (f.GetRoom().GetMonsterCapacity() - f.GetRoom().GetMonsters().Count) * damagePerSpace;
+        return (f.GetRoom().GetMonsterCapacity() - FightManager.GetInstance().GetMonsters().Count) * damagePerSpace;
     }
 
     public override string GetDescription()
