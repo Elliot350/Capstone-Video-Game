@@ -14,12 +14,6 @@ public class BuildRoomButton : MonoBehaviour
         image.sprite = roomBase.GetSprite();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void HoverOver()
     {
        Tooltip.ShowTooltip_Static(roomBase);

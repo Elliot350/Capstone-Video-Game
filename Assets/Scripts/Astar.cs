@@ -14,11 +14,8 @@ public class Astar
 
     private bool IsValidPath(Vector3Int[,] grid, Spot start, Spot end)
     {
-        // Debug.Log("Checking for valid path...");
-        // Debug.Log(grid);
-        // Debug.Log(start);
-        // Debug.Log(end);
-        // Debug.Log(end.height);
+        // Debug.Log($"Checking from ({start.X}, {start.Y}) to ({end.X}, {end.Y})");
+        // Debug.Log($"Start {start}, End {end}");
         if (end == null || start == null || end.height >= 1)
         {
             Debug.LogWarning($"No valid path from ({start.X}, {start.Y}) to ({end.X}, {end.Y})");
@@ -58,7 +55,7 @@ public class Astar
             }
         }
         
-        if (!IsValidPath(grid, Start, End))
+        if (Start == null || End == null || !IsValidPath(grid, Start, End))
             return null;
         
         List<Spot> OpenSet = new List<Spot>();

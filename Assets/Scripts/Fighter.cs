@@ -70,7 +70,8 @@ public class Fighter : MonoBehaviour
             a.OnTakenDamage(attack);
         health -= attack.CalculatedDamage;
         SetHealthBar();
-        HurtAnimation();
+        if (attack.CalculatedDamage != 0)
+            HurtAnimation();
     }
 
     public virtual void Heal(float amount)
@@ -241,6 +242,7 @@ public class Damage
     private float damageMultiplier;
     private float damageModifier;
 
+    public Damage(Fighter newTarget, Damage damage) : this(damage.Source, newTarget, damage.RawDamage, damage.Multiplier, damage.Modifier) {}
     public Damage(Fighter target, float damage) : this(null, target, damage, 1f, 0f) {}
     public Damage(Fighter source, Fighter target, float damage) : this(source, target, damage, 1f, 0f) {}
 

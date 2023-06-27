@@ -15,11 +15,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private TextMeshProUGUI manaText;
 
-    [Header("Lists for all types of monsters, trap, heroes and rooms")]
-    [SerializeField] private List<RoomBase> roomBases = new List<RoomBase>();
-    [SerializeField] private List<MonsterBase> monsterBases = new List<MonsterBase>();
-    [SerializeField] private List<HeroBase> heroBases = new List<HeroBase>();
-    [SerializeField] private List<TrapBase> trapBases = new List<TrapBase>();
+    [Header("Lists for the rooms, monsters, heroes, traps, etc.")]
+    [SerializeField] private List<RoomBase> roomBases;
+    [SerializeField] private List<MonsterBase> monsterBases;
+    [SerializeField] private List<HeroBase> heroBases;
+    [SerializeField] private List<TrapBase> trapBases;
+    [SerializeField] private List<PartyLayout> partyLayouts;
 
     // public RoomInfo roomInfo;
     [Header("Camera")]
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
         monsterBases = Resources.LoadAll<MonsterBase>("").ToList();
         heroBases = Resources.LoadAll<HeroBase>("").ToList();
         trapBases = Resources.LoadAll<TrapBase>("").ToList();
+        partyLayouts = Resources.LoadAll<PartyLayout>("").ToList();
     }
 
     // Start is called before the first frame update
@@ -141,6 +143,9 @@ public class GameManager : MonoBehaviour
                 possibleHeroes.Add(heroBase);
         });
 
+        // Debug.Log($"Possibilities");
+        // possibleHeroes.ForEach((m) => Debug.Log($"{m}"));
+
         return possibleHeroes.Count > 0 ? possibleHeroes[UnityEngine.Random.Range(0, possibleHeroes.Count)] : null;
     }
 
@@ -162,5 +167,9 @@ public class GameManager : MonoBehaviour
         return possibleMonsters.Count > 0 ? possibleMonsters[UnityEngine.Random.Range(0, possibleMonsters.Count)] : null;
     }
 
+    public PartyLayout GetRandomPartyLayout()
+    {
+        return partyLayouts[UnityEngine.Random.Range(0, partyLayouts.Count)];
+    }
     
 }

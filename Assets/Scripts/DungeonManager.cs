@@ -64,7 +64,7 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
             CancelPlacement();
         if (Time.time - lastUpdateTime > placementIndicatorUpdateRate)
             UpdatePlacementIndicator();
-        if (currentlyPlacing && Input.GetMouseButtonUp(0) && (curRoomBase == null || Selector.instance.AllowedPosition()))
+        if (currentlyPlacing && Input.GetMouseButtonUp(0) && (curRoomBase == null || AllowedPosition()))
             Place();
         if (Input.GetKeyDown(KeyCode.Space))
             BeginNewPlacement(entranceBasePrefab);
@@ -106,8 +106,19 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
         // if (!Selector.instance.AllowedPosition())
         //     return;
         
-        curPlacementPos = Selector.instance.GetCurTilePosition();
+        curPlacementPos = GetCurTilePosition();
+
         placementIndicator.transform.position = curPlacementPos;
+    }
+
+    private bool AllowedPosition()
+    {
+        return !EventSystem.current.IsPointerOverGameObject();
+    }
+
+    private Vector3Int GetCurTilePosition()
+    {
+        return new Vector3Int((int) Mathf.Round(Camera.main.ScreenToWorldPoint(Input.mousePosition).x), (int) Mathf.Round(Camera.main.ScreenToWorldPoint(Input.mousePosition).y), 0);
     }
 
     public void BeginNewPlacement(RoomBase roomBase)

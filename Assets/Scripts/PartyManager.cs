@@ -3,13 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class PartyManager : MonoBehaviour
 {
     private static PartyManager instance;
 
+    private enum PartyState {
+        PARTY_READY,
+        PARTY_COOLDOWN,
+        CANMOVE,
+        MOVE_COOLDOWN,
+        FIGHTING
+    }
+
     [Header("The current party")]
     [SerializeField] private Party party;
+
+    [Header("Party state")]
+    [SerializeField] PartyState partyState;
     
     // Prefabs for creating parties and heroes
     [Header("Prefabs")]
@@ -25,6 +37,13 @@ public class PartyManager : MonoBehaviour
     private float lastMoveTime;
     private int moveStep;
     private bool canMove;
+
+    [Header("Time between parties")]
+    [SerializeField] private float minPartyTime;
+    [SerializeField] private float maxPartyTime;
+    [SerializeField] private float partyCooldown;
+    private float lastPartySpawnTime;
+    [SerializeField] Slider slider;
 
     [Header("References to Tilemaps")]
     [SerializeField] private Tilemap tilemap;
@@ -74,9 +93,49 @@ public class PartyManager : MonoBehaviour
 
     void Update()
     {
-        if (party != null && Time.time - lastMoveTime > moveTime && canMove) {
-            StartCoroutine(Move());
+        switch (partyState)
+        {
+            case (PartyState.PARTY_READY):
+                CreateParty(GameManager.GetInstance().GetRandomPartyLayout());
+                break;
+
+            case (PartyState.PARTY_COOLDOWN):
+                partyCooldown -= Time.deltaTime;
+                slider.value = partyCooldown;
+                if (partyCooldown <= 0)
+                {
+                    partyState = PartyState.PARTY_READY;
+                }
+                break;
+
+            case (PartyState.CANMOVE):
+                StartCoroutine(Move());
+                partyState = PartyState.MOVE_COOLDOWN;
+                break;
+
+            case (PartyState.MOVE_COOLDOWN):
+                if (Time.time - lastMoveTime > moveTime && canMove)
+                    partyState = PartyState.CANMOVE;
+                break;
+
+            case (PartyState.FIGHTING):
+                break;
+
+            default:
+                break;
         }
+
+        // if (party == null && Time.time - lastPartySpawnTime > partyCooldown)
+        // {
+        //     CreateParty(GameManager.GetInstance().GetRandomPartyLayout());
+        //     partyCooldown = Random.Range(minPartyTime, maxPartyTime);
+        // }
+
+                
+        // if (party != null && Time.time - lastMoveTime > moveTime && canMove) 
+        // {
+        //     StartCoroutine(Move());
+        // }
 
         if (Input.GetKeyDown(KeyCode.W))
         {
@@ -97,8 +156,11 @@ public class PartyManager : MonoBehaviour
         if (DungeonManager.GetInstance().GetTilemap().GetTile(newPosition) != null) {
             canMove = false;
             party.transform.position = newPosition;
+            partyState = PartyState.FIGHTING;
             Room room = DungeonManager.GetInstance().GetTilemap().GetInstantiatedObject(Vector3Int.FloorToInt(party.transform.position)).GetComponent<Room>();
-            yield return room.StartCoroutine(room.PartyEntered(party));
+            yield return StartCoroutine(room.PartyEntered(party));
+            Debug.Log($"Done");
+            if (party != null) partyState = PartyState.MOVE_COOLDOWN;
             lastMoveTime = Time.time;
             moveStep++;
             canMove = true;
@@ -146,9 +208,10 @@ public class PartyManager : MonoBehaviour
     public void CreateParty(List<HeroBase> list)
     {
         CreateGrid();
-        if (astar.CreatePath(spots, DungeonManager.GetInstance().GetEntranceTile(), DungeonManager.GetInstance().GetBossRoomTile(), PATH_LENGTH) == null)
+        // Debug.Log($"Entrance: {DungeonManager.GetInstance().GetEntrancePos()}, {DungeonManager.GetInstance().GetEntranceTile()}, Boss room: {DungeonManager.GetInstance().GetBossRoomPos()}, {DungeonManager.GetInstance().GetBossRoomTile()}, ");
+        if (DungeonManager.GetInstance().GetEntranceTile() == null || DungeonManager.GetInstance().GetBossRoomTile() == null || astar.CreatePath(spots, DungeonManager.GetInstance().GetEntranceTile(), DungeonManager.GetInstance().GetBossRoomTile(), PATH_LENGTH) == null)
         {
-            Debug.Log($"No path available from entrance to boss room!");
+            // Debug.Log($"No path available from entrance to boss room!");
             return;
         }
         party = Instantiate(partyPrefab);
@@ -156,6 +219,7 @@ public class PartyManager : MonoBehaviour
         {
             CreateHero(hero);
         }
+        partyState = PartyState.MOVE_COOLDOWN;
         lastMoveTime = Time.time;
         canMove = true;
         moveStep = 0;
@@ -182,6 +246,7 @@ public class PartyManager : MonoBehaviour
 
     public void DestroyParty()
     {
+        Debug.Log($"Destrpying party");
         foreach (Transform child in FightManager.GetInstance().GetHeroHolder().transform)
         {
             if (child != FightManager.GetInstance().GetHeroHolder().transform)
@@ -189,6 +254,9 @@ public class PartyManager : MonoBehaviour
                 Destroy(child.gameObject);
             }
         }
+        lastPartySpawnTime = Time.time;
+        partyState = PartyState.PARTY_COOLDOWN;
+        partyCooldown = Random.Range(minPartyTime, maxPartyTime);
         Destroy(party.gameObject);
         partyStatus.RemoveAllHeroes();
         party = null;

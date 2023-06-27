@@ -14,12 +14,6 @@ public class BuildMonsterButton : MonoBehaviour
         image.sprite = monsterBase.GetSprite();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void HoverOver()
     {
         Tooltip.ShowTooltip_Static(monsterBase);

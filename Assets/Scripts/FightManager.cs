@@ -272,6 +272,14 @@ public class FightManager : MonoBehaviour
             orderHolder.GetComponent<Animator>().SetTrigger("Next");
     }
 
+    public List<Fighter> GetAllies(Fighter f) 
+    {
+        List<Fighter> allies = GetTeam(f);
+        allies.Remove(f);
+        return allies;
+    }
+    public List<Fighter> GetTeam(Fighter f) {return f.IsMonster() ? monsters : heroes;}
+
     public List<Fighter> GetMonsters() {return monsters;}
     public List<Fighter> GetHeroes() {return heroes;}
     public List<Fighter> GetFighters() {return order;}

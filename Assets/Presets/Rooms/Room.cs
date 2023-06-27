@@ -161,6 +161,7 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             yield return FightManager.GetInstance().StartCoroutine(FightManager.GetInstance().StartFight(party.heroes, monsters, this));
             Debug.Log($"Fight Done?");
         }
+        yield break;
     }
 
 
