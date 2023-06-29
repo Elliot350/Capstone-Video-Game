@@ -10,7 +10,7 @@ public class Deflector : FighterAbility
     {
         Debug.Log($"Trying to deflect");
 
-        List<Fighter> allies = FightManager.GetInstance().GetAllies(attack.Target);
+        List<Fighter> allies = new List<Fighter>(FightManager.GetInstance().GetAllies(attack.Target));
         for (int i = allies.Count - 1; i >= 0; i--)
         {
             if (allies[i].GetFighterType() == attack.Target.GetFighterType())

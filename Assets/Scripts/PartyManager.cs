@@ -10,6 +10,7 @@ public class PartyManager : MonoBehaviour
     private static PartyManager instance;
 
     private enum PartyState {
+        WAITING,
         PARTY_READY,
         PARTY_COOLDOWN,
         CANMOVE,
@@ -21,7 +22,7 @@ public class PartyManager : MonoBehaviour
     [SerializeField] private Party party;
 
     [Header("Party state")]
-    [SerializeField] PartyState partyState;
+    [SerializeField] PartyState partyState = PartyState.WAITING;
     
     // Prefabs for creating parties and heroes
     [Header("Prefabs")]
@@ -159,7 +160,6 @@ public class PartyManager : MonoBehaviour
             partyState = PartyState.FIGHTING;
             Room room = DungeonManager.GetInstance().GetTilemap().GetInstantiatedObject(Vector3Int.FloorToInt(party.transform.position)).GetComponent<Room>();
             yield return StartCoroutine(room.PartyEntered(party));
-            Debug.Log($"Done");
             if (party != null) partyState = PartyState.MOVE_COOLDOWN;
             lastMoveTime = Time.time;
             moveStep++;
@@ -219,6 +219,8 @@ public class PartyManager : MonoBehaviour
         {
             CreateHero(hero);
         }
+
+        // If sucessful, get the party ready to move
         partyState = PartyState.MOVE_COOLDOWN;
         lastMoveTime = Time.time;
         canMove = true;
@@ -246,7 +248,7 @@ public class PartyManager : MonoBehaviour
 
     public void DestroyParty()
     {
-        Debug.Log($"Destrpying party");
+        Debug.Log($"Destroying party");
         foreach (Transform child in FightManager.GetInstance().GetHeroHolder().transform)
         {
             if (child != FightManager.GetInstance().GetHeroHolder().transform)
@@ -254,12 +256,22 @@ public class PartyManager : MonoBehaviour
                 Destroy(child.gameObject);
             }
         }
-        lastPartySpawnTime = Time.time;
-        partyState = PartyState.PARTY_COOLDOWN;
-        partyCooldown = Random.Range(minPartyTime, maxPartyTime);
+        StartPartyCycle();
         Destroy(party.gameObject);
         partyStatus.RemoveAllHeroes();
         party = null;
+    }
+
+    public void StartPartyCycle()
+    {
+        lastPartySpawnTime = Time.time;
+        partyCooldown = Random.Range(minPartyTime, maxPartyTime);
+        partyState = PartyState.PARTY_COOLDOWN;
+    }
+
+    public void StopPartyCycle()
+    {
+        partyState = PartyState.WAITING;
     }
 
     public void CreateGrid()

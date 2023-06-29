@@ -68,10 +68,11 @@ public class Fighter : MonoBehaviour
     {
         foreach (FighterAbility a in abilities)
             a.OnTakenDamage(attack);
+        if (attack.CalculatedDamage <= 0)
+            return;
         health -= attack.CalculatedDamage;
         SetHealthBar();
-        if (attack.CalculatedDamage != 0)
-            HurtAnimation();
+        HurtAnimation();
     }
 
     public virtual void Heal(float amount)

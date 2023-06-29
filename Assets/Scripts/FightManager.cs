@@ -119,8 +119,10 @@ public class FightManager : MonoBehaviour
             {
                 FightAction currentAction = actions[0];
                 ShowActions();
-                pointer.transform.position = currentAction.GetFighter().transform.position;
                 actions.RemoveAt(0);
+                if (currentAction.GetFighter() == null)
+                    continue;
+                pointer.transform.position = currentAction.GetFighter().transform.position;
                 if (order.Contains(currentAction.fighter))
                     currentAction.Do();
                 yield return new WaitForSeconds(fastForward ? currentAction.GetWaitTime() / 4f : currentAction.GetWaitTime());
@@ -274,7 +276,7 @@ public class FightManager : MonoBehaviour
 
     public List<Fighter> GetAllies(Fighter f) 
     {
-        List<Fighter> allies = GetTeam(f);
+        List<Fighter> allies = new List<Fighter>(GetTeam(f));
         allies.Remove(f);
         return allies;
     }
