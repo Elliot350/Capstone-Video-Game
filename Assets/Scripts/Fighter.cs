@@ -195,6 +195,14 @@ public class Fighter : MonoBehaviour
         animator.SetTrigger("Dead");
     }
 
+    public virtual void ReviveAnimation()
+    {
+        // TODO: Might have to change this because otherwise it would be stuck on the Dead animaition
+        if (FightManager.GetInstance().FastForwarding() || !animator.isActiveAndEnabled)
+            return;
+        animator.SetTrigger("Revive");
+    }
+
     public virtual Effect PlayEffect(string animationName)
     {
         if (FightManager.GetInstance().FastForwarding())

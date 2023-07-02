@@ -19,12 +19,14 @@ public class FightManager : MonoBehaviour
     [SerializeField] private GameObject monsterHolder;
     [SerializeField] private GameObject heroHolder;
     [SerializeField] private GameObject orderHolder;
+    [SerializeField] private GameObject deadHolder;
 
     // Lists for fights
     [Header("Lists")]
     [SerializeField] private List<Fighter> order;
     [SerializeField] private List<Fighter> monsters;
     [SerializeField] private List<Fighter> heroes;
+    [SerializeField] private List<Fighter> dead;
     // Action list that controlls the fights
     private List<FightAction> actions;
     private List<FightAction> actionsToAdd;
@@ -123,7 +125,7 @@ public class FightManager : MonoBehaviour
                 if (currentAction.GetFighter() == null)
                     continue;
                 pointer.transform.position = currentAction.GetFighter().transform.position;
-                if (order.Contains(currentAction.fighter))
+                if (order.Contains(currentAction.fighter) || dead.Contains(currentAction.fighter))
                     currentAction.Do();
                 yield return new WaitForSeconds(fastForward ? currentAction.GetWaitTime() / 4f : currentAction.GetWaitTime());
                 CatchUpActions();
@@ -163,6 +165,7 @@ public class FightManager : MonoBehaviour
         heroes.Clear();
         monsters.Clear();
         order.Clear();
+        FinishBattle();
         UIManager.GetInstance().CloseAllMenus();
 
     }
@@ -212,8 +215,9 @@ public class FightManager : MonoBehaviour
 
     public void FighterDied(Fighter f)
     {
+        // TODO: Simplify this a bunch, maybe put most of it into fighter?
         Debug.Log($"{f} died");
-        if (f is Monster)
+        if (f.IsMonster())
         {
             if (monsters.Contains(f))
             {
@@ -221,7 +225,11 @@ public class FightManager : MonoBehaviour
                 order.Remove(f);
                 foreach (Fighter fighter in order)
                     fighter.MonsterDied(f);
-                Destroy(f.gameObject, fastForward ? 0f : 0.3f);
+                // Destroy(f.gameObject, fastForward ? 0f : 0.3f);
+                // Invoke(f.transform.SetParent(deadHolder.transform), fastForward ? 0f : 0.3f);
+                // TODO: add a delay to this
+                f.transform.SetParent(deadHolder.transform);
+                dead.Add(f);
                 Debug.Log($"{f} removed! (m)");
             }
             else
@@ -229,7 +237,7 @@ public class FightManager : MonoBehaviour
                 Debug.LogWarning($"Didn't destroy {f}");
             }
         }
-        else if (f is Hero)
+        else if (!f.IsMonster())
         {
             if (heroes.Contains(f))
             {
@@ -238,7 +246,9 @@ public class FightManager : MonoBehaviour
                 PartyManager.GetInstance().HeroDied(f.GetComponent<Hero>());
                 foreach (Fighter fighter in order)
                     fighter.HeroDied(f);
-                Destroy(f.gameObject, fastForward ? 0f : 0.3f);
+                // Destroy(f.gameObject, fastForward ? 0f : 0.3f);
+                f.transform.SetParent(deadHolder.transform);
+                dead.Add(f);
                 Debug.Log($"{f} removed! (h)");
             }
             else
@@ -274,6 +284,18 @@ public class FightManager : MonoBehaviour
             orderHolder.GetComponent<Animator>().SetTrigger("Next");
     }
 
+    public void FinishBattle()
+    {
+        foreach (Fighter f in dead)
+        {
+            Destroy(f.gameObject);
+        }
+        foreach (Fighter f in monsters)
+        {
+            Destroy(f.gameObject);
+        }
+    }
+
     public List<Fighter> GetAllies(Fighter f) 
     {
         List<Fighter> allies = new List<Fighter>(GetTeam(f));
@@ -285,6 +307,7 @@ public class FightManager : MonoBehaviour
     public List<Fighter> GetMonsters() {return monsters;}
     public List<Fighter> GetHeroes() {return heroes;}
     public List<Fighter> GetFighters() {return order;}
+    public List<Fighter> GetDead() {return dead;}
     public Room GetRoom() {return room;}
     public GameObject GetMonsterHolder() {return monsterHolder;}
     public GameObject GetHeroHolder() {return heroHolder;}
@@ -509,6 +532,35 @@ public class Summon : FightAction
 
     public override void Do()
     {
+        Debug.Log($"Summoning {monsterToSummon}, {monsterToSummon.GetName()}");
         FightManager.GetInstance().AddMonster(monsterToSummon);
+    }
+}
+
+public class Revive : FightAction
+{
+    // TODO: There may be a bug with revivving, sometimes it seems like the wrong thing gets added to dead
+    public Revive(Fighter fighter) : base(fighter) {}
+
+    public override void Do()
+    {
+        FightManager manager = FightManager.GetInstance();
+        if (!manager.GetDead().Contains(fighter))
+            return;
+        
+        manager.GetDead().Remove(fighter);
+        manager.GetFighters().Add(fighter);
+        if (fighter.IsMonster())
+        {
+            manager.GetMonsters().Add(fighter);
+            fighter.transform.SetParent(manager.GetMonsterHolder().transform);
+        }
+        else
+        {
+            manager.GetHeroes().Add(fighter);
+            fighter.transform.SetParent(manager.GetHeroHolder().transform);
+        }
+        fighter.ReviveAnimation();
+        AddAction(new Heal(fighter, fighter.GetMaxHealth() / 2));
     }
 }

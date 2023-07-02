@@ -17,7 +17,7 @@ MonoBehaviour:
   damage: 2
   speed: 1
   abilities:
-  - {fileID: 11400000, guid: 37541fd8229b4924b8d3da6d775d6883, type: 2}
+  - {fileID: 11400000, guid: 64d3f73fdd1c14592a4e475692ea76df, type: 2}
   tags:
   - {fileID: 11400000, guid: bf7c8f5fd4bfc644ab4fe00e4d030fe6, type: 2}
   - {fileID: 11400000, guid: 98971a9458ee42143aea2c92b351e18b, type: 2}
