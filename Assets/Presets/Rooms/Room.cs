@@ -52,16 +52,12 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             a.Periodic();
     }
 
-    public void MonsterDied(Fighter f)
+    public void FighterDied(Fighter f)
     {
         foreach (RoomAbility a in abilities)
-            a.OnMonsterDied(f);
-    }
-
-    public void HeroDied(Fighter f)
-    {
-        foreach (RoomAbility a in abilities)
-            a.OnHeroDied(f);
+        {
+            a.OnFighterDied(f);
+        }
     }
 
     public void StartingFight(List<Fighter> monsters, List<Fighter> heroes)

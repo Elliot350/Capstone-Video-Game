@@ -30,6 +30,9 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected Image alertImage;
     private List<Effect> effects = new List<Effect>();
     [SerializeField] protected ParticleSystem healParticles;
+
+    [Header("Debug Stuff")]
+    [SerializeField] private TextMeshProUGUI damageText;
     
     protected bool isMonster;
     protected bool isBoss;
@@ -93,25 +96,40 @@ public class Fighter : MonoBehaviour
 
     public virtual void Die(Damage attack)
     {
+        FightManager manager = FightManager.GetInstance();
+        if (manager.GetDead().Contains(this)) return;
         foreach (FighterAbility a in abilities)
             a.OnDeath(attack);
         DeathAnimation();
-    }
-
-    public void HeroDied(Fighter f)
-    {
-        foreach (FighterAbility a in abilities)
+        
+        if (!manager.GetFighters().Remove(this))
+            Debug.LogWarning($"Can't remove {this}");
+        Invoke("MoveToGraveyard", manager.FastForwarding() ? 0f : 0.3f);
+        
+        if (isMonster)
         {
-            a.OnHeroDied(this, f);
-            a.OnFighterDied(this, f);
+            if (!manager.GetMonsters().Remove(this))
+                Debug.LogWarning($"Can't remove monster ({this})");
         }
+        else
+        {
+            if (!manager.GetHeroes().Remove(this))
+                Debug.LogWarning($"Can't remove hero ({this})");
+            PartyManager.GetInstance().HeroDied(this.GetComponent<Hero>());
+        }
+
+        manager.GetDead().Add(this);
     }
 
-    public void MonsterDied(Fighter f)
+    private void MoveToGraveyard()
+    {
+        transform.SetParent(FightManager.GetInstance().GetDeadHolder().transform);
+    }
+
+    public void FighterDied(Fighter f)
     {
         foreach (FighterAbility a in abilities)
         {
-            a.OnMonsterDied(this, f);
             a.OnFighterDied(this, f);
         }
     }
@@ -130,6 +148,7 @@ public class Fighter : MonoBehaviour
 
     public float CalculateDamage()
     {
+        damageText.text = $"{damage} x {CalculateDamageMultiplier()} + {damageModifier}";
         return (damage * CalculateDamageMultiplier()) + damageModifier;
     }
 

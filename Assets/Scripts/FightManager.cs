@@ -134,9 +134,9 @@ public class FightManager : MonoBehaviour
             }
 
             // If they are still alive, move them to the end of the order
-            if (fighter != null)
+            if (!dead.Contains(fighter))
             {
-                order.RemoveAt(0);
+                order.Remove(fighter);
                 order.Add(fighter);
             }
             
@@ -162,12 +162,8 @@ public class FightManager : MonoBehaviour
         }
 
         // Clear the lists and close the menu
-        heroes.Clear();
-        monsters.Clear();
-        order.Clear();
         FinishBattle();
         UIManager.GetInstance().CloseAllMenus();
-
     }
     
     public void AddMonster(MonsterBase monsterBase)
@@ -215,51 +211,8 @@ public class FightManager : MonoBehaviour
 
     public void FighterDied(Fighter f)
     {
-        // TODO: Simplify this a bunch, maybe put most of it into fighter?
-        Debug.Log($"{f} died");
-        if (f.IsMonster())
-        {
-            if (monsters.Contains(f))
-            {
-                monsters.Remove(f);
-                order.Remove(f);
-                foreach (Fighter fighter in order)
-                    fighter.MonsterDied(f);
-                // Destroy(f.gameObject, fastForward ? 0f : 0.3f);
-                // Invoke(f.transform.SetParent(deadHolder.transform), fastForward ? 0f : 0.3f);
-                // TODO: add a delay to this
-                f.transform.SetParent(deadHolder.transform);
-                dead.Add(f);
-                Debug.Log($"{f} removed! (m)");
-            }
-            else
-            {
-                Debug.LogWarning($"Didn't destroy {f}");
-            }
-        }
-        else if (!f.IsMonster())
-        {
-            if (heroes.Contains(f))
-            {
-                heroes.Remove(f);
-                order.Remove(f);
-                PartyManager.GetInstance().HeroDied(f.GetComponent<Hero>());
-                foreach (Fighter fighter in order)
-                    fighter.HeroDied(f);
-                // Destroy(f.gameObject, fastForward ? 0f : 0.3f);
-                f.transform.SetParent(deadHolder.transform);
-                dead.Add(f);
-                Debug.Log($"{f} removed! (h)");
-            }
-            else
-            {
-                Debug.LogWarning($"Didn't destroy {f}");
-            }
-        }
-        else
-        {
-            Debug.LogWarning($"Don't know what {f} is");
-        }
+        foreach (Fighter fighter in order)
+            fighter.FighterDied(f);
         UpdateOrder(false);
     }
 
@@ -294,6 +247,10 @@ public class FightManager : MonoBehaviour
         {
             Destroy(f.gameObject);
         }
+        heroes.Clear();
+        monsters.Clear();
+        order.Clear();
+        dead.Clear();
     }
 
     public List<Fighter> GetAllies(Fighter f) 
@@ -311,6 +268,7 @@ public class FightManager : MonoBehaviour
     public Room GetRoom() {return room;}
     public GameObject GetMonsterHolder() {return monsterHolder;}
     public GameObject GetHeroHolder() {return heroHolder;}
+    public GameObject GetDeadHolder() {return deadHolder;}
     public bool FastForwarding() {return fastForward;}
 }
 

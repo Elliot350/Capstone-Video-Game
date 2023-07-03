@@ -11,11 +11,6 @@ public class MonsterBase : FighterBase
 
     public virtual void MonsterSpawned() {}
 
-    public void OnDeath(Monster monster) 
-    {
-        monster.GetRoom().MonsterDied(monster);
-    }
-
     public bool IsUnlockable() 
     {
         if (needsAll)

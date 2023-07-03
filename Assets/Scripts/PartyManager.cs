@@ -240,6 +240,7 @@ public class PartyManager : MonoBehaviour
         partyStatus.SetHeroHealth(h);
     }
 
+    // TODO: Clean this method up
     public void HeroDied(Hero h)
     {
         // partyStatus.RemoveHero(h);
