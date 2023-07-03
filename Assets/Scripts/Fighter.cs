@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class Fighter : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class Fighter : MonoBehaviour
     protected Room room;
 
 
-    public virtual void SetType(FighterBase fighterBase)
+    public virtual void SetBase(FighterBase fighterBase)
     {
         this.fighterType = fighterBase;
         displayName = fighterBase.GetName();
@@ -56,21 +57,20 @@ public class Fighter : MonoBehaviour
         SetTypes();
     }
 
+    public void SetType(FighterBase fighterBase, Room room)
+    {
+        this.room = room;
+        SetBase(fighterBase);
+    }
+    
     protected virtual void SetTypes()
     {
         Debug.LogWarning($"Did not set Types! ({this}) - ({gameObject})");
     }
 
-    public void SetType(FighterBase fighterBase, Room room)
-    {
-        this.room = room;
-        SetType(fighterBase);
-    }
-
     public virtual void TakeDamage(Damage attack)
     {
-        foreach (FighterAbility a in abilities)
-            a.OnTakenDamage(attack);
+        ActivateAbilities((a) => a.OnTakenDamage(attack));
         if (attack.CalculatedDamage <= 0)
             return;
         health -= attack.CalculatedDamage;
@@ -80,11 +80,10 @@ public class Fighter : MonoBehaviour
 
     public virtual void Heal(float amount)
     {
-        foreach (FighterAbility a in abilities)
-            a.OnHeal(this);
+        ActivateAbilities((a) => a.OnHeal(this));
         health += amount;
-        // healParticles.Play();
         SetHealthBar();
+        // healParticles.Play();
     }
 
     private void SetHealthBar()
@@ -97,9 +96,10 @@ public class Fighter : MonoBehaviour
     public virtual void Die(Damage attack)
     {
         FightManager manager = FightManager.GetInstance();
+        // If this fighter is already dead, don't do anythin
         if (manager.GetDead().Contains(this)) return;
-        foreach (FighterAbility a in abilities)
-            a.OnDeath(attack);
+
+        ActivateAbilities((a) => a.OnDeath(attack));
         DeathAnimation();
         
         if (!manager.GetFighters().Remove(this))
@@ -126,24 +126,16 @@ public class Fighter : MonoBehaviour
         transform.SetParent(FightManager.GetInstance().GetDeadHolder().transform);
     }
 
-    public void FighterDied(Fighter f)
-    {
-        foreach (FighterAbility a in abilities)
-        {
-            a.OnFighterDied(this, f);
-        }
-    }
+    public void FighterDied(Fighter f) {ActivateAbilities((a) => a.OnFighterDied(this, f));}
+    public void FinishBattle()  {ActivateAbilities((a) => a.BattleEnd(this));}
+    public void StartBattle() {ActivateAbilities((a) => a.BattleStart(this));}
+    public void StartTurn() {ActivateAbilities((a) => a.TurnStart(this));}
+    public void EndTurn() {ActivateAbilities((a) => a.TurnEnd(this));}
 
-    public void FinishBattle() 
+    public void ActivateAbilities(Action<FighterAbility> action)
     {
         foreach (FighterAbility a in abilities)
-            a.OnBattleFinished(this);
-    }
-
-    public void StartBattle()
-    {
-        foreach (FighterAbility a in abilities)
-            a.OnBattleStarted(this);
+            action(a);
     }
 
     public float CalculateDamage()
@@ -160,15 +152,16 @@ public class Fighter : MonoBehaviour
         return Mathf.Max(multiplier, 0);
     }
 
+    // TODO: Make a better way to do this
     public List<Fighter> GetTargets(List<Fighter> fighters)
     {
         List<Fighter> targets = new List<Fighter>();
 
-        foreach (FighterAbility a in abilities)
-        {
+        ActivateAbilities((a) => {
             if (a.ModifiesTargets() && targets.Count <= a.DecideTargets(fighters).Count)
                 targets = a.DecideTargets(fighters);
-        }
+        });
+
         if (targets.Count == 0)
             targets.Add(fighters[0]);
         return targets;
@@ -270,9 +263,9 @@ public class Damage
     private float damageMultiplier;
     private float damageModifier;
 
-    public Damage(Fighter newTarget, Damage damage) : this(damage.Source, newTarget, damage.RawDamage, damage.Multiplier, damage.Modifier) {}
     public Damage(Fighter target, float damage) : this(null, target, damage, 1f, 0f) {}
     public Damage(Fighter source, Fighter target, float damage) : this(source, target, damage, 1f, 0f) {}
+    public Damage(Fighter newTarget, Damage damage) : this(damage.Source, newTarget, damage.RawDamage, damage.Multiplier, damage.Modifier) {}
 
     public Damage(Fighter source, Fighter target, float damage, float damageMultiplier, float damageModifier)
     {
@@ -309,6 +302,6 @@ public class Damage
     }
     public float CalculatedDamage
     {
-        get {return damage * damageMultiplier + damageModifier;}
+        get {return (float) Math.Round(damage * damageMultiplier + damageModifier, 2);}
     }
 }

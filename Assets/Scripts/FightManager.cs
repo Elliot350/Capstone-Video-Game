@@ -97,47 +97,26 @@ public class FightManager : MonoBehaviour
             AddAction(new BattleStart(f));
         }
 
+        yield return StartCoroutine(PerformActions());
+
         // Each loop is one fighter attacking, with all the actions resolved
         while (monsters.Count > 0 && party.Count > 0)
         {
             count++;
 
-            Fighter fighter = order[0];
-            Debug.Log($"Attack #{count}: {fighter} attacking...");
+            Fighter currentFighter = order[0];
+            Debug.Log($"Attack #{count}: {currentFighter} attacking...");
 
-            // Make sure there is still something to attack, and add the GetTargets action for the current fighter
-            if (fighter is Monster && heroes.Count > 0)
-            {
-                AddAction(new GetTargets(fighter, heroes));
-            }
-            else if (fighter is Hero && monsters.Count > 0)
-            {
-                AddAction(new GetTargets(fighter, monsters));
-            }
+            AddAction(new Turn(currentFighter));
 
             // Resolve all of the actions
-            CatchUpActions();
-            while (actions.Count > 0)
-            {
-                FightAction currentAction = actions[0];
-                ShowActions();
-                actions.RemoveAt(0);
-                if (currentAction.GetFighter() == null)
-                    continue;
-                pointer.transform.position = currentAction.GetFighter().transform.position;
-                if (order.Contains(currentAction.fighter) || dead.Contains(currentAction.fighter))
-                    currentAction.Do();
-                yield return new WaitForSeconds(fastForward ? currentAction.GetWaitTime() / 4f : currentAction.GetWaitTime());
-                CatchUpActions();
-                ShowActions();
-                
-            }
+            yield return StartCoroutine(PerformActions());
 
             // If they are still alive, move them to the end of the order
-            if (!dead.Contains(fighter))
+            if (!dead.Contains(currentFighter))
             {
-                order.Remove(fighter);
-                order.Add(fighter);
+                order.Remove(currentFighter);
+                order.Add(currentFighter);
             }
             
             yield return shortPause;
@@ -164,6 +143,27 @@ public class FightManager : MonoBehaviour
         // Clear the lists and close the menu
         FinishBattle();
         UIManager.GetInstance().CloseAllMenus();
+    }
+
+    private IEnumerator PerformActions()
+    {
+        CatchUpActions();
+
+        while (actions.Count > 0)
+        {
+            FightAction currentAction = actions[0];
+            ShowActions();
+            actions.RemoveAt(0);
+            // If the fighter is gone, or not in order or graveyard, this action is invalid
+            if (currentAction.fighter == null || (!order.Contains(currentAction.fighter) && !dead.Contains(currentAction.fighter)))
+                continue;
+            pointer.transform.position = currentAction.fighter.transform.position;
+            currentAction.Do();
+            yield return new WaitForSeconds(currentAction.GetWaitTime() / (fastForward ? 4f : 1f));
+            CatchUpActions();
+            ShowActions();
+        }
+        yield break;
     }
     
     public void AddMonster(MonsterBase monsterBase)
@@ -260,6 +260,7 @@ public class FightManager : MonoBehaviour
         return allies;
     }
     public List<Fighter> GetTeam(Fighter f) {return f.IsMonster() ? monsters : heroes;}
+    public List<Fighter> GetEnemies(Fighter f) {return f.IsMonster() ? heroes : monsters;}
 
     public List<Fighter> GetMonsters() {return monsters;}
     public List<Fighter> GetHeroes() {return heroes;}
@@ -276,7 +277,7 @@ public class FightManager : MonoBehaviour
 
 public abstract class FightAction
 {
-    public Fighter fighter;
+    public Fighter fighter {get; private set;}
     protected float waitTime;
 
     public FightAction(Fighter fighter) 
@@ -288,29 +289,46 @@ public abstract class FightAction
     public abstract void Do();
     protected void AddAction(FightAction a) {FightManager.GetInstance().AddAction(a);}
     public float GetWaitTime() {return waitTime;}
-    public Fighter GetFighter() {return fighter;}
+}
+
+public class Turn : FightAction
+{
+    public Turn(Fighter fighter) : base(fighter) {waitTime = 0f;}
+
+    public override void Do()
+    {
+        AddAction(new StartTurn(fighter));
+        AddAction(new GetTargets(fighter));
+        AddAction(new EndTurn(fighter));
+    }
+}
+
+public class StartTurn : FightAction
+{
+    public StartTurn(Fighter fighter) : base(fighter) {waitTime = 0f;}
+    public override void Do() {fighter.StartTurn();}
 }
 
 public class GetTargets : FightAction
 {
-    private List<Fighter> fighters;
-
-    public GetTargets(Fighter fighter, List<Fighter> fighters) : base(fighter)
-    {
-        this.fighters = fighters;
-        waitTime = 0f;
-    }
+    public GetTargets(Fighter fighter) : base(fighter) {waitTime = 0f;}
 
     public override void Do()
     {
-        if (!FightManager.GetInstance().GetFighters().Contains(fighter) || fighters.Count == 0)
+        List<Fighter> enemies = FightManager.GetInstance().GetEnemies(fighter);
+        if (!FightManager.GetInstance().GetFighters().Contains(fighter) || enemies.Count == 0)
             return;
-        
-        foreach (Fighter f in fighter.GetTargets(fighters))
+        foreach (Fighter f in fighter.GetTargets(enemies))
             AddAction(new Attack(fighter, f));
-        
     }
 }
+
+public class EndTurn : FightAction
+{
+    public EndTurn(Fighter fighter) : base(fighter) {waitTime = 0f;}
+    public override void Do() {fighter.EndTurn();}
+}
+
 
 public class Attack : FightAction
 {
@@ -336,10 +354,7 @@ public class TakeDamage : FightAction
 {
     private Damage attack;
 
-    public TakeDamage(Damage attack) : base(attack.Target)
-    {
-        this.attack = attack;
-    }
+    public TakeDamage(Damage attack) : base(attack.Target) {this.attack = attack;}
 
     public override void Do()
     {
@@ -353,10 +368,7 @@ public class Die : FightAction
 {
     private Damage attack;
 
-    public Die(Fighter fighter, Damage attack) : base(fighter)
-    {
-        this.attack = attack;
-    }
+    public Die(Fighter fighter, Damage attack) : base(fighter) {this.attack = attack;}
 
     public override void Do()
     {
@@ -369,15 +381,20 @@ public class Heal : FightAction
 {
     private float amount;
 
-    public Heal(Fighter fighter, float amount) : base(fighter)
-    {
-        this.amount = amount;
-    }
+    public Heal(Fighter fighter, float amount) : base(fighter) {this.amount = amount;}
+    public override void Do() {fighter.Heal(amount);}
+}
 
-    public override void Do()
-    {
-        fighter.Heal(amount);
-    }
+public class BattleStart : FightAction
+{
+    public BattleStart(Fighter fighter) : base(fighter) {waitTime = 0f;}
+    public override void Do() {fighter.StartBattle();}
+}
+
+public class BattleEnd : FightAction
+{
+    public BattleEnd(Fighter fighter) : base(fighter) {waitTime = 0f;}
+    public override void Do() {fighter.FinishBattle();}
 }
 
 public class RemoveAbility : FightAction
@@ -386,7 +403,6 @@ public class RemoveAbility : FightAction
 
     public RemoveAbility(Fighter fighter, FighterAbility ability) : base(fighter)
     {
-        this.fighter = fighter;
         this.ability = ability;
         waitTime = 0f;
     }
@@ -404,7 +420,6 @@ public class AddAbility : FightAction
 
     public AddAbility(Fighter fighter, FighterAbility ability) : base(fighter)
     {
-        this.fighter = fighter;
         this.ability = ability;
         waitTime = 0f;
     }
@@ -414,19 +429,6 @@ public class AddAbility : FightAction
         if (!fighter.GetAbilities().Contains(ability))
             fighter.GetAbilities().Add(ability);
         ability.OnAdded(fighter);
-    }
-}
-
-public class BattleStart : FightAction
-{
-    public BattleStart(Fighter fighter) : base(fighter)
-    {
-        waitTime = 0f;
-    }
-
-    public override void Do()
-    {
-        fighter.StartBattle();
     }
 }
 
@@ -440,10 +442,7 @@ public class PlayAnimation : FightAction
         waitTime = 0f;
     }
 
-    public override void Do()
-    {
-        fighter.PlayEffect(animationName);
-    }
+    public override void Do() {fighter.PlayEffect(animationName);}
 }
 
 public class ContinueAnimation : FightAction
@@ -458,35 +457,22 @@ public class ContinueAnimation : FightAction
         waitTime = 0f;
     }
 
-    public override void Do()
-    {
-        fighter.PlayEffect(animationName, effect);
-    }
+    public override void Do() {fighter.PlayEffect(animationName, effect);}
 }
 
 public class Morph : FightAction
 {
     FighterBase fighterBase;
 
-    public Morph(Fighter fighter, FighterBase fighterBase) : base(fighter)
-    {
-        this.fighterBase = fighterBase;
-    }
-
-    public override void Do()
-    {
-        fighter.SetType(fighterBase);
-    }
+    public Morph(Fighter fighter, FighterBase fighterBase) : base(fighter) {this.fighterBase = fighterBase;}
+    public override void Do() {fighter.SetBase(fighterBase);}
 }
 
 public class Summon : FightAction
 {
     MonsterBase monsterToSummon;
 
-    public Summon(Fighter fighter, MonsterBase summon) : base(fighter)
-    {
-        this.monsterToSummon = summon;
-    }
+    public Summon(Fighter fighter, MonsterBase summon) : base(fighter) {this.monsterToSummon = summon;}
 
     public override void Do()
     {
@@ -497,7 +483,7 @@ public class Summon : FightAction
 
 public class Revive : FightAction
 {
-    // TODO: There may be a bug with revivving, sometimes it seems like the wrong thing gets added to dead
+    // TODO: move this into Fighter?
     public Revive(Fighter fighter) : base(fighter) {}
 
     public override void Do()

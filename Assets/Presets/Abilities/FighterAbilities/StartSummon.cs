@@ -7,7 +7,7 @@ public class StartSummon : FighterAbility
 {
     [SerializeField] private MonsterBase summon;
 
-    public override void OnBattleStarted(Fighter f)
+    public override void BattleStart(Fighter f)
     {
         FightManager.GetInstance().AddAction(new Summon(f, summon));
     }

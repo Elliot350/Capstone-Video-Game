@@ -7,7 +7,8 @@ public class Opportunist : FighterAbility
 {
     public override void OnFighterDied(Fighter f, Fighter dead)
     {
-        FightManager.GetInstance().AddAction(new GetTargets(f, FightManager.GetInstance().GetHeroes()));
+        // Maybe change this to taking a whole turn?
+        FightManager.GetInstance().AddAction(new GetTargets(f));
     }
 
     public override string GetDescription()

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "StartMorph", menuName = "Abilities/Fighter/Start Morph")]
 public class StartMorph : FighterAbility
 {
-    public override void OnBattleStarted(Fighter f)
+    public override void BattleStart(Fighter f)
     {
         FightManager.GetInstance().AddAction(new Morph(
             f, 

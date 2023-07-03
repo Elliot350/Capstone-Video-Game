@@ -8,9 +8,9 @@ public class Hero : Fighter
     [SerializeField] private int gold;
 
     // Not sure if this will work
-    public override void SetType(FighterBase fighterBase)
+    public override void SetBase(FighterBase fighterBase)
     {
-        base.SetType(fighterBase);
+        base.SetBase(fighterBase);
         if (fighterBase is HeroBase)
         {
             HeroBase temp = (HeroBase) fighterBase;
