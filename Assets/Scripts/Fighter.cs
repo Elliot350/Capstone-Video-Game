@@ -39,7 +39,7 @@ public class Fighter : MonoBehaviour
     protected bool isBoss;
     protected Room room;
 
-
+    // Might change this in the future to Instantiate the fighterBase as well, not sure how well that will work
     public virtual void SetBase(FighterBase fighterBase)
     {
         this.fighterType = fighterBase;
@@ -47,7 +47,9 @@ public class Fighter : MonoBehaviour
         maxHealth = fighterBase.GetMaxHealth();
         health = maxHealth;
         damage = fighterBase.GetDamage();
-        abilities = new List<FighterAbility>(fighterBase.GetAbilities());
+        abilities = new List<FighterAbility>();
+        foreach (FighterAbility a in fighterBase.GetAbilities())
+            abilities.Add(Instantiate<FighterAbility>(a));
         tags = new List<Tag>(fighterBase.GetTags());
         slider.minValue = 0f;
         slider.maxValue = maxHealth;
@@ -257,51 +259,27 @@ public class Fighter : MonoBehaviour
 
 public class Damage
 {
-    private Fighter source;
-    private Fighter target;
-    private float damage;
-    private float damageMultiplier;
-    private float damageModifier;
-
-    public Damage(Fighter target, float damage) : this(null, target, damage, 1f, 0f) {}
-    public Damage(Fighter source, Fighter target, float damage) : this(source, target, damage, 1f, 0f) {}
-    public Damage(Fighter newTarget, Damage damage) : this(damage.Source, newTarget, damage.RawDamage, damage.Multiplier, damage.Modifier) {}
+    public Fighter Source {get; private set;}
+    public Fighter Target {get; private set;}
+    public float BaseDamage {get; set;}
+    public float DamageMultiplier {get; set;}
+    public float DamageModifier {get; set;}
+    public float CalculatedDamage 
+    {
+        get {return (float) Math.Round(BaseDamage * DamageMultiplier + DamageModifier, 2);}
+    }
 
     public Damage(Fighter source, Fighter target, float damage, float damageMultiplier, float damageModifier)
     {
-        this.source = source;
-        this.target = target;
-        this.damage = damage;
-        this.damageMultiplier = damageMultiplier;
-        this.damageModifier = damageModifier;
+        Source = source;
+        Target = target;
+        BaseDamage = damage;
+        DamageMultiplier = damageMultiplier;
+        DamageModifier = damageModifier;
     }
+    
+    public Damage(Fighter target, float damage) : this(null, target, damage, 1f, 0f) {}
+    public Damage(Fighter source, Fighter target, float damage) : this(source, target, damage, 1f, 0f) {}
+    public Damage(Fighter newTarget, Damage damage) : this(damage.Source, newTarget, damage.BaseDamage, damage.DamageMultiplier, damage.DamageModifier) {}
 
-    public Fighter Source
-    {
-        get {return source;}
-    }
-    public Fighter Target
-    {
-        get {return target;}
-    }
-
-    public float RawDamage
-    {
-        get {return damage;}
-        set {damage = value;}
-    }
-    public float Multiplier
-    {
-        get {return damageMultiplier;}
-        set {damageMultiplier = value;}
-    }
-    public float Modifier
-    {
-        get {return damageModifier;}
-        set {damageModifier = value;}
-    }
-    public float CalculatedDamage
-    {
-        get {return (float) Math.Round(damage * damageMultiplier + damageModifier, 2);}
-    }
 }

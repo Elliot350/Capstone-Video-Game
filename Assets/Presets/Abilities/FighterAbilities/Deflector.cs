@@ -23,8 +23,8 @@ public class Deflector : FighterAbility
         }
         
         Damage damage = new Damage(allies[Random.Range(0, allies.Count)], attack);
-        attack.RawDamage = 0;
-        attack.Modifier = 0;
+        attack.BaseDamage = 0;
+        attack.DamageModifier = 0;
         Debug.Log($"Shwang!");
         FightManager.GetInstance().AddAction(new TakeDamage(damage));
     }
