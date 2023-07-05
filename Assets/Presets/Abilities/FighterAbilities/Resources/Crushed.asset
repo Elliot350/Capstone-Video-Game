@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acc2a779182684931a6a6d959b83470d, type: 3}
+  m_Name: Crushed
+  m_EditorClassIdentifier: 
+  abilityName: Crushed
+  description: 'Attack: Deal {1} less damage; Remove this ability after {0} attack'
+  animationTrigger: 
+  length: 1
+  damageReduction: 3

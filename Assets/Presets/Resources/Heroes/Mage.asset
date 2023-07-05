@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: Mage
   maxHealth: 5
   damage: 2
-  speed: 2
+  speed: 1
   abilities:
   - {fileID: 11400000, guid: 5aaa337d9330c4ff3b0748400d80088f, type: 2}
   tags:

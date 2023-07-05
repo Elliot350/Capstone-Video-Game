@@ -9,7 +9,8 @@ public class ReturnDamage : FighterAbility
 
     public override void OnTakenDamage(Damage attack)
     {
-        if (attack.Source == null)
+        // If there isn't a source or the attacked is dead
+        if (attack.Source == null || FightManager.GetInstance().GetDead().Contains(attack.Source))
             return;
         attack.Target.PlayEffect(animationTrigger);
         FightManager.GetInstance().AddAction(new TakeDamage(new Damage(attack.Target, attack.Source, returnDamage)));

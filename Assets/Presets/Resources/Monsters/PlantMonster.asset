@@ -16,8 +16,7 @@ MonoBehaviour:
   maxHealth: 10
   damage: 2
   speed: 1
-  abilities:
-  - {fileID: 11400000, guid: 1a5b56ab101a044aba5ca685b7a47a75, type: 2}
+  abilities: []
   tags:
   - {fileID: 11400000, guid: bf7c8f5fd4bfc644ab4fe00e4d030fe6, type: 2}
   - {fileID: 11400000, guid: 98971a9458ee42143aea2c92b351e18b, type: 2}

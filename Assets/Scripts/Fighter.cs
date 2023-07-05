@@ -88,9 +88,19 @@ public class Fighter : MonoBehaviour
         // healParticles.Play();
     }
 
+    public virtual void IncreaseMaxHealth(float amount)
+    {
+        if (amount <= 0) return;
+        maxHealth += amount;
+        health += amount;
+        ActivateAbilities((a) => a.OnHeal(this));
+        SetHealthBar();
+    }
+
     private void SetHealthBar()
     {
         health = Mathf.Clamp(health, 0, maxHealth);
+        slider.maxValue = maxHealth;
         slider.value = health;
         healthBarText.text = $"{health}/{maxHealth}";
     }

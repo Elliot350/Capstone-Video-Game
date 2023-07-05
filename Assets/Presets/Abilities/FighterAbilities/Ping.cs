@@ -1,0 +1,48 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "Ping", menuName = "Abilities/Fighter/Ping")]
+public class Ping : FighterAbility
+{
+    private enum Trigger {
+        START_BATTLE,
+        END_BATTLE,
+        START_TURN,
+        END_TURN,
+        ATTACK,
+        DAMAGED,
+        DEATH,
+        FIGHTER_DIED,
+        HEALED
+    }
+    [SerializeField] private float damage;
+    [SerializeField] private int numOfTriggers;
+    // Maybe make this a list so there can be multiple triggers?
+    [SerializeField] private Trigger trigger;
+
+    private void Activate(Fighter thisFighter)
+    {
+        List<Fighter> enemies = FightManager.GetInstance().GetEnemies(thisFighter);
+        for (int i = 0; i < numOfTriggers; i++)
+        {
+            Damage attack = new Damage(thisFighter, enemies[Random.Range(0, enemies.Count)], damage);
+            FightManager.GetInstance().AddAction(new TakeDamage(attack));
+        }
+    }
+
+    public override void BattleStart(Fighter f) {if (trigger == Trigger.START_BATTLE) Activate(f);}
+    public override void BattleEnd(Fighter f) {if (trigger == Trigger.END_BATTLE) Activate(f);}
+    public override void TurnStart(Fighter f) {if (trigger == Trigger.START_TURN) Activate(f);}
+    public override void TurnEnd(Fighter f) {if (trigger == Trigger.END_TURN) Activate(f);}
+    public override void OnAttack(Damage attack) {if (trigger == Trigger.ATTACK) Activate(attack.Source);}
+    public override void OnTakenDamage(Damage attack) {if (trigger == Trigger.DAMAGED) Activate(attack.Target);}
+    public override void OnDeath(Damage attack) {if (trigger == Trigger.DEATH) Activate(attack.Target);}
+    public override void OnFighterDied(Fighter f, Fighter dead) {if (trigger == Trigger.FIGHTER_DIED) Activate(f);}
+    public override void OnHeal(Fighter f) {if (trigger == Trigger.HEALED) Activate(f);}
+
+    public override string GetDescription()
+    {
+        return string.Format(description, damage, numOfTriggers, trigger);
+    }
+}

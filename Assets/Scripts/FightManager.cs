@@ -483,6 +483,24 @@ public class Summon : FightAction
     }
 }
 
+public class BuffMonster : FightAction
+{
+    private float _healthAmount;
+    private float _damageAmount;
+
+    public BuffMonster(Fighter fighter, float healthAmount, float damageAmount) : base(fighter)
+    {
+        _healthAmount = healthAmount;
+        _damageAmount = damageAmount;
+    }
+
+    public override void Do()
+    {
+        fighter.IncreaseMaxHealth(_healthAmount);
+        fighter.AddDamage(_damageAmount);
+    }
+}
+
 public class Revive : FightAction
 {
     // TODO: move this into Fighter?
