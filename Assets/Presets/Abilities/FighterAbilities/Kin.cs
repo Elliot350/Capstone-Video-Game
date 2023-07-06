@@ -18,14 +18,14 @@ public class Kin : FighterAbility
         return count;
     }
 
-    public override float SelfOngoingDamage(Fighter f)
+    public override void CalculateDamage(Fighter f)
     {
-        return GetCount(f) * damageGain;
+        f.IncreaseDamageModifier(GetCount(f) * damageGain);
     }
 
-    public override float SelfOngoingMaxHealth(Fighter f)
+    public override void CalculateMaxHealth(Fighter f)
     {
-        return GetCount(f) * healthGain;
+        f.IncreaseMaxHealthModifier(GetCount(f) * healthGain);
     }
 
     public override string GetDescription()

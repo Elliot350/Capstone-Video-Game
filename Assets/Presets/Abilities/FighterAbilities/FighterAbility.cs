@@ -19,10 +19,8 @@ public abstract class FighterAbility : Ability
     public virtual void BattleEnd(Fighter f) {}
     
     public virtual bool CanAddMonster(MonsterBase m, Room r) {return true;}
-    public virtual float SelfOngoingDamage(Fighter f) {return 0f;}
-    public virtual float AllyOngoingDamage(Fighter f, Fighter ally) {return 0f;}
-    public virtual float SelfOngoingMaxHealth(Fighter f) {return 0f;}
-    public virtual float AllyOngoingMaxHealth(Fighter f, Fighter ally) {return 0f;}
+    public virtual void CalculateDamage(Fighter f) {}
+    public virtual void CalculateMaxHealth(Fighter f) {}
     public virtual bool ModifiesTargets() {return false;}
     public virtual List<Fighter> DecideTargets(List<Fighter> fighters) {return new List<Fighter>();}
 }

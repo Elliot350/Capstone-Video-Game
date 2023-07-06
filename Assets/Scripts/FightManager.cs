@@ -151,6 +151,7 @@ public class FightManager : MonoBehaviour
 
         while (actions.Count > 0)
         {
+            CalculateStats();
             FightAction currentAction = actions[0];
             ShowActions();
             actions.RemoveAt(0);
@@ -159,6 +160,7 @@ public class FightManager : MonoBehaviour
                 continue;
             pointer.transform.position = currentAction.fighter.transform.position;
             currentAction.Do();
+            CalculateStats();
             yield return new WaitForSeconds(currentAction.GetWaitTime() / (fastForward ? 4f : 1f));
             CatchUpActions();
             ShowActions();
@@ -190,6 +192,14 @@ public class FightManager : MonoBehaviour
         // else
         //     actions.Add(action);
         actionsToAdd.Add(action);
+    }
+
+    public void CalculateStats()
+    {
+        foreach (Fighter f in order)
+            f.ResetStats();     
+        foreach (Fighter f in order)
+            f.CalculateStats();
     }
 
     private void CatchUpActions()
@@ -343,7 +353,7 @@ public class Attack : FightAction
 
     public override void Do()
     {
-        float attackDamage = fighter.CalculateDamage();
+        float attackDamage = fighter.GetDamage();
         Damage attack = new Damage(fighter, target, attackDamage);
         foreach (FighterAbility a in fighter.GetAbilities())
             a.OnAttack(attack);

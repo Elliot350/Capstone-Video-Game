@@ -66,20 +66,16 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             a.FightStarted(monsters, heroes);
     }
 
-    public float OngoingDamage(Fighter f)
+    public void CalculateDamage(Fighter f)
     {
-        float modifier = 0f;
         foreach (RoomAbility a in abilities)
-            modifier += a.GetDamageModifier(f);
-        return modifier;
+            a.CalculateDamage(f);
     }
 
-    public float OngoingMaxHealth(Fighter f)
+    public void CalculateMaxHealth(Fighter f)
     {
-        float modifier = 0f;
         foreach (RoomAbility a in abilities)
-            modifier += a.GetHealthModifier(f);
-        return modifier;
+            a.CalculateMaxHealth(f);
     }
 
     public virtual bool CanAddMonster(MonsterBase monster)

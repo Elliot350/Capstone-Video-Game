@@ -8,14 +8,16 @@ public class Attunement : RoomAbility
     public List<Tag> tags;
     public float damageMultiplier;
 
-    public override float GetDamageModifier(Fighter f)
+    public override void CalculateDamage(Fighter f)
     {
         foreach (Tag t in tags)
         {
             if (f.HasTag(t))
-                return damageMultiplier;
+            {
+                f.IncreaseDamageModifier(damageMultiplier);
+                return;
+            }
         }
-        return 0f;
     }
 
     public override string GetDescription()

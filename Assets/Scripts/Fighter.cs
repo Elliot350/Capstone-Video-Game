@@ -11,14 +11,18 @@ public class Fighter : MonoBehaviour
     
     [Header("Stats")]
     [SerializeField] protected string displayName;
-    [SerializeField] protected float baseMaxHealth;
+    // Current max health (including permanant changes)
+    [SerializeField] protected float maxHealth;
+    // Temporary modifier to max health (this can change from the fight changing)
     [SerializeField] protected float maxHealthModifier;
-    [SerializeField] protected float ongoingMaxHealth;
+    private float previousMaxHealth;
+    // Current health the fighter has
     [SerializeField] protected float health;
-    [SerializeField] protected float healthModifier;
-    [SerializeField] protected float baseDamage;
-    [SerializeField] protected float ongoingDamage;
+    // Current damage (including permanant changes)
+    [SerializeField] protected float damage;
+    // Temporary modifier to damage (this can change from the fight changing)
     [SerializeField] protected float damageModifier;
+    private float previousDamage;
 
     [Space(10)]
     [Header("Abilities")]
@@ -50,15 +54,15 @@ public class Fighter : MonoBehaviour
     {
         this.fighterType = fighterBase;
         displayName = fighterBase.GetName();
-        baseMaxHealth = fighterBase.GetMaxHealth();
-        health = baseMaxHealth;
-        baseDamage = fighterBase.GetDamage();
+        maxHealth = fighterBase.GetMaxHealth();
+        health = maxHealth;
+        damage = fighterBase.GetDamage();
         abilities = new List<FighterAbility>();
         foreach (FighterAbility a in fighterBase.GetAbilities())
             abilities.Add(Instantiate<FighterAbility>(a));
         tags = new List<Tag>(fighterBase.GetTags());
         slider.minValue = 0f;
-        slider.maxValue = baseMaxHealth;
+        slider.maxValue = maxHealth;
         SetHealthBar();
         image.sprite = fighterBase.GetSprite();
         alertImage.gameObject.SetActive(false);
@@ -106,7 +110,7 @@ public class Fighter : MonoBehaviour
 
     private void SetHealthBar()
     {
-        float tmp = CalculateMaxHealth();
+        float tmp = GetMaxHealth();
         health = Mathf.Clamp(health, 0, tmp);
         slider.maxValue = tmp;
         slider.value = health;
@@ -159,55 +163,49 @@ public class Fighter : MonoBehaviour
             action(a);
     }
 
-    public float CalculateDamage()
+    public void ResetStats()
     {
-        ongoingDamage = CalculateOngoingDamage();
-        damageText.text = $"{baseDamage} + {ongoingDamage} + {damageModifier}";
-        return baseDamage + ongoingDamage + damageModifier;
+        previousDamage = damage + damageModifier;
+        previousMaxHealth = maxHealth + maxHealthModifier;
+        damageModifier = 0f;
+        maxHealthModifier = 0f;
     }
 
-    protected float CalculateOngoingDamage()
+    // This method assumes that this fighter and all other fighters have has their modifiers set to 0
+    public void CalculateStats()
     {
-        float modifier = room != null ? room.OngoingDamage(this) : 0f;
-        foreach (FighterAbility a in abilities)
-            modifier += a.SelfOngoingDamage(this);
-        foreach (Fighter f in FightManager.GetInstance().GetFighters())
-            modifier += f.CalculateAllyOngoingDamage(this);
-        return Mathf.Max(modifier, 0);
+        CalculateDamage();
+        CalculateMaxHealth();
+        if (GetMaxHealth() > previousMaxHealth)
+        {
+            health += GetMaxHealth() - previousMaxHealth;
+        }
+        SetHealthBar();
     }
 
-    public float CalculateAllyOngoingDamage(Fighter f)
+    private void CalculateDamage()
     {
-        float modifier = 0f;
-        foreach (FighterAbility a in abilities)
-            modifier += a.AllyOngoingDamage(this, f);
-        return modifier;
+        if (room != null)
+            room.CalculateDamage(this);
+        ActivateAbilities((a) => a.CalculateDamage(this));
+        damageText.text = $"{damage} + {damageModifier}\n{maxHealth} + {maxHealthModifier}";
     }
 
-
-    private float CalculateMaxHealth()
+    public void IncreaseDamageModifier(float amount)
     {
-        
-        ongoingMaxHealth = CalculateTemporaryHealthModifier();
-        return baseMaxHealth + ongoingMaxHealth + maxHealthModifier;
+        damageModifier += amount;
     }
 
-    private float CalculateTemporaryHealthModifier()
+    private void CalculateMaxHealth()
     {
-        float modifier = room != null ? room.OngoingMaxHealth(this) : 0f;
-        foreach (FighterAbility a in abilities)
-            modifier += a.SelfOngoingMaxHealth(this);
-        foreach (Fighter f in FightManager.GetInstance().GetFighters())
-            modifier += f.CalculateAllyOngoingMaxHealth(this);
-        return modifier;
+        if (room != null)
+            room.CalculateMaxHealth(this);
+        ActivateAbilities((a) => a.CalculateMaxHealth(this));
     }
 
-    public float CalculateAllyOngoingMaxHealth(Fighter f)
+    public void IncreaseMaxHealthModifier(float amount)
     {
-        float modifier = 0f;
-        foreach (FighterAbility a in abilities)
-            modifier += a.AllyOngoingMaxHealth(this, f);
-        return modifier;
+        maxHealthModifier += amount;
     }
 
     // TODO: Make a better way to do this
@@ -300,16 +298,18 @@ public class Fighter : MonoBehaviour
     }
 
     public FighterBase GetFighterType() {return fighterType;}
-    public virtual Sprite GetSprite() {return image.sprite;}
-    public Room GetRoom() {return room;}
     public string GetName() {return displayName;}
-    public float GetHealth() {return health;}
-    public float GetMaxHealth() {return CalculateMaxHealth();}
-    public float GetDamage() {return baseDamage;}
-    public List<Tag> GetTags() {return tags;}
-    public virtual float GetSpeed() {return fighterType.GetSpeed();}
     public string GetDescription() {return Ability.GetDescriptionFromList(abilities);}
+    public float GetBaseMaxHealth() {return fighterType.GetMaxHealth();}
+    public float GetMaxHealth() {return maxHealth + maxHealthModifier;}
+    public float GetHealth() {return health;}
+    public float GetDamage() {return damage + damageModifier;}
+    public float GetBaseDamage() {return fighterType.GetDamage();}
     public List<FighterAbility> GetAbilities() {return abilities;}
+    public List<Tag> GetTags() {return tags;}
+    public virtual Sprite GetSprite() {return image.sprite;}
+    public virtual float GetSpeed() {return fighterType.GetSpeed();}
+    public Room GetRoom() {return room;}
 }
 
 public class Damage
