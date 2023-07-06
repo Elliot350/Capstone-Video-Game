@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ca0d715b18c54e2dad34031a39830c8, type: 3}
   m_Name: BugKin
   m_EditorClassIdentifier: 
-  abilityName: 
-  description: 
+  abilityName: Bug Kin
+  description: Gain +{1}/+{2} per other monster with {0}
   animationTrigger: 
-  tag: {fileID: 0}
-  damageGain: 0
-  healthGain: 0
+  tag: {fileID: 11400000, guid: 24eee85445c114cf480333deb6aeb7c2, type: 2}
+  damageGain: 1
+  healthGain: 1
