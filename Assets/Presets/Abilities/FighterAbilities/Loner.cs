@@ -7,7 +7,7 @@ public class Loner : FighterAbility
 {
     [SerializeField] private float damagePerSpace;
 
-    public override float CalculateSelfModifier(Fighter f)
+    public override float SelfOngoingDamage(Fighter f)
     {
         return (f.GetRoom().GetMonsterCapacity() - FightManager.GetInstance().GetMonsters().Count) * damagePerSpace;
     }

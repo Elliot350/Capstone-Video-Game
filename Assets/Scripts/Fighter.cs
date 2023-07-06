@@ -13,11 +13,11 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected string displayName;
     [SerializeField] protected float baseMaxHealth;
     [SerializeField] protected float maxHealthModifier;
-    [SerializeField] protected float maxHealthBuff;
+    [SerializeField] protected float ongoingMaxHealth;
     [SerializeField] protected float health;
     [SerializeField] protected float healthModifier;
     [SerializeField] protected float baseDamage;
-    [SerializeField] protected float damageBuff;
+    [SerializeField] protected float ongoingDamage;
     [SerializeField] protected float damageModifier;
 
     [Space(10)]
@@ -113,19 +113,6 @@ public class Fighter : MonoBehaviour
         healthBarText.text = $"{health}/{tmp}";
     }
 
-    private float CalculateMaxHealth()
-    {
-        CalculateTemporaryHealthModifier();
-        return baseMaxHealth + maxHealthBuff + maxHealthModifier;
-    }
-
-    private void CalculateTemporaryHealthModifier()
-    {
-        float modifier = 0f;
-        foreach (FighterAbility a in abilities)
-            modifier += a.CalculateSelfHealthModifier(this);
-        maxHealthBuff = modifier;
-    }
 
     public virtual void Die(Damage attack)
     {
@@ -174,26 +161,52 @@ public class Fighter : MonoBehaviour
 
     public float CalculateDamage()
     {
-        damageBuff = CalculateTemporaryModifier();
-        damageText.text = $"{baseDamage} + {damageBuff} + {damageModifier}";
-        return baseDamage + damageBuff + damageModifier;
+        ongoingDamage = CalculateOngoingDamage();
+        damageText.text = $"{baseDamage} + {ongoingDamage} + {damageModifier}";
+        return baseDamage + ongoingDamage + damageModifier;
     }
 
-    protected float CalculateTemporaryModifier()
+    protected float CalculateOngoingDamage()
     {
-        float modifier = room.GetDamageModifier(this);
+        float modifier = room.OngoingDamage(this);
         foreach (FighterAbility a in abilities)
-            modifier += a.CalculateSelfModifier(this);
+            modifier += a.SelfOngoingDamage(this);
         foreach (Fighter f in FightManager.GetInstance().GetFighters())
-            modifier += f.CalculateAllyModifier(this);
+            modifier += f.CalculateAllyOngoingDamage(this);
         return Mathf.Max(modifier, 0);
     }
 
-    public float CalculateAllyModifier(Fighter f)
+    public float CalculateAllyOngoingDamage(Fighter f)
     {
         float modifier = 0f;
         foreach (FighterAbility a in abilities)
-            modifier += a.CalculateAllyModifier(this, f);
+            modifier += a.AllyOngoingDamage(this, f);
+        return modifier;
+    }
+
+
+    private float CalculateMaxHealth()
+    {
+        
+        ongoingMaxHealth = CalculateTemporaryHealthModifier();
+        return baseMaxHealth + ongoingMaxHealth + maxHealthModifier;
+    }
+
+    private float CalculateTemporaryHealthModifier()
+    {
+        float modifier = room.OngoingMaxHealth(this);
+        foreach (FighterAbility a in abilities)
+            modifier += a.SelfOngoingMaxHealth(this);
+        foreach (Fighter f in FightManager.GetInstance().GetFighters())
+            modifier += f.CalculateAllyOngoingMaxHealth(this);
+        return modifier;
+    }
+
+    public float CalculateAllyOngoingMaxHealth(Fighter f)
+    {
+        float modifier = 0f;
+        foreach (FighterAbility a in abilities)
+            modifier += a.AllyOngoingMaxHealth(this, f);
         return modifier;
     }
 

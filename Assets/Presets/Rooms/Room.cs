@@ -66,7 +66,7 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             a.FightStarted(monsters, heroes);
     }
 
-    public float GetDamageModifier(Fighter f)
+    public float OngoingDamage(Fighter f)
     {
         float modifier = 0f;
         foreach (RoomAbility a in abilities)
@@ -74,7 +74,7 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         return modifier;
     }
 
-    public float GetHealthModifier(Fighter f)
+    public float OngoingMaxHealth(Fighter f)
     {
         float modifier = 0f;
         foreach (RoomAbility a in abilities)
