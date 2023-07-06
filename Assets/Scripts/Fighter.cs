@@ -65,7 +65,7 @@ public class Fighter : MonoBehaviour
         SetTypes();
     }
 
-    public void SetType(FighterBase fighterBase, Room room)
+    public void SetBase(FighterBase fighterBase, Room room)
     {
         this.room = room;
         SetBase(fighterBase);
@@ -168,7 +168,7 @@ public class Fighter : MonoBehaviour
 
     protected float CalculateOngoingDamage()
     {
-        float modifier = room.OngoingDamage(this);
+        float modifier = room != null ? room.OngoingDamage(this) : 0f;
         foreach (FighterAbility a in abilities)
             modifier += a.SelfOngoingDamage(this);
         foreach (Fighter f in FightManager.GetInstance().GetFighters())
@@ -194,7 +194,7 @@ public class Fighter : MonoBehaviour
 
     private float CalculateTemporaryHealthModifier()
     {
-        float modifier = room.OngoingMaxHealth(this);
+        float modifier = room != null ? room.OngoingMaxHealth(this) : 0f;
         foreach (FighterAbility a in abilities)
             modifier += a.SelfOngoingMaxHealth(this);
         foreach (Fighter f in FightManager.GetInstance().GetFighters())

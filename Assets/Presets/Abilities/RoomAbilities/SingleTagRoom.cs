@@ -14,6 +14,6 @@ public class SingleTagRoom : RoomAbility
 
     public override string GetDescription()
     {
-        return string.Format(description, singleTag.FormatTag());
+        return string.Format(description, singleTag.Format());
     }
 }

@@ -8,16 +8,16 @@ public class Tag : ScriptableObject
     public string Name => name;
     public Color color = Color.white;
 
-    public string FormatTag() 
+    public string Format() 
     {
         return "<color=#" + ColorUtility.ToHtmlStringRGBA(color) + ">" + name + "</color>";
     }
 
     public static string FormatTags(List<Tag> tags)
     {
-        string formattedTags = tags[0].FormatTag();
+        string formattedTags = tags[0].Format();
         for (int i = 1; i < tags.Count; i++)
-            formattedTags += ", " + tags[i].FormatTag();
+            formattedTags += ", " + tags[i].Format();
         return formattedTags;
     }
 }

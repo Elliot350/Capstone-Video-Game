@@ -171,7 +171,7 @@ public class FightManager : MonoBehaviour
         Monster monster = Instantiate(monsterPrefab, monsterHolder.transform).GetComponent<Monster>();
         // MonsterBase newMonster = Instantiate<MonsterBase>(monsterBase, monsterHolder.transform);
         // Debug.Log(newMonster);
-        monster.SetType(monsterBase, room);
+        monster.SetBase(monsterBase, room);
         
         order.Add(monster);
         monsters.Add(monster);

@@ -173,7 +173,7 @@ public class PartyManager : MonoBehaviour
     public void CreateHero(HeroBase heroBase)
     {
         Hero heroTemp = Instantiate(heroPrefab, FightManager.GetInstance().GetHeroHolder().transform);
-        heroTemp.SetType(heroBase, null);
+        heroTemp.SetBase(heroBase, null);
         party.AddHero(heroTemp);
         // party.AddHero(heroBase);
     }
