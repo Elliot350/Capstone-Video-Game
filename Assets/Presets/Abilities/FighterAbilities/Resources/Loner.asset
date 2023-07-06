@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Loner
   m_EditorClassIdentifier: 
   abilityName: Loner
-  description: +{0}% damage per empty space
-  damagePerSpace: 0.1
+  description: +{0} damage per empty space
+  animationTrigger: 
+  damagePerSpace: 0.5

@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: SpiderLord
   m_EditorClassIdentifier: 
   displayName: Spider Lord
+  sprite: {fileID: 21300000, guid: 421ed9c21c61783448ae028e6402c04a, type: 3}
+  cost: 0
+  baseDamage: 1
   maxHealth: 16
-  damage: 1
   speed: 0.5
   abilities:
   - {fileID: 11400000, guid: 731eb462e48320e4cbcc25cb175fc8e8, type: 2}
@@ -23,7 +25,5 @@ MonoBehaviour:
   tags:
   - {fileID: 11400000, guid: b89813c7c8e20dc4991d33589a527eb1, type: 2}
   - {fileID: 11400000, guid: 24eee85445c114cf480333deb6aeb7c2, type: 2}
-  sprite: {fileID: 21300000, guid: 421ed9c21c61783448ae028e6402c04a, type: 3}
-  cost: 0
   needsAll: 0
   requirements: []

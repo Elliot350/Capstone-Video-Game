@@ -25,8 +25,8 @@ public class Hero : Fighter
 
     protected override void SetTypes()
     {
-        isMonster = false;
-        isBoss = false;
+        IsMonster = false;
+        IsBoss = false;
     }
 
     public override void Die(Damage attack)

@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Frog
   m_EditorClassIdentifier: 
   displayName: Frog
+  sprite: {fileID: 281044659, guid: f750d128745a840d9a3570daeaad7e31, type: 3}
+  cost: 10
+  baseDamage: 5
   maxHealth: 5
-  damage: 5
   speed: 1
   abilities: []
   tags:
   - {fileID: 11400000, guid: 1d8a81a32bde943daaaca82ceddd2d43, type: 2}
-  sprite: {fileID: 281044659, guid: f750d128745a840d9a3570daeaad7e31, type: 3}
-  cost: 10
   needsAll: 0
   requirements: []

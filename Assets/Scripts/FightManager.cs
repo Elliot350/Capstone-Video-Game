@@ -261,8 +261,8 @@ public class FightManager : MonoBehaviour
         allies.Remove(f);
         return allies;
     }
-    public List<Fighter> GetTeam(Fighter f) {return f.IsMonster() ? monsters : heroes;}
-    public List<Fighter> GetEnemies(Fighter f) {return f.IsMonster() ? heroes : monsters;}
+    public List<Fighter> GetTeam(Fighter f) {return f.IsMonster ? monsters : heroes;}
+    public List<Fighter> GetEnemies(Fighter f) {return f.IsMonster ? heroes : monsters;}
 
     public List<Fighter> GetMonsters() {return monsters;}
     public List<Fighter> GetHeroes() {return heroes;}
@@ -360,6 +360,7 @@ public class TakeDamage : FightAction
 
     public override void Do()
     {
+        if (FightManager.GetInstance().GetDead().Contains(attack.Target)) return;
         fighter.TakeDamage(attack);
         if (fighter.GetHealth() <= 0)
             AddAction(new Die(fighter, attack));
@@ -514,7 +515,7 @@ public class Revive : FightAction
         
         manager.GetDead().Remove(fighter);
         manager.GetFighters().Add(fighter);
-        if (fighter.IsMonster())
+        if (fighter.IsMonster)
         {
             manager.GetMonsters().Add(fighter);
             fighter.transform.SetParent(manager.GetMonsterHolder().transform);
@@ -524,6 +525,7 @@ public class Revive : FightAction
             manager.GetHeroes().Add(fighter);
             fighter.transform.SetParent(manager.GetHeroHolder().transform);
         }
+        fighter.IsDead = false;
         fighter.ReviveAnimation();
         AddAction(new Heal(fighter, fighter.GetMaxHealth() / 2));
     }

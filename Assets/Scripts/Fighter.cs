@@ -11,17 +11,21 @@ public class Fighter : MonoBehaviour
     
     [Header("Stats")]
     [SerializeField] protected string displayName;
-    [SerializeField] protected float maxHealth;
+    [SerializeField] protected float baseMaxHealth;
+    [SerializeField] protected float maxHealthModifier;
+    [SerializeField] protected float maxHealthBuff;
     [SerializeField] protected float health;
-    [SerializeField] protected float healthMultiplier = 1f;
-    [SerializeField] protected float damage;
-    [SerializeField] protected float damageMultiplier = 1f;
-    [SerializeField] protected float damageModifier = 0f;
+    [SerializeField] protected float healthModifier;
+    [SerializeField] protected float baseDamage;
+    [SerializeField] protected float damageBuff;
+    [SerializeField] protected float damageModifier;
 
+    [Space(10)]
     [Header("Abilities")]
     [SerializeField] protected List<FighterAbility> abilities;
     [SerializeField] protected List<Tag> tags;
 
+    [Space(10)]
     [Header("UI")]
     [SerializeField] protected Slider slider;
     [SerializeField] protected TextMeshProUGUI healthBarText;
@@ -32,11 +36,13 @@ public class Fighter : MonoBehaviour
     private List<Effect> effects = new List<Effect>();
     [SerializeField] protected ParticleSystem healParticles;
 
+    [Space(10)]
     [Header("Debug Stuff")]
     [SerializeField] private TextMeshProUGUI damageText;
     
-    protected bool isMonster;
-    protected bool isBoss;
+    public bool IsMonster;
+    public bool IsBoss;
+    public bool IsDead;
     protected Room room;
 
     // Might change this in the future to Instantiate the fighterBase as well, not sure how well that will work
@@ -44,15 +50,15 @@ public class Fighter : MonoBehaviour
     {
         this.fighterType = fighterBase;
         displayName = fighterBase.GetName();
-        maxHealth = fighterBase.GetMaxHealth();
-        health = maxHealth;
-        damage = fighterBase.GetDamage();
+        baseMaxHealth = fighterBase.GetMaxHealth();
+        health = baseMaxHealth;
+        baseDamage = fighterBase.GetDamage();
         abilities = new List<FighterAbility>();
         foreach (FighterAbility a in fighterBase.GetAbilities())
             abilities.Add(Instantiate<FighterAbility>(a));
         tags = new List<Tag>(fighterBase.GetTags());
         slider.minValue = 0f;
-        slider.maxValue = maxHealth;
+        slider.maxValue = baseMaxHealth;
         SetHealthBar();
         image.sprite = fighterBase.GetSprite();
         alertImage.gameObject.SetActive(false);
@@ -72,6 +78,7 @@ public class Fighter : MonoBehaviour
 
     public virtual void TakeDamage(Damage attack)
     {
+        Debug.Log($"Taking damage for {attack.CalculatedDamage}");
         ActivateAbilities((a) => a.OnTakenDamage(attack));
         if (attack.CalculatedDamage <= 0)
             return;
@@ -91,7 +98,7 @@ public class Fighter : MonoBehaviour
     public virtual void IncreaseMaxHealth(float amount)
     {
         if (amount <= 0) return;
-        maxHealth += amount;
+        maxHealthModifier += amount;
         health += amount;
         ActivateAbilities((a) => a.OnHeal(this));
         SetHealthBar();
@@ -99,10 +106,25 @@ public class Fighter : MonoBehaviour
 
     private void SetHealthBar()
     {
-        health = Mathf.Clamp(health, 0, maxHealth);
-        slider.maxValue = maxHealth;
+        float tmp = CalculateMaxHealth();
+        health = Mathf.Clamp(health, 0, tmp);
+        slider.maxValue = tmp;
         slider.value = health;
-        healthBarText.text = $"{health}/{maxHealth}";
+        healthBarText.text = $"{health}/{tmp}";
+    }
+
+    private float CalculateMaxHealth()
+    {
+        CalculateTemporaryHealthModifier();
+        return baseMaxHealth + maxHealthBuff + maxHealthModifier;
+    }
+
+    private void CalculateTemporaryHealthModifier()
+    {
+        float modifier = 0f;
+        foreach (FighterAbility a in abilities)
+            modifier += a.CalculateSelfHealthModifier(this);
+        maxHealthBuff = modifier;
     }
 
     public virtual void Die(Damage attack)
@@ -118,7 +140,7 @@ public class Fighter : MonoBehaviour
             Debug.LogWarning($"Can't remove {this}");
         Invoke("MoveToGraveyard", manager.FastForwarding() ? 0f : 0.3f);
         
-        if (isMonster)
+        if (IsMonster)
         {
             if (!manager.GetMonsters().Remove(this))
                 Debug.LogWarning($"Can't remove monster ({this})");
@@ -129,7 +151,7 @@ public class Fighter : MonoBehaviour
                 Debug.LogWarning($"Can't remove hero ({this})");
             PartyManager.GetInstance().HeroDied(this.GetComponent<Hero>());
         }
-
+        IsDead = true;
         manager.GetDead().Add(this);
     }
 
@@ -144,7 +166,7 @@ public class Fighter : MonoBehaviour
     public void StartTurn() {ActivateAbilities((a) => a.TurnStart(this));}
     public void EndTurn() {ActivateAbilities((a) => a.TurnEnd(this));}
 
-    public void ActivateAbilities(Action<FighterAbility> action)
+    private void ActivateAbilities(Action<FighterAbility> action)
     {
         foreach (FighterAbility a in abilities)
             action(a);
@@ -152,16 +174,27 @@ public class Fighter : MonoBehaviour
 
     public float CalculateDamage()
     {
-        damageText.text = $"{damage} x {CalculateDamageMultiplier()} + {damageModifier}";
-        return (damage * CalculateDamageMultiplier()) + damageModifier;
+        damageBuff = CalculateTemporaryModifier();
+        damageText.text = $"{baseDamage} + {damageBuff} + {damageModifier}";
+        return baseDamage + damageBuff + damageModifier;
     }
 
-    protected virtual float CalculateDamageMultiplier()
+    protected float CalculateTemporaryModifier()
     {
-        float multiplier = 1f + room.GetDamageMultiplier(this);
+        float modifier = room.GetDamageModifier(this);
         foreach (FighterAbility a in abilities)
-            multiplier += a.GetDamageMultiplier(this);
-        return Mathf.Max(multiplier, 0);
+            modifier += a.CalculateSelfModifier(this);
+        foreach (Fighter f in FightManager.GetInstance().GetFighters())
+            modifier += f.CalculateAllyModifier(this);
+        return Mathf.Max(modifier, 0);
+    }
+
+    public float CalculateAllyModifier(Fighter f)
+    {
+        float modifier = 0f;
+        foreach (FighterAbility a in abilities)
+            modifier += a.CalculateAllyModifier(this, f);
+        return modifier;
     }
 
     // TODO: Make a better way to do this
@@ -200,7 +233,7 @@ public class Fighter : MonoBehaviour
     {
         if (FightManager.GetInstance().FastForwarding() || !animator.isActiveAndEnabled)
             return;
-        animator.SetBool("Monster", isMonster);
+        animator.SetBool("Monster", IsMonster);
         animator.SetTrigger("Attack");
     }
 
@@ -208,7 +241,7 @@ public class Fighter : MonoBehaviour
     {
         if (FightManager.GetInstance().FastForwarding() || !animator.isActiveAndEnabled)
             return;
-        animator.SetBool("Monster", isMonster);
+        animator.SetBool("Monster", IsMonster);
         animator.SetTrigger("Hurt");
     }
 
@@ -254,13 +287,12 @@ public class Fighter : MonoBehaviour
     }
 
     public FighterBase GetFighterType() {return fighterType;}
-    public bool IsMonster() {return isMonster;}
     public virtual Sprite GetSprite() {return image.sprite;}
     public Room GetRoom() {return room;}
     public string GetName() {return displayName;}
     public float GetHealth() {return health;}
-    public float GetMaxHealth() {return maxHealth;}
-    public float GetDamage() {return damage;}
+    public float GetMaxHealth() {return CalculateMaxHealth();}
+    public float GetDamage() {return baseDamage;}
     public List<Tag> GetTags() {return tags;}
     public virtual float GetSpeed() {return fighterType.GetSpeed();}
     public string GetDescription() {return Ability.GetDescriptionFromList(abilities);}
@@ -272,11 +304,11 @@ public class Damage
     public Fighter Source {get; private set;}
     public Fighter Target {get; private set;}
     public float BaseDamage {get; set;}
-    public float DamageMultiplier {get; set;}
+    public float DamageTempModifier {get; set;}
     public float DamageModifier {get; set;}
     public float CalculatedDamage 
     {
-        get {return (float) Math.Round(BaseDamage * DamageMultiplier + DamageModifier, 2);}
+        get {return (float) Math.Round(BaseDamage + DamageTempModifier + DamageModifier, 2);}
     }
 
     public Damage(Fighter source, Fighter target, float damage, float damageMultiplier, float damageModifier)
@@ -284,12 +316,12 @@ public class Damage
         Source = source;
         Target = target;
         BaseDamage = damage;
-        DamageMultiplier = damageMultiplier;
+        DamageTempModifier = damageMultiplier;
         DamageModifier = damageModifier;
     }
     
-    public Damage(Fighter target, float damage) : this(null, target, damage, 1f, 0f) {}
-    public Damage(Fighter source, Fighter target, float damage) : this(source, target, damage, 1f, 0f) {}
-    public Damage(Fighter newTarget, Damage damage) : this(damage.Source, newTarget, damage.BaseDamage, damage.DamageMultiplier, damage.DamageModifier) {}
+    public Damage(Fighter target, float damage) : this(null, target, damage, 0f, 0f) {}
+    public Damage(Fighter source, Fighter target, float damage) : this(source, target, damage, 0f, 0f) {}
+    public Damage(Fighter newTarget, Damage damage) : this(damage.Source, newTarget, damage.BaseDamage, damage.DamageTempModifier, damage.DamageModifier) {}
 
 }

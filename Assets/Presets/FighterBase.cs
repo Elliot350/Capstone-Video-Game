@@ -5,17 +5,18 @@ using UnityEngine;
 public class FighterBase : ScriptableObject
 {
     [SerializeField] protected string displayName;
+    [SerializeField] protected Sprite sprite;
+    [SerializeField] protected int cost;
+    [SerializeField] protected float baseDamage;
     [SerializeField] protected int maxHealth;
-    [SerializeField] protected float damage;
     [SerializeField] protected float speed;
     [SerializeField] protected List<FighterAbility> abilities;
     [SerializeField] protected List<Tag> tags;
-    [SerializeField] protected Sprite sprite;
 
-    public virtual float GetDamageMultiplier(Fighter f) {return 0f;}
+    public int GetCost() {return cost;}
     public string GetName() {return displayName;}
     public int GetMaxHealth() {return maxHealth;}
-    public virtual float GetDamage() {return damage;}
+    public virtual float GetDamage() {return baseDamage;}
     public List<FighterAbility> GetAbilities() {return abilities;}
     public List<Tag> GetTags() {return tags;}
     public bool HasTag(Tag tag) {return tags.Contains(tag);}

@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: SnappingTurtle
   m_EditorClassIdentifier: 
   displayName: Snapping Turtle
+  sprite: {fileID: -38916955, guid: f750d128745a840d9a3570daeaad7e31, type: 3}
+  cost: 15
+  baseDamage: 3
   maxHealth: 10
-  damage: 3
   speed: 1
   abilities:
   - {fileID: 11400000, guid: 948382ed599104434b530a87443649fd, type: 2}
   tags:
   - {fileID: 11400000, guid: 1d8a81a32bde943daaaca82ceddd2d43, type: 2}
-  sprite: {fileID: -38916955, guid: f750d128745a840d9a3570daeaad7e31, type: 3}
-  cost: 15
   needsAll: 0
   requirements: []

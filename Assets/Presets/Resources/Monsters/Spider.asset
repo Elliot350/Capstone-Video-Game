@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Spider
   m_EditorClassIdentifier: 
   displayName: Spider
+  sprite: {fileID: 21300000, guid: 421ed9c21c61783448ae028e6402c04a, type: 3}
+  cost: 10
+  baseDamage: 3
   maxHealth: 7
-  damage: 3
   speed: 1
   abilities: []
   tags:
   - {fileID: 11400000, guid: 24eee85445c114cf480333deb6aeb7c2, type: 2}
-  sprite: {fileID: 21300000, guid: 421ed9c21c61783448ae028e6402c04a, type: 3}
-  cost: 10
   needsAll: 0
   requirements: []

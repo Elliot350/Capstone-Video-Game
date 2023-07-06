@@ -22,7 +22,9 @@ public class Consume : FighterAbility
 
     private void Activate(Fighter thisFighter)
     {
-        Fighter target = FightManager.GetInstance().GetAllies(thisFighter)[Random.Range(0, FightManager.GetInstance().GetAllies(thisFighter).Count)];
+        List<Fighter> enemies = FightManager.GetInstance().GetAllies(thisFighter);
+        if (enemies.Count == 0) return;
+        Fighter target = enemies[Random.Range(0, enemies.Count)];
         float healthValue = target.GetHealth();
         float damageValue = target.GetDamage();
 

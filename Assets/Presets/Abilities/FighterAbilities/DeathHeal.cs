@@ -9,7 +9,7 @@ public class DeathHeal : FighterAbility
 
     public override void OnDeath(Damage attack)
     {
-        List<Fighter> list = attack.Target.IsMonster() ? FightManager.GetInstance().GetMonsters() : FightManager.GetInstance().GetHeroes();
+        List<Fighter> list = attack.Target.IsMonster ? FightManager.GetInstance().GetMonsters() : FightManager.GetInstance().GetHeroes();
 
         foreach (Fighter f in list)
         {

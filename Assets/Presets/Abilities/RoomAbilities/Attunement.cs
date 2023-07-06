@@ -8,7 +8,7 @@ public class Attunement : RoomAbility
     public List<Tag> tags;
     public float damageMultiplier;
 
-    public override float GetDamageMultiplier(Fighter f)
+    public override float GetDamageModifier(Fighter f)
     {
         foreach (Tag t in tags)
         {

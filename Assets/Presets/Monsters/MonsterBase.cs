@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Monster", menuName = "Bases/New Monster")]
 public class MonsterBase : FighterBase
 {
-    [SerializeField] protected int cost;
     [SerializeField] protected bool needsAll;
     [SerializeField] protected List<MonsterBase> requirements;
 
@@ -38,6 +37,5 @@ public class MonsterBase : FighterBase
         return false;
     }
 
-    public int GetCost() {return cost;}
     public List<MonsterBase> GetRequirements() {return requirements;}
 }

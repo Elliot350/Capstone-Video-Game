@@ -24,6 +24,7 @@ public class Ping : FighterAbility
     private void Activate(Fighter thisFighter)
     {
         List<Fighter> enemies = FightManager.GetInstance().GetEnemies(thisFighter);
+        if (enemies.Count == 0) return;
         for (int i = 0; i < numOfTriggers; i++)
         {
             Damage attack = new Damage(thisFighter, enemies[Random.Range(0, enemies.Count)], damage);

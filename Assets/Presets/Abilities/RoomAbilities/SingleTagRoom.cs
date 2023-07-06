@@ -9,7 +9,7 @@ public class SingleTagRoom : RoomAbility
 
     public override bool CanAddMonster(Room r, MonsterBase monster)
     {
-        return monster.GetTags().Contains(singleTag);
+        return monster.HasTag(singleTag);
     }
 
     public override string GetDescription()

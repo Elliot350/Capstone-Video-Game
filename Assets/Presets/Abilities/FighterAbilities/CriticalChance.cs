@@ -11,7 +11,7 @@ public class CriticalChance : FighterAbility
     public override void OnAttack(Damage attack)
     {
         if (Random.Range(0f, 1f) < criticalChance)
-            attack.DamageMultiplier += criticalMultiplier;
+            attack.DamageTempModifier += criticalMultiplier;
     }
 
     public override string GetDescription()

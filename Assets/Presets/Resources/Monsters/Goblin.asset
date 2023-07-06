@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Goblin
   m_EditorClassIdentifier: 
   displayName: Goblin
+  sprite: {fileID: -891759856, guid: f750d128745a840d9a3570daeaad7e31, type: 3}
+  cost: 15
+  baseDamage: 5
   maxHealth: 7
-  damage: 5
   speed: 1
   abilities:
   - {fileID: 11400000, guid: 8364a6fabfc9d44da8ae23082c1edbb7, type: 2}
   tags:
   - {fileID: 11400000, guid: 17a740a5be0b74226bed804e33beca87, type: 2}
-  sprite: {fileID: -891759856, guid: f750d128745a840d9a3570daeaad7e31, type: 3}
-  cost: 15
   needsAll: 0
   requirements: []

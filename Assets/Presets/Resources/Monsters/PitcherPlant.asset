@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: PitcherPlant
   m_EditorClassIdentifier: 
   displayName: Pitcher Plant
+  sprite: {fileID: 291039084, guid: f750d128745a840d9a3570daeaad7e31, type: 3}
+  cost: 15
+  baseDamage: 3
   maxHealth: 5
-  damage: 3
   speed: 2
   abilities:
   - {fileID: 11400000, guid: 4a4b5bb34917345b5a227fbcc4fb42f0, type: 2}
   tags:
   - {fileID: 11400000, guid: bf7c8f5fd4bfc644ab4fe00e4d030fe6, type: 2}
-  sprite: {fileID: 291039084, guid: f750d128745a840d9a3570daeaad7e31, type: 3}
-  cost: 15
   needsAll: 0
   requirements: []

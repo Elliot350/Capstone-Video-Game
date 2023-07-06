@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: Mage
   m_EditorClassIdentifier: 
   displayName: Mage
+  sprite: {fileID: 1812873704, guid: d8e84b4bdabdd4476aadab46f5e84638, type: 3}
+  cost: 0
+  baseDamage: 2
   maxHealth: 5
-  damage: 2
   speed: 1
   abilities:
   - {fileID: 11400000, guid: 5aaa337d9330c4ff3b0748400d80088f, type: 2}
   tags:
   - {fileID: 11400000, guid: 48ee044356859664eb58885a21147a1d, type: 2}
-  sprite: {fileID: 1812873704, guid: d8e84b4bdabdd4476aadab46f5e84638, type: 3}
   gold: 15
