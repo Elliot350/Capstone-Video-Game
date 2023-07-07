@@ -17,6 +17,8 @@ public abstract class FighterAbility : Ability
     public virtual void TurnEnd(Fighter f) {}
     public virtual void BattleStart(Fighter f) {}
     public virtual void BattleEnd(Fighter f) {}
+    // TODO: Change this to FighterSummoned (need to change the Summon FightAction)
+    public virtual void MonsterSummoned(Fighter f, Fighter newFighter) {}
     
     public virtual bool CanAddMonster(MonsterBase m, Room r) {return true;}
     public virtual void CalculateDamage(Fighter f) {}

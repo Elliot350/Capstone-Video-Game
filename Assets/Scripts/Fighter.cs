@@ -23,6 +23,7 @@ public class Fighter : MonoBehaviour
     // Temporary modifier to damage (this can change from the fight changing)
     [SerializeField] protected float damageModifier;
     private float previousDamage;
+    [SerializeField] protected int tier;
 
     [Space(10)]
     [Header("Abilities")]
@@ -65,6 +66,7 @@ public class Fighter : MonoBehaviour
         slider.maxValue = maxHealth;
         SetHealthBar();
         image.sprite = fighterBase.GetSprite();
+        tier = fighterBase.GetTier();
         alertImage.gameObject.SetActive(false);
         SetTypes();
     }
@@ -156,6 +158,7 @@ public class Fighter : MonoBehaviour
     public void StartBattle() {ActivateAbilities((a) => a.BattleStart(this));}
     public void StartTurn() {ActivateAbilities((a) => a.TurnStart(this));}
     public void EndTurn() {ActivateAbilities((a) => a.TurnEnd(this));}
+    public void MonsterSummoned(Fighter summoned) {ActivateAbilities((a) => a.MonsterSummoned(this, summoned));}
 
     private void ActivateAbilities(Action<FighterAbility> action)
     {

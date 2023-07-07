@@ -146,7 +146,7 @@ public class FightManager : MonoBehaviour
     }
 
     private IEnumerator PerformActions()
-    {
+    {        
         CatchUpActions();
 
         while (actions.Count > 0)
@@ -156,7 +156,9 @@ public class FightManager : MonoBehaviour
             ShowActions();
             actions.RemoveAt(0);
             // If the fighter is gone, or not in order or graveyard, this action is invalid
-            if (currentAction.fighter == null || (!order.Contains(currentAction.fighter) && !dead.Contains(currentAction.fighter)))
+            // if (currentAction.fighter == null || (!order.Contains(currentAction.fighter) && !dead.Contains(currentAction.fighter)))
+                // continue;
+            if (!currentAction.IsValid())
                 continue;
             pointer.transform.position = currentAction.fighter.transform.position;
             currentAction.Do();
@@ -168,7 +170,7 @@ public class FightManager : MonoBehaviour
         yield break;
     }
     
-    public void AddMonster(MonsterBase monsterBase)
+    public Monster AddMonster(MonsterBase monsterBase)
     {
         Monster monster = Instantiate(monsterPrefab, monsterHolder.transform).GetComponent<Monster>();
         // MonsterBase newMonster = Instantiate<MonsterBase>(monsterBase, monsterHolder.transform);
@@ -177,6 +179,7 @@ public class FightManager : MonoBehaviour
         
         order.Add(monster);
         monsters.Add(monster);
+        return monster;
     }
 
     private void AddPortrait()
@@ -299,6 +302,7 @@ public abstract class FightAction
     }
 
     public abstract void Do();
+    public virtual bool IsValid() {return fighter != null;}
     protected void AddAction(FightAction a) {FightManager.GetInstance().AddAction(a);}
     public float GetWaitTime() {return waitTime;}
 }
@@ -312,6 +316,11 @@ public class Turn : FightAction
         AddAction(new StartTurn(fighter));
         AddAction(new GetTargets(fighter));
         AddAction(new EndTurn(fighter));
+    }
+
+    public override bool IsValid()
+    {
+        return base.IsValid() && !fighter.IsDead;
     }
 }
 
@@ -333,12 +342,22 @@ public class GetTargets : FightAction
         foreach (Fighter f in fighter.GetTargets(enemies))
             AddAction(new Attack(fighter, f));
     }
+
+    public override bool IsValid()
+    {
+        return base.IsValid() && !fighter.IsDead;
+    }
 }
 
 public class EndTurn : FightAction
 {
     public EndTurn(Fighter fighter) : base(fighter) {waitTime = 0f;}
     public override void Do() {fighter.EndTurn();}
+
+    public override bool IsValid()
+    {
+        return base.IsValid() && !fighter.IsDead;
+    }
 }
 
 
@@ -360,6 +379,11 @@ public class Attack : FightAction
         fighter.AttackAnimation();
         AddAction(new TakeDamage(attack));
     }
+
+    public override bool IsValid()
+    {
+        return base.IsValid() && !fighter.IsDead && target != null && !target.IsDead;
+    }
 }
 
 public class TakeDamage : FightAction
@@ -375,6 +399,11 @@ public class TakeDamage : FightAction
         if (fighter.GetHealth() <= 0)
             AddAction(new Die(fighter, attack));
     }
+
+    public override bool IsValid()
+    {
+        return base.IsValid() && !fighter.IsDead;
+    }
 }
 
 public class Die : FightAction
@@ -388,6 +417,11 @@ public class Die : FightAction
         fighter.Die(attack);
         FightManager.GetInstance().FighterDied(fighter);
     }
+
+    public override bool IsValid()
+    {
+        return base.IsValid() && !fighter.IsDead;
+    }
 }
 
 public class Heal : FightAction
@@ -396,18 +430,21 @@ public class Heal : FightAction
 
     public Heal(Fighter fighter, float amount) : base(fighter) {this.amount = amount;}
     public override void Do() {fighter.Heal(amount);}
+    public override bool IsValid() {return base.IsValid() && !fighter.IsDead;}
 }
 
 public class BattleStart : FightAction
 {
     public BattleStart(Fighter fighter) : base(fighter) {waitTime = 0f;}
     public override void Do() {fighter.StartBattle();}
+    public override bool IsValid() {return base.IsValid() && !fighter.IsDead;}
 }
 
 public class BattleEnd : FightAction
 {
     public BattleEnd(Fighter fighter) : base(fighter) {waitTime = 0f;}
     public override void Do() {fighter.FinishBattle();}
+    public override bool IsValid() {return base.IsValid() && !fighter.IsDead;}
 }
 
 public class RemoveAbility : FightAction
@@ -424,6 +461,11 @@ public class RemoveAbility : FightAction
     {
         if (fighter.GetAbilities().Contains(ability))
             fighter.GetAbilities().Remove(ability);
+    }
+
+    public override bool IsValid()
+    {
+        return base.IsValid() && fighter.GetAbilities().Contains(ability);
     }
 }
 
@@ -442,6 +484,12 @@ public class AddAbility : FightAction
         if (!fighter.GetAbilities().Contains(ability))
             fighter.GetAbilities().Add(ability);
         ability.OnAdded(fighter);
+    }
+
+    public override bool IsValid()
+    {
+        // Might want to change this if I want fighters to have duplicate abilities
+        return base.IsValid() && !fighter.GetAbilities().Contains(ability);
     }
 }
 
@@ -489,8 +537,11 @@ public class Summon : FightAction
 
     public override void Do()
     {
+        // TODO: Make this able to summon fighters as well, ie for a beast master
         Debug.Log($"Summoning {monsterToSummon}, {monsterToSummon.GetName()}");
-        FightManager.GetInstance().AddMonster(monsterToSummon);
+        Monster summonedMonster = FightManager.GetInstance().AddMonster(monsterToSummon);
+        foreach (Fighter f in FightManager.GetInstance().GetFighters())
+            f.MonsterSummoned(summonedMonster);
     }
 }
 
@@ -538,5 +589,10 @@ public class Revive : FightAction
         fighter.IsDead = false;
         fighter.ReviveAnimation();
         AddAction(new Heal(fighter, fighter.GetMaxHealth() / 2));
+    }
+
+    public override bool IsValid()
+    {
+        return base.IsValid() && fighter.IsDead;
     }
 }

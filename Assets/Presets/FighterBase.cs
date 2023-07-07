@@ -10,6 +10,7 @@ public class FighterBase : ScriptableObject
     [SerializeField] protected float baseDamage;
     [SerializeField] protected int maxHealth;
     [SerializeField] protected float speed;
+    [SerializeField] protected int tier;
     [SerializeField] protected List<FighterAbility> abilities;
     [SerializeField] protected List<Tag> tags;
 
@@ -22,5 +23,6 @@ public class FighterBase : ScriptableObject
     public bool HasTag(Tag tag) {return tags.Contains(tag);}
     public Sprite GetSprite() {return sprite;}
     public float GetSpeed() {return speed;}
+    public int GetTier() {return tier;}
     public string GetDescription() {return Ability.GetDescriptionFromList(abilities);}
 }
