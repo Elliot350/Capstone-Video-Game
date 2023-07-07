@@ -9,7 +9,7 @@ public class Loner : FighterAbility
 
     public override void CalculateDamage(Fighter f)
     {
-        float damageIncrease = (f.GetRoom().GetMonsterCapacity() - FightManager.GetInstance().GetAllies(f).Count) * damagePerSpace;
+        float damageIncrease = (f.GetRoom().GetMonsterCapacity() - FightManager.GetInstance().GetTeam(f).Count) * damagePerSpace;
         f.IncreaseDamageModifier(damageIncrease);
     }
 

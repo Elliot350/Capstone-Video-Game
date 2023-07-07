@@ -589,6 +589,7 @@ public class Revive : FightAction
         fighter.IsDead = false;
         fighter.ReviveAnimation();
         AddAction(new Heal(fighter, fighter.GetMaxHealth() / 2));
+        AddAction(new BattleStart(fighter));
     }
 
     public override bool IsValid()
