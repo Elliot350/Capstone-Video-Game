@@ -324,7 +324,7 @@ public class Damage
     public float DamageModifier {get; set;}
     public float CalculatedDamage 
     {
-        get {return (float) Math.Round(BaseDamage + DamageTempModifier + DamageModifier, 2);}
+        get {return (float) Math.Round(BaseDamage + DamageTempModifier + DamageModifier, 1);}
     }
 
     public Damage(Fighter source, Fighter target, float damage, float damageMultiplier, float damageModifier)
