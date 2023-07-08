@@ -1,24 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-[ExecuteInEditMode]
 public class LocationButton : MonoBehaviour
 {
     [SerializeField] private MainMenu mainMenu;
     [SerializeField] private Sprite defaultImage, selectedImage;
-    [SerializeField] private float distance;   
+    [SerializeField] private Image image;
+    [SerializeField] private RectTransform rectTransform;
+    [SerializeField] private float distance;
+    public string locationName;  
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log($"Mouse: {Input.mousePosition}, {Camera.main.ScreenToWorldPoint(Input.mousePosition)}, {Camera.main.ScreenToViewportPoint(Input.mousePosition)}, distance: {GetDistance()}");
+        // Debug.Log($"{rectTransform.anchoredPosition} to {Input.mousePosition} = {GetDistance()}");
+        if (GetDistance() < distance)
+        {
+            image.sprite = selectedImage;
+            mainMenu.SetSelected(this);
+        }
+        else 
+        {
+            image.sprite = defaultImage;
+        }
     }
 
     private float GetDistance()
     {
-        // Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        // return Vector3.Distance(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        return 0f;
+        return Vector3.Distance(rectTransform.anchoredPosition, Input.mousePosition);
     }
 }

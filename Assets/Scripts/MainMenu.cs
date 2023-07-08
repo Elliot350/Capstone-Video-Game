@@ -6,6 +6,15 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public Animator animator;
+    private string selectedLocation;
+
+    private void Update() 
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log(selectedLocation);
+        }    
+    }
     
     public void PlayGame()
     {
@@ -26,6 +35,11 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log($"Quitting...");
         Application.Quit();
+    }
+
+    public void SetSelected(LocationButton location)
+    {
+        selectedLocation = location.locationName;
     }
 
 }
