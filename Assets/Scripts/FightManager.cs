@@ -105,7 +105,7 @@ public class FightManager : MonoBehaviour
             count++;
 
             Fighter currentFighter = order[0];
-            Debug.Log($"Attack #{count}: {currentFighter} attacking...");
+            Debug.Log($"Turn #{count}: {currentFighter}...");
 
             AddAction(new Turn(currentFighter));
 
@@ -345,7 +345,7 @@ public class GetTargets : FightAction
 
     public override bool IsValid()
     {
-        return base.IsValid() && !fighter.IsDead;
+        return base.IsValid() && !fighter.IsDead && FightManager.GetInstance().GetEnemies(fighter).Count > 0;
     }
 }
 

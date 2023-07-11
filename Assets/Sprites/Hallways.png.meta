@@ -1069,6 +1069,69 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Hallways_46
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98e4ca8a021664b6d8d65cc2730865ea
+      internalID: 309191067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hallways_47
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac6a3448f905347ca87e0aeca6ffe78a
+      internalID: 1343545981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hallways_48
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25eaccb81c5104c92a703932501b7e08
+      internalID: 1803345388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1105,7 +1168,9 @@ TextureImporter:
       Hallways_4: 1995199367
       Hallways_17: -984972402
       Hallways_8: 2005655191
+      Hallways_47: 1343545981
       Hallways_9: -1996244394
+      Hallways_48: 1803345388
       Hallways_20: 1738967007
       Hallways_29: 845207742
       Hallways_10: 437380928
@@ -1113,6 +1178,7 @@ TextureImporter:
       Hallways_38: 1607651895
       Hallways_3: -1036432240
       Hallways_7: -1266489216
+      Hallways_46: 309191067
       Hallways_28: 13709426
       Hallways_45: -1869327208
       Hallways_42: 825493925

@@ -84,7 +84,7 @@ public class Fighter : MonoBehaviour
 
     public virtual void TakeDamage(Damage attack)
     {
-        Debug.Log($"Taking damage for {attack.CalculatedDamage}");
+        // Debug.Log($"Taking damage for {attack.CalculatedDamage}");
         ActivateAbilities((a) => a.OnTakenDamage(attack));
         if (attack.CalculatedDamage <= 0)
             return;
@@ -214,15 +214,19 @@ public class Fighter : MonoBehaviour
     // TODO: Make a better way to do this
     public List<Fighter> GetTargets(List<Fighter> fighters)
     {
-        List<Fighter> targets = new List<Fighter>();
+        List<Fighter> targets = null;
 
         ActivateAbilities((a) => {
-            if (a.ModifiesTargets() && targets.Count <= a.DecideTargets(fighters).Count)
+            if (a.ModifiesTargets() && (targets == null || targets.Count <= a.DecideTargets(fighters).Count))
                 targets = a.DecideTargets(fighters);
         });
 
-        if (targets.Count == 0)
+        if (targets == null)
+        {
+            targets = new List<Fighter>();
             targets.Add(fighters[0]);
+        }
+
         return targets;
     }
 
