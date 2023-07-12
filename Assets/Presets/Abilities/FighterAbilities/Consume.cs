@@ -5,17 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Consume", menuName = "Abilities/Fighter/Consume")]
 public class Consume : FighterAbility
 {
-    private enum Trigger {
-        START_BATTLE,
-        END_BATTLE,
-        START_TURN,
-        END_TURN,
-        ATTACK,
-        DAMAGED,
-        DEATH,
-        FIGHTER_DIED,
-        HEALED
-    }
     [SerializeField] private int numOfTriggers;
     // Maybe make this a list so there can be multiple triggers?
     [SerializeField] private Trigger trigger;

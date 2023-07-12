@@ -4,6 +4,19 @@ using UnityEngine;
 
 public abstract class FighterAbility : Ability
 {
+    protected enum Trigger {
+        START_BATTLE,
+        END_BATTLE,
+        START_TURN,
+        END_TURN,
+        ATTACK,
+        DAMAGED,
+        DEATH,
+        FIGHTER_DIED,
+        HEALED,
+        MONSTER_SUMMONED
+    }
+
     [SerializeField] protected string animationTrigger;
 
     // Do I need this one?

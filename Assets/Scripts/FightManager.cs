@@ -565,8 +565,14 @@ public class BuffMonster : FightAction
 
 public class Revive : FightAction
 {
+    private float healAmount;
+
     // TODO: move this into Fighter?
-    public Revive(Fighter fighter) : base(fighter) {}
+    public Revive(Fighter fighter) : this(fighter, fighter.GetMaxHealth()) {}
+    public Revive(Fighter fighter, float health) : base(fighter) 
+    {
+        healAmount = health;
+    }
 
     public override void Do()
     {
@@ -595,5 +601,19 @@ public class Revive : FightAction
     public override bool IsValid()
     {
         return base.IsValid() && fighter.IsDead;
+    }
+}
+
+public class Banish : FightAction
+{
+    public Banish(Fighter fighter) : base(fighter) {}
+
+    public override void Do()
+    {
+        FightManager manager = FightManager.GetInstance();
+
+        manager.GetFighters().Remove(fighter);
+        manager.GetTeam(fighter).Remove(fighter);
+        MonoBehaviour.Destroy(fighter.gameObject);
     }
 }

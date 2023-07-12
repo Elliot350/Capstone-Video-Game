@@ -2,22 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Ping", menuName = "Abilities/Fighter/Ping")]
-public class Ping : FighterAbility
+[CreateAssetMenu(fileName = "Summon", menuName = "Abilities/Fighter/Summon")]
+public class SummonAbility : FighterAbility
 {
-    [SerializeField] private float damage;
-    [SerializeField] private int numOfTriggers;
-    // Maybe make this a list so there can be multiple triggers?
     [SerializeField] private Trigger trigger;
+    [SerializeField] private List<MonsterBase> monsters;
+    [SerializeField] private bool summonAll;
 
-    private void Activate(Fighter thisFighter)
+    public void Activate(Fighter thisFighter)
     {
-        List<Fighter> enemies = FightManager.GetInstance().GetEnemies(thisFighter);
-        if (enemies.Count == 0) return;
-        for (int i = 0; i < numOfTriggers; i++)
+        if (monsters == null || monsters.Count == 0) return;
+
+        if (summonAll)
         {
-            Damage attack = new Damage(thisFighter, enemies[Random.Range(0, enemies.Count)], damage);
-            FightManager.GetInstance().AddAction(new TakeDamage(attack));
+            // Summon each monster
+            foreach (MonsterBase m in monsters)
+            {
+                FightManager.GetInstance().AddAction(new Summon(thisFighter, m));
+            }
+        }
+        else
+        {
+            // Summon a random monster
+            FightManager.GetInstance().AddAction(new Summon(thisFighter, monsters[Random.Range(0, monsters.Count)]));
         }
     }
 
@@ -34,6 +41,6 @@ public class Ping : FighterAbility
 
     public override string GetDescription()
     {
-        return string.Format(description, damage, numOfTriggers, trigger);
+        throw new System.NotImplementedException();
     }
 }

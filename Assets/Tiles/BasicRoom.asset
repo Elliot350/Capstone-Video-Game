@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbc016fcedb653949942058942211e51, type: 3}
   m_Name: BasicRoom
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 910995921, guid: c172d3faf64e17c4b9029f89e94dd20c, type: 3}
+  m_DefaultSprite: {fileID: 532355227, guid: 0b4c5f7e303b44346916f8d356671d86, type: 3}
   m_DefaultGameObject: {fileID: 2424869940704329488, guid: 5d9a338b056ba83408f33bfffcceba53, type: 3}
   m_DefaultColliderType: 1
   m_TilingRules:
   - m_Id: 0
     m_Sprites:
-    - {fileID: 910995921, guid: c172d3faf64e17c4b9029f89e94dd20c, type: 3}
+    - {fileID: 532355227, guid: 0b4c5f7e303b44346916f8d356671d86, type: 3}
     m_GameObject: {fileID: 2424869940704329488, guid: 5d9a338b056ba83408f33bfffcceba53, type: 3}
     m_MinAnimationSpeed: 1
     m_MaxAnimationSpeed: 1
