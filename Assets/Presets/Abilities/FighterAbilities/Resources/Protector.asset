@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c2ae7fabd5c944c79802de8491d61d3, type: 3}
-  m_Name: TailJab
+  m_Name: Protector
   m_EditorClassIdentifier: 
-  abilityName: Tail Jab
-  description: 'Battle Start: Repeat this {1} times: Deal {1} damage to a random
-    enemy'
-  animationTrigger: Alligator
+  abilityName: Protector
+  description: 'Monster Summoned: Deal {0} damage to a random enemy'
+  animationTrigger: 
   damage: 1
-  numOfTriggers: 5
-  trigger: 0
+  numOfTriggers: 1
+  trigger: 9

@@ -160,7 +160,7 @@ public class FightManager : MonoBehaviour
                 // continue;
             if (!currentAction.IsValid())
                 continue;
-            pointer.transform.position = currentAction.fighter.transform.position;
+            if (currentAction.fighter != null) pointer.transform.position = currentAction.fighter.transform.position;
             currentAction.Do();
             CalculateStats();
             yield return new WaitForSeconds(currentAction.GetWaitTime() / (fastForward ? 4f : 1f));
@@ -511,6 +511,11 @@ public class ContinueAnimation : FightAction
     string animationName;
     Effect effect;
 
+    public ContinueAnimation(Fighter fighter, string animationName) : base(fighter)
+    {
+        this.animationName = animationName;
+    }
+
     public ContinueAnimation(Fighter fighter, string animationName, Effect effect) : base(fighter)
     {
         this.animationName = animationName;
@@ -518,7 +523,17 @@ public class ContinueAnimation : FightAction
         waitTime = 0f;
     }
 
-    public override void Do() {fighter.PlayEffect(animationName, effect);}
+    public override void Do() 
+    {
+        if (effect == null)
+        {
+            if (fighter.GetEffect(animationName) != null) fighter.PlayEffect(animationName, fighter.GetEffect(animationName));
+        }
+        else
+        {
+            fighter.PlayEffect(animationName, effect);
+        }
+    }
 }
 
 public class Morph : FightAction
@@ -616,4 +631,13 @@ public class Banish : FightAction
         manager.GetTeam(fighter).Remove(fighter);
         MonoBehaviour.Destroy(fighter.gameObject);
     }
+}
+
+public class Delay : FightAction
+{
+    public Delay(float delayTime) : base(null) {waitTime = delayTime;}
+
+    public override void Do() {}
+
+    public override bool IsValid() {return true;}
 }

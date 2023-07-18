@@ -38,7 +38,8 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected GameObject effectAnimator;
     [SerializeField] protected Image image;
     [SerializeField] protected Image alertImage;
-    private List<Effect> effects = new List<Effect>();
+    // private List<Effect> effects = new List<Effect>();
+    private Dictionary<Effect, string> effects = new Dictionary<Effect, string>();
     // [SerializeField] protected ParticleSystem healParticles;
 
     [Space(10)]
@@ -283,14 +284,14 @@ public class Fighter : MonoBehaviour
         if (FightManager.GetInstance().FastForwarding())
             return null;
         Effect newEffect = Instantiate(effectAnimator, transform).GetComponent<Effect>();
-        effects.Add(newEffect);
+        effects.Add(newEffect, animationName);
         newEffect.PlayEffect(animationName);
         return newEffect;
     }
 
     public virtual Effect PlayEffect(string animationName, Effect effect)
     {
-        if (!effects.Contains(effect))
+        if (!effects.ContainsKey(effect))
             return effect;
         effect.PlayEffect(animationName);
         return effect;
@@ -298,8 +299,9 @@ public class Fighter : MonoBehaviour
 
     public void EffectDone(Effect effect)
     {
-        if (!effects.Contains(effect))
+        if (!effects.ContainsKey(effect))
             return;
+        Debug.Log($"Removing Effect {effects[effect]}/{effect}");
         effects.Remove(effect);
         Destroy(effect.gameObject);
     }
@@ -317,6 +319,21 @@ public class Fighter : MonoBehaviour
     public virtual Sprite GetSprite() {return image.sprite;}
     public virtual float GetSpeed() {return fighterType.GetSpeed();}
     public Room GetRoom() {return room;}
+    public Dictionary<Effect, string> GetEffects() {return effects;}
+    public Effect GetEffect(string effectName) 
+    {
+        foreach (Effect effect in effects.Keys)
+        {
+            Debug.Log($"{effects[effect]}, {effectName}, {effects[effect].Equals(effectName)}");
+            if (effects[effect].Equals(effectName))
+            {
+                Debug.Log($"Yep");
+                return effect;
+            }
+        }
+        Debug.Log("Cant find");
+        return null;
+    }
 }
 
 public class Damage

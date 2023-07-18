@@ -17,6 +17,7 @@ public class Ping : FighterAbility
         for (int i = 0; i < numOfTriggers; i++)
         {
             Damage attack = new Damage(thisFighter, enemies[Random.Range(0, enemies.Count)], damage);
+            if (!animationTrigger.Equals("")) FightManager.GetInstance().AddAction(new PlayAnimation(attack.Target, animationTrigger));
             FightManager.GetInstance().AddAction(new TakeDamage(attack));
         }
     }

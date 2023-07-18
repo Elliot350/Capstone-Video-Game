@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69f6baaa74a17c14e871549b2bd4ece9, type: 3}
+  m_Name: PitcherPlant
+  m_EditorClassIdentifier: 
+  displayName: Pitcher Plant
+  sprite: {fileID: 799076172, guid: f750d128745a840d9a3570daeaad7e31, type: 3}
+  cost: 15
+  baseDamage: 3
+  maxHealth: 5
+  speed: 1
+  tier: 1
+  abilities:
+  - {fileID: 11400000, guid: 4a4b5bb34917345b5a227fbcc4fb42f0, type: 2}
+  tags:
+  - {fileID: 11400000, guid: bf7c8f5fd4bfc644ab4fe00e4d030fe6, type: 2}
+  needsAll: 0
+  requirements: []

@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Venus Flytrap
   description: 'Battle Start: Eat all {0} allies, Death: Revive all eaten allies'
-  animationTrigger: 
+  animationTrigger: VenusFlytrap
+  animationTrigger2: VenusFlytrapDone
   tagToConsume: {fileID: 11400000, guid: 24eee85445c114cf480333deb6aeb7c2, type: 2}

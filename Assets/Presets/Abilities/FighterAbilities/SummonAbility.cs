@@ -41,6 +41,19 @@ public class SummonAbility : FighterAbility
 
     public override string GetDescription()
     {
-        throw new System.NotImplementedException();
+        return string.Format(description);
+        // if (summonAll)
+        // {
+        //     string monsterList = monsters[0].GetName();
+        //     for (int i = 1; i < monsters.Count - 1; i++)
+        //     {
+        //         monsterList += ", " + monsters[i].GetName();
+        //     }
+        //     monsterList += "and " + monsters[monsters.Count - 1].GetName();
+        // }
+        // else 
+        // {
+
+        // }
     }
 }

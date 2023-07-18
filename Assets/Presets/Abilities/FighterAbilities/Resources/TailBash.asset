@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Tail Bash
   description: 'Battle Start: Deal {0} damage to a random enemy'
-  animationTrigger: 
+  animationTrigger: Crocodile
   damage: 5
   numOfTriggers: 1
   trigger: 0

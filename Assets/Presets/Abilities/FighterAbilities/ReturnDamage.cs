@@ -12,7 +12,7 @@ public class ReturnDamage : FighterAbility
         // If there isn't a source or the attacked is dead
         if (attack.Source == null || FightManager.GetInstance().GetDead().Contains(attack.Source))
             return;
-        attack.Target.PlayEffect(animationTrigger);
+        if (!animationTrigger.Equals("")) attack.Target.PlayEffect(animationTrigger);
         FightManager.GetInstance().AddAction(new TakeDamage(new Damage(attack.Target, attack.Source, returnDamage)));
     }
 

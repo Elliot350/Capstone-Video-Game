@@ -9,13 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c2ae7fabd5c944c79802de8491d61d3, type: 3}
-  m_Name: TailJab
+  m_Script: {fileID: 11500000, guid: 4aeff7fc7954d42deb8c1aade09955f9, type: 3}
+  m_Name: Snake
   m_EditorClassIdentifier: 
-  abilityName: Tail Jab
-  description: 'Battle Start: Repeat this {1} times: Deal {1} damage to a random
-    enemy'
-  animationTrigger: Alligator
-  damage: 1
-  numOfTriggers: 5
-  trigger: 0
+  color: {r: 0.35936835, g: 0.7735849, b: 0.31016377, a: 1}

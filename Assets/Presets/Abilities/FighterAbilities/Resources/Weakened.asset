@@ -9,10 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d60a57588775aa4cbc568dac6f2659f, type: 3}
-  m_Name: ReturnDamage
+  m_Script: {fileID: 11500000, guid: cd6a639d676474c9693b8347b08f9f61, type: 3}
+  m_Name: Weakened
   m_EditorClassIdentifier: 
-  abilityName: Return Damage
-  description: 'On Attacked: Return {0} damage back to attacker'
+  abilityName: Weakened
+  description: 'Damaged: Take {0} extra damage if the source was {1}'
   animationTrigger: 
-  returnDamage: 4
+  extraDamage: 1
+  sources:
+  - {fileID: 11400000, guid: 54d6daa6f8dd941f392233ae1e7a2068, type: 2}
