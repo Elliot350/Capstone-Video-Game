@@ -108,7 +108,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: VenusFlytrapDone
+    m_ConditionEvent: VenusFlytrap
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6456937960821886686}
@@ -171,10 +171,10 @@ AnimatorStateMachine:
     m_Position: {x: 320, y: 260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4891156834196314734}
-    m_Position: {x: 570, y: 20, z: 0}
+    m_Position: {x: 540, y: -20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6456937960821886686}
-    m_Position: {x: 570, y: 120, z: 0}
+    m_Position: {x: 550, y: 170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2640710551300582146}
     m_Position: {x: 690, y: 70, z: 0}
@@ -197,12 +197,6 @@ AnimatorController:
   m_Name: Effects
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: ReturnDamage
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
   - m_Name: Frozen
     m_Type: 9
     m_DefaultFloat: 0
