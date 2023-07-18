@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd4f22282023541e8966a1e6bce803b0, type: 3}
+  m_Name: SwampLocation
+  m_EditorClassIdentifier: 
+  locationName: Swamp
+  hallways: {fileID: 11400000, guid: 85ac73ba74ccc534d85cd17db754cb21, type: 2}
+  empty: {fileID: 0}
+  monsters:
+  - {fileID: 11400000, guid: e8de5309356df48c785c2e02d43bed33, type: 2}
+  - {fileID: 11400000, guid: 9cea8eefdcb0b4dd7bcc2ec9cc0e35e3, type: 2}
+  - {fileID: 11400000, guid: fbfde4c629c734c11a010a48262eb567, type: 2}
+  - {fileID: 11400000, guid: 4ebc707da93f64aa798ad9e3aa90de9e, type: 2}
+  - {fileID: 11400000, guid: 83d8f355b8ce8466994077dab6b81c5c, type: 2}
+  - {fileID: 11400000, guid: b4f6e0dd165e74c8a80f849633ffd310, type: 2}
+  - {fileID: 11400000, guid: f7bf1d1b0de6d48e3a9e2486626b92cd, type: 2}
+  - {fileID: 11400000, guid: 2b84af468561e49c6ac9fe59d84eb49f, type: 2}
+  - {fileID: 11400000, guid: e7db00dac71eb48e89d4491767cff0d4, type: 2}
+  - {fileID: 11400000, guid: 97ceb8e4b86ca4b19b622449d4faafb1, type: 2}
+  - {fileID: 11400000, guid: 40a990f11720d49dba9a5acd6b19e180, type: 2}
+  - {fileID: 11400000, guid: 028e0e2512b4a4e9f94c0d6335c17aa3, type: 2}
+  - {fileID: 11400000, guid: d8587823feecd4b7abca58c57cb027d8, type: 2}
+  - {fileID: 11400000, guid: 092125e0c783e4e9fbdd951356656c64, type: 2}
+  - {fileID: 11400000, guid: 13aa91c5579024d21a9811225c7dbca8, type: 2}
+  - {fileID: 11400000, guid: 0d267290e1f2e409792e665196be79b8, type: 2}
+  rooms:
+  - {fileID: 11400000, guid: 00c5b23d5d048f54d893fa8a12dac29d, type: 2}
+  heroes:
+  - {fileID: 11400000, guid: 218e8e8060af9824389d66c8bf279838, type: 2}
+  - {fileID: 11400000, guid: ed72ef59fb5ea9443bbe35cbbcac15f7, type: 2}
+  - {fileID: 11400000, guid: 4c38f69c2ef206a4cb2a502ed25644a2, type: 2}
+  traps:
+  - {fileID: 11400000, guid: bb1bd3aca25ef4e13bd95a81a0516f6e, type: 2}
+  - {fileID: 11400000, guid: 404a4c300a71a4cd496bae90ca143bd7, type: 2}
+  partyLayouts:
+  - {fileID: 11400000, guid: da69f6f8257015c43a632bd82477dd89, type: 2}
+  - {fileID: 11400000, guid: b9471beb1d774ee46a2c8007620545b3, type: 2}
+  - {fileID: 11400000, guid: 2d7a1c9f7575b194bbb9bd27d7ac237d, type: 2}

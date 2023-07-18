@@ -324,14 +324,11 @@ public class Fighter : MonoBehaviour
     {
         foreach (Effect effect in effects.Keys)
         {
-            Debug.Log($"{effects[effect]}, {effectName}, {effects[effect].Equals(effectName)}");
             if (effects[effect].Equals(effectName))
             {
-                Debug.Log($"Yep");
                 return effect;
             }
         }
-        Debug.Log("Cant find");
         return null;
     }
 }

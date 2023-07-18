@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -32,6 +33,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject roomMenuOpen, roomMenuClose, trapMenuOpen, trapMenuClose, monsterMenuOpen, monsterMenuClose;
     private const string OPEN = "Open", CLOSE = "Close";
     private bool roomOpen, trapOpen, monsterOpen;
+
+    [Header("Text Fields")]
+    [SerializeField] private TextMeshProUGUI moneyText;
+    [SerializeField] private TextMeshProUGUI manaText;
 
 
     private void Awake()
@@ -186,5 +191,13 @@ public class UIManager : MonoBehaviour
         CloseRoomMenu();
         CloseTrapMenu();
         CloseMonsterMenu();
+    }
+
+    // ---------- Text Stuff ----------
+
+    public void SetText()
+    {
+        moneyText.text = $"${GameManager.GetInstance().GetMoney().ToString()}";
+        manaText.text = $"{GameManager.GetInstance().GetMana().ToString()}M";
     }
 }

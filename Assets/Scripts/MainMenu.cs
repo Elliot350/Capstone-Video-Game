@@ -6,18 +6,23 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public Animator animator;
-    private string selectedLocation;
+    private LocationData selectedLocation;
+    [SerializeField] private List<LocationButton> locations;
 
     private void Update() 
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log(selectedLocation);
-        }    
+            foreach (LocationButton lb in locations)
+            {
+                lb.Check();
+            }
+        }
     }
     
     public void PlayGame()
     {
+        GameManager.GetInstance().SetLocationData(selectedLocation);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
@@ -39,7 +44,7 @@ public class MainMenu : MonoBehaviour
 
     public void SetSelected(LocationButton location)
     {
-        selectedLocation = location.locationName;
+        selectedLocation = location.GetData();
     }
 
 }

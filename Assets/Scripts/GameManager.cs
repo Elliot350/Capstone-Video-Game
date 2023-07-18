@@ -12,8 +12,6 @@ public class GameManager : MonoBehaviour
     [Header("Currencies")]
     [SerializeField] private int money;
     [SerializeField] private int mana;
-    [SerializeField] private TextMeshProUGUI moneyText;
-    [SerializeField] private TextMeshProUGUI manaText;
 
     [Header("Lists for the rooms, monsters, heroes, traps, etc.")]
     [SerializeField] private List<RoomBase> roomBases;
@@ -23,22 +21,28 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<PartyLayout> partyLayouts;
 
     // public RoomInfo roomInfo;
-    [Header("Camera")]
-    [SerializeField] private Camera cam;
-
-    public MonsterBase bossMonster;
-
-    [Header("Debug stuff")]
-    [SerializeField] private Tag tagToSearch;
+    // [Header("Camera")]
+    // [SerializeField] private Camera cam;
 
     void Awake()
     {
-        instance = this;
-        roomBases = Resources.LoadAll<RoomBase>("").ToList();
-        monsterBases = Resources.LoadAll<MonsterBase>("").ToList();
-        heroBases = Resources.LoadAll<HeroBase>("").ToList();
-        trapBases = Resources.LoadAll<TrapBase>("").ToList();
-        partyLayouts = Resources.LoadAll<PartyLayout>("").ToList();
+        if (instance == null)
+        {
+            instance = this;
+            // instance.roomBases = Resources.LoadAll<RoomBase>("").ToList();
+            // instance.monsterBases = Resources.LoadAll<MonsterBase>("").ToList();
+            // instance.heroBases = Resources.LoadAll<HeroBase>("").ToList();
+            // instance.trapBases = Resources.LoadAll<TrapBase>("").ToList();
+            // instance.partyLayouts = Resources.LoadAll<PartyLayout>("").ToList();
+            DontDestroyOnLoad(instance);
+        }
+        else
+        {
+            Debug.LogWarning("Extra GameManager in scene!");
+            Destroy(gameObject);
+        }
+
+        
     }
 
     // Start is called before the first frame update
@@ -69,9 +73,23 @@ public class GameManager : MonoBehaviour
         return instance;
     }
 
+    public void SetLocationData(LocationData data)
+    {
+        roomBases = new List<RoomBase>(data.rooms);
+        monsterBases = new List<MonsterBase>(data.monsters);
+        heroBases = new List<HeroBase>(data.heroes);
+        trapBases = new List<TrapBase>(data.traps);
+        partyLayouts = new List<PartyLayout>(data.partyLayouts);
+    }
+
     public void OnPlaceBuilding(RoomBase room)
     {
         
+    }
+
+    public int GetMoney()
+    {
+        return money;
     }
 
     public bool HasEnoughMoney(int amount)
@@ -89,6 +107,11 @@ public class GameManager : MonoBehaviour
     {
         money -= amount;
         FormatText();
+    }
+
+    public int GetMana()
+    {
+        return mana;
     }
 
     public bool HasEnoughMana(int amount)
@@ -110,8 +133,7 @@ public class GameManager : MonoBehaviour
 
     public void FormatText()
     {
-        moneyText.text = $"${money}";
-        manaText.text = $"{mana}M";
+        if (UIManager.GetInstance() != null) UIManager.GetInstance().SetText();
     }
 
     public void RoomClickedOn(Room room)
@@ -119,10 +141,10 @@ public class GameManager : MonoBehaviour
         // roomInfo.ShowRoom(room);
     }
 
-    public void AddBoss()
-    {
-        AddBoss(bossMonster);
-    }
+    // public void AddBoss()
+    // {
+    //     AddBoss(bossMonster);
+    // }
 
     public void AddBoss(MonsterBase monster)
     {

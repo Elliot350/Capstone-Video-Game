@@ -10,7 +10,7 @@ public class LocationButton : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private RectTransform rectTransform;
     [SerializeField] private float distance;
-    public string locationName;  
+    public LocationData location;  
 
     // Update is called once per frame
     void Update()
@@ -19,7 +19,6 @@ public class LocationButton : MonoBehaviour
         if (GetDistance() < distance)
         {
             image.sprite = selectedImage;
-            mainMenu.SetSelected(this);
         }
         else 
         {
@@ -27,8 +26,21 @@ public class LocationButton : MonoBehaviour
         }
     }
 
+    public void Check()
+    {
+        if (GetDistance() < distance)
+        {
+            mainMenu.SetSelected(this);
+        }
+    }
+
     private float GetDistance()
     {
         return Vector3.Distance(rectTransform.anchoredPosition, Input.mousePosition);
+    }
+
+    public LocationData GetData() 
+    {
+        return location;
     }
 }
