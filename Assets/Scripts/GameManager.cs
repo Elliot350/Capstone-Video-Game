@@ -14,11 +14,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int mana;
 
     [Header("Lists for the rooms, monsters, heroes, traps, etc.")]
+    [SerializeField] public RoomBase hallway;
+    [SerializeField] public UnityEngine.Tilemaps.TileBase empty;
     [SerializeField] private List<RoomBase> roomBases;
     [SerializeField] private List<MonsterBase> monsterBases;
     [SerializeField] private List<HeroBase> heroBases;
     [SerializeField] private List<TrapBase> trapBases;
     [SerializeField] private List<PartyLayout> partyLayouts;
+    private LocationData locationData;
+    [SerializeField] private LocationData defaultLocation;
 
     // public RoomInfo roomInfo;
     // [Header("Camera")]
@@ -29,11 +33,6 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            // instance.roomBases = Resources.LoadAll<RoomBase>("").ToList();
-            // instance.monsterBases = Resources.LoadAll<MonsterBase>("").ToList();
-            // instance.heroBases = Resources.LoadAll<HeroBase>("").ToList();
-            // instance.trapBases = Resources.LoadAll<TrapBase>("").ToList();
-            // instance.partyLayouts = Resources.LoadAll<PartyLayout>("").ToList();
             DontDestroyOnLoad(instance);
         }
         else
@@ -49,6 +48,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         FormatText();
+        if (locationData == null) SetLocationData(defaultLocation);
+        DungeonManager.GetInstance().PlaceEmpties();
     }
 
     // Update is called once per frame
@@ -75,6 +76,9 @@ public class GameManager : MonoBehaviour
 
     public void SetLocationData(LocationData data)
     {
+        locationData = data;
+        hallway = data.hallways;
+        empty = data.empty;
         roomBases = new List<RoomBase>(data.rooms);
         monsterBases = new List<MonsterBase>(data.monsters);
         heroBases = new List<HeroBase>(data.heroes);

@@ -84,6 +84,17 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
             Place();
     }
 
+    public void PlaceEmpties()
+    {
+        for (int i = -5; i < 5; i++)
+        {
+            for (int j = -5; j < 5; j++)
+            {
+                tilemap.SetTile(new Vector3Int(i, j), GameManager.GetInstance().empty);
+            }
+        }
+    }
+
     public void PlaceImportantRooms()
     {
         BeginNewPlacement(entranceBasePrefab);
@@ -163,6 +174,11 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
         HighlightRooms(false);
     }
 
+    public void BeginHallwayPlacement()
+    {
+        BeginNewPlacement(GameManager.GetInstance().hallway);
+    }
+
     private void Place()
     {
         if (curRoomBase != null) 
@@ -202,7 +218,7 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
 
     private bool PlaceRoom(Vector3Int pos, RoomBase roomBase)
     {
-        if (tilemap.GetTile(pos) != null) return false;
+        if (tilemap.GetTile(pos) != GameManager.GetInstance().empty) return false;
         tilemap.SetTile(pos, roomBase.GetTile());
         tilemap.GetInstantiatedObject(pos).GetComponent<Room>().SetType(roomBase);
         return true;
@@ -247,7 +263,7 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
             bossRoom = Vector3Int.zero;
         else if (pos == entrance)
             bossRoom = Vector3Int.zero;
-        tilemap.SetTile(pos, null);
+        tilemap.SetTile(pos, GameManager.GetInstance().empty);
         CancelPlacement();
         // Hide because we would be hovering over something and it gets destroyed so we need to stop hovering
         Tooltip.HideTooltip_Static();

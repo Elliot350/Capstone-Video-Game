@@ -282,7 +282,7 @@ public class PartyManager : MonoBehaviour
         {
             for (int y = bounds.yMin, j = 0; j < bounds.size.y; y++, j++)
             {
-                if (tilemap.HasTile(new Vector3Int(x, y, 0)))
+                if (tilemap.HasTile(new Vector3Int(x, y, 0)) && tilemap.GetTile(new Vector3Int(x, y, 0)) != GameManager.GetInstance().empty)
                 {
                     spots[i, j] = new Vector3Int(x, y, 0);
                 }

@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 [CreateAssetMenu(fileName = "Location", menuName = "Other/New Location")]
 public class LocationData : ScriptableObject
 {
     public string locationName;
     public RoomBase hallways;
-    public RoomBase empty;
+    public TileBase empty;
     public List<MonsterBase> monsters;
     public List<RoomBase> rooms;
     public List<HeroBase> heroes;

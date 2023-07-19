@@ -13,7 +13,7 @@ public class RoomBase : ScriptableObject
     [SerializeField] protected int trapCapacity;
     [SerializeField] protected List<RoomAbility> abilities;
     [SerializeField] protected Sprite sprite;
-    [SerializeField] protected RuleTile tile;
+    [SerializeField] protected TileBase tile;
 
     public virtual void AddRoom(Room room)
     {
@@ -35,7 +35,7 @@ public class RoomBase : ScriptableObject
     public int GetTrap() {return trapCapacity;}
     public List<RoomAbility> GetAbilities() {return abilities;}
     public Sprite GetSprite() {return sprite;}
-    public RuleTile GetTile() {return tile;}
+    public TileBase GetTile() {return tile;}
     public string GetName() {return displayName;}
     public virtual string GetDescription() {return Ability.GetDescriptionFromList(abilities);}
 }

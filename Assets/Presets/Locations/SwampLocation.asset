@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   locationName: Swamp
   hallways: {fileID: 11400000, guid: 85ac73ba74ccc534d85cd17db754cb21, type: 2}
-  empty: {fileID: 0}
+  empty: {fileID: 11400000, guid: ad4f58c7919b44d12b0e8150179c2f0b, type: 2}
   monsters:
   - {fileID: 11400000, guid: e8de5309356df48c785c2e02d43bed33, type: 2}
   - {fileID: 11400000, guid: 9cea8eefdcb0b4dd7bcc2ec9cc0e35e3, type: 2}

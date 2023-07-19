@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acaa2247657b4b94eabb3337b4581d65, type: 3}
-  m_Name: SpiderDen
+  m_Name: Island
   m_EditorClassIdentifier: 
-  displayName: Spider Den
-  cost: 5
+  displayName: Island
+  cost: 50
   description: 
-  monsterCapacity: 6
-  trapCapacity: 0
+  monsterCapacity: 3
+  trapCapacity: 2
   abilities: []
-  sprite: {fileID: 21300000, guid: db9620d69a77853498a5281c092537cc, type: 3}
-  tile: {fileID: 11400000, guid: 03bd9ee88b5abca438cd7c3ca1d4d71a, type: 2}
+  sprite: {fileID: -1124743345, guid: 0b4c5f7e303b44346916f8d356671d86, type: 3}
+  tile: {fileID: 11400000, guid: 414966ec5b52e1846a94f68fb2698bf5, type: 2}

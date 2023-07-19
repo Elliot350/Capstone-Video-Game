@@ -14,7 +14,7 @@ public class AdvancedRuleTile : RuleTile<AdvancedRuleTile.Neighbor> {
     public class Neighbor : RuleTile.TilingRule.Neighbor {
         public const int Any = 3;
         public const int Specified = 4;
-        public const int Nothing = 5;
+        public const int Empty = 5;
     }
 
     public override bool RuleMatch(int neighbor, TileBase tile) {
@@ -23,7 +23,7 @@ public class AdvancedRuleTile : RuleTile<AdvancedRuleTile.Neighbor> {
             case Neighbor.NotThis: return Check_NotThis(tile);
             case Neighbor.Any: return Check_Any(tile);
             case Neighbor.Specified: return Check_Specified(tile);
-            case Neighbor.Nothing: return Check_Nothing(tile);
+            case Neighbor.Empty: return Check_Empty(tile);
         }
         return base.RuleMatch(neighbor, tile);
     }
@@ -50,9 +50,9 @@ public class AdvancedRuleTile : RuleTile<AdvancedRuleTile.Neighbor> {
         return tilesToConnect.Contains(tile);
     }
 
-    bool Check_Nothing(TileBase tile)
+    bool Check_Empty(TileBase tile)
     {
-        return tile == null;
+        return tile == GameManager.GetInstance().empty || tile == null;
     }
 
 }
