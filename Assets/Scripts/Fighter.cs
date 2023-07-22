@@ -146,6 +146,7 @@ public class Fighter : MonoBehaviour
             PartyManager.GetInstance().HeroDied(this.GetComponent<Hero>());
         }
         IsDead = true;
+        health = 0;
         manager.GetDead().Add(this);
     }
 
@@ -277,6 +278,14 @@ public class Fighter : MonoBehaviour
         if (FightManager.GetInstance().FastForwarding() || !animator.isActiveAndEnabled)
             return;
         animator.SetTrigger("Revive");
+    }
+
+    public virtual void SummonedAnimation()
+    {
+        if (FightManager.GetInstance().FastForwarding() || !animator.isActiveAndEnabled)
+            return;
+        animator.SetBool("Monster", IsMonster);
+        animator.SetTrigger("Summon");
     }
 
     public virtual Effect PlayEffect(string animationName)

@@ -127,6 +127,18 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2415834440798401877, guid: b18703d6e9d2d4cd4a7a38caac0f4367, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415834440798401877, guid: b18703d6e9d2d4cd4a7a38caac0f4367, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5564658881250340074, guid: b18703d6e9d2d4cd4a7a38caac0f4367, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5924849852255079861, guid: b18703d6e9d2d4cd4a7a38caac0f4367, type: 3}
       propertyPath: m_Name
       value: Fighter

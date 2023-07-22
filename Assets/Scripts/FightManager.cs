@@ -555,6 +555,7 @@ public class Summon : FightAction
         // TODO: Make this able to summon fighters as well, ie for a beast master
         Debug.Log($"Summoning {monsterToSummon}, {monsterToSummon.GetName()}");
         Monster summonedMonster = FightManager.GetInstance().AddMonster(monsterToSummon);
+        summonedMonster.SummonedAnimation();
         foreach (Fighter f in FightManager.GetInstance().GetFighters())
             f.MonsterSummoned(summonedMonster);
     }
