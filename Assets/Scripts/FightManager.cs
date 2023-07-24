@@ -100,12 +100,12 @@ public class FightManager : MonoBehaviour
         yield return StartCoroutine(PerformActions());
 
         // Each loop is one fighter attacking, with all the actions resolved
-        while (monsters.Count > 0 && party.Count > 0)
+        while (monsters.Count > 0 && heroes.Count > 0)
         {
             count++;
 
             Fighter currentFighter = order[0];
-            Debug.Log($"Turn #{count}: {currentFighter}...");
+            Debug.Log($"Turn #{count}: {currentFighter.GetName()} ({currentFighter.GetType()})...");
 
             AddAction(new Turn(currentFighter));
 
@@ -125,6 +125,13 @@ public class FightManager : MonoBehaviour
             if (count > 100)
                 break;
         }
+
+        foreach (Fighter f in order)
+        {
+            AddAction(new BattleEnd(f));
+        }
+
+        yield return StartCoroutine(PerformActions());
 
         yield return secondPause;
         Debug.Log("Fight Resolved");
@@ -180,6 +187,30 @@ public class FightManager : MonoBehaviour
         order.Add(monster);
         monsters.Add(monster);
         return monster;
+    }
+
+    public Fighter AddFighter(FighterBase fighterBase)
+    {
+        Fighter fighter;
+        if (fighterBase is MonsterBase)
+        {
+            fighter = Instantiate(monsterPrefab, monsterHolder.transform).GetComponent<Fighter>();
+            monsters.Add(fighter);
+        }
+        else if (fighterBase is HeroBase)
+        {
+            fighter = Instantiate(heroPrefab, heroHolder.transform).GetComponent<Fighter>();
+            heroes.Add(fighter);
+        }
+        else 
+        {
+            Debug.Log($"Error! Couldn't create fighter {fighterBase}/{fighterBase.GetName()}");
+            return null;
+        }
+        fighter.SetBase(fighterBase, room);
+        order.Add(fighter);
+
+        return fighter;
     }
 
     private void AddPortrait()
@@ -410,6 +441,7 @@ public class Die : FightAction
 {
     private Damage attack;
 
+    public Die(Fighter fighter) : this(fighter, new Damage(fighter, 0)) {}
     public Die(Fighter fighter, Damage attack) : base(fighter) {this.attack = attack;}
 
     public override void Do()
@@ -546,18 +578,25 @@ public class Morph : FightAction
 
 public class Summon : FightAction
 {
-    MonsterBase monsterToSummon;
+    FighterBase summonFighterBase;
+    List<FighterAbility> additionalAbilities;
 
-    public Summon(Fighter fighter, MonsterBase summon) : base(fighter) {this.monsterToSummon = summon;}
+    public Summon (Fighter fighter, FighterBase summon, List<FighterAbility> abilities) : base(fighter)
+    {
+        this.summonFighterBase = summon;
+        this.additionalAbilities = abilities;
+    }
+    public Summon(Fighter fighter, FighterBase summon) : this(fighter, summon, new List<FighterAbility>()) {}
 
     public override void Do()
     {
-        // TODO: Make this able to summon fighters as well, ie for a beast master
-        Debug.Log($"Summoning {monsterToSummon}, {monsterToSummon.GetName()}");
-        Monster summonedMonster = FightManager.GetInstance().AddMonster(monsterToSummon);
-        summonedMonster.SummonedAnimation();
+        Debug.Log($"Summoning {summonFighterBase}, {summonFighterBase.GetName()}");
+        Fighter summonedFighter = FightManager.GetInstance().AddFighter(summonFighterBase);
+        summonedFighter.SummonedAnimation();
+        foreach (FighterAbility fa in additionalAbilities)
+            AddAction(new AddAbility(summonedFighter, fa));
         foreach (Fighter f in FightManager.GetInstance().GetFighters())
-            f.MonsterSummoned(summonedMonster);
+            f.FighterSummoned(summonedFighter);
     }
 }
 
@@ -636,6 +675,7 @@ public class Banish : FightAction
 
 public class Delay : FightAction
 {
+    public Delay(float delayTime, Fighter fighter) : base(fighter) {waitTime = delayTime;}
     public Delay(float delayTime) : base(null) {waitTime = delayTime;}
 
     public override void Do() {}

@@ -19,6 +19,8 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     private double cooldown;
     private bool visited;
 
+    private WaitForSeconds wait = new WaitForSeconds(1);
+
     private void Start() 
     {
         alertSprite.gameObject.SetActive(false);
@@ -146,7 +148,7 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
         if (TrapsUntriggered())
         {
-            yield return new WaitForSeconds(1);
+            yield return wait;
             Debug.Log($"Triggering traps");
             foreach (Trap trap in traps)
             {
@@ -156,7 +158,7 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         // If there are monsters, wait a second and fight them
         if (monsters.Count > 0 && !visited)
         {
-            yield return new WaitForSeconds(1);
+            yield return wait;
             Debug.Log($"Starting Fight");
             yield return FightManager.GetInstance().StartCoroutine(FightManager.GetInstance().StartFight(party.heroes, monsters, this));
             Debug.Log($"Fight Done?");

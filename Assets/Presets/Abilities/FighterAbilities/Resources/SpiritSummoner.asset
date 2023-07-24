@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bc57e7eba0db4d31af3602d769c86f6, type: 3}
+  m_Name: SpiritSummoner
+  m_EditorClassIdentifier: 
+  abilityName: Spirit Summoner
+  description: Summons a [Spirit]
+  animationTrigger: 
+  trigger: 3
+  fighters:
+  - {fileID: 11400000, guid: ebde1a0abe1734b83aa8707dadd2b919, type: 2}
+  summonAll: 1
+  additionalAbilities:
+  - {fileID: 11400000, guid: 6324a32dd070845118f4cf598b22f0d9, type: 2}

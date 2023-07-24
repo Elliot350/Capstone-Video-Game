@@ -160,7 +160,7 @@ public class Fighter : MonoBehaviour
     public void StartBattle() {ActivateAbilities((a) => a.BattleStart(this));}
     public void StartTurn() {ActivateAbilities((a) => a.TurnStart(this));}
     public void EndTurn() {ActivateAbilities((a) => a.TurnEnd(this));}
-    public void MonsterSummoned(Fighter summoned) {ActivateAbilities((a) => a.MonsterSummoned(this, summoned));}
+    public void FighterSummoned(Fighter summoned) {ActivateAbilities((a) => a.FighterSummoned(this, summoned));}
 
     private void ActivateAbilities(Action<FighterAbility> action)
     {

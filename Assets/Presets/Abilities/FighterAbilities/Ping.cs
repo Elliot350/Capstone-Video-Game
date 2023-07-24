@@ -31,7 +31,11 @@ public class Ping : FighterAbility
     public override void OnDeath(Damage attack) {if (trigger == Trigger.DEATH) Activate(attack.Target);}
     public override void OnFighterDied(Fighter f, Fighter dead) {if (trigger == Trigger.FIGHTER_DIED) Activate(f);}
     public override void OnHeal(Fighter f) {if (trigger == Trigger.HEALED) Activate(f);}
-    public override void MonsterSummoned(Fighter f, Fighter newFighter) {if (trigger == Trigger.MONSTER_SUMMONED) Activate(f);}
+    public override void FighterSummoned(Fighter f, Fighter newFighter) 
+    {
+        if (trigger == Trigger.MONSTER_SUMMONED && newFighter.IsMonster) Activate(f);
+        else if (trigger == Trigger.HERO_SUMMONED && !newFighter.IsMonster) Activate(f);
+    }
 
     public override string GetDescription()
     {

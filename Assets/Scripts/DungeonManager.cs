@@ -231,6 +231,7 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
 
     private bool PlaceMonster(Vector3Int pos, MonsterBase monsterBase)
     {
+        Debug.Log($"Checking at position {pos}");
         if (tilemap.GetTile(pos) == null || !tilemap.GetInstantiatedObject(pos).GetComponent<Room>().CanAddMonster(monsterBase)) return false;
         Room room = tilemap.GetInstantiatedObject(pos).GetComponent<Room>();
         room.AddMonster(monsterBase);

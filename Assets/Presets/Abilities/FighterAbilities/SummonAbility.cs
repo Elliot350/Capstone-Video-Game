@@ -6,25 +6,27 @@ using UnityEngine;
 public class SummonAbility : FighterAbility
 {
     [SerializeField] private Trigger trigger;
-    [SerializeField] private List<MonsterBase> monsters;
+    [SerializeField] private List<FighterBase> fighters;
     [SerializeField] private bool summonAll;
+    [SerializeField] private List<FighterAbility> additionalAbilities;
 
     public void Activate(Fighter thisFighter)
     {
-        if (monsters == null || monsters.Count == 0) return;
+        if (fighters == null || fighters.Count == 0) return;
 
         if (summonAll)
         {
             // Summon each monster
-            foreach (MonsterBase m in monsters)
+            foreach (FighterBase f in fighters)
             {
-                FightManager.GetInstance().AddAction(new Summon(thisFighter, m));
+                FightManager.GetInstance().AddAction(new Summon(thisFighter, f, additionalAbilities));
+
             }
         }
         else
         {
             // Summon a random monster
-            FightManager.GetInstance().AddAction(new Summon(thisFighter, monsters[Random.Range(0, monsters.Count)]));
+            FightManager.GetInstance().AddAction(new Summon(thisFighter, fighters[Random.Range(0, fighters.Count)], additionalAbilities));
         }
     }
 
@@ -37,7 +39,11 @@ public class SummonAbility : FighterAbility
     public override void OnDeath(Damage attack) {if (trigger == Trigger.DEATH) Activate(attack.Target);}
     public override void OnFighterDied(Fighter f, Fighter dead) {if (trigger == Trigger.FIGHTER_DIED) Activate(f);}
     public override void OnHeal(Fighter f) {if (trigger == Trigger.HEALED) Activate(f);}
-    public override void MonsterSummoned(Fighter f, Fighter newFighter) {if (trigger == Trigger.MONSTER_SUMMONED) Activate(f);}
+    public override void FighterSummoned(Fighter f, Fighter newFighter) 
+    {
+        if (trigger == Trigger.MONSTER_SUMMONED && newFighter.IsMonster) Activate(f);
+        else if (trigger == Trigger.HERO_SUMMONED && !newFighter.IsMonster) Activate(f);
+    }
 
     public override string GetDescription()
     {
