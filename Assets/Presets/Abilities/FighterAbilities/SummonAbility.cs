@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Summon", menuName = "Abilities/Fighter/Summon")]
-public class SummonAbility : FighterAbility
+public class SummonAbility : TriggeredFighterAbility
 {
-    [SerializeField] private Trigger trigger;
-    [SerializeField] private List<FighterBase> fighters;
     [SerializeField] private bool summonAll;
+    [SerializeField] private List<FighterBase> fighters;
     [SerializeField] private List<FighterAbility> additionalAbilities;
 
-    public void Activate(Fighter thisFighter)
+    protected override void Activate(Fighter thisFighter)
     {
         if (fighters == null || fighters.Count == 0) return;
 
@@ -20,7 +19,6 @@ public class SummonAbility : FighterAbility
             foreach (FighterBase f in fighters)
             {
                 FightManager.GetInstance().AddAction(new Summon(thisFighter, f, additionalAbilities));
-
             }
         }
         else
@@ -30,24 +28,10 @@ public class SummonAbility : FighterAbility
         }
     }
 
-    public override void BattleStart(Fighter f) {if (trigger == Trigger.START_BATTLE) Activate(f);}
-    public override void BattleEnd(Fighter f) {if (trigger == Trigger.END_BATTLE) Activate(f);}
-    public override void TurnStart(Fighter f) {if (trigger == Trigger.START_TURN) Activate(f);}
-    public override void TurnEnd(Fighter f) {if (trigger == Trigger.END_TURN) Activate(f);}
-    public override void OnAttack(Damage attack) {if (trigger == Trigger.ATTACK) Activate(attack.Source);}
-    public override void OnTakenDamage(Damage attack) {if (trigger == Trigger.DAMAGED) Activate(attack.Target);}
-    public override void OnDeath(Damage attack) {if (trigger == Trigger.DEATH) Activate(attack.Target);}
-    public override void OnFighterDied(Fighter f, Fighter dead) {if (trigger == Trigger.FIGHTER_DIED) Activate(f);}
-    public override void OnHeal(Fighter f) {if (trigger == Trigger.HEALED) Activate(f);}
-    public override void FighterSummoned(Fighter f, Fighter newFighter) 
-    {
-        if (trigger == Trigger.MONSTER_SUMMONED && newFighter.IsMonster) Activate(f);
-        else if (trigger == Trigger.HERO_SUMMONED && !newFighter.IsMonster) Activate(f);
-    }
-
     public override string GetDescription()
     {
-        return string.Format(description);
+        return description;
+        // return string.Format(description);
         // if (summonAll)
         // {
         //     string monsterList = monsters[0].GetName();

@@ -28,7 +28,7 @@ public class Consume : FighterAbility
     public override void OnAttack(Damage attack) {if (trigger == Trigger.ATTACK) Activate(attack.Source);}
     public override void OnTakenDamage(Damage attack) {if (trigger == Trigger.DAMAGED) Activate(attack.Target);}
     public override void OnDeath(Damage attack) {if (trigger == Trigger.DEATH) Activate(attack.Target);}
-    public override void OnFighterDied(Fighter f, Fighter dead) {if (trigger == Trigger.FIGHTER_DIED) Activate(f);}
+    public override void OnFighterDied(Fighter f, Fighter dead) {if (trigger == Trigger.MONSTER_DIED) Activate(f);}
     public override void OnHeal(Fighter f) {if (trigger == Trigger.HEALED) Activate(f);}
 
     public override string GetDescription()

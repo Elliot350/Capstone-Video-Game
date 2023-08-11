@@ -16,6 +16,6 @@ MonoBehaviour:
   description: 'Battle Start: Repeat this {1} times: Deal {1} damage to a random
     enemy'
   animationTrigger: Alligator
+  triggers: 00000000
   damage: 1
   numOfTriggers: 5
-  trigger: 0

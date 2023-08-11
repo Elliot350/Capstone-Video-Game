@@ -12,7 +12,8 @@ public abstract class FighterAbility : Ability
         ATTACK,
         DAMAGED,
         DEATH,
-        FIGHTER_DIED,
+        MONSTER_DIED,
+        HERO_DIED,
         HEALED,
         MONSTER_SUMMONED,
         HERO_SUMMONED

@@ -15,7 +15,8 @@ MonoBehaviour:
   abilityName: Swarming
   description: 'Damaged: Summon a Mosquito'
   animationTrigger: 
-  trigger: 5
-  monsters:
-  - {fileID: 11400000, guid: 40a990f11720d49dba9a5acd6b19e180, type: 2}
+  triggers: 05000000
   summonAll: 1
+  fighters:
+  - {fileID: 11400000, guid: 40a990f11720d49dba9a5acd6b19e180, type: 2}
+  additionalAbilities: []

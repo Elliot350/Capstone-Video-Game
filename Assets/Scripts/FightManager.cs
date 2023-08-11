@@ -595,6 +595,7 @@ public class Summon : FightAction
         summonedFighter.SummonedAnimation();
         foreach (FighterAbility fa in additionalAbilities)
             AddAction(new AddAbility(summonedFighter, fa));
+        AddAction(new BattleStart(summonedFighter));
         foreach (Fighter f in FightManager.GetInstance().GetFighters())
             f.FighterSummoned(summonedFighter);
     }

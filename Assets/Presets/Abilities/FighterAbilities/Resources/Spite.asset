@@ -15,6 +15,6 @@ MonoBehaviour:
   abilityName: Spite
   description: 'On Damaged: Repeat {1} times: Deal {0} damage to a random enemy'
   animationTrigger: 
+  triggers: 05000000
   damage: 2
   numOfTriggers: 2
-  trigger: 5

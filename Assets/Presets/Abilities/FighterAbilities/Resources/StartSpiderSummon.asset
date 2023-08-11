@@ -9,10 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 399f6f9884502b843a5118cd3184a5c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 9bc57e7eba0db4d31af3602d769c86f6, type: 3}
   m_Name: StartSpiderSummon
   m_EditorClassIdentifier: 
   abilityName: Spider Summoner
   description: 'Battle Start: Summon a {0}'
   animationTrigger: 
-  summon: {fileID: 11400000, guid: 660e93d7a31dc264e99f3bf3bcf714f9, type: 2}
+  triggers: 00000000
+  summonAll: 0
+  fighters:
+  - {fileID: 11400000, guid: 660e93d7a31dc264e99f3bf3bcf714f9, type: 2}
+  additionalAbilities: []

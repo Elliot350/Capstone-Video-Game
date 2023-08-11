@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: SpiritSummoner
   m_EditorClassIdentifier: 
   abilityName: Spirit Summoner
-  description: Summons a [Spirit]
+  description: 'End Turn: Summons a [Spirit]'
   animationTrigger: 
-  trigger: 3
+  triggers: 03000000
+  summonAll: 1
   fighters:
   - {fileID: 11400000, guid: ebde1a0abe1734b83aa8707dadd2b919, type: 2}
-  summonAll: 1
   additionalAbilities:
   - {fileID: 11400000, guid: 6324a32dd070845118f4cf598b22f0d9, type: 2}

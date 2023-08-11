@@ -15,8 +15,9 @@ MonoBehaviour:
   abilityName: Spider Brood
   description: 'Start: Summon 2 [Spiderling]'
   animationTrigger: 
-  trigger: 0
-  monsters:
-  - {fileID: 11400000, guid: b251d70e9753d48fdbf2a5ca9ecd8df0, type: 2}
-  - {fileID: 11400000, guid: b251d70e9753d48fdbf2a5ca9ecd8df0, type: 2}
+  triggers: 00000000
   summonAll: 1
+  fighters:
+  - {fileID: 11400000, guid: b251d70e9753d48fdbf2a5ca9ecd8df0, type: 2}
+  - {fileID: 11400000, guid: b251d70e9753d48fdbf2a5ca9ecd8df0, type: 2}
+  additionalAbilities: []

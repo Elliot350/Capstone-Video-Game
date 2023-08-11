@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Ping", menuName = "Abilities/Fighter/Ping")]
-public class Ping : FighterAbility
+public class Ping : TriggeredFighterAbility
 {
     [SerializeField] private float damage;
     [SerializeField] private int numOfTriggers;
-    // Maybe make this a list so there can be multiple triggers?
-    [SerializeField] private Trigger trigger;
 
-    private void Activate(Fighter thisFighter)
+    protected override void Activate(Fighter thisFighter)
     {
         List<Fighter> enemies = FightManager.GetInstance().GetEnemies(thisFighter);
         if (enemies.Count == 0) return;
@@ -22,23 +20,8 @@ public class Ping : FighterAbility
         }
     }
 
-    public override void BattleStart(Fighter f) {if (trigger == Trigger.START_BATTLE) Activate(f);}
-    public override void BattleEnd(Fighter f) {if (trigger == Trigger.END_BATTLE) Activate(f);}
-    public override void TurnStart(Fighter f) {if (trigger == Trigger.START_TURN) Activate(f);}
-    public override void TurnEnd(Fighter f) {if (trigger == Trigger.END_TURN) Activate(f);}
-    public override void OnAttack(Damage attack) {if (trigger == Trigger.ATTACK) Activate(attack.Source);}
-    public override void OnTakenDamage(Damage attack) {if (trigger == Trigger.DAMAGED) Activate(attack.Target);}
-    public override void OnDeath(Damage attack) {if (trigger == Trigger.DEATH) Activate(attack.Target);}
-    public override void OnFighterDied(Fighter f, Fighter dead) {if (trigger == Trigger.FIGHTER_DIED) Activate(f);}
-    public override void OnHeal(Fighter f) {if (trigger == Trigger.HEALED) Activate(f);}
-    public override void FighterSummoned(Fighter f, Fighter newFighter) 
-    {
-        if (trigger == Trigger.MONSTER_SUMMONED && newFighter.IsMonster) Activate(f);
-        else if (trigger == Trigger.HERO_SUMMONED && !newFighter.IsMonster) Activate(f);
-    }
-
     public override string GetDescription()
     {
-        return string.Format(description, damage, numOfTriggers, trigger);
+        return string.Format(description, damage, numOfTriggers, triggers);
     }
 }

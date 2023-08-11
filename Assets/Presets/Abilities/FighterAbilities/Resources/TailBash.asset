@@ -15,6 +15,6 @@ MonoBehaviour:
   abilityName: Tail Bash
   description: 'Battle Start: Deal {0} damage to a random enemy'
   animationTrigger: Crocodile
+  triggers: 00000000
   damage: 5
   numOfTriggers: 1
-  trigger: 0

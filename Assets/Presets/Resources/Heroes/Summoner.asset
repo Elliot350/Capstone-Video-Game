@@ -21,5 +21,6 @@ MonoBehaviour:
   tier: 2
   abilities:
   - {fileID: 11400000, guid: 9c78fff38499d46bd94e28731fee5e35, type: 2}
-  tags: []
+  tags:
+  - {fileID: 11400000, guid: 43bb689013c62424ebabb7583d8a85f2, type: 2}
   gold: 0
