@@ -16,6 +16,7 @@ public class UnlockMonster : MonoBehaviour
 
     public void UpdateVisuals()
     {
+        if (monsterBase == null) return;
         // If it is already unlocked
         if (UnlockManager.GetInstance().unlockedMonsters.Contains(monsterBase))
         {

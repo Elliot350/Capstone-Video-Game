@@ -206,6 +206,7 @@ public class Fighter : MonoBehaviour
         if (room != null)
             room.CalculateMaxHealth(this);
         ActivateAbilities((a) => a.CalculateMaxHealth(this));
+        damageText.text = $"{damage} + {damageModifier}\n{maxHealth} + {maxHealthModifier}";
     }
 
     public void IncreaseMaxHealthModifier(float amount)

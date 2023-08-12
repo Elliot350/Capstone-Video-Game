@@ -24,4 +24,5 @@ MonoBehaviour:
   tags:
   - {fileID: 11400000, guid: 24eee85445c114cf480333deb6aeb7c2, type: 2}
   needsAll: 0
-  requirements: []
+  requirements:
+  - {fileID: 11400000, guid: 40a990f11720d49dba9a5acd6b19e180, type: 2}

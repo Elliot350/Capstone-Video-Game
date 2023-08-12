@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// [ExecuteInEditMode]
+[ExecuteInEditMode]
 public class Line : MonoBehaviour
 {
     [SerializeField] private Image horizontalLine, verticalLine, cornerLine;
@@ -12,10 +12,10 @@ public class Line : MonoBehaviour
     [SerializeField] public RectTransform gameObject1;
     [SerializeField] public RectTransform gameObject2;
 
-    // void Update()
-    // {
-    //     SetLinePositions();
-    // }
+    void Update()
+    {
+        SetLinePositions();
+    }
 
     private void Start()
     {

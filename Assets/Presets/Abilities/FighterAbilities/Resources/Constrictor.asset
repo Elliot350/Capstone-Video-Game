@@ -15,4 +15,4 @@ MonoBehaviour:
   abilityName: Constrictor
   description: 'Attack: Add {0} to target ({1})'
   animationTrigger: 
-  ability: {fileID: 0}
+  ability: {fileID: 11400000, guid: 8c8cc40d1aeee4baa82c231749fe55bd, type: 2}
