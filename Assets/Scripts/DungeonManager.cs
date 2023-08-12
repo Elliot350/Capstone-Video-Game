@@ -73,15 +73,15 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log($"PointerClick");
-        if (currentlyPlacing)
-            Place();
+        // if (currentlyPlacing)
+        //     Place();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log($"PointerDown");
-        if (currentlyPlacing)
-            Place();
+        // if (currentlyPlacing)
+        //     Place();
     }
 
     public void PlaceEmpties()
@@ -181,6 +181,7 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
 
     private void Place()
     {
+        if (curPlacementPos == null) return;
         if (curRoomBase != null) 
         {
             // If we have enough money, and the room was placed correctly, spend the money and cancel the placement (unless we are currently placing a hallway)
