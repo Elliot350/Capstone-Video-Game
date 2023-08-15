@@ -51,34 +51,44 @@ public class UIManager : MonoBehaviour
 
     // ---------- General Menu Stuff ----------
 
-    private void SetMenus()
+    public void SetMenu(MenuState menuState)
     {
+        // Close the one currently open
         switch (state)
         {
             case MenuState.GAME:
-                CloseAllMenus();
                 break;
             case MenuState.FIGHT:
-                CloseAllMenus();
+                SetFightMenu(false);
+                break;
+            case MenuState.PICK_BOSS:
+                SetBossMenu(false);
+                break;
+            case MenuState.UNLOCK_MONSTER:
+                SetUnlockMenu(false);
+                break;
+            default:
+                break;
+        }
+        // Then open the next one
+        state = menuState;
+        switch (state)
+        {
+            case MenuState.GAME:
+                break;
+            case MenuState.FIGHT:
                 SetFightMenu(true);
                 break;
             case MenuState.PICK_BOSS:
-                CloseAllMenus();
                 SetBossMenu(true);
                 break;
             case MenuState.UNLOCK_MONSTER:
-                CloseAllMenus();
                 SetUnlockMenu(true);
                 break;
             default:
                 break;
         }
-    }
-
-    public void SetMenu(MenuState menuState)
-    {
-        state = menuState;
-        SetMenus();
+        // SetMenus();
     }
 
     public void CloseAllMenus()

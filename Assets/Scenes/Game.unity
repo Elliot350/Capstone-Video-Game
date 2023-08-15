@@ -5594,12 +5594,12 @@ GameObject:
   - component: {fileID: 905412371}
   - component: {fileID: 905412370}
   m_Layer: 5
-  m_Name: FightView
+  m_Name: FightMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &905412369
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8309,8 +8309,8 @@ RectTransform:
   - {fileID: 1538196256}
   - {fileID: 1365531615}
   - {fileID: 1306584096}
-  - {fileID: 480169278}
   - {fileID: 2035135131}
+  - {fileID: 480169278}
   - {fileID: 1356341163}
   - {fileID: 1395199777}
   - {fileID: 972614556}
@@ -11889,7 +11889,7 @@ GameObject:
   - component: {fileID: 1616671022}
   - component: {fileID: 1616671024}
   m_Layer: 5
-  m_Name: BossChooser
+  m_Name: BossMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12565,12 +12565,12 @@ GameObject:
   - component: {fileID: 1707333549}
   - component: {fileID: 1707333548}
   m_Layer: 5
-  m_Name: UnlockTree
+  m_Name: UnlockMonsterMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1707333547
 RectTransform:
   m_ObjectHideFlags: 0
