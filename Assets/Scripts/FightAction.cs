@@ -115,7 +115,7 @@ public class TakeDamage : FightAction
 
     public override bool IsValid()
     {
-        return base.IsValid() && !fighter.IsDead;
+        return base.IsValid() && !attack.Target.IsDead && attack.Target.GetHealth() >= 0;
     }
 }
 

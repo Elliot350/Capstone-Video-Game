@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69f6baaa74a17c14e871549b2bd4ece9, type: 3}
+  m_Name: GoblinShaman
+  m_EditorClassIdentifier: 
+  displayName: Goblin Shaman
+  sprite: {fileID: 291039084, guid: f750d128745a840d9a3570daeaad7e31, type: 3}
+  cost: 20
+  baseDamage: 7
+  maxHealth: 12
+  speed: 1
+  tier: 3
+  abilities:
+  - {fileID: 11400000, guid: 2620ae1ecf6af4f6896c3081cb34984a, type: 2}
+  tags:
+  - {fileID: 11400000, guid: 17a740a5be0b74226bed804e33beca87, type: 2}
+  needsAll: 0
+  requirements:
+  - {fileID: 11400000, guid: 97ceb8e4b86ca4b19b622449d4faafb1, type: 2}

@@ -10,6 +10,7 @@ public class Ping : TriggeredFighterAbility
 
     protected override void Activate(Fighter thisFighter)
     {
+        if (thisFighter.GetHealth() <= 0) return;
         List<Fighter> enemies = FightManager.GetInstance().GetEnemies(thisFighter);
         if (enemies.Count == 0) return;
         for (int i = 0; i < numOfTriggers; i++)
