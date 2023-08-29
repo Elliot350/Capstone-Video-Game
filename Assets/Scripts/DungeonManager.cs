@@ -233,7 +233,7 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
     private bool PlaceMonster(Vector3Int pos, MonsterBase monsterBase)
     {
         Debug.Log($"Checking at position {pos}");
-        if (tilemap.GetTile(pos) == null || !tilemap.GetInstantiatedObject(pos).GetComponent<Room>().CanAddMonster(monsterBase)) return false;
+        if (tilemap.GetTile(pos) == null || tilemap.GetTile(pos) == GameManager.GetInstance().empty || !tilemap.GetInstantiatedObject(pos).GetComponent<Room>().CanAddMonster(monsterBase)) return false;
         Room room = tilemap.GetInstantiatedObject(pos).GetComponent<Room>();
         room.AddMonster(monsterBase);
         return true;
@@ -246,7 +246,7 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
 
     private bool PlaceTrap(Vector3Int pos, TrapBase trapBase)
     {
-        if (tilemap.GetTile(pos) == null || !tilemap.GetInstantiatedObject(pos).GetComponent<Room>().CanAddTrap(trapBase)) return false;
+        if (tilemap.GetTile(pos) == null || tilemap.GetTile(pos) == GameManager.GetInstance().empty || !tilemap.GetInstantiatedObject(pos).GetComponent<Room>().CanAddTrap(trapBase)) return false;
         Room room = tilemap.GetInstantiatedObject(pos).GetComponent<Room>();
         room.AddTrap(trapBase);
         return true;
@@ -254,7 +254,8 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
 
     private void DestroyTile(Vector3Int pos)
     {
-        if (tilemap.GetTile(pos) == null) return;
+        Debug.Log($"Destroying tile at {pos}, tile: ({tilemap.GetTile(pos)})");
+        if (tilemap.GetTile(pos) == null || tilemap.GetTile(pos) == GameManager.GetInstance().empty) return;
         // TODO: Change this to a method in room so it refunds some money for the room, monsters and traps
         Room destroyedRoom = tilemap.GetInstantiatedObject(pos).GetComponent<Room>();
         if (rooms.Contains(destroyedRoom))
