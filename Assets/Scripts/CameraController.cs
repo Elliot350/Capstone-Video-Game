@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraController : MonoBehaviour
 {
@@ -56,6 +57,7 @@ public class CameraController : MonoBehaviour
 
     public void ZoomIn()
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         float newSize = cam.orthographicSize - zoomStep;
         cam.orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
 
@@ -64,6 +66,7 @@ public class CameraController : MonoBehaviour
 
     public void ZoomOut()
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         float newSize = cam.orthographicSize + zoomStep;
         cam.orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
     

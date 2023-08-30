@@ -39,7 +39,7 @@ public class Fighter : MonoBehaviour
     [SerializeField] protected Image image;
     [SerializeField] protected Image alertImage;
     // private List<Effect> effects = new List<Effect>();
-    private Dictionary<Effect, string> effects = new Dictionary<Effect, string>();
+    private Dictionary<Effect, string> effects = new();
     // [SerializeField] protected ParticleSystem healParticles;
 
     [Space(10)]

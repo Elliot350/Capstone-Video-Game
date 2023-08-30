@@ -38,12 +38,14 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void SetType(RoomBase roomBase)
     {
-        this.roomType = roomBase;
-        this.abilities = new List<RoomAbility>(roomBase.GetAbilities());
-        displayName = this.roomType.GetName();
-        monsterCapacity = this.roomType.GetMonster();
-        trapCapacity = this.roomType.GetTrap();
-        this.roomType.AddRoom(this);
+        roomType = roomBase;
+        abilities = new List<RoomAbility>();
+        foreach (RoomAbility a in roomBase.GetAbilities())
+            abilities.Add(Instantiate<RoomAbility>(a));
+        displayName = roomType.GetName();
+        monsterCapacity = roomType.GetMonster();
+        trapCapacity = roomType.GetTrap();
+        roomType.AddRoom(this);
         foreach (RoomAbility a in abilities)
             a.RoomBuilt(this);
     }
@@ -197,7 +199,8 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         if (!DungeonManager.GetInstance().IsPlacing())
         {
             Debug.Log($"Room pressed");
-            // GameManager.GetInstance().RoomClickedOn(this);
+
+            UIManager.GetInstance().ShowRoomInfo(this);
         }
     }
 
@@ -228,4 +231,6 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public int GetMonsterCapacity() {return monsterCapacity;}
     public List<Trap> GetTraps() {return traps;}
     public int GetTrapCapacity() {return trapCapacity;}
+    public RoomBase GetRoomBase() {return roomType;}
+    public string GetName() {return displayName;}
 }

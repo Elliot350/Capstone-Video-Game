@@ -143,6 +143,7 @@ public class GameManager : MonoBehaviour
     public void RoomClickedOn(Room room)
     {
         // roomInfo.ShowRoom(room);
+        
     }
 
     // public void AddBoss()

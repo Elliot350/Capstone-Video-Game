@@ -35,6 +35,8 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
     private Vector3Int entrance;
     [SerializeField] private Vector3Int bossRoom;
 
+    [SerializeField] private RoomInfo roomInfo;
+
     [Header("Prefabs for placing a basic dungeon")]
     [SerializeField] private RoomBase hallwayBasePrefab;
     [SerializeField] private RoomBase roomBasePrefab;
@@ -60,6 +62,11 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
 
     private void Update()
     {
+        // if (Input.GetMouseButtonDown(0))
+        // {
+        //     if (currentlyPlacing) Debug.Log($"Placing something down");
+        //     else Debug.Log($"Mouse Down");
+        // }
         if (Input.GetKeyDown(KeyCode.Escape))
             CancelPlacement();
         if (Time.time - lastUpdateTime > placementIndicatorUpdateRate)

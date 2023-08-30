@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
         GAME,
         FIGHT,
         PICK_BOSS,
+        ROOM_INFO,
         UNLOCK_MONSTER,
         UNLOCK_TRAP,
         UNLOCK_ROOM,
@@ -25,6 +26,9 @@ public class UIManager : MonoBehaviour
 
     [Header("Unlock Menu")]
     [SerializeField] private GameObject unlockMenu;
+
+    [Header("Room Info Menu")]
+    [SerializeField] private GameObject roomInfoMenu;
 
     [Header("Build Menu")]
     [SerializeField] private Animator roomMenu;
@@ -64,6 +68,9 @@ public class UIManager : MonoBehaviour
             case MenuState.PICK_BOSS:
                 SetBossMenu(false);
                 break;
+            case MenuState.ROOM_INFO:
+                roomInfoMenu.SetActive(false);
+                break;
             case MenuState.UNLOCK_MONSTER:
                 SetUnlockMenu(false);
                 break;
@@ -82,6 +89,9 @@ public class UIManager : MonoBehaviour
             case MenuState.PICK_BOSS:
                 SetBossMenu(true);
                 break;
+            case MenuState.ROOM_INFO:
+                roomInfoMenu.SetActive(true);
+                break;
             case MenuState.UNLOCK_MONSTER:
                 SetUnlockMenu(true);
                 break;
@@ -93,9 +103,7 @@ public class UIManager : MonoBehaviour
 
     public void CloseAllMenus()
     {
-        SetFightMenu(false);
-        SetUnlockMenu(false);
-        SetBossMenu(false);
+        SetMenu(MenuState.GAME);
     }
 
     // ---------- Fight Menu ----------
@@ -132,6 +140,14 @@ public class UIManager : MonoBehaviour
     public void OpenUnlockMenu()
     {
         SetMenu(MenuState.UNLOCK_MONSTER);
+    }
+
+    // ---------- Room Info Menu ----------
+
+    public void ShowRoomInfo(Room room)
+    {
+        roomInfoMenu.GetComponent<RoomInfo>().DisplayRoom(room);
+        SetMenu(MenuState.ROOM_INFO);
     }
 
     // ---------- Build Menus ----------
