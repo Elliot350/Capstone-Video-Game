@@ -9,7 +9,7 @@ public class FighterBase : ScriptableObject
     [SerializeField] protected int cost;
     [SerializeField] protected float baseDamage;
     [SerializeField] protected int maxHealth;
-    [SerializeField] protected float speed;
+    [SerializeField] protected float speed = 1f;
     [SerializeField] protected int tier;
     [SerializeField] protected List<FighterAbility> abilities;
     [SerializeField] protected List<Tag> tags;

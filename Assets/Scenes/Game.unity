@@ -14989,10 +14989,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f25a5c825fd1a4a9886e80a6ecce58e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterEntryPrefab: {fileID: 7203872147090369568, guid: 71f4ca06e413441abbb521fa4c7c4e77, type: 3}
-  content: {fileID: 577865871}
-  image: {fileID: 1558091116}
   roomName: {fileID: 1149825768}
+  image: {fileID: 1558091116}
+  monsterEntryPrefab: {fileID: 7203872147090369568, guid: 71f4ca06e413441abbb521fa4c7c4e77, type: 3}
+  monsterContent: {fileID: 577865871}
   monsters: []
 --- !u!1 &1819950476
 GameObject:

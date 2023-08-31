@@ -223,7 +223,16 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         visited = true;
     }
 
+    public void SellMonster(MonsterBase monster)
+    {
+        Debug.Log($"Selling Monster {monster}");
+        monsters.Remove(monster);
+    }
 
+    public void SellTrap(Trap trap)
+    {
+
+    }
 
     public string GetDescription() {return Ability.GetDescriptionFromList(abilities);}
     public List<RoomAbility> GetAbilities() {return abilities;}

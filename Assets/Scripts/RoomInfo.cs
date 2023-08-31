@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public class RoomInfo : MonoBehaviour
 {
-    [SerializeField] private MonsterEntry monsterEntryPrefab;
-    [SerializeField] private RectTransform content;
-    [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI roomName;
+    [SerializeField] private Image image;
+    [SerializeField] private MonsterEntry monsterEntryPrefab;
+    [SerializeField] private RectTransform monsterContent;
     [SerializeField] private List<MonsterEntry> monsters;
 
     public void DisplayRoom(Room room)
@@ -18,6 +18,7 @@ public class RoomInfo : MonoBehaviour
         roomName.text = room.GetName();
         
         ShowMonsters(room);
+        // ShowTraps(room);
     }
 
     private void ShowMonsters(Room room)
@@ -29,14 +30,19 @@ public class RoomInfo : MonoBehaviour
 
         while (monsters.Count < room.GetMonsters().Count)
         {
-            MonsterEntry newEntry = Instantiate(monsterEntryPrefab, content);
+            MonsterEntry newEntry = Instantiate(monsterEntryPrefab, monsterContent);
             monsters.Add(newEntry); 
         }
 
         for (int i = 0; i < room.GetMonsters().Count; i++)
         {
-            monsters[i].Set(room.GetMonsters()[i]);
+            monsters[i].Set(room.GetMonsters()[i], room);
         }
-        content.sizeDelta = new Vector2(content.sizeDelta.x, room.GetMonsters().Count * 50);
+        monsterContent.sizeDelta = new Vector2(monsterContent.sizeDelta.x, room.GetMonsters().Count * 50);
+    }
+
+    private void ShowTraps(Room room)
+    {
+        Debug.LogWarning($"ShowTraps not implemented");
     }
 }
