@@ -120,7 +120,7 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void AddTrap(TrapBase trapBase)
     {
-        // Trap trap = Instantiate(TrapPlacer.GetInstance().trapPrefab, transform);
+        // Possibly need to change this
         Trap trap = gameObject.AddComponent<Trap>();
         trap.SetType(trapBase);
         traps.Add(trap);

@@ -332,6 +332,8 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
         }
     }
 
+    
+
     private void TriggerPeriodicRooms()
     {
         foreach (Room r in rooms)

@@ -12,13 +12,17 @@ public class RoomInfo : MonoBehaviour
     [SerializeField] private RectTransform monsterContent;
     [SerializeField] private List<MonsterEntry> monsters;
 
+    [SerializeField] private TrapEntry trapEntryPrefab;
+    [SerializeField] private RectTransform trapContent;
+    [SerializeField] private List<TrapEntry> traps;
+
     public void DisplayRoom(Room room)
     {
         image.sprite = room.GetRoomBase().GetSprite();
         roomName.text = room.GetName();
         
         ShowMonsters(room);
-        // ShowTraps(room);
+        ShowTraps(room);
     }
 
     private void ShowMonsters(Room room)
@@ -43,6 +47,22 @@ public class RoomInfo : MonoBehaviour
 
     private void ShowTraps(Room room)
     {
-        Debug.LogWarning($"ShowTraps not implemented");
+        foreach (TrapEntry trapEntry in traps)
+        {
+            trapEntry.Hide();
+        }
+
+        while (traps.Count < room.GetTraps().Count)
+        {
+            TrapEntry newEntry = Instantiate(trapEntryPrefab, trapContent);
+            traps.Add(newEntry);
+        }
+
+        for (int i = 0; i < room.GetTraps().Count; i++)
+        {
+            Debug.Log($"Setting #{i} -> {room.GetTraps()[i]}");
+            traps[i].Set(room.GetTraps()[i], room);
+        }
+        trapContent.sizeDelta = new Vector2(monsterContent.sizeDelta.x, room.GetTraps().Count * 50);
     }
 }

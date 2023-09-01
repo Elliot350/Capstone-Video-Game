@@ -23,6 +23,7 @@ public class MonsterEntry : MonoBehaviour
     public void Hide()
     {
         monster = null;
+        room = null;
         gameObject.SetActive(false);
     }
 

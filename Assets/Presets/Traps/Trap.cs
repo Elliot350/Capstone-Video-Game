@@ -16,6 +16,7 @@ public class Trap : MonoBehaviour
     {
         trapBase = trapPreset;
         this.displayName = trapBase.GetName();
+        sprite = trapBase.GetSprite();
         abilities = new List<TrapAbility>(trapBase.GetAbilities());
     }
 
@@ -24,4 +25,7 @@ public class Trap : MonoBehaviour
         foreach (TrapAbility a in abilities)
             a.PartyEntered(party);
     }
+
+    public Sprite GetSprite() {return sprite;}
+    
 }
