@@ -16,10 +16,8 @@ public class TrapEntry : MonoBehaviour
         this.trap = trap;
         this.room = room;
         gameObject.SetActive(true);
-        Debug.Log($"Setting text...");
-        trapName.text = trap.displayName;
-        Debug.Log($"Setting Sprite...");
         image.sprite = trap.GetSprite();
+        trapName.text = trap.displayName;
     }
 
     public void Hide()

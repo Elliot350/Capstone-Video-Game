@@ -121,6 +121,8 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public void AddTrap(TrapBase trapBase)
     {
         // Possibly need to change this
+        // GameObject newGameObject = new GameObject("Trap");
+        // newGameObject.transform.parent = this.gameObject.transform;
         Trap trap = gameObject.AddComponent<Trap>();
         trap.SetType(trapBase);
         traps.Add(trap);
