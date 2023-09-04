@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteInEditMode]
+// [ExecuteInEditMode]
 public class Line : MonoBehaviour
 {
     [SerializeField] private Image horizontalLine, verticalLine, cornerLine;
