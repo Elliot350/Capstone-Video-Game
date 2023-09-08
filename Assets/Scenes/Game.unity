@@ -2064,7 +2064,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1882527359}
   m_HandleRect: {fileID: 1882527358}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -5665,7 +5665,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1397408644}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.37492472
+  m_Size: 0.37492463
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -15353,7 +15353,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -263.4, y: -64.00001}
+  m_AnchoredPosition: {x: -258.3017, y: -58.151882}
   m_SizeDelta: {x: 250, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1801433220
@@ -15568,6 +15568,7 @@ MonoBehaviour:
   - {x: 290.16, y: 162.01999, z: 0}
   - {x: 384.2605, y: 380.14374, z: 0}
   - {x: 384.2605, y: 380.14374, z: 0}
+  - {x: 384.2605, y: 380.14374, z: 0}
   texts:
   - THIS IS THE BUILD MENU
   - YOU CAN BUILD HALLWAYS
@@ -15576,6 +15577,7 @@ MonoBehaviour:
   - AND MONSTERS
   - THESE ARE YOUR CURRENCIES
   - MANA
+  - AND MONEY
   arrowPositions:
   - {x: 74.65573, y: 78.196, z: 0}
   - {x: 124.42624, y: 71.14349, z: 0}
@@ -15584,6 +15586,7 @@ MonoBehaviour:
   - {x: 427.18, y: 72.35249, z: 0}
   - {x: 532.86676, y: 421.65277, z: 0}
   - {x: 620.0155, y: 380.14374, z: 0}
+  - {x: 720.50726, y: 380.14374, z: 0}
   arrowRotations:
   - {x: -0, y: -0, z: -0, w: 1}
   - {x: -0, y: -0, z: -0, w: 1}
@@ -15591,6 +15594,7 @@ MonoBehaviour:
   - {x: -0, y: -0, z: -0, w: 1}
   - {x: -0, y: -0, z: -0, w: 1}
   - {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  - {x: -0, y: -0, z: 1, w: 0}
   - {x: -0, y: -0, z: 1, w: 0}
 --- !u!4 &1820153384
 Transform:
@@ -16164,6 +16168,7 @@ MonoBehaviour:
   bossMenu: {fileID: 1616671020}
   unlockMenu: {fileID: 1707333546}
   roomInfoMenu: {fileID: 1789210096}
+  tutorialManager: {fileID: 0}
   roomMenu: {fileID: 2087065103}
   trapMenu: {fileID: 1486633643}
   monsterMenu: {fileID: 1334136564}
@@ -16485,7 +16490,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -62.5, y: -83.199974}
+  m_AnchoredPosition: {x: -64.8327, y: -86.30527}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1964062962
@@ -17321,7 +17326,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1612592185}
   m_HandleRect: {fileID: 1612592184}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

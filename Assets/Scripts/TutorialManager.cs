@@ -45,6 +45,13 @@ public class TutorialManager : MonoBehaviour
         ShowStep(currentStep);
     }
 
+    [ContextMenu("GoToLastStep")]
+    private void GoToLastStep()
+    {
+        currentStep = boxPositions.Count - 1;
+        ShowStep(currentStep);
+    }
+
     public void PreviousStep()
     {
         if (currentStep > 0)
@@ -56,9 +63,10 @@ public class TutorialManager : MonoBehaviour
 
     public void NextStep()
     {
-        Debug.Log($"Current Step: {currentStep}, number of steps: {boxPositions.Count}");
-        if (currentStep < boxPositions.Count)
+        Debug.Log($"Step was {currentStep}, now is {currentStep+1}, number of steps: {boxPositions.Count}");
+        if (currentStep + 1 < boxPositions.Count)
         {
+            Debug.Log($"Increasing step, was:{currentStep}, now:{currentStep+1}, number of steps: {boxPositions.Count}");
             currentStep++;
             ShowStep(currentStep);
         }
