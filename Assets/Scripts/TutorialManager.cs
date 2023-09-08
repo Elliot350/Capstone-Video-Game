@@ -15,6 +15,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private List<Vector3> arrowPositions = new();
     [SerializeField] private List<Quaternion> arrowRotations = new();
 
+    // This is a test comment
+
     private int currentStep;
 
     [ContextMenu("AddStep")]
