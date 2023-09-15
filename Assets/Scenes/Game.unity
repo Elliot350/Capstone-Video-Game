@@ -15331,7 +15331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1801433219
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16168,7 +16168,7 @@ MonoBehaviour:
   bossMenu: {fileID: 1616671020}
   unlockMenu: {fileID: 1707333546}
   roomInfoMenu: {fileID: 1789210096}
-  tutorialManager: {fileID: 0}
+  tutorialManager: {fileID: 1820153383}
   roomMenu: {fileID: 2087065103}
   trapMenu: {fileID: 1486633643}
   monsterMenu: {fileID: 1334136564}

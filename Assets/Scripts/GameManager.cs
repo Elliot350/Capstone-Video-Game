@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        PlayerPrefsManager.Load();
         if (instance == null)
         {
             instance = this;
@@ -197,6 +198,12 @@ public class GameManager : MonoBehaviour
     public PartyLayout GetRandomPartyLayout()
     {
         return partyLayouts[UnityEngine.Random.Range(0, partyLayouts.Count)];
+    }
+
+    [ContextMenu("ClearPlayerPrefs")]
+    public void ClearPlayerPrefs()
+    {
+        PlayerPrefsManager.Delete();
     }
     
 }

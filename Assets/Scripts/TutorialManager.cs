@@ -63,10 +63,10 @@ public class TutorialManager : MonoBehaviour
 
     public void NextStep()
     {
-        Debug.Log($"Step was {currentStep}, now is {currentStep+1}, number of steps: {boxPositions.Count}");
+        // Debug.Log($"Step was {currentStep}, now is {currentStep+1}, number of steps: {boxPositions.Count}");
         if (currentStep + 1 < boxPositions.Count)
         {
-            Debug.Log($"Increasing step, was:{currentStep}, now:{currentStep+1}, number of steps: {boxPositions.Count}");
+            // Debug.Log($"Increasing step, was:{currentStep}, now:{currentStep+1}, number of steps: {boxPositions.Count}");
             currentStep++;
             ShowStep(currentStep);
         }
@@ -79,7 +79,7 @@ public class TutorialManager : MonoBehaviour
     public void ShowStep(int stepNum)
     {
         // if (boxPositions.Count <= stepNum || texts.Count <= stepNum) return;
-        Debug.Log($"Showing Step {stepNum}");
+        // Debug.Log($"Showing Step {stepNum}");
         tutorialBox.gameObject.SetActive(true);
         tutorialBox.position = boxPositions[stepNum];
         tutorialText.text = texts[stepNum];
@@ -90,6 +90,9 @@ public class TutorialManager : MonoBehaviour
     public void Hide()
     {
         tutorialBox.gameObject.SetActive(false);
+        PlayerPrefsManager.seenTutorial = true;
+        // Not sure when/how often I should be calling this
+        PlayerPrefsManager.Save();
     }
 
     public void Show()

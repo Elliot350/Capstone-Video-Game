@@ -50,6 +50,11 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        if (!PlayerPrefsManager.seenTutorial) 
+        {
+            SetMenu(MenuState.TUTORIAL);
+            tutorialManager.ShowStep(0);
+        }
     }
 
     public static UIManager GetInstance()
