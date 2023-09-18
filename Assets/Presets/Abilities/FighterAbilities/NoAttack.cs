@@ -10,7 +10,7 @@ public class NoAttack : FighterAbility
         return new List<Fighter>();
     }
 
-    public override bool ModifiesTargets() {return true;}
+    public override int ModifiesTargets() {return NO_ATTACK;}
 
     public override string GetDescription()
     {

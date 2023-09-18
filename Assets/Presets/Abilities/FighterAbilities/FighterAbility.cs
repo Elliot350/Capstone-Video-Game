@@ -19,6 +19,10 @@ public abstract class FighterAbility : Ability
         HERO_SUMMONED
     }
 
+    protected const int NONE = 0;
+    protected const int ADDS_ATTACKS = 1;
+    protected const int NO_ATTACK = 2;
+
     [SerializeField] protected string animationTrigger;
 
     // Do I need this one?
@@ -37,6 +41,6 @@ public abstract class FighterAbility : Ability
     public virtual bool CanAddMonster(MonsterBase m, Room r) {return true;}
     public virtual void CalculateDamage(Fighter f) {}
     public virtual void CalculateMaxHealth(Fighter f) {}
-    public virtual bool ModifiesTargets() {return false;}
+    public virtual int ModifiesTargets() {return NONE;}
     public virtual List<Fighter> DecideTargets(List<Fighter> fighters) {return new List<Fighter>();}
 }

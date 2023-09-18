@@ -19,7 +19,8 @@ public class RepeatedAttack : FighterAbility
     {
         List<Fighter> targets = new();
         for (int i = 0; i < numOfAttacks; i++)
-        {    switch (target)
+        {    
+            switch (target)
             {
                 case Target.FIRST:
                     targets.Add(fighters[0]);
@@ -38,9 +39,9 @@ public class RepeatedAttack : FighterAbility
         return targets;
     }
 
-    public override bool ModifiesTargets()
+    public override int ModifiesTargets()
     {
-        return true;
+        return ADDS_ATTACKS;
     }
 
     public override string GetDescription()

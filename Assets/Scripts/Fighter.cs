@@ -218,9 +218,11 @@ public class Fighter : MonoBehaviour
     public List<Fighter> GetTargets(List<Fighter> fighters)
     {
         List<Fighter> targets = null;
+        int currentStrongest = 0;
 
         ActivateAbilities((a) => {
-            if (a.ModifiesTargets() && (targets == null || targets.Count <= a.DecideTargets(fighters).Count))
+            // If the current ability does override targeting, and it's stronger than the current strongest modification
+            if (a.ModifiesTargets() > 0 && (targets == null || currentStrongest <= a.ModifiesTargets()))
                 targets = a.DecideTargets(fighters);
         });
 

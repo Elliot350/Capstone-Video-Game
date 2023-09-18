@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HydraStrike", menuName = "Abilities/Fighter/Hydra Strike")]
 public class HydraStrike : FighterAbility
 {
-    public override bool ModifiesTargets()
+    public override int ModifiesTargets()
     {
-        return true;
+        return ADDS_ATTACKS;
     }
 
     public override List<Fighter> DecideTargets(List<Fighter> fighters)
