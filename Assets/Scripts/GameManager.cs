@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<HeroBase> heroBases;
     [SerializeField] private List<TrapBase> trapBases;
     [SerializeField] private List<PartyLayout> partyLayouts;
+    [SerializeField] private List<FighterAbility> fighterAbilities;
     private LocationData locationData;
     [SerializeField] private LocationData defaultLocation;
 
@@ -85,6 +86,8 @@ public class GameManager : MonoBehaviour
         heroBases = new List<HeroBase>(data.heroes);
         trapBases = new List<TrapBase>(data.traps);
         partyLayouts = new List<PartyLayout>(data.partyLayouts);
+        fighterAbilities = new List<FighterAbility>(Resources.LoadAll<FighterAbility>(""));
+        Debug.Log($"Number of abilities: {fighterAbilities.Count}");
     }
 
     public void OnPlaceBuilding(RoomBase room)
@@ -198,6 +201,17 @@ public class GameManager : MonoBehaviour
     public PartyLayout GetRandomPartyLayout()
     {
         return partyLayouts[UnityEngine.Random.Range(0, partyLayouts.Count)];
+    }
+
+    public FighterAbility GetRandomAbility(Func<FighterAbility, bool> condition)
+    {
+        List<FighterAbility> possibleAbilities = new();
+        fighterAbilities.ForEach((fighterAbility) => {
+            if (condition(fighterAbility))
+                possibleAbilities.Add(fighterAbility);
+        });
+
+        return possibleAbilities.Count > 0 ? possibleAbilities[UnityEngine.Random.Range(0, possibleAbilities.Count)] : null;
     }
 
     [ContextMenu("ClearPlayerPrefs")]
