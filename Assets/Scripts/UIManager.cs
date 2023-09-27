@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
         PICK_BOSS,
         ROOM_INFO,
         TUTORIAL,
+        BOSS_UPGRADE_MENU,
         UNLOCK_MONSTER,
         UNLOCK_ROOM
     }
@@ -36,6 +37,9 @@ public class UIManager : MonoBehaviour
 
     [Header("Tutorial Menu")]
     [SerializeField] private TutorialManager tutorialManager;
+    
+    [Header("Boss Upgrade Menu")]
+    [SerializeField] private GameObject bossUpgradeMenu;
 
     [Header("Build Menu")]
     [SerializeField] private Animator roomMenu;
@@ -90,6 +94,9 @@ public class UIManager : MonoBehaviour
             case MenuState.TUTORIAL:
                 tutorialManager.Hide();
                 break;
+            case MenuState.BOSS_UPGRADE_MENU:
+                bossUpgradeMenu.SetActive(false);
+                break;
             case MenuState.UNLOCK_MONSTER:
                 SetUnlockMenu(false);
                 break;
@@ -117,6 +124,9 @@ public class UIManager : MonoBehaviour
                 break;
             case MenuState.TUTORIAL:
                 tutorialManager.Show();
+                break;
+            case MenuState.BOSS_UPGRADE_MENU:
+                bossUpgradeMenu.SetActive(true);
                 break;
             case MenuState.UNLOCK_MONSTER:
                 SetUnlockMenu(true);
