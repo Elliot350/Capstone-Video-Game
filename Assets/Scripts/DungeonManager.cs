@@ -15,7 +15,7 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
     // The current thing we are placing
     private RoomBase curRoomBase;
     private MonsterBase curMonsterBase;
-    private TrapBase curTrapBase;
+    // private TrapBase curTrapBase;
 
     // The placement indicator
     [Header("Placement Indicator Settings")]
@@ -158,12 +158,12 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
         BeginNewPlacement();
     }
 
-    public void BeginNewPlacement(TrapBase trapBase)
-    {
-        if (!GameManager.GetInstance().HasEnoughMoney(trapBase.GetCost())) return;
-        curTrapBase = trapBase;
-        BeginNewPlacement();
-    }
+    // public void BeginNewPlacement(TrapBase trapBase)
+    // {
+    //     if (!GameManager.GetInstance().HasEnoughMoney(trapBase.GetCost())) return;
+    //     curTrapBase = trapBase;
+    //     BeginNewPlacement();
+    // }
 
     public void BeginNewPlacement()
     {
@@ -177,7 +177,7 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
         placementIndicator.SetActive(false);
         curRoomBase = null;
         curMonsterBase = null;
-        curTrapBase = null;
+        // curTrapBase = null;
         HighlightRooms(false);
     }
 
@@ -207,15 +207,15 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
                 CancelPlacement();
             }
         }
-        else if (curTrapBase != null) 
-        {
-            // If we have enough money, and the trap was placed correctly, spend the money and cancel the placement
-            if (GameManager.GetInstance().HasEnoughMoney(curTrapBase.GetCost()) && PlaceTrap(curPlacementPos, curTrapBase))
-            {
-                GameManager.GetInstance().SpendMoney(curTrapBase.GetCost());
-                CancelPlacement();
-            }
-        }
+        // else if (curTrapBase != null) 
+        // {
+        //     // If we have enough money, and the trap was placed correctly, spend the money and cancel the placement
+        //     if (GameManager.GetInstance().HasEnoughMoney(curTrapBase.GetCost()) && PlaceTrap(curPlacementPos, curTrapBase))
+        //     {
+        //         GameManager.GetInstance().SpendMoney(curTrapBase.GetCost());
+        //         CancelPlacement();
+        //     }
+        // }
         else DestroyTile(curPlacementPos);
     }
 
@@ -246,18 +246,18 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
         return true;
     }
 
-    private void PlaceTrap(int x, int y, TrapBase trapBase)
-    {
-        PlaceTrap(new Vector3Int(x, y), trapBase);
-    }
+    // private void PlaceTrap(int x, int y, TrapBase trapBase)
+    // {
+    //     PlaceTrap(new Vector3Int(x, y), trapBase);
+    // }
 
-    private bool PlaceTrap(Vector3Int pos, TrapBase trapBase)
-    {
-        if (tilemap.GetTile(pos) == null || tilemap.GetTile(pos) == GameManager.GetInstance().empty || !tilemap.GetInstantiatedObject(pos).GetComponent<Room>().CanAddTrap(trapBase)) return false;
-        Room room = tilemap.GetInstantiatedObject(pos).GetComponent<Room>();
-        room.AddTrap(trapBase);
-        return true;
-    }
+    // private bool PlaceTrap(Vector3Int pos, TrapBase trapBase)
+    // {
+    //     if (tilemap.GetTile(pos) == null || tilemap.GetTile(pos) == GameManager.GetInstance().empty || !tilemap.GetInstantiatedObject(pos).GetComponent<Room>().CanAddTrap(trapBase)) return false;
+    //     Room room = tilemap.GetInstantiatedObject(pos).GetComponent<Room>();
+    //     room.AddTrap(trapBase);
+    //     return true;
+    // }
 
     private void DestroyTile(Vector3Int pos)
     {

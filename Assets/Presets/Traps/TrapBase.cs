@@ -16,7 +16,7 @@ public class TrapBase : ScriptableObject
 
     // Nothing will ever call trigger directly, they will call PartyEntered or others, which the Traps override to call Trigger
     protected virtual void Trigger(Party party, Trap trap) {
-        trap.gameObject.GetComponent<Room>().TrapTriggered();
+        // trap.gameObject.GetComponent<Room>().TrapTriggered();
         trap.triggered = true;
     }
     public virtual void PartyEntered(Party party, Trap trap) {}

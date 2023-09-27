@@ -10,8 +10,8 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     protected string displayName;
     protected int monsterCapacity;
     [SerializeField] protected List<MonsterBase> monsters;
-    protected int trapCapacity;
-    [SerializeField] protected List<Trap> traps;
+    // protected int trapCapacity;
+    // [SerializeField] protected List<Trap> traps;
     protected List<RoomAbility> abilities;
     [SerializeField] protected GameObject highlightBox;
     [SerializeField] protected SpriteRenderer alertSprite;
@@ -44,7 +44,7 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             abilities.Add(Instantiate<RoomAbility>(a));
         displayName = roomType.GetName();
         monsterCapacity = roomType.GetMonster();
-        trapCapacity = roomType.GetTrap();
+        // trapCapacity = roomType.GetTrap();
         roomType.AddRoom(this);
         foreach (RoomAbility a in abilities)
             a.RoomBuilt(this);
@@ -107,58 +107,58 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             a.OnMonsterAdded(monsterBase);
     }
 
-    public virtual bool CanAddTrap(TrapBase trap)
-    {
-        if (traps.Count >= trapCapacity)
-            return false;
-        foreach (RoomAbility a in abilities)
-            if (!a.CanAddTrap(this, trap))
-                return false;
+    // public virtual bool CanAddTrap(TrapBase trap)
+    // {
+    //     if (traps.Count >= trapCapacity)
+    //         return false;
+    //     foreach (RoomAbility a in abilities)
+    //         if (!a.CanAddTrap(this, trap))
+    //             return false;
         
-        return true;
-    }
+    //     return true;
+    // }
 
-    public void AddTrap(TrapBase trapBase)
-    {
-        // Possibly need to change this
-        // GameObject newGameObject = new GameObject("Trap");
-        // newGameObject.transform.parent = this.gameObject.transform;
-        Trap trap = gameObject.AddComponent<Trap>();
-        trap.SetType(trapBase);
-        traps.Add(trap);
-        roomType.TrapAdded(this, trap);
-    }
+    // public void AddTrap(TrapBase trapBase)
+    // {
+    //     // Possibly need to change this
+    //     // GameObject newGameObject = new GameObject("Trap");
+    //     // newGameObject.transform.parent = this.gameObject.transform;
+    //     Trap trap = gameObject.AddComponent<Trap>();
+    //     trap.SetType(trapBase);
+    //     traps.Add(trap);
+    //     roomType.TrapAdded(this, trap);
+    // }
 
-    public void TrapTriggered()
-    {
-        alertSprite.gameObject.SetActive(true);
-        cooldown = 1f;
-    }
+    // public void TrapTriggered()
+    // {
+    //     alertSprite.gameObject.SetActive(true);
+    //     cooldown = 1f;
+    // }
 
-    private bool TrapsUntriggered()
-    {
-        foreach (Trap trap in traps)
-        {
-            if (!trap.triggered)
-                return true;
-        }
-        return false;
-    }
+    // private bool TrapsUntriggered()
+    // {
+    //     foreach (Trap trap in traps)
+    //     {
+    //         if (!trap.triggered)
+    //             return true;
+    //     }
+    //     return false;
+    // }
 
     public IEnumerator PartyEntered(Party party)
     {
         foreach (RoomAbility a in abilities)
             a.PartyEntered(party);
 
-        if (TrapsUntriggered())
-        {
-            yield return wait;
-            Debug.Log($"Triggering traps");
-            foreach (Trap trap in traps)
-            {
-                trap.PartyEntered(party);
-            }
-        }
+        // if (TrapsUntriggered())
+        // {
+        //     yield return wait;
+        //     Debug.Log($"Triggering traps");
+        //     foreach (Trap trap in traps)
+        //     {
+        //         trap.PartyEntered(party);
+        //     }
+        // }
         // If there are monsters, wait a second and fight them
         if (monsters.Count > 0 && !visited)
         {
@@ -179,10 +179,10 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public virtual void ResetRoom()
     {
-        foreach (Trap trap in traps)
-        {
-            trap.triggered = false;
-        }
+        // foreach (Trap trap in traps)
+        // {
+        //     trap.triggered = false;
+        // }
         visited = false;
     }
 
@@ -212,7 +212,8 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             return "Hallway";
         if (roomType is Entrance)
             return "Entrance";
-        return $"{displayName}\nMonsters ({monsters.Count}/{monsterCapacity})\nTraps ({traps.Count}/{trapCapacity})";
+        // return $"{displayName}\nMonsters ({monsters.Count}/{monsterCapacity})\nTraps ({traps.Count}/{trapCapacity})";
+        return $"{displayName}\nMonsters ({monsters.Count}/{monsterCapacity})";
     }
 
 
@@ -240,8 +241,8 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public List<RoomAbility> GetAbilities() {return abilities;}
     public List<MonsterBase> GetMonsters() {return monsters;}
     public int GetMonsterCapacity() {return monsterCapacity;}
-    public List<Trap> GetTraps() {return traps;}
-    public int GetTrapCapacity() {return trapCapacity;}
+    // public List<Trap> GetTraps() {return traps;}
+    // public int GetTrapCapacity() {return trapCapacity;}
     public RoomBase GetRoomBase() {return roomType;}
     public string GetName() {return displayName;}
 }

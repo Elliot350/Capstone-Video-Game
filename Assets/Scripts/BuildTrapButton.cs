@@ -26,6 +26,6 @@ public class BuildTrapButton : MonoBehaviour
 
     public void Clicked()
     {
-        DungeonManager.GetInstance().BeginNewPlacement(trapBase);
+        // DungeonManager.GetInstance().BeginNewPlacement(trapBase);
     }
 }

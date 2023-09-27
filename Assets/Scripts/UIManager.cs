@@ -9,15 +9,18 @@ public class UIManager : MonoBehaviour
 
     public enum MenuState {
         GAME,
+        PAUSE,
         FIGHT,
         PICK_BOSS,
         ROOM_INFO,
         TUTORIAL,
         UNLOCK_MONSTER,
-        UNLOCK_TRAP,
-        UNLOCK_ROOM,
+        UNLOCK_ROOM
     }
     MenuState state = MenuState.GAME;
+
+    [Header("Pause Menu")]
+    [SerializeField] private GameObject pauseMenu;
 
     [Header("Fight Menu")]
     [SerializeField] private GameObject fightMenu;
@@ -36,11 +39,11 @@ public class UIManager : MonoBehaviour
 
     [Header("Build Menu")]
     [SerializeField] private Animator roomMenu;
-    [SerializeField] private Animator trapMenu;
+    // [SerializeField] private Animator trapMenu;
     [SerializeField] private Animator monsterMenu;
-    [SerializeField] private GameObject roomMenuOpen, roomMenuClose, trapMenuOpen, trapMenuClose, monsterMenuOpen, monsterMenuClose;
+    [SerializeField] private GameObject roomMenuOpen, roomMenuClose, /*trapMenuOpen, trapMenuClose,*/ monsterMenuOpen, monsterMenuClose;
     private const string OPEN = "Open", CLOSE = "Close";
-    private bool roomOpen, trapOpen, monsterOpen;
+    private bool roomOpen, /*trapOpen,*/ monsterOpen;
 
     [Header("Text Fields")]
     [SerializeField] private TextMeshProUGUI moneyText;
@@ -71,6 +74,10 @@ public class UIManager : MonoBehaviour
         {
             case MenuState.GAME:
                 break;
+            case MenuState.PAUSE:
+                pauseMenu.SetActive(false);
+                Time.timeScale = 1f;
+                break;
             case MenuState.FIGHT:
                 SetFightMenu(false);
                 break;
@@ -94,6 +101,10 @@ public class UIManager : MonoBehaviour
         switch (state)
         {
             case MenuState.GAME:
+                break;
+            case MenuState.PAUSE:
+                pauseMenu.SetActive(true);
+                Time.timeScale = 0f;
                 break;
             case MenuState.FIGHT:
                 SetFightMenu(true);
@@ -119,6 +130,11 @@ public class UIManager : MonoBehaviour
     public void CloseAllMenus()
     {
         SetMenu(MenuState.GAME);
+    }
+
+    public void OpenPauseMenu()
+    {
+        SetMenu(MenuState.PAUSE);
     }
 
     // ---------- Fight Menu ----------
@@ -169,7 +185,7 @@ public class UIManager : MonoBehaviour
 
     public void OpenRoomMenu()
     {
-        CloseTrapMenu();
+        // CloseTrapMenu();
         CloseMonsterMenu();
         roomOpen = true;
         roomMenu.SetTrigger(OPEN);
@@ -177,20 +193,20 @@ public class UIManager : MonoBehaviour
         roomMenuClose.SetActive(true);
     }
 
-    public void OpenTrapMenu()
-    {
-        CloseRoomMenu();
-        CloseMonsterMenu();
-        trapOpen = true;
-        trapMenu.SetTrigger(OPEN);
-        trapMenuOpen.SetActive(false);
-        trapMenuClose.SetActive(true);
-    }
+    // public void OpenTrapMenu()
+    // {
+    //     CloseRoomMenu();
+    //     CloseMonsterMenu();
+    //     trapOpen = true;
+    //     trapMenu.SetTrigger(OPEN);
+    //     trapMenuOpen.SetActive(false);
+    //     trapMenuClose.SetActive(true);
+    // }
 
     public void OpenMonsterMenu()
     {
         CloseRoomMenu();
-        CloseTrapMenu();
+        // CloseTrapMenu();
         monsterOpen = true;
         monsterMenu.SetTrigger(OPEN);
         monsterMenuOpen.SetActive(false);
@@ -207,15 +223,15 @@ public class UIManager : MonoBehaviour
         roomMenuClose.SetActive(false);
     }
 
-    public void CloseTrapMenu()
-    {
-        if (!trapOpen)
-            return;
-        trapOpen = false;
-        trapMenu.SetTrigger(CLOSE);
-        trapMenuOpen.SetActive(true);
-        trapMenuClose.SetActive(false);
-    }
+    // public void CloseTrapMenu()
+    // {
+    //     if (!trapOpen)
+    //         return;
+    //     trapOpen = false;
+    //     trapMenu.SetTrigger(CLOSE);
+    //     trapMenuOpen.SetActive(true);
+    //     trapMenuClose.SetActive(false);
+    // }
 
     public void CloseMonsterMenu()
     {
@@ -230,7 +246,7 @@ public class UIManager : MonoBehaviour
     public void CloseBuildMenus()
     {
         CloseRoomMenu();
-        CloseTrapMenu();
+        // CloseTrapMenu();
         CloseMonsterMenu();
     }
 
