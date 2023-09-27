@@ -235,9 +235,9 @@ public class Fighter : MonoBehaviour
         return targets;
     }
 
-    public void AddDamage(float amount)
+    public void IncreaseDamage(float amount)
     {
-        damageModifier += amount;
+        damage += amount;
     }
 
     public bool HasTag(Tag t)

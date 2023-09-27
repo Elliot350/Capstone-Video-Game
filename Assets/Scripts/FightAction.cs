@@ -300,7 +300,7 @@ public class BuffMonster : FightAction
     public override void Do()
     {
         fighter.IncreaseMaxHealth(_healthAmount);
-        fighter.AddDamage(_damageAmount);
+        fighter.IncreaseDamage(_damageAmount);
     }
 }
 

@@ -16,9 +16,11 @@ public class BossManager : MonoBehaviour
     [SerializeField] private string healthTitle, damageTitle, abilityTitle, healthText, damageText, abilityText;
     [SerializeField] private Sprite healthUpgradeSprite, damageUpgradeSprite, abilityUpgradeSprite;
     [SerializeField] private BossUpgradeOption option1, option2;
+    [SerializeField] private float totalHealthBuff, totalDamageBuff;
+    [SerializeField] private List<FighterAbility> abilities;
 
-
-    private FighterAbility chosenAbility1, chosenAbility2;
+    
+    private FighterAbility chosenAbility, abilityOption1, abilityOption2;
     private BossUpgrade upgrade1, upgrade2;
 
     private void Awake()
@@ -40,10 +42,10 @@ public class BossManager : MonoBehaviour
 
         if (bossLevel % 5 == 0)
         {
-            chosenAbility1 = GameManager.GetInstance().GetRandomAbility((m) => true);
-            chosenAbility2 = GameManager.GetInstance().GetRandomAbility((m) => m != chosenAbility1);
-            option1.Show(abilityUpgradeSprite, abilityTitle, chosenAbility1.GetAbility());
-            option2.Show(abilityUpgradeSprite, abilityTitle, chosenAbility2.GetAbility());
+            abilityOption1 = GameManager.GetInstance().GetRandomAbility((m) => !abilities.Contains(m));
+            abilityOption2 = GameManager.GetInstance().GetRandomAbility((m) => !abilities.Contains(m) && m != abilityOption1);
+            option1.Show(abilityUpgradeSprite, abilityTitle, abilityOption1.GetAbility());
+            option2.Show(abilityUpgradeSprite, abilityTitle, abilityOption2.GetAbility());
             upgrade1 = BossUpgrade.ABILITY_UPGRADE;
             upgrade2 = BossUpgrade.ABILITY_UPGRADE;
         }
@@ -65,22 +67,34 @@ public class BossManager : MonoBehaviour
         switch (upgrade)
         {
             case BossUpgrade.HEALTH_UPGRADE:
+                totalHealthBuff += 2f;
                 break;
             case BossUpgrade.DAMAGE_UPGRADE:
+                totalDamageBuff += 1f;
                 break;
             case BossUpgrade.ABILITY_UPGRADE:
+                abilities.Add(chosenAbility);
                 break;
         }
+        UIManager.GetInstance().CloseAllMenus();
     }
 
     public void Option1Picked()
     {
+        chosenAbility = abilityOption1;
         OptionPicked(upgrade1);
     }
 
     public void Option2Picked()
     {
+        chosenAbility = abilityOption2;
         OptionPicked(upgrade2);
     }
     
+    public void ApplyBuffs(Monster boss) 
+    {
+        boss.IncreaseDamage(totalDamageBuff);
+        boss.IncreaseMaxHealth(totalHealthBuff);
+        boss.GetAbilities().AddRange(abilities);
+    }
 }

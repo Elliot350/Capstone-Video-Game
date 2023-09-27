@@ -10,11 +10,12 @@ public class Reaper : FighterAbility
 
     public override void OnFighterDied(Fighter f, Fighter dead)
     {
-        if (damageGain > 0)
+        // if (damageGain > 0)
             // Maybe this should be an Action, just for consistancy
-            f.AddDamage(damageGain);
-        if (healthGain > 0)
-            FightManager.GetInstance().AddAction(new Heal(f, healthGain));
+
+        FightManager.GetInstance().AddAction(new BuffMonster(f, healthGain, damageGain));
+        // if (healthGain > 0)
+            // FightManager.GetInstance().AddAction(new Heal(f, healthGain));
     }
 
     public override string GetDescription()
