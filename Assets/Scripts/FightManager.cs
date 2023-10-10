@@ -11,6 +11,7 @@ public class FightManager : MonoBehaviour
     // Prefabs
     [Header("Prefabs")]
     [SerializeField] private GameObject monsterPrefab;
+    [SerializeField] private GameObject bossPrefab;
     [SerializeField] private GameObject heroPrefab;
     [SerializeField] private GameObject portraitPrefab;
 
@@ -91,6 +92,17 @@ public class FightManager : MonoBehaviour
 
         // Fail safe, in case there is an infinite loop
         int count = 0;
+
+        foreach (Fighter f in order)
+        {
+            if (f.IsBoss) {
+                Debug.Log($"{f} is a boss");
+                BossManager.GetInstance().ApplyBuffs(f);
+            }
+            else {
+                Debug.Log($"{f} is not a boss");
+            }
+        }
 
         foreach (Fighter f in order)
         {
@@ -184,14 +196,25 @@ public class FightManager : MonoBehaviour
     
     public Monster AddMonster(MonsterBase monsterBase)
     {
-        Monster monster = Instantiate(monsterPrefab, monsterHolder.transform).GetComponent<Monster>();
-        // MonsterBase newMonster = Instantiate<MonsterBase>(monsterBase, monsterHolder.transform);
-        // Debug.Log(newMonster);
-        monster.SetBase(monsterBase, room);
-        
-        order.Add(monster);
-        monsters.Add(monster);
-        return monster;
+        if (monsterBase.GetType() == typeof(BossBase))
+        {
+            Monster bossMonster = Instantiate(bossPrefab, monsterHolder.transform).GetComponent<Monster>();
+            bossMonster.SetBase(monsterBase, room);
+            order.Add(bossMonster);
+            monsters.Add(bossMonster);
+            return bossMonster;
+        }
+        else 
+        {
+            Monster monster = Instantiate(monsterPrefab, monsterHolder.transform).GetComponent<Monster>();
+            // MonsterBase newMonster = Instantiate<MonsterBase>(monsterBase, monsterHolder.transform);
+            // Debug.Log(newMonster);
+            monster.SetBase(monsterBase, room);
+            
+            order.Add(monster);
+            monsters.Add(monster);
+            return monster;
+        }
     }
 
     public Fighter AddFighter(FighterBase fighterBase)

@@ -168,6 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterPrefab: {fileID: 7567955543882232473, guid: 6ae37855008c01f49856470016b063c4, type: 3}
+  bossPrefab: {fileID: 7567955543882232473, guid: cb3384940f52e4eb3bc33b615189a0be, type: 3}
   heroPrefab: {fileID: 7567955543882232473, guid: 242181db0a50e3740885d19bd3512225, type: 3}
   portraitPrefab: {fileID: 6258700107362145733, guid: e4cb30db36a8d49b1841d94f6dccfa22, type: 3}
   monsterHolder: {fileID: 1245118054}

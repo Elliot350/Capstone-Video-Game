@@ -91,7 +91,7 @@ public class BossManager : MonoBehaviour
         OptionPicked(upgrade2);
     }
     
-    public void ApplyBuffs(Monster boss) 
+    public void ApplyBuffs(Fighter boss) 
     {
         boss.IncreaseDamage(totalDamageBuff);
         boss.IncreaseMaxHealth(totalHealthBuff);
