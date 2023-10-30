@@ -90,7 +90,7 @@ public class TutorialManager : MonoBehaviour
     public void Hide()
     {
         tutorialBox.gameObject.SetActive(false);
-        PlayerPrefsManager.seenTutorial = true;
+        PlayerPrefsManager.hasSeenTutorial = true;
         // Not sure when/how often I should be calling this
         PlayerPrefsManager.Save();
     }

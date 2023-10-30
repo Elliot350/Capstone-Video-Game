@@ -41,6 +41,9 @@ public class UIManager : MonoBehaviour
     [Header("Boss Upgrade Menu")]
     [SerializeField] private GameObject bossUpgradeMenu;
 
+    private Dictionary<MenuState, GameObject> menus;
+
+
     [Header("Build Menu")]
     [SerializeField] private Animator roomMenu;
     // [SerializeField] private Animator trapMenu;
@@ -57,11 +60,20 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        if (!PlayerPrefsManager.seenTutorial) 
+        if (!PlayerPrefsManager.hasSeenTutorial) 
         {
             SetMenu(MenuState.TUTORIAL);
             tutorialManager.ShowStep(0);
         }
+        menus = new Dictionary<MenuState, GameObject>{
+           {MenuState.PAUSE, pauseMenu},
+           {MenuState.FIGHT, fightMenu},
+           {MenuState.PICK_BOSS, bossMenu},
+           {MenuState.ROOM_INFO, roomInfoMenu},
+           {MenuState.TUTORIAL, tutorialManager.gameObject},
+           {MenuState.BOSS_UPGRADE_MENU, bossUpgradeMenu},
+           {MenuState.UNLOCK_MONSTER, unlockMenu}
+        };
     }
 
     public static UIManager GetInstance()
@@ -74,6 +86,8 @@ public class UIManager : MonoBehaviour
     public void SetMenu(MenuState menuState)
     {
         // Close the one currently open
+        // Try to close automatically
+        SetMenu(state, false);
         switch (state)
         {
             case MenuState.GAME:
@@ -82,29 +96,16 @@ public class UIManager : MonoBehaviour
                 pauseMenu.SetActive(false);
                 Time.timeScale = 1f;
                 break;
-            case MenuState.FIGHT:
-                SetFightMenu(false);
-                break;
-            case MenuState.PICK_BOSS:
-                SetBossMenu(false);
-                break;
-            case MenuState.ROOM_INFO:
-                roomInfoMenu.SetActive(false);
-                break;
             case MenuState.TUTORIAL:
                 tutorialManager.Hide();
-                break;
-            case MenuState.BOSS_UPGRADE_MENU:
-                bossUpgradeMenu.SetActive(false);
-                break;
-            case MenuState.UNLOCK_MONSTER:
-                SetUnlockMenu(false);
                 break;
             default:
                 break;
         }
         // Then open the next one
         state = menuState;
+        // Try to open automatically
+        SetMenu(state, true);
         switch (state)
         {
             case MenuState.GAME:
@@ -113,23 +114,8 @@ public class UIManager : MonoBehaviour
                 pauseMenu.SetActive(true);
                 Time.timeScale = 0f;
                 break;
-            case MenuState.FIGHT:
-                SetFightMenu(true);
-                break;
-            case MenuState.PICK_BOSS:
-                SetBossMenu(true);
-                break;
-            case MenuState.ROOM_INFO:
-                roomInfoMenu.SetActive(true);
-                break;
             case MenuState.TUTORIAL:
                 tutorialManager.Show();
-                break;
-            case MenuState.BOSS_UPGRADE_MENU:
-                bossUpgradeMenu.SetActive(true);
-                break;
-            case MenuState.UNLOCK_MONSTER:
-                SetUnlockMenu(true);
                 break;
             default:
                 break;
@@ -140,6 +126,10 @@ public class UIManager : MonoBehaviour
     public void CloseAllMenus()
     {
         SetMenu(MenuState.GAME);
+        foreach (MenuState key in menus.Keys)
+        {
+            menus[key].SetActive(false);
+        }
     }
 
     public void OpenPauseMenu()
@@ -147,12 +137,16 @@ public class UIManager : MonoBehaviour
         SetMenu(MenuState.PAUSE);
     }
 
-    // ---------- Fight Menu ----------
-
-    private void SetFightMenu(bool active)
+    public void SetMenu(MenuState menu, bool status)
     {
-        fightMenu.SetActive(active);
+        GameObject menuToSet;
+        if (menus.TryGetValue(menu, out menuToSet))
+        {
+            menuToSet.SetActive(status);
+        }
     }
+
+    // ---------- Fight Menu ----------
 
     public void OpenFightMenu()
     {
@@ -161,22 +155,12 @@ public class UIManager : MonoBehaviour
 
     // ---------- Boss Menu ---------
 
-    private void SetBossMenu(bool active)
-    {
-        bossMenu.SetActive(active);
-    }
-
     public void OpenBossMenu()
     {
         SetMenu(MenuState.PICK_BOSS);
     }
 
     // ---------- Unlock Menu ----------
-
-    private void SetUnlockMenu(bool active)
-    {
-        unlockMenu.SetActive(active);
-    }
 
     public void OpenUnlockMenu()
     {

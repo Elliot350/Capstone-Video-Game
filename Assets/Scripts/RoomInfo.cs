@@ -12,9 +12,9 @@ public class RoomInfo : MonoBehaviour
     [SerializeField] private RectTransform monsterContent;
     [SerializeField] private List<MonsterEntry> monsters;
 
-    [SerializeField] private TrapEntry trapEntryPrefab;
-    [SerializeField] private RectTransform trapContent;
-    [SerializeField] private List<TrapEntry> traps;
+    // [SerializeField] private TrapEntry trapEntryPrefab;
+    // [SerializeField] private RectTransform trapContent;
+    // [SerializeField] private List<TrapEntry> traps;
 
     public void DisplayRoom(Room room)
     {
@@ -23,6 +23,11 @@ public class RoomInfo : MonoBehaviour
         
         ShowMonsters(room);
         // ShowTraps(room);
+    }
+
+    public void Hide()
+    {
+        UIManager.GetInstance().CloseAllMenus();
     }
 
     private void ShowMonsters(Room room)
