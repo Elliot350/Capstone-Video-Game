@@ -11,14 +11,7 @@ public class Execution : FighterAbility
     public override void OnAttack(Damage attack)
     {
         targetedFighter = attack.Target;
-    }
-
-    public override void TurnEnd(Fighter f)
-    {
-        if (targetedFighter.GetHealth() <= threshold)
-        {
-            FightManager.GetInstance().AddAction(new Die(targetedFighter));
-        }
+        FightManager.GetInstance().AddAction(new ConditionalAction(() => targetedFighter.GetHealth() <= threshold, new Die(targetedFighter)));
     }
 
     public override string GetDescription()

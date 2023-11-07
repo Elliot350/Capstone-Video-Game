@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public abstract class FightAction
 {
@@ -368,4 +369,23 @@ public class Delay : FightAction
 
     public override bool IsValid() {return true;}
     public override bool NeedsCalculation() {return false;}
+}
+
+public class ConditionalAction : FightAction
+{
+    private Func<bool> check;
+    private FightAction action;
+
+    public ConditionalAction(Func<bool> check, FightAction action) : base(action.fighter) {
+        this.check = check;
+        this.action = action;
+    }
+
+    public override void Do()
+    {
+        if (check()) action.Do();
+    }
+
+    public override bool IsValid() {return action.IsValid();}
+    public override bool NeedsCalculation() {return action.NeedsCalculation();}
 }
