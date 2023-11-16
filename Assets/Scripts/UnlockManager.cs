@@ -7,16 +7,20 @@ public class UnlockManager : MonoBehaviour
 {
     private static UnlockManager instance;
 
-    public MonsterBase selected;
-
     public Color32 unlockedColor, unlockableColor, lockedColor;
 
-    public GameObject monsterButton, monsterMenu, unlockTree;
+    public GameObject monsterButton, monsterMenu;
+    public List<GameObject> trees;
     
     public List<MonsterBase> unlockedMonsters;
-
     public MonsterDescriptionBox monsterDescriptionBox;
+    public MonsterBase selectedMonster;
 
+    public GameObject roomButton, roomMenu;
+    public List<RoomBase> unlockedRooms;
+    public RoomDescriptionBox roomDescriptionBox;
+    public RoomBase selectedRoom;
+    
     
     [Header("Temp stuff")]
     public Color unlockedLineColor;
@@ -42,19 +46,39 @@ public class UnlockManager : MonoBehaviour
         UpdateVisuals();
     }
 
+    private void Unlock(RoomBase roomBase)
+    {
+        unlockedRooms.Add(roomBase);
+        BuildRoomButton button = Instantiate(roomButton, roomMenu.transform).GetComponent<BuildRoomButton>();
+        button.roomBase = roomBase;
+        UpdateVisuals();
+    }
+
     public void UpdateVisuals()
     {
-        foreach (Transform child in unlockTree.transform)
+        foreach (GameObject tree in trees) 
         {
-            // Some aren't UnlockMonsters need to change
-            if (child.gameObject.TryGetComponent<UnlockMonster>(out UnlockMonster unlockMonster))
-                unlockMonster.UpdateVisuals();
+            foreach (Transform child in tree.transform)
+            {
+                // Some aren't UnlockMonsters need to change
+                if (child.gameObject.TryGetComponent<UnlockMonster>(out UnlockMonster unlockMonster))
+                    unlockMonster.UpdateVisuals();
+                else if (child.gameObject.TryGetComponent<UnlockRoom>(out UnlockRoom unlockRoom))
+                    unlockRoom.UpdateVisuals();
+            }
         }
     }
 
     public void SelectedMonster(MonsterBase monsterBase)
     {
-        selected = monsterBase;
+        selectedMonster = monsterBase;
+        selectedRoom = null;
+    }
+
+    public void SelectedRoom(RoomBase roomBase)
+    {
+        selectedRoom = roomBase;
+        selectedMonster = null;
     }
 
     public void TryUnlock(MonsterBase monsterBase)
@@ -65,13 +89,27 @@ public class UnlockManager : MonoBehaviour
         }
     }
 
+    public void TryUnlock(RoomBase roomBase)
+    {
+        if (roomBase.IsUnlockable() && !unlockedRooms.Contains(roomBase))
+        {
+            Unlock(roomBase);
+        }
+    }
+
     public void TryUnlock()
     {
-        TryUnlock(selected);
+        if (selectedMonster != null) TryUnlock(selectedMonster);
+        else if (selectedRoom != null) TryUnlock(selectedRoom);
     }
 
     public bool IsMonsterUnlocked(MonsterBase monsterBase)
     {
         return unlockedMonsters.Contains(monsterBase);
+    }
+
+    public bool IsRoomUnlocked(RoomBase roomBase)
+    {
+        return unlockedRooms.Contains(roomBase);
     }
 }

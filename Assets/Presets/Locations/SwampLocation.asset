@@ -33,7 +33,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 13aa91c5579024d21a9811225c7dbca8, type: 2}
   - {fileID: 11400000, guid: 0d267290e1f2e409792e665196be79b8, type: 2}
   rooms:
-  - {fileID: 11400000, guid: 00c5b23d5d048f54d893fa8a12dac29d, type: 2}
+  - {fileID: 11400000, guid: 15be4fec4bc594edc906478c91121afa, type: 2}
+  - {fileID: 11400000, guid: c969aaf7a57234aa6b3b3ecf1bb4dbe2, type: 2}
   heroes:
   - {fileID: 11400000, guid: 218e8e8060af9824389d66c8bf279838, type: 2}
   - {fileID: 11400000, guid: ed72ef59fb5ea9443bbe35cbbcac15f7, type: 2}
