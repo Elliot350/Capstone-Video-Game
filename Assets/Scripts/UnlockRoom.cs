@@ -46,7 +46,6 @@ public class UnlockRoom : MonoBehaviour
 
     public void Clicked()
     {
-        UnlockManager.GetInstance().roomDescriptionBox.ShowDescription(roomBase);
         UnlockManager.GetInstance().SelectedRoom(roomBase);
     }
 

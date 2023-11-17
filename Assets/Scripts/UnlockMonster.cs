@@ -47,7 +47,6 @@ public class UnlockMonster : MonoBehaviour
 
     public void Clicked()
     {
-        UnlockManager.GetInstance().monsterDescriptionBox.ShowDescription(monsterBase);
         UnlockManager.GetInstance().SelectedMonster(monsterBase);
     }
 

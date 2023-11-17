@@ -73,12 +73,14 @@ public class UnlockManager : MonoBehaviour
     {
         selectedMonster = monsterBase;
         selectedRoom = null;
+        monsterDescriptionBox.ShowDescription(monsterBase);
     }
 
     public void SelectedRoom(RoomBase roomBase)
     {
         selectedRoom = roomBase;
         selectedMonster = null;
+        roomDescriptionBox.ShowDescription(roomBase);
     }
 
     public void TryUnlock(MonsterBase monsterBase)

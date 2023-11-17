@@ -41,6 +41,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4c38f69c2ef206a4cb2a502ed25644a2, type: 2}
   - {fileID: 11400000, guid: c559f2dc66da8451cbc4a5c4d49e1713, type: 2}
   - {fileID: 11400000, guid: c2397b7d6ba0b4bb584d3fe2561f648c, type: 2}
+  - {fileID: 11400000, guid: 5e501b3a67c771b4aaf341d0e858c57b, type: 2}
   traps:
   - {fileID: 11400000, guid: bb1bd3aca25ef4e13bd95a81a0516f6e, type: 2}
   - {fileID: 11400000, guid: 404a4c300a71a4cd496bae90ca143bd7, type: 2}
@@ -48,3 +49,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: da69f6f8257015c43a632bd82477dd89, type: 2}
   - {fileID: 11400000, guid: b9471beb1d774ee46a2c8007620545b3, type: 2}
   - {fileID: 11400000, guid: 2d7a1c9f7575b194bbb9bd27d7ac237d, type: 2}
+  - {fileID: 11400000, guid: c2c9a4c257b2f0a428c6fed283303962, type: 2}

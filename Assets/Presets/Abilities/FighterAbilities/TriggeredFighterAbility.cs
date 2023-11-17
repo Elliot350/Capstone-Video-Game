@@ -6,7 +6,7 @@ public abstract class TriggeredFighterAbility : FighterAbility
 {
     [SerializeField] protected List<Trigger> triggers;
 
-    protected abstract void Activate(Fighter target);
+    protected abstract void Activate(Fighter self);
 
     public override void BattleStart(Fighter f) {if (triggers.Contains(Trigger.START_BATTLE)) Activate(f);}
     public override void BattleEnd(Fighter f) {if (triggers.Contains(Trigger.END_BATTLE)) Activate(f);}
