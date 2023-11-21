@@ -33,6 +33,8 @@ public class FightManager : MonoBehaviour
     private List<FightAction> actionsToAdd;
     // Current room the fight is in
     private Room room; // Could maybe remove this
+    // If the current fight is a boss fight
+    private bool bossFight = false;
     
     private List<Image> portraits = new List<Image>();
     
@@ -93,11 +95,13 @@ public class FightManager : MonoBehaviour
         // Fail safe, in case there is an infinite loop
         int count = 0;
 
+        bossFight = false;
         foreach (Fighter f in order)
         {
             if (f.IsBoss) {
                 Debug.Log($"{f} is a boss");
                 BossManager.GetInstance().ApplyBuffs(f);
+                bossFight = true;
             }
             else {
                 Debug.Log($"{f} is not a boss");
@@ -161,7 +165,6 @@ public class FightManager : MonoBehaviour
 
         // Clear the lists and close the menu
         FinishBattle();
-        UIManager.GetInstance().CloseAllMenus();
     }
 
     private IEnumerator PerformActions()
@@ -217,28 +220,48 @@ public class FightManager : MonoBehaviour
         }
     }
 
-    public Fighter AddFighter(FighterBase fighterBase)
+    public Fighter AddFighter(FighterBase fighterBase, int position)
     {
         Fighter fighter;
         if (fighterBase is MonsterBase)
         {
             fighter = Instantiate(monsterPrefab, monsterHolder.transform).GetComponent<Fighter>();
-            monsters.Add(fighter);
+            if (position == -1 || position >= monsters.Count) monsters.Add(fighter);
+            else monsters.Insert(position, fighter);
         }
         else if (fighterBase is HeroBase)
         {
             fighter = Instantiate(heroPrefab, heroHolder.transform).GetComponent<Fighter>();
-            heroes.Add(fighter);
+            if (position == -1 || position >= heroes.Count) heroes.Add(fighter);
+            else heroes.Insert(position, fighter);
         }
         else 
         {
             Debug.Log($"Error! Couldn't create fighter {fighterBase}/{fighterBase.GetName()}");
             return null;
         }
+        if (position != -1) fighter.transform.SetSiblingIndex(position);
         fighter.SetBase(fighterBase, room);
         order.Add(fighter);
 
         return fighter;
+    }
+
+    public void MoveFighter(Fighter fighter, int newPosition)
+    {
+        // TODO: Check this logic
+        if (fighter.IsMonster && newPosition < monsters.Count)
+        {
+            monsters.Remove(fighter);
+            monsters.Insert(newPosition, fighter);
+            fighter.transform.SetSiblingIndex(newPosition);
+        }
+        else if (!fighter.IsMonster && newPosition < heroes.Count)
+        {
+            heroes.Remove(fighter);
+            heroes.Insert(newPosition, fighter);
+            fighter.transform.SetSiblingIndex(newPosition);
+        }
     }
 
     private void AddPortrait()
@@ -313,6 +336,18 @@ public class FightManager : MonoBehaviour
 
     public void FinishBattle()
     {
+        Debug.Log($"Finishing battle");
+        Debug.Log($"Was boss fight? {bossFight}");
+        Debug.Log($"Monsters: {monsters.Count}, Heroes: {heroes.Count}");
+        if (bossFight && heroes.Count == 0)
+        {
+            Debug.Log($"Boss fight won");
+            BossManager.GetInstance().LevelUp();
+        }
+        else 
+        {
+            UIManager.GetInstance().CloseAllMenus();
+        }
         foreach (Fighter f in dead)
         {
             Destroy(f.gameObject);
@@ -345,4 +380,5 @@ public class FightManager : MonoBehaviour
     public GameObject GetHeroHolder() {return heroHolder;}
     public GameObject GetDeadHolder() {return deadHolder;}
     public bool FastForwarding() {return fastForward;}
+    public bool IsBossFight() {return bossFight;}
 }

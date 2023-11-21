@@ -266,18 +266,22 @@ public class Summon : FightAction
 {
     FighterBase summonFighterBase;
     List<FighterAbility> additionalAbilities;
+    int position;
 
-    public Summon (Fighter fighter, FighterBase summon, List<FighterAbility> abilities) : base(fighter)
+    public Summon (Fighter fighter, FighterBase summon, List<FighterAbility> abilities, int position) : base(fighter)
     {
         this.summonFighterBase = summon;
         this.additionalAbilities = abilities;
+        this.position = position;
     }
-    public Summon(Fighter fighter, FighterBase summon) : this(fighter, summon, new List<FighterAbility>()) {}
+    public Summon(Fighter fighter, FighterBase summon) :                                    this(fighter, summon, new List<FighterAbility>(), -1) {}
+    public Summon(Fighter fighter, FighterBase summon, int position) :                      this(fighter, summon, new List<FighterAbility>(), position) {}
+    public Summon(Fighter fighter, FighterBase summon, List<FighterAbility> abilities) :    this(fighter, summon, abilities, -1) {}
 
     public override void Do()
     {
         Debug.Log($"Summoning {summonFighterBase}, {summonFighterBase.GetName()}");
-        Fighter summonedFighter = FightManager.GetInstance().AddFighter(summonFighterBase);
+        Fighter summonedFighter = FightManager.GetInstance().AddFighter(summonFighterBase, position);
         summonedFighter.SummonedAnimation();
         foreach (FighterAbility fa in additionalAbilities)
             AddAction(new AddAbility(summonedFighter, fa));
@@ -357,6 +361,26 @@ public class Banish : FightAction
         manager.GetFighters().Remove(fighter);
         manager.GetTeam(fighter).Remove(fighter);
         MonoBehaviour.Destroy(fighter.gameObject);
+    }
+}
+
+public class Move : FightAction
+{
+    int newPosition;
+    
+    public Move(Fighter fighter, int position) : base(fighter) 
+    {
+        this.newPosition = position;
+    }
+
+    public override void Do()
+    {
+        FightManager.GetInstance().MoveFighter(fighter, newPosition);
+    }
+
+    public override bool IsValid()
+    {
+        return base.IsValid() && !fighter.IsDead;
     }
 }
 

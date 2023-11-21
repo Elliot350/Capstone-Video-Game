@@ -6,6 +6,7 @@ using UnityEngine;
 public class SummonAbility : TriggeredFighterAbility
 {
     [SerializeField] private bool summonAll;
+    [SerializeField] private bool summonToFront;
     [SerializeField] private List<FighterBase> fighters;
     [SerializeField] private List<FighterAbility> additionalAbilities;
 
@@ -18,13 +19,13 @@ public class SummonAbility : TriggeredFighterAbility
             // Summon each monster
             foreach (FighterBase f in fighters)
             {
-                FightManager.GetInstance().AddAction(new Summon(thisFighter, f, additionalAbilities));
+                FightManager.GetInstance().AddAction(new Summon(thisFighter, f, additionalAbilities, summonToFront ? 0 : -1));
             }
         }
         else
         {
             // Summon a random monster
-            FightManager.GetInstance().AddAction(new Summon(thisFighter, fighters[Random.Range(0, fighters.Count)], additionalAbilities));
+            FightManager.GetInstance().AddAction(new Summon(thisFighter, fighters[Random.Range(0, fighters.Count)], additionalAbilities, summonToFront ? 0 : -1));
         }
     }
 

@@ -17,6 +17,7 @@ MonoBehaviour:
   animationTrigger: 
   triggers: 05000000
   summonAll: 1
+  summonToFront: 0
   fighters:
   - {fileID: 11400000, guid: 40a990f11720d49dba9a5acd6b19e180, type: 2}
   additionalAbilities: []
