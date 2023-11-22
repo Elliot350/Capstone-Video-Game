@@ -250,17 +250,21 @@ public class FightManager : MonoBehaviour
     public void MoveFighter(Fighter fighter, int newPosition)
     {
         // TODO: Check this logic
-        if (fighter.IsMonster && newPosition < monsters.Count)
+        if (fighter.IsMonster)
         {
             monsters.Remove(fighter);
-            monsters.Insert(newPosition, fighter);
-            fighter.transform.SetSiblingIndex(newPosition);
+            if (newPosition == -1 || newPosition >= monsters.Count) monsters.Add(fighter);
+            else monsters.Insert(newPosition, fighter);
+            fighter.transform.SetSiblingIndex(newPosition == -1 || newPosition >= monsters.Count ? monsters.Count - 1 : newPosition);
+            fighter.Moved();
         }
         else if (!fighter.IsMonster && newPosition < heroes.Count)
         {
             heroes.Remove(fighter);
-            heroes.Insert(newPosition, fighter);
-            fighter.transform.SetSiblingIndex(newPosition);
+            if (newPosition == -1 || newPosition >= heroes.Count) heroes.Add(fighter);
+            else heroes.Insert(newPosition, fighter);
+            fighter.transform.SetSiblingIndex(newPosition == -1 || newPosition >= heroes.Count ? heroes.Count - 1 : newPosition);
+            fighter.Moved();
         }
     }
 

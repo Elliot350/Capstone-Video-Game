@@ -9,7 +9,7 @@ public class ApplyAbility : FighterAbility
 
     public override void OnAttack(Damage attack)
     {
-        FightManager.GetInstance().AddAction(new AddAbility(attack.Target, ability));
+        FightManager.GetInstance().AddAction(new AddAbility(attack.Target, Instantiate<FighterAbility>(ability)));
     }
 
     public override string GetDescription()

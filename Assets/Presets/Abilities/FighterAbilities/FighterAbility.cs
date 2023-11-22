@@ -16,7 +16,8 @@ public abstract class FighterAbility : Ability
         HERO_DIED,
         HEALED,
         MONSTER_SUMMONED,
-        HERO_SUMMONED
+        HERO_SUMMONED,
+        MOVED
     }
 
     protected const int NONE = 0;
@@ -37,6 +38,7 @@ public abstract class FighterAbility : Ability
     public virtual void BattleStart(Fighter f) {}
     public virtual void BattleEnd(Fighter f) {}
     public virtual void FighterSummoned(Fighter f, Fighter newFighter) {}
+    public virtual void OnMoved(Fighter f) {}
     
     public virtual bool CanAddMonster(MonsterBase m, Room r) {return true;}
     public virtual void CalculateDamage(Fighter f) {}

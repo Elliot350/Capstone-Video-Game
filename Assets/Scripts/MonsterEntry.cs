@@ -37,4 +37,14 @@ public class MonsterEntry : MonoBehaviour
         room.SellMonster(monster);
         Hide();
     }
+
+    public void MoveUp() 
+    {
+        Debug.Log($"Moving up");
+    }
+
+    public void MoveDown() 
+    {
+        Debug.Log($"Moving down");
+    }
 }

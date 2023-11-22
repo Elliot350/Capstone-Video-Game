@@ -52,7 +52,7 @@ public class RoomInfo : MonoBehaviour
         }
 
         // Size the content
-        monsterContent.sizeDelta = new Vector2(monsterContent.sizeDelta.x, room.GetMonsters().Count * 50);
+        monsterContent.sizeDelta = new Vector2(monsterContent.sizeDelta.x, room.GetMonsters().Count * 75);
     }
 
     // private void ShowTraps(Room room)

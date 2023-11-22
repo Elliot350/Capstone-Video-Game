@@ -19,7 +19,8 @@ MonoBehaviour:
   maxHealth: 7
   speed: 1
   tier: 0
-  abilities: []
+  abilities:
+  - {fileID: 11400000, guid: cf85693366a8c2f4281702db0d6dbbcd, type: 2}
   tags:
   - {fileID: 11400000, guid: 24eee85445c114cf480333deb6aeb7c2, type: 2}
   needsAll: 0

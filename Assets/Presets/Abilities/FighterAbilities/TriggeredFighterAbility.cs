@@ -18,4 +18,5 @@ public abstract class TriggeredFighterAbility : FighterAbility
     public override void OnFighterDied(Fighter f, Fighter dead) {if ((triggers.Contains(Trigger.MONSTER_DIED) && dead.IsMonster) || (triggers.Contains(Trigger.HERO_DIED) && !dead.IsMonster)) Activate(f);}
     public override void OnHeal(Fighter f) {if (triggers.Contains(Trigger.HEALED)) Activate(f);}
     public override void FighterSummoned(Fighter f, Fighter newFighter) {if ((triggers.Contains(Trigger.MONSTER_SUMMONED) && newFighter.IsMonster) || (triggers.Contains(Trigger.HERO_SUMMONED) && !newFighter.IsMonster)) Activate(f);}
+    public override void OnMoved(Fighter f) {if (triggers.Contains(Trigger.MOVED)) Activate(f);}
 }
