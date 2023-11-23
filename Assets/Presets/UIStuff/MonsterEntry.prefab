@@ -120,7 +120,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2005448414014747162}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7203872147090369568}
+        m_TargetAssemblyTypeName: MonsterEntry, Assembly-CSharp
+        m_MethodName: MoveUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3787755031600853928
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,7 +464,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3787755033040948317}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7203872147090369568}
+        m_TargetAssemblyTypeName: MonsterEntry, Assembly-CSharp
+        m_MethodName: MoveDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3787755033200156408
 GameObject:
   m_ObjectHideFlags: 0

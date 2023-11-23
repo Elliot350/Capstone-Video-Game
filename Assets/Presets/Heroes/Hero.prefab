@@ -67,7 +67,7 @@ MonoBehaviour:
   effectAnimator: {fileID: 5107355285956057596, guid: ece891a26ba9c7448a4f4f4d250ec712, type: 3}
   image: {fileID: 4750066662433999588}
   alertImage: {fileID: 3702988228419720621}
-  damageText: {fileID: 120448862609494735}
+  statsText: {fileID: 120448862609494735}
   IsMonster: 0
   IsBoss: 0
   IsDead: 0

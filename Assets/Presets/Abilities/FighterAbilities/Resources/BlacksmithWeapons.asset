@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7289a547b4624fca9929f9d931dd434, type: 3}
-  m_Name: FrozenTouch
+  m_Name: BlacksmithWeapons
   m_EditorClassIdentifier: 
-  abilityName: Frozen Touch
-  description: Apply {0} to target ({1})
+  abilityName: Blacksmithing
+  description: 'Start of turn: Give an ally {0} ({1})'
   animationTrigger: 
-  triggers: 04000000
-  ability: {fileID: 11400000, guid: 41ecf2cd8049be745ad9bfe31095e848, type: 2}
-  target: 1
+  triggers: 02000000
+  ability: {fileID: 11400000, guid: 44be08a5d1c1a7341911c755d613d91d, type: 2}
+  target: 2

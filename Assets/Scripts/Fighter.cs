@@ -44,7 +44,7 @@ public class Fighter : MonoBehaviour
 
     [Space(10)]
     [Header("Debug Stuff")]
-    [SerializeField] private TextMeshProUGUI damageText;
+    [SerializeField] private TextMeshProUGUI statsText;
     
     public bool IsMonster;
     public bool IsBoss;
@@ -187,6 +187,7 @@ public class Fighter : MonoBehaviour
             health += GetMaxHealth() - previousMaxHealth;
         }
         SetHealthBar();
+        statsText.text = $"{damage} + {damageModifier}\n{maxHealth} + {maxHealthModifier}";
     }
 
     private void CalculateDamage()
@@ -194,7 +195,6 @@ public class Fighter : MonoBehaviour
         if (room != null)
             room.CalculateDamage(this);
         ActivateAbilities((a) => a.CalculateDamage(this));
-        damageText.text = $"{damage} + {damageModifier}\n{maxHealth} + {maxHealthModifier}";
     }
 
     public void IncreaseDamageModifier(float amount)
@@ -207,7 +207,6 @@ public class Fighter : MonoBehaviour
         if (room != null)
             room.CalculateMaxHealth(this);
         ActivateAbilities((a) => a.CalculateMaxHealth(this));
-        damageText.text = $"{damage} + {damageModifier}\n{maxHealth} + {maxHealthModifier}";
     }
 
     public void IncreaseMaxHealthModifier(float amount)

@@ -11,6 +11,7 @@ public class RoomInfo : MonoBehaviour
     [SerializeField] private MonsterEntry monsterEntryPrefab;
     [SerializeField] private RectTransform monsterContent;
     [SerializeField] private List<MonsterEntry> monsters;
+    private Room currentRoom;
 
     // [SerializeField] private TrapEntry trapEntryPrefab;
     // [SerializeField] private RectTransform trapContent;
@@ -20,7 +21,7 @@ public class RoomInfo : MonoBehaviour
     {
         image.sprite = room.GetRoomBase().GetSprite();
         roomName.text = room.GetName();
-        
+        currentRoom = room;
         ShowMonsters(room);
         // ShowTraps(room);
     }
@@ -32,17 +33,18 @@ public class RoomInfo : MonoBehaviour
 
     private void ShowMonsters(Room room)
     {
-        // Hide all of them just in case
-        foreach (MonsterEntry monsterEntry in monsters)
-        {
-            monsterEntry.Hide();
-        }
-
-        // Create the new ones
+        // Create new ones
         while (monsters.Count < room.GetMonsters().Count)
         {
             MonsterEntry newEntry = Instantiate(monsterEntryPrefab, monsterContent);
             monsters.Add(newEntry); 
+            newEntry.SetRoomInfo(this);
+        }
+        // Delete extra ones
+        while (monsters.Count > room.GetMonsters().Count)
+        {
+            monsters[0].Remove(); 
+            monsters.RemoveAt(0);
         }
 
         // Show the entries
@@ -53,6 +55,37 @@ public class RoomInfo : MonoBehaviour
 
         // Size the content
         monsterContent.sizeDelta = new Vector2(monsterContent.sizeDelta.x, room.GetMonsters().Count * 75);
+    }
+
+    public void SellMonster(MonsterBase monsterBase, MonsterEntry entry)
+    {
+        currentRoom.SellMonster(monsterBase);
+        monsters.Remove(entry);
+        entry.Remove();
+    }
+
+    public void MoveEntryUp(MonsterEntry entry)
+    {
+        int index = monsters.IndexOf(entry);
+        // If we are already the highest possible, return
+        if (index == 0) return;
+        
+        // Remove and insert one spot earlier
+        monsters.Remove(entry);
+        monsters.Insert(index - 1, entry);
+        entry.transform.SetSiblingIndex(index - 1);
+    }
+
+    public void MoveEntryDown(MonsterEntry entry)
+    {
+        int index = monsters.IndexOf(entry);
+        // If we are already the lowest possible, return
+        if (index == monsters.Count - 1) return;
+        
+        // Remove and insert one spot later
+        monsters.Remove(entry);
+        monsters.Insert(index + 1, entry);
+        entry.transform.SetSiblingIndex(index + 1);
     }
 
     // private void ShowTraps(Room room)

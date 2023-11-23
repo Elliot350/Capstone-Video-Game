@@ -8,13 +8,12 @@ public class MonsterEntry : MonoBehaviour
 {
     [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI monsterName;
+    private RoomInfo roomInfo;
     private MonsterBase monster;
-    private Room room;
 
     public void Set(MonsterBase monster, Room room)
     {
         this.monster = monster;
-        this.room = room;
         image.sprite = monster.GetSprite();
         monsterName.text = monster.GetName();
         gameObject.SetActive(true);
@@ -23,7 +22,6 @@ public class MonsterEntry : MonoBehaviour
     public void Hide()
     {
         monster = null;
-        room = null;
         gameObject.SetActive(false);
     }
 
@@ -34,17 +32,25 @@ public class MonsterEntry : MonoBehaviour
 
     public void SellMonster()
     {
-        room.SellMonster(monster);
-        Hide();
+        roomInfo.SellMonster(monster, this);
+    }
+
+    public void SetRoomInfo(RoomInfo roomInfo)
+    {
+        this.roomInfo = roomInfo;
     }
 
     public void MoveUp() 
     {
         Debug.Log($"Moving up");
+        Debug.Log($"Old: {transform.GetSiblingIndex()}, After: {transform.GetSiblingIndex() - 1}");
+        roomInfo.MoveEntryUp(this);
     }
 
     public void MoveDown() 
     {
         Debug.Log($"Moving down");
+        Debug.Log($"Old: {transform.GetSiblingIndex()}, After: {transform.GetSiblingIndex() + 1}");
+        roomInfo.MoveEntryDown(this);
     }
 }
