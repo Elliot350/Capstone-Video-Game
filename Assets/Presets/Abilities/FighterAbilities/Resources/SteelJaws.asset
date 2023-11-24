@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0eb1c4e660dc3476892581693929ef2f, type: 3}
-  m_Name: Ravenous
+  m_Script: {fileID: 11500000, guid: 12c19936709870c44922dbd37555e6a1, type: 3}
+  m_Name: SteelJaws
   m_EditorClassIdentifier: 
-  abilityName: Ravenous
-  description: 'Start Turn: Kill an ally and gain its damage and health'
+  abilityName: Steel Jaws
+  description: 'On Death: Kill the attacker.'
   animationTrigger: 
-  triggers: 02000000

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dedaa80607ff03468c4124aab944655, type: 3}
+  m_Name: Trap
+  m_EditorClassIdentifier: 
+  displayName: Trap
+  sprite: {fileID: -1660473148, guid: 6b51da19842dc0b4981cde1489c99ed4, type: 3}
+  cost: 0
+  baseDamage: 0
+  maxHealth: 5
+  speed: 1
+  tier: 1
+  abilities:
+  - {fileID: 11400000, guid: f3014b7fa2bf345eeae66367d16e4dd6, type: 2}
+  - {fileID: 11400000, guid: 1d2bb7183afffed4e9ad50c0efe1d25b, type: 2}
+  tags: []
+  gold: 0

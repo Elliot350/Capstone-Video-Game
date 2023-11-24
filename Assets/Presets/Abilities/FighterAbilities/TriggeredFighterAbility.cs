@@ -4,6 +4,22 @@ using UnityEngine;
 
 public abstract class TriggeredFighterAbility : FighterAbility
 {
+    protected enum Trigger {
+        START_BATTLE,
+        END_BATTLE,
+        START_TURN,
+        END_TURN,
+        ATTACK,
+        DAMAGED,
+        DEATH,
+        MONSTER_DIED,
+        HERO_DIED,
+        HEALED,
+        MONSTER_SUMMONED,
+        HERO_SUMMONED,
+        MOVED
+    }
+
     [SerializeField] protected List<Trigger> triggers;
 
     protected abstract void Activate(Fighter self);

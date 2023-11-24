@@ -4,22 +4,6 @@ using UnityEngine;
 
 public abstract class FighterAbility : Ability
 {
-    protected enum Trigger {
-        START_BATTLE,
-        END_BATTLE,
-        START_TURN,
-        END_TURN,
-        ATTACK,
-        DAMAGED,
-        DEATH,
-        MONSTER_DIED,
-        HERO_DIED,
-        HEALED,
-        MONSTER_SUMMONED,
-        HERO_SUMMONED,
-        MOVED
-    }
-
     protected const int NONE = 0;
     protected const int ADDS_ATTACKS = 1;
     protected const int NO_ATTACK = 2;

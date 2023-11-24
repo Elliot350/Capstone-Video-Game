@@ -105,7 +105,7 @@ public class Fighter : MonoBehaviour
     public virtual void IncreaseMaxHealth(float amount)
     {
         if (amount <= 0) return;
-        maxHealthModifier += amount;
+        maxHealth += amount;
         health += amount;
         ActivateAbilities((a) => a.OnHeal(this));
         SetHealthBar();

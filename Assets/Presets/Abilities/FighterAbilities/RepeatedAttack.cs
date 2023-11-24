@@ -9,7 +9,8 @@ public class RepeatedAttack : FighterAbility
     {
         FIRST,
         LAST,
-        RANDOM
+        RANDOM,
+        ALL
     }
 
     [SerializeField] private Target target;
@@ -30,6 +31,10 @@ public class RepeatedAttack : FighterAbility
                     break;
                 case Target.RANDOM:
                     targets.Add(fighters[Random.Range(0, fighters.Count)]);
+                    break;
+                // TODO: Not sure if this works, check before deleting HydraStrike
+                case Target.ALL:
+                    targets.AddRange(fighters);
                     break;
                 default:
                     break;
