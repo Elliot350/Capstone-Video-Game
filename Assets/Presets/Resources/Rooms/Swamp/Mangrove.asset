@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acaa2247657b4b94eabb3337b4581d65, type: 3}
+  m_Name: Mangrove
+  m_EditorClassIdentifier: 
+  displayName: Mangrove
+  cost: 45
+  description: 
+  monsterCapacity: 3
+  trapCapacity: 0
+  abilities:
+  - {fileID: 11400000, guid: 60e333aa255140947ad01e086f80b918, type: 2}
+  sprite: {fileID: 1047407408, guid: 0b4c5f7e303b44346916f8d356671d86, type: 3}
+  tile: {fileID: 11400000, guid: 7f5be15c90754804cbdb701ab3977b31, type: 2}
+  needsAll: 0
+  requirements: []

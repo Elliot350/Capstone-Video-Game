@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f2c333429c54a643924a59697cb8dff, type: 3}
-  m_Name: DeathDamage
+  m_Script: {fileID: 11500000, guid: 94e56b90c57e35c4d8bb7e4c31269f5f, type: 3}
+  m_Name: Fertilizer
   m_EditorClassIdentifier: 
-  abilityName: Death Damage
-  description: 'On Death: Deal {0} damage to the attacker'
-  deathDamage: 10
+  abilityName: Fertilizer
+  description: 'Fighter Died: Heal each fighter {0} health'
+  triggers: 0200000003000000
+  healAmount: 1
+  target: 3

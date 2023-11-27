@@ -7,7 +7,7 @@ public class TagRoom : RoomAbility
 {
     [SerializeField] private Tag tag;
 
-    public override void FightStarted(List<Fighter> monsters, List<Fighter> heroes)
+    public override void BattleStart(Room r, List<Fighter> monsters, List<Fighter> heroes)
     {
         foreach (Fighter f in monsters)
             f.AddTag(tag);

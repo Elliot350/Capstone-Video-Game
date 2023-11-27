@@ -276,10 +276,6 @@ public class FightManager : MonoBehaviour
 
     public void AddAction(FightAction action)
     {
-        // if (actions.Count > 0)
-        //     actions.Insert(0, action);
-        // else
-        //     actions.Add(action);
         actionsToAdd.Add(action);
     }
 
@@ -312,6 +308,7 @@ public class FightManager : MonoBehaviour
 
     public void FighterDied(Fighter f)
     {
+        room.FighterAdded(f);
         foreach (Fighter fighter in order)
             fighter.FighterDied(f);
         UpdateOrder(false);

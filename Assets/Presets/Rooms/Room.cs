@@ -60,14 +60,14 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     {
         foreach (RoomAbility a in abilities)
         {
-            a.OnFighterDied(f);
+            a.OnFighterDied(this, f);
         }
     }
 
     public void StartingFight(List<Fighter> monsters, List<Fighter> heroes)
     {
         foreach (RoomAbility a in abilities)
-            a.FightStarted(monsters, heroes);
+            a.BattleStart(this, monsters, heroes);
     }
 
     public void CalculateDamage(Fighter f)
@@ -105,6 +105,14 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         roomType.MonsterAdded(this, monsterBase);
         foreach (RoomAbility a in abilities)
             a.OnMonsterAdded(monsterBase);
+    }
+
+    public void FighterAdded(Fighter f)
+    {
+        foreach (RoomAbility a in abilities)
+        {
+            a.FighterSummoned(this, f);
+        }
     }
 
     // public virtual bool CanAddTrap(TrapBase trap)

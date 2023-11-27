@@ -5,25 +5,25 @@ using System;
 
 public abstract class FightAction
 {
-    public Fighter fighter {get; private set;}
+    public Fighter fighter { get; private set; }
     protected float waitTime;
 
-    public FightAction(Fighter fighter) 
+    public FightAction(Fighter fighter)
     {
         this.fighter = fighter;
         waitTime = 1f;
     }
 
     public abstract void Do();
-    public virtual bool IsValid() {return fighter != null;}
-    public virtual bool NeedsCalculation() {return true;}
-    protected void AddAction(FightAction a) {FightManager.GetInstance().AddAction(a);}
-    public float GetWaitTime() {return waitTime;}
+    public virtual bool IsValid() { return fighter != null; }
+    public virtual bool NeedsCalculation() { return true; }
+    protected void AddAction(FightAction a) { FightManager.GetInstance().AddAction(a); }
+    public float GetWaitTime() { return waitTime; }
 }
 
 public class Turn : FightAction
 {
-    public Turn(Fighter fighter) : base(fighter) {waitTime = 0f;}
+    public Turn(Fighter fighter) : base(fighter) { waitTime = 0f; }
 
     public override void Do()
     {
@@ -40,13 +40,13 @@ public class Turn : FightAction
 
 public class StartTurn : FightAction
 {
-    public StartTurn(Fighter fighter) : base(fighter) {waitTime = 0f;}
-    public override void Do() {fighter.StartTurn();}
+    public StartTurn(Fighter fighter) : base(fighter) { waitTime = 0f; }
+    public override void Do() { fighter.StartTurn(); }
 }
 
 public class GetTargets : FightAction
 {
-    public GetTargets(Fighter fighter) : base(fighter) {waitTime = 0f;}
+    public GetTargets(Fighter fighter) : base(fighter) { waitTime = 0f; }
 
     public override void Do()
     {
@@ -65,8 +65,8 @@ public class GetTargets : FightAction
 
 public class EndTurn : FightAction
 {
-    public EndTurn(Fighter fighter) : base(fighter) {waitTime = 0f;}
-    public override void Do() {fighter.EndTurn();}
+    public EndTurn(Fighter fighter) : base(fighter) { waitTime = 0f; }
+    public override void Do() { fighter.EndTurn(); }
 
     public override bool IsValid()
     {
@@ -79,7 +79,7 @@ public class Attack : FightAction
 {
     private Fighter target;
 
-    public Attack(Fighter source, Fighter target) : base (source)
+    public Attack(Fighter source, Fighter target) : base(source)
     {
         this.target = target;
     }
@@ -104,7 +104,7 @@ public class TakeDamage : FightAction
 {
     private Damage attack;
 
-    public TakeDamage(Damage attack) : base(attack.Target) {this.attack = attack;}
+    public TakeDamage(Damage attack) : base(attack.Target) { this.attack = attack; }
 
     public override void Do()
     {
@@ -124,8 +124,8 @@ public class Die : FightAction
 {
     private Damage attack;
 
-    public Die(Fighter fighter) : this(fighter, new Damage(fighter, 0)) {}
-    public Die(Fighter fighter, Damage attack) : base(fighter) {this.attack = attack;}
+    public Die(Fighter fighter) : this(fighter, new Damage(fighter, 0)) { }
+    public Die(Fighter fighter, Damage attack) : base(fighter) { this.attack = attack; }
 
     public override void Do()
     {
@@ -143,23 +143,23 @@ public class Heal : FightAction
 {
     private float amount;
 
-    public Heal(Fighter fighter, float amount) : base(fighter) {this.amount = amount;}
-    public override void Do() {fighter.Heal(amount);}
-    public override bool IsValid() {return base.IsValid() && !fighter.IsDead;}
+    public Heal(Fighter fighter, float amount) : base(fighter) { this.amount = amount; }
+    public override void Do() { fighter.Heal(amount); }
+    public override bool IsValid() { return base.IsValid() && !fighter.IsDead; }
 }
 
 public class BattleStart : FightAction
 {
-    public BattleStart(Fighter fighter) : base(fighter) {waitTime = 0f;}
-    public override void Do() {fighter.StartBattle();}
-    public override bool IsValid() {return base.IsValid() && !fighter.IsDead;}
+    public BattleStart(Fighter fighter) : base(fighter) { waitTime = 0f; }
+    public override void Do() { fighter.StartBattle(); }
+    public override bool IsValid() { return base.IsValid() && !fighter.IsDead; }
 }
 
 public class BattleEnd : FightAction
 {
-    public BattleEnd(Fighter fighter) : base(fighter) {waitTime = 0f;}
-    public override void Do() {fighter.FinishBattle();}
-    public override bool IsValid() {return base.IsValid() && !fighter.IsDead;}
+    public BattleEnd(Fighter fighter) : base(fighter) { waitTime = 0f; }
+    public override void Do() { fighter.FinishBattle(); }
+    public override bool IsValid() { return base.IsValid() && !fighter.IsDead; }
 }
 
 public class RemoveAbility : FightAction
@@ -218,8 +218,8 @@ public class PlayAnimation : FightAction
         waitTime = 0f;
     }
 
-    public override void Do() {fighter.PlayEffect(animationName);}
-    public override bool NeedsCalculation() {return false;}
+    public override void Do() { fighter.PlayEffect(animationName); }
+    public override bool NeedsCalculation() { return false; }
 }
 
 public class ContinueAnimation : FightAction
@@ -239,7 +239,7 @@ public class ContinueAnimation : FightAction
         waitTime = 0f;
     }
 
-    public override void Do() 
+    public override void Do()
     {
         if (effect == null)
         {
@@ -251,15 +251,15 @@ public class ContinueAnimation : FightAction
         }
     }
 
-    public override bool NeedsCalculation() {return false;}
+    public override bool NeedsCalculation() { return false; }
 }
 
 public class Morph : FightAction
 {
     FighterBase fighterBase;
 
-    public Morph(Fighter fighter, FighterBase fighterBase) : base(fighter) {this.fighterBase = fighterBase;}
-    public override void Do() {fighter.SetBase(fighterBase);}
+    public Morph(Fighter fighter, FighterBase fighterBase) : base(fighter) { this.fighterBase = fighterBase; }
+    public override void Do() { fighter.SetBase(fighterBase); }
 }
 
 public class Summon : FightAction
@@ -268,15 +268,15 @@ public class Summon : FightAction
     List<FighterAbility> additionalAbilities;
     int position;
 
-    public Summon (Fighter fighter, FighterBase summon, List<FighterAbility> abilities, int position) : base(fighter)
+    public Summon(Fighter fighter, FighterBase summon, List<FighterAbility> abilities, int position) : base(fighter)
     {
         this.summonFighterBase = summon;
         this.additionalAbilities = abilities;
         this.position = position;
     }
-    public Summon(Fighter fighter, FighterBase summon) :                                    this(fighter, summon, new List<FighterAbility>(), -1) {}
-    public Summon(Fighter fighter, FighterBase summon, int position) :                      this(fighter, summon, new List<FighterAbility>(), position) {}
-    public Summon(Fighter fighter, FighterBase summon, List<FighterAbility> abilities) :    this(fighter, summon, abilities, -1) {}
+    public Summon(Fighter fighter, FighterBase summon) : this(fighter, summon, new List<FighterAbility>(), -1) { }
+    public Summon(Fighter fighter, FighterBase summon, int position) : this(fighter, summon, new List<FighterAbility>(), position) { }
+    public Summon(Fighter fighter, FighterBase summon, List<FighterAbility> abilities) : this(fighter, summon, abilities, -1) { }
 
     public override void Do()
     {
@@ -314,8 +314,8 @@ public class Revive : FightAction
     private float healAmount;
 
     // TODO: move this into Fighter?
-    public Revive(Fighter fighter) : this(fighter, fighter.GetMaxHealth()) {}
-    public Revive(Fighter fighter, float health) : base(fighter) 
+    public Revive(Fighter fighter) : this(fighter, fighter.GetMaxHealth()) { }
+    public Revive(Fighter fighter, float health) : base(fighter)
     {
         healAmount = health;
     }
@@ -325,7 +325,7 @@ public class Revive : FightAction
         FightManager manager = FightManager.GetInstance();
         if (!manager.GetDead().Contains(fighter))
             return;
-        
+
         manager.GetDead().Remove(fighter);
         manager.GetFighters().Add(fighter);
         if (fighter.IsMonster)
@@ -352,7 +352,7 @@ public class Revive : FightAction
 
 public class Banish : FightAction
 {
-    public Banish(Fighter fighter) : base(fighter) {}
+    public Banish(Fighter fighter) : base(fighter) { }
 
     public override void Do()
     {
@@ -367,8 +367,8 @@ public class Banish : FightAction
 public class Move : FightAction
 {
     int newPosition;
-    
-    public Move(Fighter fighter, int position) : base(fighter) 
+
+    public Move(Fighter fighter, int position) : base(fighter)
     {
         this.newPosition = position;
     }
@@ -386,13 +386,13 @@ public class Move : FightAction
 
 public class Delay : FightAction
 {
-    public Delay(float delayTime, Fighter fighter) : base(fighter) {waitTime = delayTime;}
-    public Delay(float delayTime) : base(null) {waitTime = delayTime;}
+    public Delay(float delayTime, Fighter fighter) : base(fighter) { waitTime = delayTime; }
+    public Delay(float delayTime) : base(null) { waitTime = delayTime; }
 
-    public override void Do() {}
+    public override void Do() { }
 
-    public override bool IsValid() {return true;}
-    public override bool NeedsCalculation() {return false;}
+    public override bool IsValid() { return true; }
+    public override bool NeedsCalculation() { return false; }
 }
 
 public class ConditionalAction : FightAction
@@ -400,7 +400,8 @@ public class ConditionalAction : FightAction
     private Func<bool> check;
     private FightAction action;
 
-    public ConditionalAction(Func<bool> check, FightAction action) : base(action.fighter) {
+    public ConditionalAction(Func<bool> check, FightAction action) : base(action.fighter)
+    {
         this.check = check;
         this.action = action;
     }
@@ -410,6 +411,6 @@ public class ConditionalAction : FightAction
         if (check()) action.Do();
     }
 
-    public override bool IsValid() {return action.IsValid();}
-    public override bool NeedsCalculation() {return action.NeedsCalculation();}
+    public override bool IsValid() { return action.IsValid(); }
+    public override bool NeedsCalculation() { return action.NeedsCalculation(); }
 }

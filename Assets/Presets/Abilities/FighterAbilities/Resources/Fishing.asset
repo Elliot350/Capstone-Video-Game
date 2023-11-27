@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6d0876d72baf4d26ab44c5c50c04009, type: 3}
-  m_Name: DeathSpiderSummon
+  m_Script: {fileID: 11500000, guid: bb2bb5671d7c6a64dbef7f20f84dbfe4, type: 3}
+  m_Name: Fishing
   m_EditorClassIdentifier: 
-  abilityName: Full of Spiders
-  description: 'On Death: Summon {1} {0}'
+  abilityName: Fishing
+  description: 'End Turn: Move the enemy with the lowest health to the front'
   animationTrigger: 
-  monsterToSummon: {fileID: 11400000, guid: 660e93d7a31dc264e99f3bf3bcf714f9, type: 2}
-  numberOfMonsters: 2
+  triggers: 03000000
+  target: 2
