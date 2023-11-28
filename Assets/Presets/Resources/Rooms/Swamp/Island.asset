@@ -20,3 +20,5 @@ MonoBehaviour:
   abilities: []
   sprite: {fileID: -1124743345, guid: 0b4c5f7e303b44346916f8d356671d86, type: 3}
   tile: {fileID: 11400000, guid: 414966ec5b52e1846a94f68fb2698bf5, type: 2}
+  needsAll: 0
+  requirements: []

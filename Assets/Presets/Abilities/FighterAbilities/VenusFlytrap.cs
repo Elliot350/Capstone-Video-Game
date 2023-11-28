@@ -17,7 +17,6 @@ public class VenusFlytrap : FighterAbility
         {
             if (ally.HasTag(tagToConsume))
             {
-                Debug.Log($"Eating {ally.GetName()}");
                 targetFighters.Add(ally);
                 FightManager.GetInstance().AddAction(new PlayAnimation(ally, animationTrigger));
                 // FightManager.GetInstance().AddAction(new Die(ally, new Damage(f, ally, 0f)));
@@ -36,7 +35,6 @@ public class VenusFlytrap : FighterAbility
 
     public override void OnDeath(Damage attack)
     {
-        Debug.Log("Death");
         foreach (Fighter fighter in targetFighters)
         {
             FightManager.GetInstance().AddAction(new Revive(fighter));

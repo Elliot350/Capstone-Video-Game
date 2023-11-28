@@ -13,7 +13,7 @@ public class Reaper : FighterAbility
         // if (damageGain > 0)
             // Maybe this should be an Action, just for consistancy
 
-        FightManager.GetInstance().AddAction(new BuffMonster(f, healthGain, damageGain));
+        FightManager.GetInstance().AddAction(new BuffFighter(f, healthGain, damageGain));
         // if (healthGain > 0)
             // FightManager.GetInstance().AddAction(new Heal(f, healthGain));
     }

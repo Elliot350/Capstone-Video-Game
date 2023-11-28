@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 
 public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -50,37 +51,20 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             a.RoomBuilt(this);
     }
 
-    public void TriggerPeriodic()
+    private void ActivateAbilities(Action<RoomAbility> action)
     {
         foreach (RoomAbility a in abilities)
-            a.Periodic();
+            action(a);
     }
 
-    public void FighterDied(Fighter f)
-    {
-        foreach (RoomAbility a in abilities)
-        {
-            a.OnFighterDied(this, f);
-        }
-    }
-
-    public void StartingFight(List<Fighter> monsters, List<Fighter> heroes)
-    {
-        foreach (RoomAbility a in abilities)
-            a.BattleStart(this, monsters, heroes);
-    }
-
-    public void CalculateDamage(Fighter f)
-    {
-        foreach (RoomAbility a in abilities)
-            a.CalculateDamage(f);
-    }
-
-    public void CalculateMaxHealth(Fighter f)
-    {
-        foreach (RoomAbility a in abilities)
-            a.CalculateMaxHealth(f);
-    }
+    public void TriggerPeriodic() {ActivateAbilities((a) => a.Periodic());}
+    public void FighterDied(Fighter f) {ActivateAbilities((a) => a.OnFighterDied(this, f));}
+    public void BattleStart(List<Fighter> monsters, List<Fighter> heroes) {ActivateAbilities((a) => a.BattleStart(this, monsters, heroes));}
+    public void BattleEnd(List<Fighter> monsters, List<Fighter> heroes) {ActivateAbilities((a) => a.BattleEnd(this, monsters, heroes));}
+    public void CalculateDamage(List<Fighter> monsters, List<Fighter> heroes) {ActivateAbilities((a) => a.CalculateDamage(this, monsters, heroes));}
+    public void CalculateMaxHealth(List<Fighter> monsters, List<Fighter> heroes) {ActivateAbilities((a) => a.CalculateMaxHealth(this, monsters, heroes));}
+    public void FighterAdded(Fighter f) {ActivateAbilities((a) => a.FighterSummoned(this, f));}
+    public void FighterSummoned(Fighter fighter) {ActivateAbilities((a) => a.FighterSummoned(this, fighter));}
 
     public virtual bool CanAddMonster(MonsterBase monster)
     {
@@ -102,17 +86,9 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public void AddMonster(MonsterBase monsterBase) 
     {
         monsters.Add(monsterBase);
-        roomType.MonsterAdded(this, monsterBase);
-        foreach (RoomAbility a in abilities)
-            a.OnMonsterAdded(monsterBase);
-    }
-
-    public void FighterAdded(Fighter f)
-    {
-        foreach (RoomAbility a in abilities)
-        {
-            a.FighterSummoned(this, f);
-        }
+        // roomType.MonsterAdded(this, monsterBase);
+        // foreach (RoomAbility a in abilities)
+            // a.OnMonsterAdded(monsterBase);
     }
 
     // public virtual bool CanAddTrap(TrapBase trap)

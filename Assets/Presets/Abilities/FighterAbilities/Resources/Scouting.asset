@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb2bb5671d7c6a64dbef7f20f84dbfe4, type: 3}
-  m_Name: Fishing
+  m_Script: {fileID: 11500000, guid: 9ea1279dc06e268419c604a5d3780500, type: 3}
+  m_Name: Scouting
   m_EditorClassIdentifier: 
-  abilityName: Fishing
-  description: 'End Turn: Move the enemy with the lowest health to the front'
+  abilityName: Scouting
+  description: 'Battle Start: For each enemy, give a random ally +{0}/+{1}'
   animationTrigger: 
-  triggers: 02000000
-  target: 2
+  triggers: 00000000
+  healthBuff: 2
+  damageBuff: 0.5

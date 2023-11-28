@@ -281,22 +281,20 @@ public class Summon : FightAction
     public override void Do()
     {
         Debug.Log($"Summoning {summonFighterBase}, {summonFighterBase.GetName()}");
-        Fighter summonedFighter = FightManager.GetInstance().AddFighter(summonFighterBase, position);
+        Fighter summonedFighter = FightManager.GetInstance().SummonFighter(summonFighterBase, position);
         summonedFighter.SummonedAnimation();
         foreach (FighterAbility fa in additionalAbilities)
             AddAction(new AddAbility(summonedFighter, fa));
         AddAction(new BattleStart(summonedFighter));
-        foreach (Fighter f in FightManager.GetInstance().GetFighters())
-            f.FighterSummoned(summonedFighter);
     }
 }
 
-public class BuffMonster : FightAction
+public class BuffFighter : FightAction
 {
     private float _healthAmount;
     private float _damageAmount;
 
-    public BuffMonster(Fighter fighter, float healthAmount, float damageAmount) : base(fighter)
+    public BuffFighter(Fighter fighter, float healthAmount, float damageAmount) : base(fighter)
     {
         _healthAmount = healthAmount;
         _damageAmount = damageAmount;

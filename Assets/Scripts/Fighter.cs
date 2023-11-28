@@ -192,8 +192,6 @@ public class Fighter : MonoBehaviour
 
     private void CalculateDamage()
     {
-        if (room != null)
-            room.CalculateDamage(this);
         ActivateAbilities((a) => a.CalculateDamage(this));
     }
 
@@ -204,8 +202,6 @@ public class Fighter : MonoBehaviour
 
     private void CalculateMaxHealth()
     {
-        if (room != null)
-            room.CalculateMaxHealth(this);
         ActivateAbilities((a) => a.CalculateMaxHealth(this));
     }
 

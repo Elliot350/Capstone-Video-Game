@@ -14,7 +14,7 @@ public class Consume : TriggeredFighterAbility
         float damageValue = target.GetDamage();
 
         FightManager.GetInstance().AddAction(new Die(target, new Damage(self, target, 0f)));
-        FightManager.GetInstance().AddAction(new BuffMonster(self, healthValue, damageValue));
+        FightManager.GetInstance().AddAction(new BuffFighter(self, healthValue, damageValue));
     }
 
     public override string GetDescription()

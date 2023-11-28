@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb2bb5671d7c6a64dbef7f20f84dbfe4, type: 3}
-  m_Name: Fishing
+  m_Script: {fileID: 11500000, guid: ace27deb36cfb894b9ee1f82d7f783f8, type: 3}
+  m_Name: Debug
   m_EditorClassIdentifier: 
-  abilityName: Fishing
-  description: 'End Turn: Move the enemy with the lowest health to the front'
-  animationTrigger: 
-  triggers: 02000000
-  target: 2
+  abilityName: Debug
+  description: This is a debug ability

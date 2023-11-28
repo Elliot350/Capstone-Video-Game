@@ -32,7 +32,7 @@ public class FightManager : MonoBehaviour
     private List<FightAction> actions;
     private List<FightAction> actionsToAdd;
     // Current room the fight is in
-    private Room room; // Could maybe remove this
+    private Room currentRoom; // Could maybe remove this
     // If the current fight is a boss fight
     private bool bossFight = false;
     
@@ -66,7 +66,7 @@ public class FightManager : MonoBehaviour
         actions = new List<FightAction>();
         actionsToAdd = new List<FightAction>();
 
-        room = roomFight;
+        currentRoom = roomFight;
 
         // Add the monsters to monsters and order, and instantiate them to monster holder
         foreach (MonsterBase mb in monsterBases)
@@ -79,7 +79,7 @@ public class FightManager : MonoBehaviour
         foreach (Hero h in party)
         {
             order.Add(h);
-            h.EnterRoom(room);
+            h.EnterRoom(currentRoom);
         }
 
         // Sort the fighters by their speed value (TODO: randomize the list before)
@@ -88,7 +88,7 @@ public class FightManager : MonoBehaviour
 
         // Open the fight menu
         UIManager.GetInstance().OpenFightMenu();
-        room.StartingFight(monsters, heroes);
+        currentRoom.BattleStart(monsters, heroes);
         
         yield return secondPause;
 
@@ -160,7 +160,7 @@ public class FightManager : MonoBehaviour
         else
         {
             Debug.Log("The heroes defeated this room");
-            room.HeroesDefeatedMonsters();
+            currentRoom.HeroesDefeatedMonsters();
         }
 
         // Clear the lists and close the menu
@@ -202,7 +202,7 @@ public class FightManager : MonoBehaviour
         if (monsterBase.GetType() == typeof(BossBase))
         {
             Monster bossMonster = Instantiate(bossPrefab, monsterHolder.transform).GetComponent<Monster>();
-            bossMonster.SetBase(monsterBase, room);
+            bossMonster.SetBase(monsterBase, currentRoom);
             order.Add(bossMonster);
             monsters.Add(bossMonster);
             return bossMonster;
@@ -212,7 +212,7 @@ public class FightManager : MonoBehaviour
             Monster monster = Instantiate(monsterPrefab, monsterHolder.transform).GetComponent<Monster>();
             // MonsterBase newMonster = Instantiate<MonsterBase>(monsterBase, monsterHolder.transform);
             // Debug.Log(newMonster);
-            monster.SetBase(monsterBase, room);
+            monster.SetBase(monsterBase, currentRoom);
             
             order.Add(monster);
             monsters.Add(monster);
@@ -241,9 +241,18 @@ public class FightManager : MonoBehaviour
             return null;
         }
         if (position != -1) fighter.transform.SetSiblingIndex(position);
-        fighter.SetBase(fighterBase, room);
+        fighter.SetBase(fighterBase, currentRoom);
         order.Add(fighter);
 
+        return fighter;
+    }
+
+    public Fighter SummonFighter(FighterBase fighterBase, int position)
+    {
+        Fighter fighter = AddFighter(fighterBase, position);
+        currentRoom.FighterSummoned(fighter);
+        foreach (Fighter f in order)
+            f.FighterSummoned(fighter);
         return fighter;
     }
 
@@ -285,6 +294,8 @@ public class FightManager : MonoBehaviour
             f.ResetStats();     
         foreach (Fighter f in order)
             f.CalculateStats();
+        currentRoom.CalculateDamage(monsters, heroes);
+        currentRoom.CalculateMaxHealth(monsters, heroes);
     }
 
     private void CatchUpActions()
@@ -308,7 +319,7 @@ public class FightManager : MonoBehaviour
 
     public void FighterDied(Fighter f)
     {
-        room.FighterAdded(f);
+        currentRoom.FighterDied(f);
         foreach (Fighter fighter in order)
             fighter.FighterDied(f);
         UpdateOrder(false);
@@ -376,7 +387,7 @@ public class FightManager : MonoBehaviour
     public List<Fighter> GetHeroes() {return heroes;}
     public List<Fighter> GetFighters() {return order;}
     public List<Fighter> GetDead() {return dead;}
-    public Room GetRoom() {return room;}
+    public Room GetRoom() {return currentRoom;}
     public GameObject GetMonsterHolder() {return monsterHolder;}
     public GameObject GetHeroHolder() {return heroHolder;}
     public GameObject GetDeadHolder() {return deadHolder;}
