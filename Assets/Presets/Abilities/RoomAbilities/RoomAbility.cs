@@ -6,7 +6,6 @@ public abstract class RoomAbility : Ability
 {
     public virtual void Periodic() {}
     public virtual void RoomBuilt(Room r) {}
-    public virtual void PartyEntered(Party party) {}
     public virtual void BattleStart(Room r, List<Fighter> monsters, List<Fighter> heroes) {}
     public virtual void BattleEnd(Room r, List<Fighter> monsters, List<Fighter> heroes) {}
     public virtual void FighterSummoned(Room r, Fighter f) {} 

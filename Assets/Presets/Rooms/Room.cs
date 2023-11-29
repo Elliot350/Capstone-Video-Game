@@ -131,9 +131,6 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public IEnumerator PartyEntered(Party party)
     {
-        foreach (RoomAbility a in abilities)
-            a.PartyEntered(party);
-
         // if (TrapsUntriggered())
         // {
         //     yield return wait;

@@ -9,10 +9,19 @@ public class Healer : TriggeredFighterAbility
         RANDOM,
         RANDOM_OTHER,
         ALL,
-        SELF
+        SELF,
+        LOWEST_HEALTH_ALLY
     }
-    [SerializeField] float healAmount;
+
+    private enum HealType {
+        VALUE,
+        MULTIPLIER_OF_TARGET_HEALTH
+    }
+
+    [SerializeField] float healValue;
+    [SerializeField] private HealType healType;
     [SerializeField] private Target healTarget;
+
 
     protected override void Activate(Fighter self)
     {
@@ -21,26 +30,47 @@ public class Healer : TriggeredFighterAbility
         {
             case Target.RANDOM:
                 allies = FightManager.GetInstance().GetTeam(self);
-                FightManager.GetInstance().AddAction(new Heal(allies[Random.Range(0, allies.Count)], healAmount));
+                Heal(allies[Random.Range(0, allies.Count)]);
                 break;
             case Target.RANDOM_OTHER:
                 allies = FightManager.GetInstance().GetAllies(self);
-                FightManager.GetInstance().AddAction(new Heal(allies[Random.Range(0, allies.Count)], healAmount));
+                Heal(allies[Random.Range(0, allies.Count)]);
                 break;
             case Target.ALL:
                 allies = FightManager.GetInstance().GetTeam(self);
                 foreach (Fighter f in allies)
-                    FightManager.GetInstance().AddAction(new Heal(f, healAmount));
+                    Heal(f);
                 break;
             case Target.SELF:
-                FightManager.GetInstance().AddAction(new Heal(self, healAmount));
+                Heal(self);
+                break;
+            case Target.LOWEST_HEALTH_ALLY:
+                allies = FightManager.GetInstance().GetAllies(self);
+                int lowest = 0;
+                for (int i = 0; i < allies.Count; i++)
+                    if (allies[i].GetHealth() < allies[lowest].GetHealth() && allies[i].GetHealth() < allies[i].GetMaxHealth())
+                        lowest = i;
+                Heal(allies[lowest]);
                 break;
         
+        }
+    }
+
+    private void Heal(Fighter f)
+    {
+        switch (healType)
+        {
+            case HealType.VALUE:
+                FightManager.GetInstance().AddAction(new Heal(f, healValue));
+                break;
+            case HealType.MULTIPLIER_OF_TARGET_HEALTH:
+                FightManager.GetInstance().AddAction(new Heal(f, healValue * f.GetMaxHealth()));
+                break;
         }
     }
  
     public override string GetDescription()
     {
-        return string.Format(description, healAmount);
+        return string.Format(description, healValue * (healType == HealType.VALUE ? 1 : 100));
     }
 }

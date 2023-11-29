@@ -10304,8 +10304,8 @@ MonoBehaviour:
   heroPrefab: {fileID: 5914685805447396931, guid: 242181db0a50e3740885d19bd3512225, type: 3}
   partyStatus: {fileID: 690323910}
   tempParty:
-  - {fileID: 11400000, guid: 4c38f69c2ef206a4cb2a502ed25644a2, type: 2}
-  - {fileID: 11400000, guid: 6e1d5f798eda48e4baf8f995559e8d7c, type: 2}
+  - {fileID: 11400000, guid: 218e8e8060af9824389d66c8bf279838, type: 2}
+  - {fileID: 11400000, guid: 4f9c02212caa5a14082d8e4df929a5e0, type: 2}
   - {fileID: 11400000, guid: b4cb5a6a24629304688e64114b6c2a27, type: 2}
   moveTime: 1
   minPartyTime: 5

@@ -144,7 +144,13 @@ public class Heal : FightAction
     private float amount;
 
     public Heal(Fighter fighter, float amount) : base(fighter) { this.amount = amount; }
-    public override void Do() { fighter.Heal(amount); }
+    
+    public override void Do() 
+    {
+        if (fighter.GetHealth() >= fighter.GetMaxHealth()) waitTime = 0f; 
+        fighter.Heal(amount); 
+    }
+    
     public override bool IsValid() { return base.IsValid() && !fighter.IsDead; }
 }
 
@@ -373,6 +379,7 @@ public class Move : FightAction
 
     public override void Do()
     {
+        if (FightManager.GetInstance().GetTeam(fighter).IndexOf(fighter) == newPosition) waitTime = 0f;
         FightManager.GetInstance().MoveFighter(fighter, newPosition);
     }
 

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c6f8f05428b2be4d8dcca202570e3ce, type: 3}
+  m_Name: Blessing
+  m_EditorClassIdentifier: 
+  abilityName: Blessing
+  description: 'End Turn: Heal {0} health from the ally with the lowest health.'
+  animationTrigger: 
+  triggers: 03000000
+  healAmount: 4
+  healTarget: 4

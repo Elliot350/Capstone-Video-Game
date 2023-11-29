@@ -52,11 +52,6 @@ public class DebugAbility : RoomAbility
         Debug.Log($"OnFighterDied");
     }
 
-    public override void PartyEntered(Party party)
-    {
-        Debug.Log($"PartyEntered");
-    }
-
     public override void PartyWon(Party p)
     {
         Debug.Log($"PartyWon");

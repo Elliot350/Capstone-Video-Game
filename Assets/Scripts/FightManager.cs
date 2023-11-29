@@ -32,7 +32,7 @@ public class FightManager : MonoBehaviour
     private List<FightAction> actions;
     private List<FightAction> actionsToAdd;
     // Current room the fight is in
-    private Room currentRoom; // Could maybe remove this
+    private Room currentRoom;
     // If the current fight is a boss fight
     private bool bossFight = false;
     
@@ -178,10 +178,7 @@ public class FightManager : MonoBehaviour
             FightAction currentAction = actions[0];
             ShowActions();
             actions.RemoveAt(0);
-            // If the fighter is gone, or not in order or graveyard, this action is invalid
-            // if (currentAction.fighter == null || (!order.Contains(currentAction.fighter) && !dead.Contains(currentAction.fighter)))
-                // continue;
-            // Each action has it's own validation
+            // Each action has its own validation
             if (!currentAction.IsValid())
                 continue;
             if (currentAction.fighter != null) pointer.transform.position = currentAction.fighter.transform.position;
