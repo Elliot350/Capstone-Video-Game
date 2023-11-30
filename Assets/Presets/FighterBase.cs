@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class FighterBase : ScriptableObject
 {
-    [SerializeField] protected string displayName;
-    [SerializeField] protected Sprite sprite;
-    [SerializeField] protected int cost;
-    [SerializeField] protected float baseDamage;
-    [SerializeField] protected int maxHealth;
-    [SerializeField] protected float speed = 1f;
-    [SerializeField] protected int tier;
-    [SerializeField] protected List<FighterAbility> abilities;
-    [SerializeField] protected List<Tag> tags;
+    [SerializeField] private string displayName;
+    [SerializeField] private Sprite sprite;
+    [SerializeField] private int cost;
+    [SerializeField] private float baseDamage;
+    [SerializeField] private int maxHealth;
+    [SerializeField] private float speed = 1f;
+    [SerializeField] private int tier = 1;
+    [SerializeField] private List<FighterAbility> abilities;
+    [SerializeField] private List<Tag> tags;
 
+    public bool HasTag(Tag tag) {return tags.Contains(tag);}
+    public string GetDescription() {return Ability.GetDescriptionFromList(abilities);}
     public int GetCost() {return cost;}
     public string GetName() {return displayName;}
     public int GetMaxHealth() {return maxHealth;}
     public virtual float GetDamage() {return baseDamage;}
     public List<FighterAbility> GetAbilities() {return abilities;}
     public List<Tag> GetTags() {return tags;}
-    public bool HasTag(Tag tag) {return tags.Contains(tag);}
     public Sprite GetSprite() {return sprite;}
     public float GetSpeed() {return speed;}
     public int GetTier() {return tier;}
-    public string GetDescription() {return Ability.GetDescriptionFromList(abilities);}
 }

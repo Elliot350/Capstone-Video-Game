@@ -10304,8 +10304,8 @@ MonoBehaviour:
   heroPrefab: {fileID: 5914685805447396931, guid: 242181db0a50e3740885d19bd3512225, type: 3}
   partyStatus: {fileID: 690323910}
   tempParty:
-  - {fileID: 11400000, guid: 218e8e8060af9824389d66c8bf279838, type: 2}
-  - {fileID: 11400000, guid: 4f9c02212caa5a14082d8e4df929a5e0, type: 2}
+  - {fileID: 11400000, guid: 4c38f69c2ef206a4cb2a502ed25644a2, type: 2}
+  - {fileID: 11400000, guid: c2397b7d6ba0b4bb584d3fe2561f648c, type: 2}
   - {fileID: 11400000, guid: b4cb5a6a24629304688e64114b6c2a27, type: 2}
   moveTime: 1
   minPartyTime: 5
@@ -15058,8 +15058,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   option1: {fileID: 4832455387413454331}
   option2: {fileID: 1276476029}
-  boss1: {fileID: 11400000, guid: c1f2a582c47a4464db00366430db9594, type: 2}
-  boss2: {fileID: 11400000, guid: 206b9ba3bc6308d4a89d5f4728ad7037, type: 2}
+  boss1: {fileID: 11400000, guid: 066643bbf2f4ff84087e5741ba9fddb3, type: 2}
+  boss2: {fileID: 11400000, guid: 066643bbf2f4ff84087e5741ba9fddb3, type: 2}
 --- !u!1 &1629371078
 GameObject:
   m_ObjectHideFlags: 0

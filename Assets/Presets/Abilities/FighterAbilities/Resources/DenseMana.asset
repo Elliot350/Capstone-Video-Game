@@ -9,13 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c6f8f05428b2be4d8dcca202570e3ce, type: 3}
-  m_Name: Blessing
+  m_Script: {fileID: 11500000, guid: e7289a547b4624fca9929f9d931dd434, type: 3}
+  m_Name: DenseMana
   m_EditorClassIdentifier: 
-  abilityName: Blessing
-  description: 'End Turn: Heal {0} health from the ally with the lowest health.'
+  abilityName: Dense Mana
+  description: 'Start of Battle: Apply {0} to all enemies, {1}'
   animationTrigger: 
-  triggers: 03000000
-  healValue: 4
-  healType: 0
-  healTarget: 4
+  triggers: 000000000b000000
+  ability: {fileID: 11400000, guid: 9a6b841a799166f4eb5a37be0f4547cd, type: 2}
+  target: 4

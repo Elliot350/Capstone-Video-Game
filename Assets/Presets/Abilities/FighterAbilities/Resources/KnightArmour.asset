@@ -9,13 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c6f8f05428b2be4d8dcca202570e3ce, type: 3}
-  m_Name: Blessing
+  m_Script: {fileID: 11500000, guid: ab81b72c576b50242976e66241da8320, type: 3}
+  m_Name: KnightArmour
   m_EditorClassIdentifier: 
-  abilityName: Blessing
-  description: 'End Turn: Heal {0} health from the ally with the lowest health.'
+  abilityName: Knight Armour
+  description: When taking damage, there is a {0}% chance that {1}% of the demage
+    is removed
   animationTrigger: 
-  triggers: 03000000
-  healValue: 4
-  healType: 0
-  healTarget: 4
+  chance: 0.5
+  reduction: 0.5

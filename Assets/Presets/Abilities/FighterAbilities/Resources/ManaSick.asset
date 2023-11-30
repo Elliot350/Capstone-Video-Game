@@ -9,13 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c6f8f05428b2be4d8dcca202570e3ce, type: 3}
-  m_Name: Blessing
+  m_Script: {fileID: 11500000, guid: 5b6fbe252395840c0a495b060a496ca7, type: 3}
+  m_Name: ManaSick
   m_EditorClassIdentifier: 
-  abilityName: Blessing
-  description: 'End Turn: Heal {0} health from the ally with the lowest health.'
+  abilityName: Mana Sick
+  description: 'End Turn: Take {0} damage'
   animationTrigger: 
   triggers: 03000000
-  healValue: 4
-  healType: 0
-  healTarget: 4
+  damage: 5
+  count: -1

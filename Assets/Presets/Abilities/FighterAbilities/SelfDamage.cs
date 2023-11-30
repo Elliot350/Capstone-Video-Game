@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SelfDamage", menuName = "Abilities/Fighter/Self Damage")]
-public class SelfDamage : FighterAbility
+public class SelfDamage : TriggeredFighterAbility
 {
     [SerializeField] private float damage;
-    [SerializeField] private bool removeAbility;
+    [SerializeField] private int count;
 
-    public override void OnAttack(Damage attack)
+    protected override void Activate(Fighter self)
     {
-        Damage selfDamage = new Damage(null, attack.Source, damage);
-        FightManager.GetInstance().AddAction(new TakeDamage(selfDamage));
-        if (removeAbility)
-        {
-            FightManager.GetInstance().AddAction(new RemoveAbility(attack.Source, this));
-        }
+        FightManager.GetInstance().AddAction(new TakeDamage(new Damage(null, self, damage)));
+        if (count > 0) count--;
+        if (count == 0) FightManager.GetInstance().AddAction(new RemoveAbility(self, this));
     }
 
     public override string GetDescription()
     {
-        return string.Format(description, damage, removeAbility);
+        return string.Format(description, damage, count);
     }
 }

@@ -14,6 +14,6 @@ public class SingleMonsterRoom : RoomAbility
 
     public override string GetDescription()
     {
-        return string.Format(description, singleMonster.GetName());
+        return string.Format(description, singleMonster.name);
     }
 }
