@@ -10,7 +10,7 @@ public class Bounty : RoomAbility
 
     public override void OnFighterDied(Room r, Fighter f)
     {
-        if (!f.IsMonster) GameManager.GetInstance().GainMoney(goldAmount);
+        if (!f.isMonster) GameManager.GetInstance().GainMoney(goldAmount);
     }
 
     public override string GetDescription()

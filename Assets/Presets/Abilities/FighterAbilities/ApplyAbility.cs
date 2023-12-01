@@ -51,36 +51,36 @@ public class ApplyAbility : TriggeredFighterAbility
     public override void OnAttack(Damage attack)
     {
         if (target == Target.TARGET && triggers.Contains(Trigger.ATTACK))
-            FightManager.GetInstance().AddAction(new AddAbility(attack.Target, Instantiate<FighterAbility>(ability)));
+            FightManager.GetInstance().AddAction(new AddAbility(attack.target, Instantiate<FighterAbility>(ability)));
         else if (triggers.Contains(Trigger.ATTACK))
-            Activate(attack.Source);
+            Activate(attack.source);
     }
 
     public override void OnTakenDamage(Damage attack)
     {
         if (target == Target.TARGET && triggers.Contains(Trigger.DAMAGED))
-            FightManager.GetInstance().AddAction(new AddAbility(attack.Source, Instantiate<FighterAbility>(ability)));
+            FightManager.GetInstance().AddAction(new AddAbility(attack.source, Instantiate<FighterAbility>(ability)));
         else if (triggers.Contains(Trigger.DAMAGED))
-            Activate(attack.Target);
+            Activate(attack.target);
     }
 
     public override void OnDeath(Damage attack)
     {
         if (target == Target.TARGET && triggers.Contains(Trigger.DEATH))
-            FightManager.GetInstance().AddAction(new AddAbility(attack.Source, Instantiate<FighterAbility>(ability)));
+            FightManager.GetInstance().AddAction(new AddAbility(attack.source, Instantiate<FighterAbility>(ability)));
         else if (triggers.Contains(Trigger.DEATH))
-            Activate(attack.Target);
+            Activate(attack.target);
     }
 
     public override void FighterSummoned(Fighter f, Fighter newFighter)
     {
-        if ((!newFighter.IsMonster && triggers.Contains(Trigger.HERO_SUMMONED)) || (newFighter.IsMonster && triggers.Contains(Trigger.MONSTER_SUMMONED))) ApplyAbilityToSummoned(f, newFighter);
+        if ((!newFighter.isMonster && triggers.Contains(Trigger.HERO_SUMMONED)) || (newFighter.isMonster && triggers.Contains(Trigger.MONSTER_SUMMONED))) ApplyAbilityToSummoned(f, newFighter);
         // if (!newFighter.IsMonster && triggers.Contains(Trigger.HERO_SUMMONED) && f.IsMonster && target == Target.SUMMONED_ENEMY) FightManager.GetInstance().AddAction(new AddAbility(newFighter, ability));
     }
 
     private void ApplyAbilityToSummoned(Fighter f, Fighter newFighter)
     {
-        if (target == Target.EVERY_ENEMY && IsEnemies(f, newFighter))
+        if (target == Target.EVERY_ENEMY && FightManager.GetInstance().AreEnemies(f, newFighter))
         {
             FightManager.GetInstance().AddAction(new AddAbility(newFighter, ability));
         }
@@ -88,12 +88,6 @@ public class ApplyAbility : TriggeredFighterAbility
         {
             Activate(f);
         }
-    }
-
-    // TODO: Move this to FightManager
-    public bool IsEnemies(Fighter f1, Fighter f2)
-    {
-        return ((f1.IsMonster && !f2.IsMonster) || (!f1.IsMonster && f2.IsMonster));
     }
 
     public override string GetDescription()

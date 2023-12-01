@@ -7,7 +7,7 @@ public class Monster : Fighter
 {
     protected override void SetTypes()
     {
-        IsMonster = true;
-        IsBoss = false;
+        isMonster = true;
+        isBoss = false;
     }
 }

@@ -16,5 +16,6 @@ MonoBehaviour:
   description: 'End of Battle: Heal each ally {0} health.'
   animationTrigger: 
   triggers: 01000000
-  healAmount: 3
+  healValue: 3
+  healType: 0
   healTarget: 2

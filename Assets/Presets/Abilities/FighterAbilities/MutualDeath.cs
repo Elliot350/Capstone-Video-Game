@@ -7,7 +7,7 @@ public class MutualDeath : FighterAbility
 {
     public override void OnDeath(Damage attack)
     {
-        FightManager.GetInstance().AddAction(new Die(attack.Source, new Damage(attack.Target, attack.Source, 0)));
+        FightManager.GetInstance().AddAction(new Die(attack.source, new Damage(attack.target, attack.source, 0)));
     }
 
     public override string GetDescription()

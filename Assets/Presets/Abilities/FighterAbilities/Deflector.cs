@@ -10,23 +10,24 @@ public class Deflector : FighterAbility
     {
         Debug.Log($"Trying to deflect");
 
-        List<Fighter> allies = new List<Fighter>(FightManager.GetInstance().GetAllies(attack.Target));
-        for (int i = allies.Count - 1; i >= 0; i--)
-        {
-            if (allies[i].GetFighterType() == attack.Target.GetFighterType())
-                allies.RemoveAt(i);
-        }
+        List<Fighter> allies = new List<Fighter>(FightManager.GetInstance().GetAllies(attack.target));
+        allies.RemoveAll((f) => f.GetFighterType() == attack.target.GetFighterType());
+        // for (int i = allies.Count - 1; i >= 0; i--)
+        // {
+        //     if (allies[i].GetFighterType() == attack.target.GetFighterType())
+        //         allies.RemoveAt(i);
+        // }
         if (allies.Count == 0)
         {
             Debug.Log($"Fails");
             return;
         }
+
         
-        Damage damage = new Damage(allies[Random.Range(0, allies.Count)], attack);
-        attack.BaseDamage = 0;
-        attack.DamageModifier = 0;
+        // Damage damage = new Damage(allies[Random.Range(0, allies.Count)], attack);
+        FightManager.GetInstance().AddAction(new TakeDamage(Damage.RetargetDamage(attack, allies[Random.Range(0, allies.Count)])));
         Debug.Log($"Shwang!");
-        FightManager.GetInstance().AddAction(new TakeDamage(damage));
+        attack.baseDamage = 0;
     }
 
     public override string GetDescription()

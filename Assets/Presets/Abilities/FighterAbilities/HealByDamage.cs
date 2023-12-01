@@ -8,8 +8,8 @@ public class HealByDamage : FighterAbility
 
     public override void OnAttack(Damage attack)
     {
-        List<Fighter> allies = FightManager.GetInstance().GetAllies(attack.Source);
-        FightManager.GetInstance().AddAction(new Heal(allies[Random.Range(0, allies.Count)], attack.CalculatedDamage * healMultiplier));
+        List<Fighter> allies = FightManager.GetInstance().GetAllies(attack.source);
+        FightManager.GetInstance().AddAction(new Heal(allies[Random.Range(0, allies.Count)], attack.calculatedDamage * healMultiplier));
     }
 
     public override string GetDescription()

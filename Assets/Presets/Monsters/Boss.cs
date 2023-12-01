@@ -6,7 +6,7 @@ public class Boss : Monster
 {
     protected override void SetTypes()
     {
-        IsMonster = true;
-        IsBoss = true;
+        isMonster = true;
+        isBoss = true;
     }
 }

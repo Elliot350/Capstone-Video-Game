@@ -11,8 +11,9 @@ public class LessDamage : FighterAbility
     public override void OnAttack(Damage attack)
     {
         length--;
-        attack.DamageModifier -= damageReduction;
-        if (length <= 0) FightManager.GetInstance().AddAction(new RemoveAbility(attack.Source, this));
+        // attack.DamageModifier -= damageReduction;
+        attack.baseDamage -= damageReduction;
+        if (length <= 0) FightManager.GetInstance().AddAction(new RemoveAbility(attack.source, this));
     }
 
     public override string GetDescription()

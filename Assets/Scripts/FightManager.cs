@@ -83,7 +83,13 @@ public class FightManager : MonoBehaviour
         }
 
         // Sort the fighters by their speed value (TODO: randomize the list before)
-        order.Sort((f1, f2)=>f2.GetSpeed().CompareTo(f1.GetSpeed()));
+        for (int i = 0; i < order.Count; i++)
+        {
+            int randomIndex = Random.Range(0, order.Count);
+            Fighter tmp = order[randomIndex];
+            order[randomIndex] = order[i];
+            order[i] = tmp;
+        }
         UpdateOrder(false);
 
         // Open the fight menu
@@ -98,7 +104,7 @@ public class FightManager : MonoBehaviour
         bossFight = false;
         foreach (Fighter f in order)
         {
-            if (f.IsBoss) {
+            if (f.isBoss) {
                 Debug.Log($"{f} is a boss");
                 BossManager.GetInstance().ApplyBuffs(f);
                 bossFight = true;
@@ -256,7 +262,7 @@ public class FightManager : MonoBehaviour
     public void MoveFighter(Fighter fighter, int newPosition)
     {
         // TODO: Check this logic
-        if (fighter.IsMonster)
+        if (fighter.isMonster)
         {
             monsters.Remove(fighter);
             if (newPosition == -1 || newPosition >= monsters.Count) monsters.Add(fighter);
@@ -264,7 +270,7 @@ public class FightManager : MonoBehaviour
             fighter.transform.SetSiblingIndex(newPosition == -1 || newPosition >= monsters.Count ? monsters.Count - 1 : newPosition);
             fighter.Moved();
         }
-        else if (!fighter.IsMonster && newPosition < heroes.Count)
+        else if (!fighter.isMonster && newPosition < heroes.Count)
         {
             heroes.Remove(fighter);
             if (newPosition == -1 || newPosition >= heroes.Count) heroes.Add(fighter);
@@ -377,8 +383,13 @@ public class FightManager : MonoBehaviour
         allies.Remove(f);
         return allies;
     }
-    public List<Fighter> GetTeam(Fighter f) {return f.IsMonster ? monsters : heroes;}
-    public List<Fighter> GetEnemies(Fighter f) {return f.IsMonster ? heroes : monsters;}
+    public List<Fighter> GetTeam(Fighter f) {return f.isMonster ? monsters : heroes;}
+    public List<Fighter> GetEnemies(Fighter f) {return f.isMonster ? heroes : monsters;}
+
+    public bool AreEnemies(Fighter f1, Fighter f2)
+    {
+        return ((f1.isMonster && !f2.isMonster) || (!f1.isMonster && f2.isMonster));
+    }
 
     public List<Fighter> GetMonsters() {return monsters;}
     public List<Fighter> GetHeroes() {return heroes;}

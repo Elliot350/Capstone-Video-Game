@@ -34,7 +34,7 @@ public class Turn : FightAction
 
     public override bool IsValid()
     {
-        return base.IsValid() && !fighter.IsDead;
+        return base.IsValid() && !fighter.isDead;
     }
 }
 
@@ -59,7 +59,7 @@ public class GetTargets : FightAction
 
     public override bool IsValid()
     {
-        return base.IsValid() && !fighter.IsDead && FightManager.GetInstance().GetEnemies(fighter).Count > 0;
+        return base.IsValid() && !fighter.isDead && FightManager.GetInstance().GetEnemies(fighter).Count > 0;
     }
 }
 
@@ -70,7 +70,7 @@ public class EndTurn : FightAction
 
     public override bool IsValid()
     {
-        return base.IsValid() && !fighter.IsDead;
+        return base.IsValid() && !fighter.isDead;
     }
 }
 
@@ -96,7 +96,7 @@ public class Attack : FightAction
 
     public override bool IsValid()
     {
-        return base.IsValid() && !fighter.IsDead && target != null && !target.IsDead;
+        return base.IsValid() && !fighter.isDead && target != null && !target.isDead;
     }
 }
 
@@ -104,11 +104,11 @@ public class TakeDamage : FightAction
 {
     private Damage attack;
 
-    public TakeDamage(Damage attack) : base(attack.Target) { this.attack = attack; }
+    public TakeDamage(Damage attack) : base(attack.target) { this.attack = attack; }
 
     public override void Do()
     {
-        if (FightManager.GetInstance().GetDead().Contains(attack.Target)) return;
+        if (FightManager.GetInstance().GetDead().Contains(attack.target)) return;
         fighter.TakeDamage(attack);
         if (fighter.GetHealth() <= 0)
             AddAction(new Die(fighter, attack));
@@ -116,7 +116,7 @@ public class TakeDamage : FightAction
 
     public override bool IsValid()
     {
-        return base.IsValid() && !attack.Target.IsDead && attack.Target.GetHealth() >= 0;
+        return base.IsValid() && !attack.target.isDead && attack.target.GetHealth() >= 0;
     }
 }
 
@@ -135,7 +135,7 @@ public class Die : FightAction
 
     public override bool IsValid()
     {
-        return base.IsValid() && !fighter.IsDead;
+        return base.IsValid() && !fighter.isDead;
     }
 }
 
@@ -151,21 +151,21 @@ public class Heal : FightAction
         fighter.Heal(amount); 
     }
     
-    public override bool IsValid() { return base.IsValid() && !fighter.IsDead; }
+    public override bool IsValid() { return base.IsValid() && !fighter.isDead; }
 }
 
 public class BattleStart : FightAction
 {
     public BattleStart(Fighter fighter) : base(fighter) { waitTime = 0f; }
     public override void Do() { fighter.StartBattle(); }
-    public override bool IsValid() { return base.IsValid() && !fighter.IsDead; }
+    public override bool IsValid() { return base.IsValid() && !fighter.isDead; }
 }
 
 public class BattleEnd : FightAction
 {
     public BattleEnd(Fighter fighter) : base(fighter) { waitTime = 0f; }
     public override void Do() { fighter.FinishBattle(); }
-    public override bool IsValid() { return base.IsValid() && !fighter.IsDead; }
+    public override bool IsValid() { return base.IsValid() && !fighter.isDead; }
 }
 
 public class RemoveAbility : FightAction
@@ -332,7 +332,7 @@ public class Revive : FightAction
 
         manager.GetDead().Remove(fighter);
         manager.GetFighters().Add(fighter);
-        if (fighter.IsMonster)
+        if (fighter.isMonster)
         {
             manager.GetMonsters().Add(fighter);
             fighter.transform.SetParent(manager.GetMonsterHolder().transform);
@@ -342,7 +342,7 @@ public class Revive : FightAction
             manager.GetHeroes().Add(fighter);
             fighter.transform.SetParent(manager.GetHeroHolder().transform);
         }
-        fighter.IsDead = false;
+        fighter.isDead = false;
         fighter.ReviveAnimation();
         AddAction(new Heal(fighter, fighter.GetMaxHealth() / 2));
         AddAction(new BattleStart(fighter));
@@ -350,7 +350,7 @@ public class Revive : FightAction
 
     public override bool IsValid()
     {
-        return base.IsValid() && fighter.IsDead;
+        return base.IsValid() && fighter.isDead;
     }
 }
 
@@ -385,7 +385,7 @@ public class Move : FightAction
 
     public override bool IsValid()
     {
-        return base.IsValid() && !fighter.IsDead;
+        return base.IsValid() && !fighter.isDead;
     }
 }
 

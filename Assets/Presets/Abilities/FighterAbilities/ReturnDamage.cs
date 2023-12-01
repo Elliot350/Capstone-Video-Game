@@ -10,10 +10,10 @@ public class ReturnDamage : FighterAbility
     public override void OnTakenDamage(Damage attack)
     {
         // If there isn't a source or the attacked is dead
-        if (attack.Source == null || FightManager.GetInstance().GetDead().Contains(attack.Source))
+        if (attack.source == null || FightManager.GetInstance().GetDead().Contains(attack.source))
             return;
-        if (!animationTrigger.Equals("")) attack.Target.PlayEffect(animationTrigger);
-        FightManager.GetInstance().AddAction(new TakeDamage(new Damage(attack.Target, attack.Source, returnDamage)));
+        if (!animationTrigger.Equals("")) attack.target.PlayEffect(animationTrigger);
+        FightManager.GetInstance().AddAction(new TakeDamage(new Damage(attack.target, attack.source, returnDamage)));
     }
 
     public override string GetDescription()

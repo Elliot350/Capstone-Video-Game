@@ -7,8 +7,8 @@ public class Revival : FighterAbility
 {
     public override void OnDeath(Damage attack)
     {
-        FightManager.GetInstance().AddAction(new Revive(attack.Target));
-        FightManager.GetInstance().AddAction(new RemoveAbility(attack.Target, this));
+        FightManager.GetInstance().AddAction(new Revive(attack.target));
+        FightManager.GetInstance().AddAction(new RemoveAbility(attack.target, this));
     }
 
     public override string GetDescription()

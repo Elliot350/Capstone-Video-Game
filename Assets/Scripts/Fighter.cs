@@ -46,9 +46,9 @@ public class Fighter : MonoBehaviour
     [Header("Debug Stuff")]
     [SerializeField] private TextMeshProUGUI statsText;
     
-    public bool IsMonster;
-    public bool IsBoss;
-    public bool IsDead;
+    public bool isMonster;
+    public bool isBoss;
+    public bool isDead;
     protected Room room;
 
     // Might change this in the future to Instantiate the fighterBase as well, not sure how well that will work
@@ -87,9 +87,9 @@ public class Fighter : MonoBehaviour
     {
         // Debug.Log($"Taking damage for {attack.CalculatedDamage}");
         ActivateAbilities((a) => a.OnTakenDamage(attack));
-        if (attack.CalculatedDamage <= 0)
+        if (attack.calculatedDamage <= 0)
             return;
-        health -= attack.CalculatedDamage;
+        health -= attack.calculatedDamage;
         SetHealthBar();
         HurtAnimation();
     }
@@ -113,11 +113,10 @@ public class Fighter : MonoBehaviour
 
     private void SetHealthBar()
     {
-        float tmp = GetMaxHealth();
-        health = Mathf.Clamp(health, 0, tmp);
-        slider.maxValue = tmp;
+        health = Mathf.Clamp(health, 0, GetMaxHealth());
+        slider.maxValue = GetMaxHealth();
         slider.value = health;
-        healthBarText.text = $"{health}/{tmp}";
+        healthBarText.text = $"{health}/{GetMaxHealth()}";
     }
 
 
@@ -134,7 +133,7 @@ public class Fighter : MonoBehaviour
             Debug.LogWarning($"Can't remove {this}");
         Invoke("MoveToGraveyard", manager.FastForwarding() ? 0f : 0.3f);
         
-        if (IsMonster)
+        if (isMonster)
         {
             if (!manager.GetMonsters().Remove(this))
                 Debug.LogWarning($"Can't remove monster ({this})");
@@ -145,7 +144,7 @@ public class Fighter : MonoBehaviour
                 Debug.LogWarning($"Can't remove hero ({this})");
             PartyManager.GetInstance().HeroDied(this.GetComponent<Hero>());
         }
-        IsDead = true;
+        isDead = true;
         health = 0;
         manager.GetDead().Add(this);
     }
@@ -252,7 +251,7 @@ public class Fighter : MonoBehaviour
     {
         if (FightManager.GetInstance().FastForwarding() || !animator.isActiveAndEnabled)
             return;
-        animator.SetBool("Monster", IsMonster);
+        animator.SetBool("Monster", isMonster);
         animator.SetTrigger("Attack");
     }
 
@@ -260,7 +259,7 @@ public class Fighter : MonoBehaviour
     {
         if (FightManager.GetInstance().FastForwarding() || !animator.isActiveAndEnabled)
             return;
-        animator.SetBool("Monster", IsMonster);
+        animator.SetBool("Monster", isMonster);
         animator.SetTrigger("Hurt");
     }
 
@@ -283,7 +282,7 @@ public class Fighter : MonoBehaviour
     {
         if (FightManager.GetInstance().FastForwarding() || !animator.isActiveAndEnabled)
             return;
-        animator.SetBool("Monster", IsMonster);
+        animator.SetBool("Monster", isMonster);
         animator.SetTrigger("Summon");
     }
 
@@ -325,7 +324,6 @@ public class Fighter : MonoBehaviour
     public List<FighterAbility> GetAbilities() {return abilities;}
     public List<Tag> GetTags() {return tags;}
     public virtual Sprite GetSprite() {return image.sprite;}
-    public virtual float GetSpeed() {return fighterType.GetSpeed();}
     public Room GetRoom() {return room;}
     public Dictionary<Effect, string> GetEffects() {return effects;}
     public Effect GetEffect(string effectName) 
@@ -343,27 +341,25 @@ public class Fighter : MonoBehaviour
 
 public class Damage
 {
-    public Fighter Source {get; private set;}
-    public Fighter Target {get; private set;}
-    public float BaseDamage {get; set;}
-    public float DamageTempModifier {get; set;}
-    public float DamageModifier {get; set;}
-    public float CalculatedDamage 
+    public Fighter source {get; private set;}
+    public Fighter target {get; private set;}
+    public float baseDamage {get; set;}
+    public float calculatedDamage 
     {
-        get {return (float) Math.Round(BaseDamage + DamageTempModifier + DamageModifier, 1);}
+        get {return (float) Math.Round(baseDamage, 1);}
     }
 
-    public Damage(Fighter source, Fighter target, float damage, float damageMultiplier, float damageModifier)
+    public Damage(Fighter source, Fighter target, float damage) 
     {
-        Source = source;
-        Target = target;
-        BaseDamage = damage;
-        DamageTempModifier = damageMultiplier;
-        DamageModifier = damageModifier;
+        this.source = source;
+        this.target = target;
+        baseDamage = damage;
     }
-    
-    public Damage(Fighter target, float damage) : this(null, target, damage, 0f, 0f) {}
-    public Damage(Fighter source, Fighter target, float damage) : this(source, target, damage, 0f, 0f) {}
-    public Damage(Fighter newTarget, Damage damage) : this(damage.Source, newTarget, damage.BaseDamage, damage.DamageTempModifier, damage.DamageModifier) {}
 
+    public Damage(Fighter target, float damage) : this(null, target, damage) {}
+
+    public static Damage RetargetDamage(Damage damage, Fighter newTarget)
+    {
+        return new Damage(damage.source, newTarget, damage.calculatedDamage);
+    }
 }

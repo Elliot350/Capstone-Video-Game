@@ -16,7 +16,7 @@ public class Ping : TriggeredFighterAbility
         for (int i = 0; i < numOfTriggers; i++)
         {
             Damage attack = new Damage(thisFighter, enemies[Random.Range(0, enemies.Count)], damage);
-            if (!animationTrigger.Equals("")) FightManager.GetInstance().AddAction(new PlayAnimation(attack.Target, animationTrigger));
+            if (!animationTrigger.Equals("")) FightManager.GetInstance().AddAction(new PlayAnimation(attack.target, animationTrigger));
             FightManager.GetInstance().AddAction(new TakeDamage(attack));
         }
     }

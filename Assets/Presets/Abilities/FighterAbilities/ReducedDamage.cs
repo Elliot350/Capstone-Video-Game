@@ -10,10 +10,11 @@ public class ReducedDamage : FighterAbility
 
     public override void OnTakenDamage(Damage attack)
     {
-        Debug.Log($"Should be taking {attack.CalculatedDamage}");
+        Debug.Log($"Should be taking {attack.calculatedDamage}");
         if (Random.Range(0f, 1f) <= chance)
-            attack.DamageModifier -= reduction * attack.CalculatedDamage;
-        Debug.Log($"Actually taking {attack.CalculatedDamage}");
+            // attack.DamageModifier -= reduction * attack.calculatedDamage;
+            attack.baseDamage -= reduction * attack.calculatedDamage;
+        Debug.Log($"Actually taking {attack.calculatedDamage}");
     }
 
     public override string GetDescription()

@@ -10,7 +10,7 @@ public class Execution : FighterAbility
 
     public override void OnAttack(Damage attack)
     {
-        targetedFighter = attack.Target;
+        targetedFighter = attack.target;
         FightManager.GetInstance().AddAction(new ConditionalAction(() => targetedFighter.GetHealth() <= threshold, new Die(targetedFighter)));
     }
 

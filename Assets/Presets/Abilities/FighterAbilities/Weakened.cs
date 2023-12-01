@@ -13,16 +13,16 @@ public class Weakened : FighterAbility
         // If its null or there is no tags in the list, then there is always extra damage applied
         if (sources == null || sources.Count == 0)
         {
-            attack.BaseDamage += extraDamage;
+            attack.baseDamage += extraDamage;
             return;
         }
         
         // Else this means we need to check if the source has contains a tag in the sources, if there is one, add the damage and return
         foreach (Tag t in sources)
         {
-            if (attack.Source.HasTag(t))
+            if (attack.source.HasTag(t))
             {
-                attack.BaseDamage += extraDamage;
+                attack.baseDamage += extraDamage;
                 return;
             }
         }
