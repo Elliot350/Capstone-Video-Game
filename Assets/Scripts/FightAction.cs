@@ -203,7 +203,7 @@ public class AddAbility : FightAction
     public override void Do()
     {
         if (!fighter.GetAbilities().Contains(ability))
-            fighter.GetAbilities().Add(ability);
+            fighter.GetAbilities().Add(GameObject.Instantiate(ability));
         ability.OnAdded(fighter);
     }
 
