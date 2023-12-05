@@ -53,4 +53,9 @@ public class MonsterEntry : MonoBehaviour
         Debug.Log($"Old: {transform.GetSiblingIndex()}, After: {transform.GetSiblingIndex() + 1}");
         roomInfo.MoveEntryDown(this);
     }
+
+    public MonsterBase GetMonsterBase() 
+    {
+        return monster;
+    }
 }

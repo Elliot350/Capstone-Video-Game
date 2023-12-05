@@ -17,4 +17,5 @@ MonoBehaviour:
   animationTrigger: 
   triggers: 03000000
   damage: 5
+  damageChange: 0.5
   count: -1

@@ -218,6 +218,14 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     }
 
+    public void MoveMonster(MonsterBase monster, int newIndex)
+    {
+        monsters.Remove(monster);
+        // if (newIndex >= monsters.Count) monsters.Add(monster);
+        // else monsters.Insert(newIndex, monster);
+        monsters.Insert(newIndex, monster);
+    }
+
     public string GetDescription() {return Ability.GetDescriptionFromList(abilities);}
     public List<RoomAbility> GetAbilities() {return abilities;}
     public List<MonsterBase> GetMonsters() {return monsters;}

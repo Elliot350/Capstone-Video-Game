@@ -419,3 +419,20 @@ public class ConditionalAction : FightAction
     public override bool IsValid() { return action.IsValid(); }
     public override bool NeedsCalculation() { return action.NeedsCalculation(); }
 }
+
+public class TestAction : FightAction
+{
+    Action<Fighter> action;
+
+    public TestAction(Fighter fighter, Action<Fighter> action) : base(fighter) { this.action = action; }
+
+    public override void Do()
+    {
+        action(fighter);
+    }
+
+    public override bool IsValid()
+    {
+        return true;
+    }
+}

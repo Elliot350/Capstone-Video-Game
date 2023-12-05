@@ -71,6 +71,7 @@ public class RoomInfo : MonoBehaviour
         if (index == 0) return;
         
         // Remove and insert one spot earlier
+        currentRoom.MoveMonster(entry.GetMonsterBase(), index - 1);
         monsters.Remove(entry);
         monsters.Insert(index - 1, entry);
         entry.transform.SetSiblingIndex(index - 1);
@@ -83,6 +84,7 @@ public class RoomInfo : MonoBehaviour
         if (index == monsters.Count - 1) return;
         
         // Remove and insert one spot later
+        currentRoom.MoveMonster(entry.GetMonsterBase(), index + 1);
         monsters.Remove(entry);
         monsters.Insert(index + 1, entry);
         entry.transform.SetSiblingIndex(index + 1);
