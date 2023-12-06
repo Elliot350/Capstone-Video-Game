@@ -55,6 +55,7 @@ public class UIManager : MonoBehaviour
     [Header("Text Fields")]
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private TextMeshProUGUI manaText;
+    [SerializeField] private HealthBar healthBar;
 
 
     private void Awake()
@@ -250,5 +251,6 @@ public class UIManager : MonoBehaviour
     {
         moneyText.text = $"${GameManager.GetInstance().GetMoney().ToString()}";
         manaText.text = $"{GameManager.GetInstance().GetMana().ToString()}M";
+        healthBar.Set(GameManager.GetInstance().GetHealth(), GameManager.GetInstance().GetMaxHealth());
     }
 }

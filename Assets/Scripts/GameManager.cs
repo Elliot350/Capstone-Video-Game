@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class GameManager : MonoBehaviour
     [Header("Currencies")]
     [SerializeField] private int money;
     [SerializeField] private int mana;
+    [SerializeField] private float maxHealth = 100f;
+    [SerializeField] private float health = 100f;
 
     [Header("Lists for the rooms, monsters, heroes, traps, etc.")]
     [SerializeField] public RoomBase hallway;
@@ -24,6 +27,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<FighterAbility> fighterAbilities;
     private LocationData locationData;
     [SerializeField] private LocationData defaultLocation;
+    [Header("Scene numbers")]
+    [SerializeField] private int mainMenuScene;
+    [SerializeField] private int gameScene;
+    [SerializeField] private int gameOverScene;
 
     // public RoomInfo roomInfo;
     // [Header("Camera")]
@@ -49,9 +56,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        FormatText();
-        if (locationData == null) SetLocationData(defaultLocation);
-        DungeonManager.GetInstance().PlaceEmpties();
+        // FormatText();
+        // if (locationData == null) SetLocationData(defaultLocation);
     }
 
     // Update is called once per frame
@@ -90,9 +96,17 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Number of abilities: {fighterAbilities.Count}");
     }
 
-    public void OnPlaceBuilding(RoomBase room)
+    public void SetLocation(LocationData location)
     {
-        
+        locationData = location;
+    }
+
+    public void PlayButtonPressed()
+    {
+        SetLocationData(locationData);
+        Debug.Log($"Loading scene");
+        SceneManager.LoadScene(gameScene);
+        Debug.Log($"Done loading");
     }
 
     public int GetMoney()
@@ -137,6 +151,23 @@ public class GameManager : MonoBehaviour
     {
         mana -= amount;
         FormatText();
+    }
+
+    public float GetHealth()
+    {
+        return health;
+    }
+
+    public void SetHealth(float value)
+    {
+        health = value;
+        FormatText();
+        if (health <= 0) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public float GetMaxHealth()
+    {
+        return maxHealth;
     }
 
     public void FormatText()

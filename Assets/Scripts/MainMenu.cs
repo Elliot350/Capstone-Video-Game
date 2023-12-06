@@ -15,14 +15,14 @@ public class MainMenu : MonoBehaviour
         {
             foreach (LocationButton lb in locations)
             {
-                lb.Check();
+                // lb.Check();
             }
         }
     }
     
     public void PlayGame()
     {
-        GameManager.GetInstance().SetLocationData(selectedLocation);
+        // GameManager.GetInstance().SetLocationData(selectedLocation);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 

@@ -61,16 +61,15 @@ MonoBehaviour:
   tier: 0
   abilities: []
   tags: []
-  slider: {fileID: 312911304149307595}
-  healthBarText: {fileID: 233059175904777857}
+  healthBar: {fileID: 4254500211794110022}
   animator: {fileID: 8290202820689669598}
   effectAnimator: {fileID: 5107355285956057596, guid: ece891a26ba9c7448a4f4f4d250ec712, type: 3}
   image: {fileID: 6176030527033842760}
   alertImage: {fileID: 2827595705428132609}
   statsText: {fileID: 1582418124843484259}
-  IsMonster: 0
-  IsBoss: 0
-  IsDead: 0
+  isMonster: 0
+  isBoss: 0
+  isDead: 0
 --- !u!223 &1120712176787730201
 Canvas:
   m_ObjectHideFlags: 0
@@ -229,28 +228,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b18703d6e9d2d4cd4a7a38caac0f4367, type: 3}
---- !u!114 &233059175904777857 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1997336376789902883, guid: b18703d6e9d2d4cd4a7a38caac0f4367, type: 3}
-  m_PrefabInstance: {fileID: 1768798442508005538}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &312911304149307595 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2079440248625045609, guid: b18703d6e9d2d4cd4a7a38caac0f4367, type: 3}
-  m_PrefabInstance: {fileID: 1768798442508005538}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1582418124843484259 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 971062458902623425, guid: b18703d6e9d2d4cd4a7a38caac0f4367, type: 3}
@@ -271,6 +248,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4254500211794110022 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2560029934298584804, guid: b18703d6e9d2d4cd4a7a38caac0f4367, type: 3}
+  m_PrefabInstance: {fileID: 1768798442508005538}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ad89f4b72b99445b82413cb8443e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &6176030527033842760 stripped

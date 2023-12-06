@@ -53,6 +53,11 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
         instance = this;
         roomBases = Resources.LoadAll<RoomBase>("").ToList();
         InvokeRepeating("TriggerPeriodicRooms", 1f, 1f);
+        Debug.Log($"Awake");
+        PlaceEmpties();
+        // Place basic dungeon uses UIManager, so we wait until it has been created
+        Invoke("PlaceBasicDungeon", 0.1f);
+        // PlaceBasicDungeon();
     }
 
     public static DungeonManager GetInstance() 

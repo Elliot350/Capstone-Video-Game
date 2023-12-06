@@ -32,8 +32,7 @@ public class Fighter : MonoBehaviour
 
     [Space(10)]
     [Header("UI")]
-    [SerializeField] protected Slider slider;
-    [SerializeField] protected TextMeshProUGUI healthBarText;
+    [SerializeField] protected HealthBar healthBar;
     [SerializeField] protected Animator animator;
     [SerializeField] protected GameObject effectAnimator;
     [SerializeField] protected Image image;
@@ -63,8 +62,7 @@ public class Fighter : MonoBehaviour
         foreach (FighterAbility a in fighterBase.GetAbilities())
             abilities.Add(Instantiate<FighterAbility>(a));
         tags = new List<Tag>(fighterBase.GetTags());
-        slider.minValue = 0f;
-        slider.maxValue = maxHealth;
+        healthBar.Set(maxHealth, maxHealth);
         SetHealthBar();
         image.sprite = fighterBase.GetSprite();
         tier = fighterBase.GetTier();
@@ -114,9 +112,12 @@ public class Fighter : MonoBehaviour
     private void SetHealthBar()
     {
         health = Mathf.Clamp(health, 0, GetMaxHealth());
-        slider.maxValue = GetMaxHealth();
-        slider.value = health;
-        healthBarText.text = $"{health}/{GetMaxHealth()}";
+        healthBar.Set(health, GetMaxHealth());
+    }
+
+    public void SetHealth(float newHealth)
+    {
+        health = newHealth;
     }
 
 

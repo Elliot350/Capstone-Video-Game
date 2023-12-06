@@ -35,6 +35,7 @@ public class FightManager : MonoBehaviour
     private Room currentRoom;
     // If the current fight is a boss fight
     private bool bossFight = false;
+    private Fighter currentBoss;
     
     private List<Image> portraits = new List<Image>();
     
@@ -82,7 +83,7 @@ public class FightManager : MonoBehaviour
             h.EnterRoom(currentRoom);
         }
 
-        // Sort the fighters by their speed value (TODO: randomize the list before)
+        // Randomizes the order of the fighters
         for (int i = 0; i < order.Count; i++)
         {
             int randomIndex = Random.Range(0, order.Count);
@@ -96,7 +97,6 @@ public class FightManager : MonoBehaviour
         UIManager.GetInstance().OpenFightMenu();
         currentRoom.BattleStart(monsters, heroes);
         
-        yield return secondPause;
 
         // Fail safe, in case there is an infinite loop
         int count = 0;
@@ -107,12 +107,17 @@ public class FightManager : MonoBehaviour
             if (f.isBoss) {
                 Debug.Log($"{f} is a boss");
                 BossManager.GetInstance().ApplyBuffs(f);
+                
                 bossFight = true;
+                currentBoss = f;
+                currentBoss.SetHealth(GameManager.GetInstance().GetHealth());
             }
             else {
                 Debug.Log($"{f} is not a boss");
             }
         }
+
+        yield return secondPause;
 
         foreach (Fighter f in order)
         {
@@ -354,15 +359,24 @@ public class FightManager : MonoBehaviour
         Debug.Log($"Finishing battle");
         Debug.Log($"Was boss fight? {bossFight}");
         Debug.Log($"Monsters: {monsters.Count}, Heroes: {heroes.Count}");
-        if (bossFight && heroes.Count == 0)
+        // If we are a boss fight, set our health to the boss health, then close the menus
+        if (bossFight && currentBoss != null)
         {
-            Debug.Log($"Boss fight won");
-            BossManager.GetInstance().LevelUp();
+            GameManager.GetInstance().SetHealth(currentBoss.GetHealth());
+            currentBoss = null;
         }
-        else 
-        {
-            UIManager.GetInstance().CloseAllMenus();
-        }
+        UIManager.GetInstance().CloseAllMenus();
+        // if (bossFight && heroes.Count == 0)
+        // {
+        //     Debug.Log($"Boss fight won");
+        //     BossManager.GetInstance().LevelUp();
+            
+        // }
+        // else 
+        // {
+        //     UIManager.GetInstance().CloseAllMenus();
+        // }
+        // Remove all fighters we won't need again
         foreach (Fighter f in dead)
         {
             Destroy(f.gameObject);
@@ -371,6 +385,7 @@ public class FightManager : MonoBehaviour
         {
             Destroy(f.gameObject);
         }
+        // Clear the lists
         heroes.Clear();
         monsters.Clear();
         order.Clear();

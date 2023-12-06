@@ -61,16 +61,15 @@ MonoBehaviour:
   tier: 0
   abilities: []
   tags: []
-  slider: {fileID: 1155635446762030695}
-  healthBarText: {fileID: 1686023468240125997}
+  healthBar: {fileID: 3410647797648601322}
   animator: {fileID: 5039665668272437622}
   effectAnimator: {fileID: 5107355285956057596, guid: ece891a26ba9c7448a4f4f4d250ec712, type: 3}
   image: {fileID: 4750066662433999588}
   alertImage: {fileID: 3702988228419720621}
   statsText: {fileID: 120448862609494735}
-  IsMonster: 0
-  IsBoss: 0
-  IsDead: 0
+  isMonster: 0
+  isBoss: 0
+  isDead: 0
   gold: 0
 --- !u!223 &1120712176787730201
 Canvas:
@@ -229,26 +228,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1155635446762030695 stripped
+--- !u!114 &3410647797648601322 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2079440248625045609, guid: b18703d6e9d2d4cd4a7a38caac0f4367, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2560029934298584804, guid: b18703d6e9d2d4cd4a7a38caac0f4367, type: 3}
   m_PrefabInstance: {fileID: 923804942524474894}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1686023468240125997 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1997336376789902883, guid: b18703d6e9d2d4cd4a7a38caac0f4367, type: 3}
-  m_PrefabInstance: {fileID: 923804942524474894}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Script: {fileID: 11500000, guid: e6ad89f4b72b99445b82413cb8443e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &3702988228419720621 stripped
