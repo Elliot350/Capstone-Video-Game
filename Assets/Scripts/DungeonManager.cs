@@ -48,15 +48,19 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
 
     private List<RoomBase> roomBases;
 
+    [SerializeField] private TilePlus roomTile;
+    [SerializeField] private TileBase hallwayTile;
+    [SerializeField] private MonsterBase bossMonster;
+
     private void Awake() 
     {
         instance = this;
         roomBases = Resources.LoadAll<RoomBase>("").ToList();
         InvokeRepeating("TriggerPeriodicRooms", 1f, 1f);
         Debug.Log($"Awake");
-        PlaceEmpties();
         // Place basic dungeon uses UIManager, so we wait until it has been created
-        Invoke("PlaceBasicDungeon", 0.1f);
+        Invoke("PlaceEmpties", 0.1f);
+        Invoke("PlaceBasicDungeon", 0.2f);
         // PlaceBasicDungeon();
     }
 
@@ -115,12 +119,13 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
     public void EntrancePlaced(Vector3Int pos)
     {
         entrance = pos;
-        BeginNewPlacement(bossRoomBasePrefab);
+        // BeginNewPlacement(bossRoomBasePrefab);
     }
 
     public void BossRoomPlaced(Vector3Int pos)
     {
         bossRoom = pos;
+        PlaceMonster(pos, bossMonster);
     }
 
     private void UpdatePlacementIndicator()
@@ -232,7 +237,24 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
     private bool PlaceRoom(Vector3Int pos, RoomBase roomBase)
     {
         if (tilemap.GetTile(pos) != GameManager.GetInstance().empty) return false;
-        tilemap.SetTile(pos, roomBase.GetTile());
+        
+        if (roomBase is Hallway)
+        {
+            tilemap.SetTile(pos, hallwayTile);
+        }
+        else if (roomBase is BossRoom)
+        {
+            tilemap.SetTile(pos, roomTile);
+            tilemap.GetTile<TilePlus>(pos).newSprite = roomBase.GetSprite();
+            tilemap.RefreshTile(pos);
+        }
+        else if (roomBase is RoomBase)
+        {
+            tilemap.SetTile(pos, roomTile);
+            tilemap.GetTile<TilePlus>(pos).newSprite = roomBase.GetSprite();
+            tilemap.RefreshTile(pos);
+        }
+
         tilemap.GetInstantiatedObject(pos).GetComponent<Room>().SetType(roomBase);
         return true;
     }
@@ -294,9 +316,8 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
         //     | 
         //     E 
 
-        PlaceRoom(0, 3, bossRoomBasePrefab);
+        PlaceRoom(0, 2, bossRoomBasePrefab);
 
-        PlaceRoom(0, 2, hallwayBasePrefab);
         PlaceRoom(0, 1, hallwayBasePrefab);
         PlaceRoom(0, 0, hallwayBasePrefab);
         PlaceRoom(0, -1, hallwayBasePrefab);
@@ -328,13 +349,13 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
         }
         tilemap.GetInstantiatedObject(bossRoom).GetComponent<Room>().ResetRoom();
         // Im not sure if this is the best way?
-        foreach (Transform child in FightManager.GetInstance().GetMonsterHolder().transform)
-        {
-            if (child != FightManager.GetInstance().GetMonsterHolder().transform)
-            {
-                Destroy(child.gameObject);
-            }
-        }
+        // foreach (Transform child in FightManager.GetInstance().GetMonsterHolder().transform)
+        // {
+        //     if (child != FightManager.GetInstance().GetMonsterHolder().transform)
+        //     {
+        //         Destroy(child.gameObject);
+        //     }
+        // }
     }
 
     

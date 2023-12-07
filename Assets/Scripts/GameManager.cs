@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Extra GameManager in scene!");
             Destroy(gameObject);
         }
-
+        SetLocationData(locationData != null ? locationData : defaultLocation);
         
     }
 
@@ -67,9 +67,9 @@ public class GameManager : MonoBehaviour
             GainMoney(100);
         }
 
-        if (Input.GetKeyDown(KeyCode.B)) {
-            DungeonManager.GetInstance().PlaceBasicDungeon();
-        }
+        // if (Input.GetKeyDown(KeyCode.B)) {
+        //     DungeonManager.GetInstance().PlaceBasicDungeon();
+        // }
 
         // if (Input.GetKeyDown(KeyCode.G)) {
         //     Debug.Log($"Result: {GetRandomMonster((m) => m.HasTag(tagToSearch))}");
@@ -107,6 +107,11 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Loading scene");
         SceneManager.LoadScene(gameScene);
         Debug.Log($"Done loading");
+    }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene(mainMenuScene);
     }
 
     public int GetMoney()

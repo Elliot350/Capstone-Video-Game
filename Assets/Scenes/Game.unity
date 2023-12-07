@@ -15232,6 +15232,9 @@ MonoBehaviour:
   entranceBasePrefab: {fileID: 11400000, guid: 39a8b0bc6364eb14290679fa22946a20, type: 2}
   bossRoomBasePrefab: {fileID: 11400000, guid: 041ae1b6491d14521881d8194cc3258b, type: 2}
   tempMonster: {fileID: 11400000, guid: d77119a2449d5804bac6aa67a980726a, type: 2}
+  roomTile: {fileID: 11400000, guid: a8dd4104ec01a354eb6add18e794fa95, type: 2}
+  hallwayTile: {fileID: 11400000, guid: 6d42391d41b67c049a38ec238af74cc0, type: 2}
+  bossMonster: {fileID: 11400000, guid: 066643bbf2f4ff84087e5741ba9fddb3, type: 2}
 --- !u!4 &1629371080
 Transform:
   m_ObjectHideFlags: 0

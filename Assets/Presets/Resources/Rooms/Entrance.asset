@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Entrance
   cost: 0
+  description: 
   monsterCapacity: 0
   trapCapacity: 0
-  tile: {fileID: 11400000, guid: 553e8b5c4e8362b4b8b83a56a3127123, type: 2}
+  abilities: []
+  sprite: {fileID: 21300000, guid: 11535c20c9109004486fd868e0aa0b79, type: 3}
+  needsAll: 0
+  requirements: []

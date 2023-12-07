@@ -7,9 +7,10 @@ public class BossRoom : RoomBase
 {
     public override void AddRoom(Room room)
     {
+        Debug.Log($"Boss Room placed");
         DungeonManager.GetInstance().BossRoomPlaced(Vector3Int.FloorToInt(room.transform.position));
         room.Highlight(false);
-        UIManager.GetInstance().OpenBossMenu();
+        // UIManager.GetInstance().OpenBossMenu();
     }
 
     public override void RoomDefeated(Room room)

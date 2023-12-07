@@ -323,10 +323,7 @@ MonoBehaviour:
   alwayConnect: 0
   tilesToConnect:
   - {fileID: 11400000}
-  - {fileID: 11400000, guid: 414966ec5b52e1846a94f68fb2698bf5, type: 2}
-  - {fileID: 11400000, guid: 88faa7e9053eb41ddb4d7110c943fddb, type: 2}
-  - {fileID: 11400000, guid: 760051809aea245238192418f1b1d8cc, type: 2}
-  - {fileID: 11400000, guid: 553e8b5c4e8362b4b8b83a56a3127123, type: 2}
-  - {fileID: 11400000, guid: 7f5be15c90754804cbdb701ab3977b31, type: 2}
+  - {fileID: 11400000, guid: a8dd4104ec01a354eb6add18e794fa95, type: 2}
+  - {fileID: 11400000, guid: 26d42b32286c3e44c8de6d8c57319f22, type: 2}
   checkSelf: 1
   isHallway: 1
