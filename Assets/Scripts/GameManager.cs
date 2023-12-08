@@ -25,20 +25,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<TrapBase> trapBases;
     [SerializeField] private List<PartyLayout> partyLayouts;
     [SerializeField] private List<FighterAbility> fighterAbilities;
-    private LocationData locationData;
+    
     [SerializeField] private LocationData defaultLocation;
-    [Header("Scene numbers")]
-    [SerializeField] private int mainMenuScene;
-    [SerializeField] private int gameScene;
-    [SerializeField] private int gameOverScene;
-
+    private LocationData currentLocation;
+    
     // public RoomInfo roomInfo;
     // [Header("Camera")]
     // [SerializeField] private Camera cam;
 
     void Awake()
     {
-        PlayerPrefsManager.Load();
+        
+        Debug.Log($"Awake");
+        // PlayerPrefsManager.Load();
         if (instance == null)
         {
             instance = this;
@@ -49,15 +48,9 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Extra GameManager in scene!");
             Destroy(gameObject);
         }
-        SetLocationData(locationData != null ? locationData : defaultLocation);
+        // InitializeManagers();
+        // LoadLocationData(currentLocation != null ? currentLocation : defaultLocation);
         
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        // FormatText();
-        // if (locationData == null) SetLocationData(defaultLocation);
     }
 
     // Update is called once per frame
@@ -82,9 +75,29 @@ public class GameManager : MonoBehaviour
         return instance;
     }
 
-    public void SetLocationData(LocationData data)
+    public void InitializeManagers()
     {
-        locationData = data;
+        GameObject manager = GameObject.Find("/UIManager");
+        if (manager == null) Debug.LogWarning($"Could not find /UIManager");
+        manager = GameObject.Find("UIManager");
+        if (manager == null) Debug.LogWarning($"Could not find UIManager");
+
+        GameObject.Find("/DungeonManager").GetComponent<DungeonManager>().Initialize();
+        GameObject.Find("/BossManager").GetComponent<BossManager>().Initialize();
+        GameObject.Find("/PartyManager").GetComponent<PartyManager>().Initialize();
+        GameObject.Find("/FightManager").GetComponent<FightManager>().Initialize();
+        GameObject.Find("/UnlockManager").GetComponent<UnlockManager>().Initialize();
+        GameObject.Find("/UIManager").GetComponent<UIManager>().Initialize();
+    }
+
+    public void LoadLocationData()
+    {
+        LoadLocationData(currentLocation == null ? defaultLocation : currentLocation);
+    }
+
+    public void LoadLocationData(LocationData data)
+    {
+        currentLocation = data;
         hallway = data.hallways;
         empty = data.empty;
         roomBases = new List<RoomBase>(data.rooms);
@@ -98,20 +111,23 @@ public class GameManager : MonoBehaviour
 
     public void SetLocation(LocationData location)
     {
-        locationData = location;
+        currentLocation = location;
     }
 
     public void PlayButtonPressed()
     {
-        SetLocationData(locationData);
-        Debug.Log($"Loading scene");
-        SceneManager.LoadScene(gameScene);
-        Debug.Log($"Done loading");
+        CustomSceneManager.OpenGame();
+    }
+
+    public void Test()
+    {
+        if (DungeonManager.GetInstance() == null) Debug.Log($"Dungeon manager is null");
+        else Debug.Log($"Dungeon manager is not null");
     }
 
     public void GoToMainMenu()
     {
-        SceneManager.LoadScene(mainMenuScene);
+        // SceneManager.LoadScene(mainMenuScene);
     }
 
     public int GetMoney()

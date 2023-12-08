@@ -50,7 +50,18 @@ public class FightManager : MonoBehaviour
     [Header("Temporary debug text")]
     [SerializeField] private TextMeshProUGUI actionsText;
 
-    private void Awake() {instance = this;}
+    public void Initialize()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else 
+        {
+            Debug.LogWarning($"Duplicate DungeonManger");
+            Destroy(gameObject);
+        }
+    }
 
     public static FightManager GetInstance() {return instance;}
 

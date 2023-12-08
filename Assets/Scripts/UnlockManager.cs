@@ -25,12 +25,19 @@ public class UnlockManager : MonoBehaviour
     [Header("Temp stuff")]
     public Color unlockedLineColor;
     public Color lockedLineColor;
-    
 
-    private void Awake() 
+    public void Initialize()
     {
-        instance = this;
-        UpdateVisuals();
+        if (instance == null)
+        {
+            instance = this;
+            UpdateVisuals();
+        }
+        else 
+        {
+            Debug.LogWarning($"Duplicate DungeonManger");
+            Destroy(gameObject);
+        }
     }
 
     public static UnlockManager GetInstance()

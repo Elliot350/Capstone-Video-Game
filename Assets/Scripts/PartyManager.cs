@@ -63,10 +63,17 @@ public class PartyManager : MonoBehaviour
     // Max length for pathfinding
     private const int PATH_LENGTH = 100;
 
-
-    private void Awake()
+    public void Initialize()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else 
+        {
+            Debug.LogWarning($"Duplicate PartyManager");
+            Destroy(gameObject);
+        }
     }
 
     public static PartyManager GetInstance()

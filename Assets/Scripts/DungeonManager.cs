@@ -52,16 +52,29 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
     [SerializeField] private TileBase hallwayTile;
     [SerializeField] private MonsterBase bossMonster;
 
-    private void Awake() 
+    // private void Awake() 
+    // {
+    //     instance = this;
+    //     roomBases = Resources.LoadAll<RoomBase>("").ToList();
+    //     InvokeRepeating("TriggerPeriodicRooms", 1f, 1f);
+    //     Debug.Log($"Awake");
+    //     // Place basic dungeon uses UIManager, so we wait until it has been created
+    //     Invoke("PlaceEmpties", 0.1f);
+    //     Invoke("PlaceBasicDungeon", 0.2f);
+    //     // PlaceBasicDungeon();
+    // }
+
+    public void Initialize()
     {
-        instance = this;
-        roomBases = Resources.LoadAll<RoomBase>("").ToList();
-        InvokeRepeating("TriggerPeriodicRooms", 1f, 1f);
-        Debug.Log($"Awake");
-        // Place basic dungeon uses UIManager, so we wait until it has been created
-        Invoke("PlaceEmpties", 0.1f);
-        Invoke("PlaceBasicDungeon", 0.2f);
-        // PlaceBasicDungeon();
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else 
+        {
+            Debug.LogWarning($"Duplicate DungeonManger");
+            Destroy(gameObject);
+        }
     }
 
     public static DungeonManager GetInstance() 
@@ -310,7 +323,6 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
         
         // Place a basic dungeon like this:
         //     B 
-        //     | 
         //     | 
         //  R--+--R
         //     | 

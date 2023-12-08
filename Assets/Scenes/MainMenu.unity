@@ -968,10 +968,7 @@ MonoBehaviour:
   trapBases: []
   partyLayouts: []
   fighterAbilities: []
-  defaultLocation: {fileID: 0}
-  mainMenuScene: 0
-  gameScene: 1
-  gameOverScene: 2
+  defaultLocation: {fileID: 11400000, guid: 4bf2dd84214434e5ca73cdb2a3a230be, type: 2}
 --- !u!4 &384178572
 Transform:
   m_ObjectHideFlags: 0
