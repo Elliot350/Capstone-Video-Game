@@ -23,6 +23,11 @@ public class BossManager : MonoBehaviour
     private FighterAbility chosenAbility, abilityOption1, abilityOption2;
     private BossUpgrade upgrade1, upgrade2;
 
+    private void Awake()
+    {
+        Initialize();
+    }
+    
     public void Initialize()
     {
         if (instance == null)

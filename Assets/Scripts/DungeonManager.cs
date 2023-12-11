@@ -64,6 +64,17 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
     //     // PlaceBasicDungeon();
     // }
 
+    private void Awake()
+    {
+        Initialize();
+    }
+
+    private void Start()
+    {
+        PlaceEmpties();
+        PlaceBasicDungeon();
+    }
+
     public void Initialize()
     {
         if (instance == null)

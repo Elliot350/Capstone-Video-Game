@@ -50,6 +50,11 @@ public class FightManager : MonoBehaviour
     [Header("Temporary debug text")]
     [SerializeField] private TextMeshProUGUI actionsText;
 
+    private void Awake()
+    {
+        Initialize();
+    }
+
     public void Initialize()
     {
         if (instance == null)
@@ -187,6 +192,11 @@ public class FightManager : MonoBehaviour
 
         // Clear the lists and close the menu
         FinishBattle();
+        if (GameManager.GetInstance().GetHealth() <= 0) 
+        {
+            yield return new WaitForSeconds(3);
+            CustomSceneManager.OpenGameOver();
+        }
     }
 
     private IEnumerator PerformActions()

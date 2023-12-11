@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [Header("Lists for the rooms, monsters, heroes, traps, etc.")]
     [SerializeField] public RoomBase hallway;
     [SerializeField] public UnityEngine.Tilemaps.TileBase empty;
+    [SerializeField] private Color backgroundColor;
     [SerializeField] private List<RoomBase> roomBases;
     [SerializeField] private List<MonsterBase> monsterBases;
     [SerializeField] private List<HeroBase> heroBases;
@@ -36,12 +37,14 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         
-        Debug.Log($"Awake");
         // PlayerPrefsManager.Load();
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(instance);
+            PlayerPrefsManager.Load();
+            // If we are in the game scene, we need to load the data
+            if (SceneManager.GetActiveScene().buildIndex == CustomSceneManager.gameScene) LoadLocationData();
         }
         else
         {
@@ -51,6 +54,11 @@ public class GameManager : MonoBehaviour
         // InitializeManagers();
         // LoadLocationData(currentLocation != null ? currentLocation : defaultLocation);
         
+    }
+
+    private void Start()
+    {
+        SetHealth(maxHealth);
     }
 
     // Update is called once per frame
@@ -75,21 +83,6 @@ public class GameManager : MonoBehaviour
         return instance;
     }
 
-    public void InitializeManagers()
-    {
-        GameObject manager = GameObject.Find("/UIManager");
-        if (manager == null) Debug.LogWarning($"Could not find /UIManager");
-        manager = GameObject.Find("UIManager");
-        if (manager == null) Debug.LogWarning($"Could not find UIManager");
-
-        GameObject.Find("/DungeonManager").GetComponent<DungeonManager>().Initialize();
-        GameObject.Find("/BossManager").GetComponent<BossManager>().Initialize();
-        GameObject.Find("/PartyManager").GetComponent<PartyManager>().Initialize();
-        GameObject.Find("/FightManager").GetComponent<FightManager>().Initialize();
-        GameObject.Find("/UnlockManager").GetComponent<UnlockManager>().Initialize();
-        GameObject.Find("/UIManager").GetComponent<UIManager>().Initialize();
-    }
-
     public void LoadLocationData()
     {
         LoadLocationData(currentLocation == null ? defaultLocation : currentLocation);
@@ -106,7 +99,7 @@ public class GameManager : MonoBehaviour
         trapBases = new List<TrapBase>(data.traps);
         partyLayouts = new List<PartyLayout>(data.partyLayouts);
         fighterAbilities = new List<FighterAbility>(Resources.LoadAll<FighterAbility>(""));
-        Debug.Log($"Number of abilities: {fighterAbilities.Count}");
+        backgroundColor = data.backgroundColor;
     }
 
     public void SetLocation(LocationData location)
@@ -114,15 +107,14 @@ public class GameManager : MonoBehaviour
         currentLocation = location;
     }
 
+    public Color GetBackgroundColor()
+    {
+        return backgroundColor;
+    }
+
     public void PlayButtonPressed()
     {
         CustomSceneManager.OpenGame();
-    }
-
-    public void Test()
-    {
-        if (DungeonManager.GetInstance() == null) Debug.Log($"Dungeon manager is null");
-        else Debug.Log($"Dungeon manager is not null");
     }
 
     public void GoToMainMenu()
@@ -183,7 +175,6 @@ public class GameManager : MonoBehaviour
     {
         health = value;
         FormatText();
-        if (health <= 0) SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public float GetMaxHealth()

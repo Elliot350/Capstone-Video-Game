@@ -6,11 +6,11 @@ public class GameOverMenu : MonoBehaviour
 {
     public void MainMenu()
     {
-        GameManager.GetInstance().GoToMainMenu();
+        CustomSceneManager.OpenMainMenu();
     }
 
     public void PlayAgain()
     {
-        GameManager.GetInstance().PlayButtonPressed();
+        CustomSceneManager.OpenGame();
     }
 }

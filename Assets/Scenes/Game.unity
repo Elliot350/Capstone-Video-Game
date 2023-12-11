@@ -16521,6 +16521,7 @@ MonoBehaviour:
   health: 100
   hallway: {fileID: 0}
   empty: {fileID: 0}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
   roomBases: []
   monsterBases: []
   heroBases: []
@@ -16528,9 +16529,6 @@ MonoBehaviour:
   partyLayouts: []
   fighterAbilities: []
   defaultLocation: {fileID: 11400000, guid: 4bf2dd84214434e5ca73cdb2a3a230be, type: 2}
-  mainMenuScene: 0
-  gameScene: 0
-  gameOverScene: 0
 --- !u!4 &1759908041
 Transform:
   m_ObjectHideFlags: 0
@@ -17645,6 +17643,7 @@ MonoBehaviour:
   moneyText: {fileID: 1406503882}
   manaText: {fileID: 1394452948}
   healthBar: {fileID: 232106079}
+  background: {fileID: 930929693}
 --- !u!1001 &1926301265
 PrefabInstance:
   m_ObjectHideFlags: 0

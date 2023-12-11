@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SwampLocation
   m_EditorClassIdentifier: 
   locationName: Swamp
+  backgroundColor: {r: 0.08627451, g: 0.12156863, b: 0.43529412, a: 1}
   hallways: {fileID: 11400000, guid: 85ac73ba74ccc534d85cd17db754cb21, type: 2}
   empty: {fileID: 11400000, guid: ad4f58c7919b44d12b0e8150179c2f0b, type: 2}
   monsters:

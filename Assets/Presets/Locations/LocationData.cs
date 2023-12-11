@@ -7,6 +7,7 @@ using UnityEngine.Tilemaps;
 public class LocationData : ScriptableObject
 {
     public string locationName;
+    public Color backgroundColor;
     public RoomBase hallways;
     public TileBase empty;
     public List<MonsterBase> monsters;

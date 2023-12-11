@@ -22,8 +22,7 @@ public class MainMenu : MonoBehaviour
     
     public void PlayGame()
     {
-        // GameManager.GetInstance().SetLocationData(selectedLocation);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        GameManager.GetInstance().PlayButtonPressed();
     }
 
     public void OpenMap()

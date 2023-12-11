@@ -56,27 +56,39 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private TextMeshProUGUI manaText;
     [SerializeField] private HealthBar healthBar;
+
+    [Header("Background")]
+    [SerializeField] private SpriteRenderer background;
+
+    private void Awake()
+    {
+        Initialize();
+    }
+
+    private void Start()
+    {
+        if (!PlayerPrefsManager.hasSeenTutorial)
+        {
+            SetMenu(MenuState.TUTORIAL);
+            tutorialManager.ShowStep(0);
+        }
+        menus = new Dictionary<MenuState, GameObject>{
+            {MenuState.PAUSE, pauseMenu},
+            {MenuState.FIGHT, fightMenu},
+            {MenuState.PICK_BOSS, bossMenu},
+            {MenuState.ROOM_INFO, roomInfoMenu},
+            {MenuState.TUTORIAL, tutorialManager.gameObject},
+            {MenuState.BOSS_UPGRADE_MENU, bossUpgradeMenu},
+            {MenuState.UNLOCK_MONSTER, unlockMenu}
+        };
+        background.color = GameManager.GetInstance().GetBackgroundColor();
+    }
     
     public void Initialize()
     {
-        Debug.Log($"UIManager initializing");
         if (instance == null)
         {
             instance = this;
-            if (!PlayerPrefsManager.hasSeenTutorial)
-            {
-                SetMenu(MenuState.TUTORIAL);
-                tutorialManager.ShowStep(0);
-            }
-            menus = new Dictionary<MenuState, GameObject>{
-                {MenuState.PAUSE, pauseMenu},
-                {MenuState.FIGHT, fightMenu},
-                {MenuState.PICK_BOSS, bossMenu},
-                {MenuState.ROOM_INFO, roomInfoMenu},
-                {MenuState.TUTORIAL, tutorialManager.gameObject},
-                {MenuState.BOSS_UPGRADE_MENU, bossUpgradeMenu},
-                {MenuState.UNLOCK_MONSTER, unlockMenu}
-            };
         }
         else 
         {

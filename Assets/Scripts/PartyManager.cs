@@ -63,6 +63,24 @@ public class PartyManager : MonoBehaviour
     // Max length for pathfinding
     private const int PATH_LENGTH = 100;
 
+    private void Awake()
+    {
+        Initialize();
+    }
+
+    private void Start()
+    {
+        // tilemap.CompressBounds();
+        // roadMap.CompressBounds();
+        bounds = tilemap.cellBounds;
+        camera = Camera.main;
+
+        canMove = true;
+
+        CreateGrid();
+        astar = new Astar(spots, bounds.size.x, bounds.size.y);
+    }
+
     public void Initialize()
     {
         if (instance == null)
@@ -84,19 +102,6 @@ public class PartyManager : MonoBehaviour
     public Party GetParty()
     {
         return party;
-    }
-
-    private void Start()
-    {
-        // tilemap.CompressBounds();
-        // roadMap.CompressBounds();
-        bounds = tilemap.cellBounds;
-        camera = Camera.main;
-
-        canMove = true;
-
-        CreateGrid();
-        astar = new Astar(spots, bounds.size.x, bounds.size.y);
     }
 
     void Update()

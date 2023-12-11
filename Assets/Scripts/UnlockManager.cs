@@ -26,6 +26,11 @@ public class UnlockManager : MonoBehaviour
     public Color unlockedLineColor;
     public Color lockedLineColor;
 
+    private void Awake()
+    {
+        Initialize();
+    }
+
     public void Initialize()
     {
         if (instance == null)
