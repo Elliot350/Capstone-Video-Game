@@ -23,6 +23,7 @@ public class CustomSceneManager : MonoBehaviour
 
     public static void OpenGameOver()
     {
+        PlayerPrefsManager.Save();
         AsyncOperation async = SceneManager.LoadSceneAsync(gameOverScene);
     }
 

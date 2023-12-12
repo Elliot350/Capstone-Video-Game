@@ -54,9 +54,9 @@ public class PullToFront : TriggeredFighterAbility
 
     public override void OnTakenDamage(Damage attack)
     {
-        if (triggers.Contains(Trigger.DAMAGED) && target == Target.INTERACTED)
+        if (triggers.Contains(Trigger.TAKEN_DAMAGE) && target == Target.INTERACTED)
             Pull(attack.target, attack.source);
-        else if (triggers.Contains(Trigger.DAMAGED))
+        else if (triggers.Contains(Trigger.TAKEN_DAMAGE))
             Activate(attack.target);
     }
 

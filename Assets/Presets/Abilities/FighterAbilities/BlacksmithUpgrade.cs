@@ -8,12 +8,12 @@ public class BlacksmithUpgrade : FighterAbility
     [SerializeField] private float startingDamageBuff;
     [SerializeField] private float decayValue;
 
-    public override void CalculateDamage(Fighter f)
+    public override void CalculateStats(Fighter f)
     {
         f.IncreaseDamageModifier(startingDamageBuff);
     }
 
-    public override void TurnEnd(Fighter f)
+    public override void OnEndTurn(Fighter f)
     {
         startingDamageBuff -= decayValue;
         if (startingDamageBuff <= 0) FightManager.GetInstance().AddAction(new RemoveAbility(f, this));

@@ -81,7 +81,7 @@ public class PartyManager : MonoBehaviour
         astar = new Astar(spots, bounds.size.x, bounds.size.y);
     }
 
-    public void Initialize()
+    private void Initialize()
     {
         if (instance == null)
         {
@@ -222,6 +222,7 @@ public class PartyManager : MonoBehaviour
     {
         CreateGrid();
         // Debug.Log($"Entrance: {DungeonManager.GetInstance().GetEntrancePos()}, {DungeonManager.GetInstance().GetEntranceTile()}, Boss room: {DungeonManager.GetInstance().GetBossRoomPos()}, {DungeonManager.GetInstance().GetBossRoomTile()}, ");
+        // Check that both the entrance and boss room exist, and that there is a valid path between them
         if (DungeonManager.GetInstance().GetEntranceTile() == null || DungeonManager.GetInstance().GetBossRoomTile() == null || astar.CreatePath(spots, DungeonManager.GetInstance().GetEntranceTile(), DungeonManager.GetInstance().GetBossRoomTile(), PATH_LENGTH) == null)
         {
             // Debug.Log($"No path available from entrance to boss room!");

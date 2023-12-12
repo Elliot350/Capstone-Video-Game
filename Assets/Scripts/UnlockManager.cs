@@ -31,7 +31,7 @@ public class UnlockManager : MonoBehaviour
         Initialize();
     }
 
-    public void Initialize()
+    private void Initialize()
     {
         if (instance == null)
         {

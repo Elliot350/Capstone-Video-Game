@@ -58,9 +58,9 @@ public class ApplyAbility : TriggeredFighterAbility
 
     public override void OnTakenDamage(Damage attack)
     {
-        if (target == Target.TARGET && triggers.Contains(Trigger.DAMAGED))
+        if (target == Target.TARGET && triggers.Contains(Trigger.TAKEN_DAMAGE))
             FightManager.GetInstance().AddAction(new AddAbility(attack.source, Instantiate<FighterAbility>(ability)));
-        else if (triggers.Contains(Trigger.DAMAGED))
+        else if (triggers.Contains(Trigger.TAKEN_DAMAGE))
             Activate(attack.target);
     }
 
@@ -72,7 +72,7 @@ public class ApplyAbility : TriggeredFighterAbility
             Activate(attack.target);
     }
 
-    public override void FighterSummoned(Fighter f, Fighter newFighter)
+    public override void OnFighterSummoned(Fighter f, Fighter newFighter)
     {
         if ((!newFighter.isMonster && triggers.Contains(Trigger.HERO_SUMMONED)) || (newFighter.isMonster && triggers.Contains(Trigger.MONSTER_SUMMONED))) ApplyAbilityToSummoned(f, newFighter);
         // if (!newFighter.IsMonster && triggers.Contains(Trigger.HERO_SUMMONED) && f.IsMonster && target == Target.SUMMONED_ENEMY) FightManager.GetInstance().AddAction(new AddAbility(newFighter, ability));

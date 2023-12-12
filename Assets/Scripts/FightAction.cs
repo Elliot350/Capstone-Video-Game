@@ -164,7 +164,7 @@ public class BattleStart : FightAction
 public class BattleEnd : FightAction
 {
     public BattleEnd(Fighter fighter) : base(fighter) { waitTime = 0f; }
-    public override void Do() { fighter.FinishBattle(); }
+    public override void Do() { fighter.EndBattle(); }
     public override bool IsValid() { return base.IsValid() && !fighter.isDead; }
 }
 

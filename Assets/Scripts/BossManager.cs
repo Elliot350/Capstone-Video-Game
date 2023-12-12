@@ -28,7 +28,7 @@ public class BossManager : MonoBehaviour
         Initialize();
     }
     
-    public void Initialize()
+    private void Initialize()
     {
         if (instance == null)
         {

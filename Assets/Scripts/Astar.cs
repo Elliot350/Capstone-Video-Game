@@ -130,7 +130,7 @@ public class Astar
                         OpenSet.Add(n);
                     }
 
-                    // If ir is a newPath, calculate the H and F and set current to the neighbours previous
+                    // If it is a newPath, calculate the H and F and set current to the neighbours previous
                     if (newPath)
                     {
                         n.H = Heuristic(n, End);

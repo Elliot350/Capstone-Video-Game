@@ -18,13 +18,9 @@ public class Kin : FighterAbility
         return count;
     }
 
-    public override void CalculateDamage(Fighter f)
+    public override void CalculateStats(Fighter f)
     {
         f.IncreaseDamageModifier(GetCount(f) * damageGain);
-    }
-
-    public override void CalculateMaxHealth(Fighter f)
-    {
         f.IncreaseMaxHealthModifier(GetCount(f) * healthGain);
     }
 

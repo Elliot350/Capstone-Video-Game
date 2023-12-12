@@ -84,7 +84,7 @@ public class UIManager : MonoBehaviour
         background.color = GameManager.GetInstance().GetBackgroundColor();
     }
     
-    public void Initialize()
+    private void Initialize()
     {
         if (instance == null)
         {

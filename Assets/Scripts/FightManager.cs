@@ -55,7 +55,7 @@ public class FightManager : MonoBehaviour
         Initialize();
     }
 
-    public void Initialize()
+    private void Initialize()
     {
         if (instance == null)
         {

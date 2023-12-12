@@ -19,28 +19,22 @@ public class TemporaryAbility : TriggeredFighterAbility
         FightManager.GetInstance().AddAction(new RemoveAbility(target, this));
     }
 
-    public override void BattleEnd(Fighter f)
+    public override void OnEndBattle(Fighter f)
     {
-        ability.BattleEnd(f);
-        base.BattleEnd(f);
+        ability.OnEndBattle(f);
+        base.OnEndBattle(f);
     }
 
-    public override void BattleStart(Fighter f)
+    public override void OnStartBattle(Fighter f)
     {
-        ability.BattleStart(f);
-        base.BattleStart(f);
+        ability.OnStartBattle(f);
+        base.OnStartBattle(f);
     }
 
-    public override void CalculateDamage(Fighter f)
+    public override void CalculateStats(Fighter f)
     {
-        ability.CalculateDamage(f);
-        base.CalculateDamage(f);
-    }
-
-    public override void CalculateMaxHealth(Fighter f)
-    {
-        ability.CalculateMaxHealth(f);
-        base.CalculateMaxHealth(f);
+        ability.CalculateStats(f);
+        base.CalculateStats(f);
     }
 
     public override bool CanAddMonster(MonsterBase m, Room r)
@@ -53,10 +47,10 @@ public class TemporaryAbility : TriggeredFighterAbility
         return ability.DecideTargets(fighters);
     }
 
-    public override void FighterSummoned(Fighter f, Fighter newFighter)
+    public override void OnFighterSummoned(Fighter f, Fighter newFighter)
     {
-        ability.FighterSummoned(f, newFighter);
-        base.FighterSummoned(f, newFighter);
+        ability.OnFighterSummoned(f, newFighter);
+        base.OnFighterSummoned(f, newFighter);
     }
 
     public override string GetAbility()
@@ -104,17 +98,17 @@ public class TemporaryAbility : TriggeredFighterAbility
         base.OnTakenDamage(attack);
     }
 
-    public override void TurnEnd(Fighter f)
+    public override void OnEndTurn(Fighter f)
     {
-        ability.TurnEnd(f);
-        base.TurnEnd(f);
+        ability.OnEndTurn(f);
+        base.OnEndTurn(f);
         if (countdown > 0) countdown--;
         if (countdown == 0) Activate(f);
     }
 
-    public override void TurnStart(Fighter f)
+    public override void OnStartTurn(Fighter f)
     {
-        ability.TurnStart(f);
-        base.TurnStart(f);
+        ability.OnStartTurn(f);
+        base.OnStartTurn(f);
     }
 }

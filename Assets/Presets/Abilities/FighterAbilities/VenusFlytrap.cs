@@ -8,7 +8,7 @@ public class VenusFlytrap : FighterAbility
     [SerializeField] private Tag tagToConsume;
     private List<Fighter> targetFighters;
 
-    public override void BattleStart(Fighter f)
+    public override void OnStartBattle(Fighter f)
     {
         Debug.Log("Start");
         targetFighters = new List<Fighter>();

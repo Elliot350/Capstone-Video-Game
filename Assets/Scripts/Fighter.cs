@@ -104,9 +104,10 @@ public class Fighter : MonoBehaviour
     {
         if (amount <= 0) return;
         maxHealth += amount;
-        health += amount;
-        ActivateAbilities((a) => a.OnHeal(this));
-        SetHealthBar();
+        Heal(amount);
+        // health += amount;
+        // ActivateAbilities((a) => a.OnHeal(this));
+        // SetHealthBar();
     }
 
     private void SetHealthBar()
@@ -119,7 +120,6 @@ public class Fighter : MonoBehaviour
     {
         health = newHealth;
     }
-
 
     public virtual void Die(Damage attack)
     {
@@ -156,12 +156,14 @@ public class Fighter : MonoBehaviour
     }
 
     public void FighterDied(Fighter f) {ActivateAbilities((a) => a.OnFighterDied(this, f));}
-    public void FinishBattle()  {ActivateAbilities((a) => a.BattleEnd(this));}
-    public void StartBattle() {ActivateAbilities((a) => a.BattleStart(this));}
-    public void StartTurn() {ActivateAbilities((a) => a.TurnStart(this));}
-    public void EndTurn() {ActivateAbilities((a) => a.TurnEnd(this));}
-    public void FighterSummoned(Fighter summoned) {ActivateAbilities((a) => a.FighterSummoned(this, summoned));}
+    public void EndBattle()  {ActivateAbilities((a) => a.OnEndBattle(this));}
+    public void StartBattle() {ActivateAbilities((a) => a.OnStartBattle(this));}
+    public void StartTurn() {ActivateAbilities((a) => a.OnStartTurn(this));}
+    public void EndTurn() {ActivateAbilities((a) => a.OnEndTurn(this));}
+    public void FighterSummoned(Fighter summoned) {ActivateAbilities((a) => a.OnFighterSummoned(this, summoned));}
     public void Moved() {ActivateAbilities((a) => a.OnMoved(this));}
+    private void CalculateDamage() {ActivateAbilities((a) => a.CalculateStats(this));}
+    private void CalculateMaxHealth() {ActivateAbilities((a) => a.CalculateStats(this));}
 
     private void ActivateAbilities(Action<FighterAbility> action)
     {
@@ -190,19 +192,9 @@ public class Fighter : MonoBehaviour
         statsText.text = $"{damage} + {damageModifier}\n{maxHealth} + {maxHealthModifier}";
     }
 
-    private void CalculateDamage()
-    {
-        ActivateAbilities((a) => a.CalculateDamage(this));
-    }
-
     public void IncreaseDamageModifier(float amount)
     {
         damageModifier += amount;
-    }
-
-    private void CalculateMaxHealth()
-    {
-        ActivateAbilities((a) => a.CalculateMaxHealth(this));
     }
 
     public void IncreaseMaxHealthModifier(float amount)

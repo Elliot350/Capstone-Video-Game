@@ -6,7 +6,7 @@ public abstract class FighterAbility : Ability
 {
     protected const int NONE = 0;
     protected const int ADDS_ATTACKS = 1;
-    protected const int NO_ATTACK = 2;
+    protected const int PREVENTS_ATTACKS = 2;
 
     [SerializeField] protected string animationTrigger;
 
@@ -17,16 +17,15 @@ public abstract class FighterAbility : Ability
     public virtual void OnDeath(Damage attack) {}
     public virtual void OnHeal(Fighter f) {}
     public virtual void OnFighterDied(Fighter f, Fighter dead) {}
-    public virtual void TurnStart(Fighter f) {}
-    public virtual void TurnEnd(Fighter f) {}
-    public virtual void BattleStart(Fighter f) {}
-    public virtual void BattleEnd(Fighter f) {}
-    public virtual void FighterSummoned(Fighter f, Fighter newFighter) {}
+    public virtual void OnStartTurn(Fighter f) {}
+    public virtual void OnEndTurn(Fighter f) {}
+    public virtual void OnStartBattle(Fighter f) {}
+    public virtual void OnEndBattle(Fighter f) {}
+    public virtual void OnFighterSummoned(Fighter f, Fighter newFighter) {}
     public virtual void OnMoved(Fighter f) {}
     
+    public virtual void CalculateStats(Fighter f) {} 
     public virtual bool CanAddMonster(MonsterBase m, Room r) {return true;}
-    public virtual void CalculateDamage(Fighter f) {}
-    public virtual void CalculateMaxHealth(Fighter f) {}
     public virtual int ModifiesTargets() {return NONE;}
     public virtual List<Fighter> DecideTargets(List<Fighter> fighters) {return new List<Fighter>();}
 }
