@@ -47,9 +47,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6e1d5f798eda48e4baf8f995559e8d7c, type: 2}
   - {fileID: 11400000, guid: c2397b7d6ba0b4bb584d3fe2561f648c, type: 2}
   - {fileID: 11400000, guid: 361f7a4c8f2b82740a75f28fc035bb92, type: 2}
-  traps:
-  - {fileID: 11400000, guid: bb1bd3aca25ef4e13bd95a81a0516f6e, type: 2}
-  - {fileID: 11400000, guid: 404a4c300a71a4cd496bae90ca143bd7, type: 2}
+  traps: []
   partyLayouts:
   - {fileID: 11400000, guid: da69f6f8257015c43a632bd82477dd89, type: 2}
   - {fileID: 11400000, guid: b9471beb1d774ee46a2c8007620545b3, type: 2}

@@ -16,14 +16,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private float health = 100f;
 
-    [Header("Lists for the rooms, monsters, heroes, traps, etc.")]
+    [Header("Lists for the rooms, monsters, heroes, etc.")]
     [SerializeField] public RoomBase hallway;
     [SerializeField] public UnityEngine.Tilemaps.TileBase empty;
     [SerializeField] private Color backgroundColor;
     [SerializeField] private List<RoomBase> roomBases;
     [SerializeField] private List<MonsterBase> monsterBases;
     [SerializeField] private List<HeroBase> heroBases;
-    [SerializeField] private List<TrapBase> trapBases;
+    // [SerializeField] private List<TrapBase> trapBases;
     [SerializeField] private List<PartyLayout> partyLayouts;
     [SerializeField] private List<FighterAbility> fighterAbilities;
     
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
         roomBases = new List<RoomBase>(data.rooms);
         monsterBases = new List<MonsterBase>(data.monsters);
         heroBases = new List<HeroBase>(data.heroes);
-        trapBases = new List<TrapBase>(data.traps);
+        // trapBases = new List<TrapBase>(data.traps);
         partyLayouts = new List<PartyLayout>(data.partyLayouts);
         fighterAbilities = new List<FighterAbility>(Resources.LoadAll<FighterAbility>(""));
         backgroundColor = data.backgroundColor;

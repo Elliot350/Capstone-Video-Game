@@ -16631,7 +16631,6 @@ MonoBehaviour:
   roomBases: []
   monsterBases: []
   heroBases: []
-  trapBases: []
   partyLayouts: []
   fighterAbilities: []
   defaultLocation: {fileID: 11400000, guid: 4bf2dd84214434e5ca73cdb2a3a230be, type: 2}

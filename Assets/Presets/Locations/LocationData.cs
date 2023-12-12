@@ -13,6 +13,6 @@ public class LocationData : ScriptableObject
     public List<MonsterBase> monsters;
     public List<RoomBase> rooms;
     public List<HeroBase> heroes;
-    public List<TrapBase> traps;
+    // public List<TrapBase> traps;
     public List<PartyLayout> partyLayouts;
 }
