@@ -426,6 +426,7 @@ public class FightManager : MonoBehaviour
     {
         return ((f1.isMonster && !f2.isMonster) || (!f1.isMonster && f2.isMonster));
     }
+    public Fighter GetBoss() {return currentBoss;}
 
     public List<Fighter> GetMonsters() {return monsters;}
     public List<Fighter> GetHeroes() {return heroes;}

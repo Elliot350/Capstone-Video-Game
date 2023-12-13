@@ -297,19 +297,19 @@ public class Summon : FightAction
 
 public class BuffFighter : FightAction
 {
-    private float _healthAmount;
-    private float _damageAmount;
+    private float healthAmount;
+    private float damageAmount;
 
     public BuffFighter(Fighter fighter, float healthAmount, float damageAmount) : base(fighter)
     {
-        _healthAmount = healthAmount;
-        _damageAmount = damageAmount;
+        this.healthAmount = healthAmount;
+        this.damageAmount = damageAmount;
     }
 
     public override void Do()
     {
-        fighter.IncreaseMaxHealth(_healthAmount);
-        fighter.IncreaseDamage(_damageAmount);
+        fighter.IncreaseMaxHealth(healthAmount);
+        fighter.IncreaseDamage(damageAmount);
     }
 }
 

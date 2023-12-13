@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a5e279ee0a8a7840a9496a5b087593e, type: 3}
+  m_Name: TestRitual
+  m_EditorClassIdentifier: 
+  abilityName: Test Ritual
+  description: 
+  animationTrigger: 
+  newForm: {fileID: 11400000, guid: 20297439ce5be2d46bea924494075103, type: 2}

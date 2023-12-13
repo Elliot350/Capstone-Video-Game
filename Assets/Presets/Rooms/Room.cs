@@ -129,29 +129,6 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     //     return false;
     // }
 
-    public IEnumerator PartyEntered(Party party)
-    {
-        // if (TrapsUntriggered())
-        // {
-        //     yield return wait;
-        //     Debug.Log($"Triggering traps");
-        //     foreach (Trap trap in traps)
-        //     {
-        //         trap.PartyEntered(party);
-        //     }
-        // }
-        // If there are monsters, wait a second and fight them
-        if (monsters.Count > 0 && !visited)
-        {
-            yield return wait;
-            Debug.Log($"Starting Fight");
-            yield return FightManager.GetInstance().StartCoroutine(FightManager.GetInstance().StartFight(party.heroes, monsters, this));
-            Debug.Log($"Fight Done?");
-        }
-        yield break;
-    }
-
-
     public void Highlight(bool status) 
     {
         highlightBox.SetActive(status);
@@ -234,4 +211,5 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     // public int GetTrapCapacity() {return trapCapacity;}
     public RoomBase GetRoomBase() {return roomType;}
     public string GetName() {return displayName;}
+    public bool BeenVisited() {return visited;}
 }

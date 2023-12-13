@@ -171,7 +171,8 @@ public class PartyManager : MonoBehaviour
             party.transform.position = newPosition;
             partyState = PartyState.FIGHTING;
             Room room = DungeonManager.GetInstance().GetTilemap().GetInstantiatedObject(Vector3Int.FloorToInt(party.transform.position)).GetComponent<Room>();
-            yield return StartCoroutine(room.PartyEntered(party));
+            if (room.GetMonsters().Count > 0 && !room.BeenVisited())
+                yield return FightManager.GetInstance().StartCoroutine(FightManager.GetInstance().StartFight(party.heroes, room.GetMonsters(), room));
             if (party != null) partyState = PartyState.MOVE_COOLDOWN;
             lastMoveTime = Time.time;
             moveStep++;

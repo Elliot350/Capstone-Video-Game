@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        
         // PlayerPrefsManager.Load();
         if (instance == null)
         {
@@ -50,15 +49,12 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("Extra GameManager in scene!");
             Destroy(gameObject);
-        }
-        // InitializeManagers();
-        // LoadLocationData(currentLocation != null ? currentLocation : defaultLocation);
-        
+        }        
     }
 
     private void Start()
     {
-        SetHealth(maxHealth);
+        // SetHealth(maxHealth);
     }
 
     // Update is called once per frame

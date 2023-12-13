@@ -17,6 +17,7 @@ public class CustomSceneManager : MonoBehaviour
     public static void OpenGame()
     {
         GameManager.GetInstance().LoadLocationData();
+        GameManager.GetInstance().SetHealth(GameManager.GetInstance().GetMaxHealth());
         // AsyncOperation async = SceneManager.LoadSceneAsync(gameScene);
         SceneManager.LoadScene(gameScene);
     }
