@@ -7,6 +7,7 @@ public class MonsterBase : FighterBase
 {
     [SerializeField] protected bool needsAll;
     [SerializeField] protected List<MonsterBase> requirements;
+    [SerializeField] protected Requirement requirement;
 
     public virtual void MonsterSpawned() {}
 

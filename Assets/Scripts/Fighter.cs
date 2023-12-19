@@ -85,6 +85,7 @@ public class Fighter : MonoBehaviour
     {
         // Debug.Log($"Taking damage for {attack.CalculatedDamage}");
         ActivateAbilities((a) => a.OnTakenDamage(attack));
+        // Should this be moved above activating abilities?
         if (attack.calculatedDamage <= 0)
             return;
         health -= attack.calculatedDamage;
@@ -173,8 +174,8 @@ public class Fighter : MonoBehaviour
 
     public void ResetStats()
     {
-        previousDamage = damage + damageModifier;
-        previousMaxHealth = maxHealth + maxHealthModifier;
+        previousDamage = GetDamage();
+        previousMaxHealth = GetMaxHealth();
         damageModifier = 0f;
         maxHealthModifier = 0f;
     }
@@ -209,11 +210,12 @@ public class Fighter : MonoBehaviour
         int currentStrongest = 0;
 
         ActivateAbilities((a) => {
-            // If the current ability does override targeting, and it's stronger than the current strongest modification
+            // If the current ability does override targeting, and it's stronger or equal than the current strongest modification
             if (a.ModifiesTargets() > 0 && (targets == null || currentStrongest <= a.ModifiesTargets()))
                 targets = a.DecideTargets(fighters);
         });
 
+        // Fail safe, if we don't have any abilities, set the targets to the first enemy
         if (targets == null)
         {
             targets = new List<Fighter>();
@@ -310,10 +312,12 @@ public class Fighter : MonoBehaviour
     public string GetName() {return displayName;}
     public string GetDescription() {return Ability.GetDescriptionFromList(abilities);}
     public float GetBaseMaxHealth() {return fighterType.GetMaxHealth();}
+    public float GetMaxHealthWithoutModifier() {return maxHealth;}
     public float GetMaxHealth() {return maxHealth + maxHealthModifier;}
     public float GetHealth() {return health;}
     public float GetDamage() {return damage + damageModifier;}
     public float GetBaseDamage() {return fighterType.GetDamage();}
+    public float GetDamageWithoutModifier() {return damage;}
     public List<FighterAbility> GetAbilities() {return abilities;}
     public List<Tag> GetTags() {return tags;}
     public virtual Sprite GetSprite() {return image.sprite;}
