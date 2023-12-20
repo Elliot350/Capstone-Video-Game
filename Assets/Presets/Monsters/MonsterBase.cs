@@ -5,38 +5,26 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Monster", menuName = "Bases/New Monster")]
 public class MonsterBase : FighterBase
 {
-    [SerializeField] protected bool needsAll;
-    [SerializeField] protected List<MonsterBase> requirements;
-    [SerializeField] protected Requirement requirement;
-
-    public virtual void MonsterSpawned() {}
+    [SerializeField] protected List<Requirement> requirements;
 
     public bool IsUnlockable() 
     {
-        if (needsAll)
-            return NeedsAll();
-        return NeedsOne();
-    }
-
-    private bool NeedsAll()
-    {
-        foreach (MonsterBase mb in requirements)
+        // Check to see if all the requirements are valid
+        foreach (Requirement r in requirements)
         {
-            if (!UnlockManager.GetInstance().IsMonsterUnlocked(mb))
+            if (!r.IsValid())
                 return false;
         }
         return true;
     }
 
-    private bool NeedsOne()
+    public string GetRequirementsAsString() 
     {
-        foreach (MonsterBase mb in requirements)
+        string text = "";
+        foreach (Requirement r in requirements)
         {
-            if (UnlockManager.GetInstance().IsMonsterUnlocked(mb))
-                return true;
+            text += r.ToString() + "\n";
         }
-        return false;
+        return text;
     }
-
-    public List<MonsterBase> GetRequirements() {return requirements;}
 }

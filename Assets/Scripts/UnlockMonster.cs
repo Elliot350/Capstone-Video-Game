@@ -48,11 +48,12 @@ public class UnlockMonster : MonoBehaviour
     public void Clicked()
     {
         UnlockManager.GetInstance().SelectedMonster(monsterBase);
+        // monsterBase.PrintRequirements();
     }
 
     public void Hover()
     {
-        Tooltip.ShowTooltip_Static(monsterBase.GetName() + (UnlockManager.GetInstance().IsMonsterUnlocked(monsterBase) ? " - (Unlocked)" : " - (Locked)"), 12);
+        Tooltip.ShowTooltip_Static(monsterBase.GetName() + (UnlockManager.GetInstance().IsMonsterUnlocked(monsterBase) ? " - (Unlocked)" : " - (Locked)") + "\n" + monsterBase.GetRequirementsAsString(), 12);
     }
 
     public void EndHover()
