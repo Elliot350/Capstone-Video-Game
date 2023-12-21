@@ -22,4 +22,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2620ae1ecf6af4f6896c3081cb34984a, type: 2}
   tags:
   - {fileID: 11400000, guid: 17a740a5be0b74226bed804e33beca87, type: 2}
-  requirements: []
+  requirements:
+  - room: {fileID: 0}
+    monster: {fileID: 11400000, guid: 97ceb8e4b86ca4b19b622449d4faafb1, type: 2}
+    requiredRoomCount: 0
+    requiredMonsterCount: 2

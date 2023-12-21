@@ -31,12 +31,16 @@ public class UnlockManager : MonoBehaviour
         Initialize();
     }
 
+    private void Start()
+    {
+        UpdateVisuals();
+    }
+
     private void Initialize()
     {
         if (instance == null)
         {
             instance = this;
-            UpdateVisuals();
         }
         else 
         {
