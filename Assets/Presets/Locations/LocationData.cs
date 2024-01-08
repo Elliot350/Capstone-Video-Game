@@ -11,7 +11,9 @@ public class LocationData : ScriptableObject
     public RoomBase hallways;
     public TileBase empty;
     public List<MonsterBase> monsters;
+    public List<MonsterBase> startingMonsters;
     public List<RoomBase> rooms;
+    public List<RoomBase> startingRooms;
     public List<HeroBase> heroes;
     // public List<TrapBase> traps;
     public List<PartyLayout> partyLayouts;

@@ -34,6 +34,14 @@ public class UnlockManager : MonoBehaviour
     private void Start()
     {
         UpdateVisuals();
+        foreach (MonsterBase mb in GameManager.GetInstance().GetLocation().startingMonsters)
+        {
+            TryUnlock(mb);
+        }
+        foreach (RoomBase rb in GameManager.GetInstance().GetLocation().startingRooms)
+        {
+            TryUnlock(rb);
+        }
     }
 
     private void Initialize()
@@ -57,6 +65,11 @@ public class UnlockManager : MonoBehaviour
     private void Unlock(MonsterBase monsterBase)
     {
         unlockedMonsters.Add(monsterBase);
+        BuildMonsterButton(monsterBase);
+    }
+
+    private void BuildMonsterButton(MonsterBase monsterBase)
+    {
         BuildMonsterButton button = Instantiate(monsterButton, monsterMenu.transform).GetComponent<BuildMonsterButton>();
         button.monsterBase = monsterBase;
         UpdateVisuals();
@@ -65,6 +78,11 @@ public class UnlockManager : MonoBehaviour
     private void Unlock(RoomBase roomBase)
     {
         unlockedRooms.Add(roomBase);
+        BuildRoomButton(roomBase);
+    }
+
+    private void BuildRoomButton(RoomBase roomBase)
+    {
         BuildRoomButton button = Instantiate(roomButton, roomMenu.transform).GetComponent<BuildRoomButton>();
         button.roomBase = roomBase;
         UpdateVisuals();
@@ -101,7 +119,7 @@ public class UnlockManager : MonoBehaviour
 
     public void TryUnlock(MonsterBase monsterBase)
     {
-        if (monsterBase.IsUnlockable() && !unlockedMonsters.Contains(monsterBase))
+        if (Requirement.IsUnlockable(monsterBase.GetRequirements()) && !unlockedMonsters.Contains(monsterBase))
         {
             Unlock(monsterBase);
         }

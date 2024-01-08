@@ -20,7 +20,6 @@ public class Requirement
     private bool hasMonsters;
     private bool hasTags;
 
-
     private Color completeColour = Color.green;
     private Color incompleteColour = Color.red;
 
@@ -54,23 +53,23 @@ public class Requirement
         // TODO: Decide which is better
         
         // DungeonManager.GetInstance().GetRooms().ForEach((r) => {
-        //     if (r.GetRoomBase() == room) roomCount++;
+        //     if (room != null && r.GetRoomBase() == room) roomCount++;
         //     r.GetMonsters().ForEach((m) => {
-        //         if (m == monster) monsterCount++;
+        //         if (monster != null && m == monster) monsterCount++;
         //         m.GetTags().ForEach((t) => {
-        //             if (t == tag) tagCount++;
+        //             if (tag != null && t == tag) tagCount++;
         //         });
         //     });
         // });
         foreach (Room r in DungeonManager.GetInstance().GetRooms())
         {
-            if (r.GetRoomBase() == room) roomCount++;
+            if (room != null && r.GetRoomBase() == room) roomCount++;
             foreach (MonsterBase m in r.GetMonsters())
             {
-                if (m == monster) monsterCount++;
+                if (monster != null && m == monster) monsterCount++;
                 foreach (Tag t in m.GetTags())
                 {
-                    if (t == tag) tagCount++;
+                    if (tag != null && t == tag) tagCount++;
                 }
             }
         }
@@ -80,4 +79,22 @@ public class Requirement
         hasTags = tagCount >= requiredTagCount;
     }
 
+    public static bool IsUnlockable(List<Requirement> requirements)
+    {
+        foreach (Requirement r in requirements)
+        {
+            if (!r.IsValid()) return false;
+        }
+        return true;
+    }
+
+    public static string GetRequirementsAsString(List<Requirement> requirements)
+    {
+        string text = "";
+        foreach (Requirement r in requirements)
+        {
+            text += r.ToString() + "\n";
+        }
+        return text;
+    }
 }

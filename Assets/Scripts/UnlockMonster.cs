@@ -25,7 +25,7 @@ public class UnlockMonster : MonoBehaviour
             return;
         }
         
-        if (monsterBase.IsUnlockable())
+        if (Requirement.IsUnlockable(monsterBase.GetRequirements()))
         {
             image.color = UnlockManager.GetInstance().unlockableColor;
             SetLineColours(UnlockManager.GetInstance().lockedLineColor);
@@ -53,7 +53,7 @@ public class UnlockMonster : MonoBehaviour
 
     public void Hover()
     {
-        Tooltip.ShowTooltip_Static(monsterBase.GetName() + (UnlockManager.GetInstance().IsMonsterUnlocked(monsterBase) ? " - (Unlocked)" : " - (Locked)") + "\n" + monsterBase.GetRequirementsAsString(), 12);
+        Tooltip.ShowTooltip_Static(monsterBase.GetName() + (UnlockManager.GetInstance().IsMonsterUnlocked(monsterBase) ? " - (Unlocked)" : " - (Locked)") + "\n" + Requirement.GetRequirementsAsString(monsterBase.GetRequirements()), 12);
     }
 
     public void EndHover()

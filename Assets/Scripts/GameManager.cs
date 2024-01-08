@@ -103,6 +103,11 @@ public class GameManager : MonoBehaviour
         currentLocation = location;
     }
 
+    public LocationData GetLocation()
+    {
+        return currentLocation;
+    }
+
     public Color GetBackgroundColor()
     {
         return backgroundColor;

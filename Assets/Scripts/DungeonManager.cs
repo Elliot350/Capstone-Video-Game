@@ -316,14 +316,17 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
         if (tilemap.GetTile(pos) == null || tilemap.GetTile(pos) == GameManager.GetInstance().empty) return;
         // TODO: Change this to a method in room so it refunds some money for the room, monsters and traps
         Room destroyedRoom = tilemap.GetInstantiatedObject(pos).GetComponent<Room>();
+
         if (rooms.Contains(destroyedRoom))
             rooms.Remove(destroyedRoom);
         else if (hallways.Contains(destroyedRoom))
             hallways.Remove(destroyedRoom);
+
         if (pos == bossRoom)
             bossRoom = Vector3Int.zero;
         else if (pos == entrance)
             bossRoom = Vector3Int.zero;
+
         tilemap.SetTile(pos, GameManager.GetInstance().empty);
         CancelPlacement();
         // Hide because we would be hovering over something and it gets destroyed so we need to stop hovering
@@ -380,8 +383,6 @@ public class DungeonManager : MonoBehaviour, IPointerClickHandler, IPointerDownH
         //     }
         // }
     }
-
-    
 
     private void TriggerPeriodicRooms()
     {

@@ -16,6 +16,7 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     protected List<RoomAbility> abilities;
     [SerializeField] protected GameObject highlightBox;
     [SerializeField] protected SpriteRenderer alertSprite;
+    [SerializeField] protected List<Requirement> requirements;
 
     private double cooldown;
     private bool visited;
