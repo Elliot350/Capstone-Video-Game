@@ -33,7 +33,6 @@ public class UnlockManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateVisuals();
         foreach (MonsterBase mb in GameManager.GetInstance().GetLocation().startingMonsters)
         {
             TryUnlock(mb);
@@ -42,6 +41,7 @@ public class UnlockManager : MonoBehaviour
         {
             TryUnlock(rb);
         }
+        UpdateVisuals();
     }
 
     private void Initialize()

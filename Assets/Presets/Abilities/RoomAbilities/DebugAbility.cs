@@ -37,7 +37,7 @@ public class DebugAbility : RoomAbility
         return true;
     }
 
-    public override void FighterSummoned(Room r, Fighter f)
+    public override void OnFighterSummoned(Room r, Fighter f)
     {
         Debug.Log($"FighterSummoned");
     }

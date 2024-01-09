@@ -21,5 +21,5 @@ public abstract class TriggeredRoomAbility : RoomAbility
     public override void BattleStart(Room r, List<Fighter> monsters, List<Fighter> heroes) {if (triggers.Contains(Trigger.START_BATTLE)) Activate(r);}
     public override void BattleEnd(Room r, List<Fighter> monsters, List<Fighter> heroes) {if (triggers.Contains(Trigger.END_BATTLE)) Activate(r);}
     public override void OnFighterDied(Room r, Fighter f) {if ((f.isMonster && triggers.Contains(Trigger.MONSTER_DIED)) || (!f.isMonster && triggers.Contains(Trigger.HERO_DIED))) Activate(r, f);}
-    public override void FighterSummoned(Room r, Fighter f) {if ((f.isMonster && triggers.Contains(Trigger.MONSTER_SUMMONED)) || (!f.isMonster && triggers.Contains(Trigger.HERO_SUMMONED))) Activate(r, f);}
+    public override void OnFighterSummoned(Room r, Fighter f) {if ((f.isMonster && triggers.Contains(Trigger.MONSTER_SUMMONED)) || (!f.isMonster && triggers.Contains(Trigger.HERO_SUMMONED))) Activate(r, f);}
 }

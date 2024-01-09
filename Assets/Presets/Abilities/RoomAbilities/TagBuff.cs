@@ -9,17 +9,38 @@ public class TagBuff : RoomAbility
     [SerializeField] private float damageBoost;
     [SerializeField] private float healthBoost;
 
+    [SerializeField] private TargetType targetType;
+
     public override void CalculateDamage(Room r, List<Fighter> monsters, List<Fighter> heroes)
     {
-        foreach (Fighter f in monsters)
+        if (targetType == TargetType.MONSTER || targetType == TargetType.BOTH)
         {
-            foreach (Tag t in tags)
+            foreach (Fighter f in monsters)
             {
-                if (f.HasTag(t))
+                foreach (Tag t in tags)
                 {
-                    f.IncreaseDamageModifier(damageBoost);
-                    f.IncreaseMaxHealthModifier(healthBoost);
-                    return;
+                    if (f.HasTag(t))
+                    {
+                        f.IncreaseDamageModifier(damageBoost);
+                        f.IncreaseMaxHealthModifier(healthBoost);
+                        continue;
+                    }
+                }
+            }
+        }
+
+        if (targetType == TargetType.HERO || targetType == TargetType.BOTH)
+        {
+            foreach (Fighter f in heroes)
+            {
+                foreach (Tag t in tags)
+                {
+                    if (f.HasTag(t))
+                    {
+                        f.IncreaseDamageModifier(damageBoost);
+                        f.IncreaseMaxHealthModifier(healthBoost);
+                        continue;
+                    }
                 }
             }
         }

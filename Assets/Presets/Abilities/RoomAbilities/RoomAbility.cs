@@ -4,11 +4,17 @@ using UnityEngine;
 
 public abstract class RoomAbility : Ability
 {
+    protected enum TargetType {
+        MONSTER,
+        HERO,
+        BOTH
+    }
+
     public virtual void Periodic() {}
     public virtual void RoomBuilt(Room r) {}
     public virtual void BattleStart(Room r, List<Fighter> monsters, List<Fighter> heroes) {}
     public virtual void BattleEnd(Room r, List<Fighter> monsters, List<Fighter> heroes) {}
-    public virtual void FighterSummoned(Room r, Fighter f) {} 
+    public virtual void OnFighterSummoned(Room r, Fighter f) {} 
     public virtual void OnFighterDied(Room r, Fighter f) {}
     public virtual void PartyWon(Party p) {}
     public virtual void CalculateDamage(Room r, List<Fighter> monsters, List<Fighter> heroes) {}

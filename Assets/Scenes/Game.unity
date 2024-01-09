@@ -2201,15 +2201,7 @@ MonoBehaviour:
   trees:
   - {fileID: 1707333546}
   - {fileID: 598749086}
-  unlockedMonsters:
-  - {fileID: 11400000, guid: e8de5309356df48c785c2e02d43bed33, type: 2}
-  - {fileID: 11400000, guid: 83d8f355b8ce8466994077dab6b81c5c, type: 2}
-  - {fileID: 11400000, guid: b4f6e0dd165e74c8a80f849633ffd310, type: 2}
-  - {fileID: 11400000, guid: f7bf1d1b0de6d48e3a9e2486626b92cd, type: 2}
-  - {fileID: 11400000, guid: 97ceb8e4b86ca4b19b622449d4faafb1, type: 2}
-  - {fileID: 11400000, guid: 40a990f11720d49dba9a5acd6b19e180, type: 2}
-  - {fileID: 11400000, guid: d8587823feecd4b7abca58c57cb027d8, type: 2}
-  - {fileID: 11400000, guid: 092125e0c783e4e9fbdd951356656c64, type: 2}
+  unlockedMonsters: []
   monsterDescriptionBox: {fileID: 1258941780}
   selectedMonster: {fileID: 0}
   roomButton: {fileID: 3362533893495741527, guid: dc3064933a423cc4ab1d40717ed58ff5, type: 3}
