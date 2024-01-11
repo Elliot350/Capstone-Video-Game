@@ -12,7 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e9ae4c72a725f44c895b90bb79c4d16, type: 3}
   m_Name: Ranged
   m_EditorClassIdentifier: 
-  heroes:
-  - {fileID: 11400000, guid: 48ee044356859664eb58885a21147a1d, type: 2}
-  - {fileID: 11400000, guid: 48ee044356859664eb58885a21147a1d, type: 2}
-  - {fileID: 11400000, guid: 48ee044356859664eb58885a21147a1d, type: 2}
+  candidates:
+  - healthComparison: 0
+    health: 0
+    damageComparison: 0
+    damage: 0
+    tagComparison: 1
+    tag: {fileID: 11400000, guid: 48ee044356859664eb58885a21147a1d, type: 2}
+  - healthComparison: 0
+    health: 0
+    damageComparison: 0
+    damage: 0
+    tagComparison: 1
+    tag: {fileID: 11400000, guid: 48ee044356859664eb58885a21147a1d, type: 2}
+  - healthComparison: 0
+    health: 0
+    damageComparison: 0
+    damage: 0
+    tagComparison: 1
+    tag: {fileID: 11400000, guid: 48ee044356859664eb58885a21147a1d, type: 2}

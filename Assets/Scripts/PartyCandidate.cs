@@ -74,4 +74,52 @@ public class PartyCandidate
 
         return true;
     }
+
+    public override string ToString()
+    {
+        string str = "Requirements: ";
+        switch (healthComparison)
+        {
+            case NumberComparison.NONE:
+                break;
+            case NumberComparison.LESS_THAN:
+                str += $"Has less than {health} health, ";
+                break;
+            case NumberComparison.MORE_THAN:
+                str += $"Has more than {health} health, ";
+                break;
+            case NumberComparison.EQUAL:
+                str += $"Has {health} health";
+                break;
+        }
+
+         switch (damageComparison)
+        {
+            case NumberComparison.NONE:
+                break;
+            case NumberComparison.LESS_THAN:
+                str += $"Has less than {damage} damage, ";
+                break;
+            case NumberComparison.MORE_THAN:
+                str += $"Has more than {damage} damage, ";
+                break;
+            case NumberComparison.EQUAL:
+                str += $"Has {damage} damage, ";
+                break;
+        }
+
+        switch (tagComparison)
+        {
+            case TagComparison.NONE:
+                break;
+            case TagComparison.HAS_TAG:
+                str += $"Has {tag.Format()}";
+                break;
+            case TagComparison.DOESNT_HAVE_TAG:
+                str += $"Doesn't have {tag.Format()}";
+                break;
+        }
+
+        return str;
+    }
 }

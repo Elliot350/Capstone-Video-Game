@@ -211,11 +211,19 @@ public class PartyManager : MonoBehaviour
     public void CreateParty(PartyLayout layout)
     {
         List<HeroBase> heroes = new List<HeroBase>();
-        foreach (Tag t in layout.GetHeroes())
+        
+        foreach (PartyCandidate pc in layout.GetPartyCandidates())
         {
-            // Get a random hero that has the current tag
-            heroes.Add(GameManager.GetInstance().GetRandomHero((h) => h.HasTag(t)));
+            Debug.Log($"Finding hero with {pc}");
+            HeroBase newHero = GameManager.GetInstance().GetRandomHero((h) => pc.IsValid(h));
+            if (newHero != null) heroes.Add(newHero);
+            else Debug.LogWarning($"Could not find a hero");
         }
+        // foreach (Tag t in layout.GetHeroes())
+        // {
+        //     // Get a random hero that has the current tag
+        //     heroes.Add(GameManager.GetInstance().GetRandomHero((h) => h.HasTag(t)));
+        // }
         CreateParty(heroes);
     }
 

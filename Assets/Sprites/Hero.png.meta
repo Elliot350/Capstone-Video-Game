@@ -251,7 +251,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hero_Woddcutter
+      name: Hero_Woodcutter
       rect:
         serializedVersion: 2
         x: 448
@@ -548,10 +548,10 @@ TextureImporter:
       Hero_Ritualist: -683276962
       Hero_Priest: -1892476424
       Hero_Blacksmith: -1608847982
-      Hero_Woddcutter: 1198391208
       Hero_Beastmaster: 1839145950
       Hero_Fisherman: -1761412768
       Hero_Peasent: 1263920625
+      Hero_Woodcutter: 1198391208
       Hero_RoyalGuard: -1639827232
       Hero_Trapper: 1100299113
   spritePackingTag: 

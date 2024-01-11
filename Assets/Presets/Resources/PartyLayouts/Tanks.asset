@@ -12,7 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e9ae4c72a725f44c895b90bb79c4d16, type: 3}
   m_Name: Tanks
   m_EditorClassIdentifier: 
-  heroes:
-  - {fileID: 11400000, guid: 7d4b226e4dbf19f4ea3d38e6cb55c31f, type: 2}
-  - {fileID: 11400000, guid: 7d4b226e4dbf19f4ea3d38e6cb55c31f, type: 2}
-  - {fileID: 11400000, guid: 43bb689013c62424ebabb7583d8a85f2, type: 2}
+  candidates:
+  - healthComparison: 0
+    health: 0
+    damageComparison: 0
+    damage: 0
+    tagComparison: 1
+    tag: {fileID: 11400000, guid: 7d4b226e4dbf19f4ea3d38e6cb55c31f, type: 2}
+  - healthComparison: 0
+    health: 0
+    damageComparison: 0
+    damage: 0
+    tagComparison: 1
+    tag: {fileID: 11400000, guid: 7d4b226e4dbf19f4ea3d38e6cb55c31f, type: 2}
+  - healthComparison: 0
+    health: 0
+    damageComparison: 0
+    damage: 0
+    tagComparison: 1
+    tag: {fileID: 11400000, guid: 43bb689013c62424ebabb7583d8a85f2, type: 2}

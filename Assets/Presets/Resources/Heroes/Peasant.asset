@@ -10,17 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1dedaa80607ff03468c4124aab944655, type: 3}
-  m_Name: DarkKnight
+  m_Name: Peasant
   m_EditorClassIdentifier: 
-  displayName: Dark Knight
-  sprite: {fileID: 1379590926, guid: d8e84b4bdabdd4476aadab46f5e84638, type: 3}
-  cost: 50
-  baseDamage: 4
-  maxHealth: 35
-  tier: 0
-  abilities:
-  - {fileID: 11400000, guid: 1e8a7089ae7104db0a7166b25937374b, type: 2}
+  displayName: Peasant
+  sprite: {fileID: 1263920625, guid: b456e1323b8cf4244b9e7eef4a93a747, type: 3}
+  cost: 15
+  baseDamage: 5
+  maxHealth: 10
+  tier: 1
+  abilities: []
   tags:
-  - {fileID: 11400000, guid: 7d4b226e4dbf19f4ea3d38e6cb55c31f, type: 2}
   - {fileID: 11400000, guid: b3f165c186f502340a9ea39b61475af0, type: 2}
   gold: 15

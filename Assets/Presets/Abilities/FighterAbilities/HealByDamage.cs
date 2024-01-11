@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "HealByDamage", menuName = "Abilities/Fighter/Heal by Damage")]
 public class HealByDamage : FighterAbility
 {
     enum Target {
@@ -27,6 +28,6 @@ public class HealByDamage : FighterAbility
 
     public override string GetDescription()
     {
-        throw new System.NotImplementedException();
+        return string.Format(description, healMultiplier * 100);
     }
 }

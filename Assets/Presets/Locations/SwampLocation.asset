@@ -45,17 +45,24 @@ MonoBehaviour:
   rooms:
   - {fileID: 11400000, guid: 15be4fec4bc594edc906478c91121afa, type: 2}
   - {fileID: 11400000, guid: c969aaf7a57234aa6b3b3ecf1bb4dbe2, type: 2}
+  startingRooms: []
   heroes:
   - {fileID: 11400000, guid: c559f2dc66da8451cbc4a5c4d49e1713, type: 2}
+  - {fileID: 11400000, guid: 993b13b2d4ef5704cbc5c26894ea91b4, type: 2}
   - {fileID: 11400000, guid: 34f91f1a6ed78dc4aae558ea2451ebcc, type: 2}
   - {fileID: 11400000, guid: 218e8e8060af9824389d66c8bf279838, type: 2}
   - {fileID: 11400000, guid: 5e501b3a67c771b4aaf341d0e858c57b, type: 2}
   - {fileID: 11400000, guid: b4cb5a6a24629304688e64114b6c2a27, type: 2}
   - {fileID: 11400000, guid: ed72ef59fb5ea9443bbe35cbbcac15f7, type: 2}
+  - {fileID: 11400000, guid: 0bce9ed8e950df842a2db8c160964d48, type: 2}
   - {fileID: 11400000, guid: 4f9c02212caa5a14082d8e4df929a5e0, type: 2}
   - {fileID: 11400000, guid: 6e1d5f798eda48e4baf8f995559e8d7c, type: 2}
+  - {fileID: 11400000, guid: b4d111a0db5ff7445b1c7fe7ef16ac97, type: 2}
   - {fileID: 11400000, guid: c2397b7d6ba0b4bb584d3fe2561f648c, type: 2}
   - {fileID: 11400000, guid: 361f7a4c8f2b82740a75f28fc035bb92, type: 2}
+  - {fileID: 11400000, guid: a61eaf01c12d8064ab1744f3133bbb56, type: 2}
+  - {fileID: 11400000, guid: c11a14e96716bca4eada3db4d2098e71, type: 2}
+  - {fileID: 11400000, guid: 3b4406a13c64466438c26664b1710be5, type: 2}
   partyLayouts:
   - {fileID: 11400000, guid: da69f6f8257015c43a632bd82477dd89, type: 2}
   - {fileID: 11400000, guid: b9471beb1d774ee46a2c8007620545b3, type: 2}

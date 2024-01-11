@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1dedaa80607ff03468c4124aab944655, type: 3}
-  m_Name: Mage
+  m_Name: Witchdoctor
   m_EditorClassIdentifier: 
-  displayName: Mage
-  sprite: {fileID: 1812873704, guid: d8e84b4bdabdd4476aadab46f5e84638, type: 3}
-  cost: 50
-  baseDamage: 4
-  maxHealth: 15
-  tier: 3
+  displayName: Witch Doctor
+  sprite: {fileID: 0}
+  cost: 30
+  baseDamage: 6
+  maxHealth: 20
+  tier: 2
   abilities:
-  - {fileID: 11400000, guid: 5aaa337d9330c4ff3b0748400d80088f, type: 2}
+  - {fileID: 11400000, guid: 8e69c89756b6292438f82d0c29749be5, type: 2}
   tags:
-  - {fileID: 11400000, guid: abd6d6aff9856164c9e027296cbe121a, type: 2}
-  - {fileID: 11400000, guid: 48ee044356859664eb58885a21147a1d, type: 2}
-  gold: 50
+  - {fileID: 11400000, guid: b3f165c186f502340a9ea39b61475af0, type: 2}
+  - {fileID: 11400000, guid: 43bb689013c62424ebabb7583d8a85f2, type: 2}
+  gold: 30
