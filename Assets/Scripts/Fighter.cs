@@ -163,8 +163,6 @@ public class Fighter : MonoBehaviour
     public void EndTurn() {ActivateAbilities((a) => a.OnEndTurn(this));}
     public void FighterSummoned(Fighter summoned) {ActivateAbilities((a) => a.OnFighterSummoned(this, summoned));}
     public void Moved() {ActivateAbilities((a) => a.OnMoved(this));}
-    private void CalculateDamage() {ActivateAbilities((a) => a.CalculateStats(this));}
-    private void CalculateMaxHealth() {ActivateAbilities((a) => a.CalculateStats(this));}
 
     private void ActivateAbilities(Action<FighterAbility> action)
     {
@@ -180,11 +178,10 @@ public class Fighter : MonoBehaviour
         maxHealthModifier = 0f;
     }
 
-    // This method assumes that this fighter and all other fighters have has their modifiers set to 0
+    // This method assumes that this fighter and all other fighters have had their modifiers set to 0
     public void CalculateStats()
     {
-        CalculateDamage();
-        CalculateMaxHealth();
+        ActivateAbilities((a) => a.CalculateStats(this));
         if (GetMaxHealth() > previousMaxHealth)
         {
             health += GetMaxHealth() - previousMaxHealth;

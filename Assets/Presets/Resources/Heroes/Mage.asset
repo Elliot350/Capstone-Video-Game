@@ -19,7 +19,7 @@ MonoBehaviour:
   maxHealth: 15
   tier: 3
   abilities:
-  - {fileID: 11400000, guid: 5aaa337d9330c4ff3b0748400d80088f, type: 2}
+  - {fileID: 11400000, guid: b3e401871c1fb9346a1ec4a60547262c, type: 2}
   tags:
   - {fileID: 11400000, guid: abd6d6aff9856164c9e027296cbe121a, type: 2}
   - {fileID: 11400000, guid: 48ee044356859664eb58885a21147a1d, type: 2}
