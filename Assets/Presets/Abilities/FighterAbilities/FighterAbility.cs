@@ -24,6 +24,7 @@ public abstract class FighterAbility : Ability
     public virtual void OnFighterSummoned(Fighter f, Fighter newFighter) {}
     public virtual void OnMoved(Fighter f) {}
     
+    public virtual bool CanRemoveAbility(FighterAbility ability) {return true;} 
     public virtual void CalculateStats(Fighter f) {} 
     public virtual bool CanAddMonster(MonsterBase m, Room r) {return true;}
     public virtual int ModifiesTargets() {return NONE;}

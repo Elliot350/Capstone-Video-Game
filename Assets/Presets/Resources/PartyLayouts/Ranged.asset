@@ -17,17 +17,23 @@ MonoBehaviour:
     health: 0
     damageComparison: 0
     damage: 0
+    tierComparison: 0
+    tier: 0
     tagComparison: 1
     tag: {fileID: 11400000, guid: 48ee044356859664eb58885a21147a1d, type: 2}
   - healthComparison: 0
     health: 0
     damageComparison: 0
     damage: 0
+    tierComparison: 0
+    tier: 0
     tagComparison: 1
     tag: {fileID: 11400000, guid: 48ee044356859664eb58885a21147a1d, type: 2}
   - healthComparison: 0
     health: 0
     damageComparison: 0
     damage: 0
+    tierComparison: 0
+    tier: 0
     tagComparison: 1
     tag: {fileID: 11400000, guid: 48ee044356859664eb58885a21147a1d, type: 2}

@@ -180,8 +180,10 @@ public class RemoveAbility : FightAction
 
     public override void Do()
     {
-        if (fighter.GetAbilities().Contains(ability))
-            fighter.GetAbilities().Remove(ability);
+        if (!fighter.GetAbilities().Contains(ability)) return;
+        foreach (FighterAbility a in fighter.GetAbilities())
+            if (!a.CanRemoveAbility(ability)) return;
+        fighter.GetAbilities().Remove(ability);
     }
 
     public override bool IsValid()

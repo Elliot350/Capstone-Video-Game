@@ -25,6 +25,9 @@ public class PartyCandidate
     public NumberComparison damageComparison;
     public float damage;
 
+    public NumberComparison tierComparison;
+    public int tier;
+
     public TagComparison tagComparison;
     public Tag tag;
 
@@ -57,6 +60,21 @@ public class PartyCandidate
                 break;
             case NumberComparison.EQUAL:
                 if (hero.GetDamage() != damage) return false;
+                break;
+        }
+
+        switch (tierComparison)
+        {
+            case NumberComparison.NONE:
+                break;
+            case NumberComparison.LESS_THAN:
+                if (hero.GetTier() > tier) return false;
+                break;
+            case NumberComparison.MORE_THAN:
+                if (hero.GetTier() < tier) return false;
+                break;
+            case NumberComparison.EQUAL:
+                if (hero.GetTier() != tier) return false;
                 break;
         }
 
@@ -93,7 +111,7 @@ public class PartyCandidate
                 break;
         }
 
-         switch (damageComparison)
+        switch (damageComparison)
         {
             case NumberComparison.NONE:
                 break;
@@ -105,6 +123,21 @@ public class PartyCandidate
                 break;
             case NumberComparison.EQUAL:
                 str += $"Has {damage} damage, ";
+                break;
+        }
+
+        switch (damageComparison)
+        {
+            case NumberComparison.NONE:
+                break;
+            case NumberComparison.LESS_THAN:
+                str += $"Is less than tier {tier}, ";
+                break;
+            case NumberComparison.MORE_THAN:
+                str += $"Is more than tier {tier}, ";
+                break;
+            case NumberComparison.EQUAL:
+                str += $"Is tier {tier}, ";
                 break;
         }
 

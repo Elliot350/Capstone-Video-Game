@@ -17,11 +17,9 @@ MonoBehaviour:
   cost: 20
   baseDamage: 4
   maxHealth: 10
-  speed: 1
+  tier: 1
   abilities: []
   tags:
   - {fileID: 11400000, guid: bf7c8f5fd4bfc644ab4fe00e4d030fe6, type: 2}
   - {fileID: 11400000, guid: 98971a9458ee42143aea2c92b351e18b, type: 2}
-  needsAll: 1
-  requirements:
-  - {fileID: 11400000, guid: 660e93d7a31dc264e99f3bf3bcf714f9, type: 2}
+  requirements: []
