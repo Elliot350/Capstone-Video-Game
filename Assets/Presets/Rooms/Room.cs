@@ -64,6 +64,7 @@ public class Room : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public void BattleEnd(List<Fighter> monsters, List<Fighter> heroes) {ActivateAbilities((a) => a.BattleEnd(this, monsters, heroes));}
     public void CalculateDamage(List<Fighter> monsters, List<Fighter> heroes) {ActivateAbilities((a) => a.CalculateDamage(this, monsters, heroes));}
     public void CalculateMaxHealth(List<Fighter> monsters, List<Fighter> heroes) {ActivateAbilities((a) => a.CalculateMaxHealth(this, monsters, heroes));}
+    public void CalculateStats(List<Fighter> monsters, List<Fighter> heroes) {ActivateAbilities((a) => a.CalculateStats(this, monsters, heroes));}
     public void FighterAdded(Fighter f) {ActivateAbilities((a) => a.OnFighterSummoned(this, f));}
     public void FighterSummoned(Fighter fighter) {ActivateAbilities((a) => a.OnFighterSummoned(this, fighter));}
 

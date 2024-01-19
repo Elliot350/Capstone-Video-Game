@@ -321,10 +321,9 @@ public class FightManager : MonoBehaviour
     {
         foreach (Fighter f in order)
             f.ResetStats();     
+        currentRoom.CalculateStats(monsters, heroes);
         foreach (Fighter f in order)
             f.CalculateStats();
-        currentRoom.CalculateDamage(monsters, heroes);
-        currentRoom.CalculateMaxHealth(monsters, heroes);
     }
 
     private void CatchUpActions()

@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Sting
   m_EditorClassIdentifier: 
   abilityName: Sting
-  description: 'Battle Start: Deal {0} damage to a random enemy'
+  description: 'Battle Start: Deal {0}% of attack to a random enemy'
   animationTrigger: 
   triggers: 00000000
   damage: 1
   numOfTriggers: 1
+  damageType: 1

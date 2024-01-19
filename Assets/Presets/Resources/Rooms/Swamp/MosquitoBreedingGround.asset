@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acaa2247657b4b94eabb3337b4581d65, type: 3}
-  m_Name: CorruptedRoom
+  m_Name: MosquitoBreedingGround
   m_EditorClassIdentifier: 
-  displayName: Corrupted Room
-  cost: 15
+  displayName: Mosquito Breeding Ground
+  cost: 70
   description: 
-  monsterCapacity: 3
+  monsterCapacity: 5
   trapCapacity: 0
   abilities:
-  - {fileID: 11400000, guid: 0526d162d206c3c42991559488a51da2, type: 2}
-  sprite: {fileID: 21300000, guid: 61e555c891dad4d4196787ecbf2303d9, type: 3}
+  - {fileID: 11400000, guid: 909319faeba555642bd8a429f7dbd679, type: 2}
+  - {fileID: 11400000, guid: 20b149f747d44e9498e856fefc14c3b3, type: 2}
+  sprite: {fileID: 1047407408, guid: 0b4c5f7e303b44346916f8d356671d86, type: 3}
   needsAll: 0
   requirements: []

@@ -17,8 +17,7 @@ MonoBehaviour:
   description: This room holds {0} monsters
   monsterCapacity: 7
   trapCapacity: 3
-  abilities:
-  - {fileID: 11400000, guid: e1306a937d08e804ab473b68efdd24a6, type: 2}
-  - {fileID: 11400000, guid: bf3e5c99154c25a429750a81d0d76431, type: 2}
+  abilities: []
   sprite: {fileID: 1842781661, guid: c172d3faf64e17c4b9029f89e94dd20c, type: 3}
-  tile: {fileID: 11400000, guid: d9741808c2e923846bbd20303162952f, type: 2}
+  needsAll: 0
+  requirements: []
